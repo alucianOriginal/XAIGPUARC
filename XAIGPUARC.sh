@@ -1,3 +1,4 @@
+#!/bin/bash
 # ----------------------------------------------------------------------------------
 # XAIGPUARC
 # Automatischer Build + Run von llama.cpp mit Intel oneAPI / SYCL Backend
