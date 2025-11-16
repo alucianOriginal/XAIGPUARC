@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # ----------------------------------------------------------------------------------
 # XAIGPUARC
 # Automatischer Build + Run von llama.cpp mit Intel oneAPI / SYCL Backend
@@ -11,18 +12,20 @@
 # ----------------------------------------------------------------------------------
 
 #-Globale Variablen für Build-Verzeichnis (werden in auto_select_device gesetzt)-
-DEVICE="ARCINTEL"
+DEVICE="Unknown"
 PRECISION="FP16"
 
 # -- [0] Umgebung vorbereiten ------------------------------------------------------
 prepare_environment() {
     echo "🧩 Preparing environment..."
 
+
     # -oneAPI Umgebung laden-
     source /opt/intel/oneapi/setvars.sh
 
     # -Prüfen ob Compiler existiert-
     if ! command -v icx &>/dev/null; then
+        which icx || echo "icx nicht gefunden"
         echo "❌ Intel compiler (icx/icpx) not found. Check your oneAPI installation."
         exit 1
     fi
@@ -88,7 +91,9 @@ configure_build() {
 # -- [3] Kompilieren ----------------------------------------------------------------
 compile_project() {
     echo "🔨 Compiling llama.cpp for ARC ${DEVICE} ..."
-    cmake --build --config Release -j"$(nproc)" -v || {
+    cmake --build /home/alucian/llama.cpp/build_Unknown_FP16 \
+          --config Release \
+          -- -j"$(nproc)" -v || {
         echo "❌ Build failed."
         exit 1
     }
@@ -228,5 +233,5 @@ main() {
     run_inference "${MODEL_PATH}" "Welche sind die wichtigsten Vorteile bei der Nutzung von SYCL auf Intel ARC für KI Inferenzen?"
 }
 
-# Skript starten: FP16 (Standart) oder FP3
+# Skript starten: FP16 (Standart) oder FP32
 main ${1:-0}
