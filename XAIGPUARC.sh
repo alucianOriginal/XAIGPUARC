@@ -216,14 +216,14 @@ main() {
     # Nutzen Sie `main 0` für FP16 (Standart), `main 1` für FP32
     configure_build "$@"
 
-    # 3. SYCL Geräte auflisten
-    list_sycl_devices
-
-    # 4. Kompilieren
+    # 3. Kompilieren
     compile_project
 
-    # 5. Gerät automatisch auswählen und ONEAPI_DEVICE_SELECTOR setzen
+    # 4. Gerät automatisch auswählen und ONEAPI_DEVICE_SELECTOR setzen
     auto_select_device # Nutzt das gerade kompilierte Binary
+
+    # 5. SYCL Geräte auflisten
+    list_sycl_devices
 
     # 6. Modelldateien vorbereiten (Pfade setzen)
     prepare_model
