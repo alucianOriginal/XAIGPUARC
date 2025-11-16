@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------------
-# build_XAIGPUARCsh
+# XAIGPUARC
 # Automatischer Build + Run von llama.cpp mit Intel oneAPI / SYCL Backend
 # Getestet und Optimiert mit fünf unterschiedlichen ARC Endgeräten auf Garuda Linux
 # Intel ARC A770 (16GiB)/ 750 (8GiB)/
@@ -11,7 +11,7 @@
 
 #-Globale Variablen für Build-Verzeichnis (werden in auto_select_device gesetzt)-
 DEVICE="Unknown"
-PRECISION="FP32" # Standard-Präzision
+PRECISION="FP16" 
 
 # -- [0] Umgebung vorbereiten ------------------------------------------------------
 prepare_environment() {
@@ -68,7 +68,11 @@ configure_build() {
           -DGGML_SYCL_USE_NATIVE_FP16=ON \
           -DCMAKE_C_COMPILER=icx \
           -DCMAKE_CXX_COMPILER=icpx \
-          -DCMAKE_BUILD_TYPE=Release
+          -DCMAKE_BUILD_TYPE=Release \
+          -DLLAMA_CUBLAS=OFF \
+          -DLLAMA_VULKAN=OFF \
+          -DLLAMA_METAL=OFF
+          
     #-Wenn FP16 nicht verfügbar nutze FP32-
     else
         echo " Building with FP32 (GGML_SYCL_F32=ON)"
@@ -76,9 +80,14 @@ configure_build() {
           -DGGML_SYCL=ON \
           -DGGML_SYCL_TARGET="level_zero" \
           -DGGML_SYCL_DEVICE_ARCH="intel_arc" \
+          -DGGML_SYCL_F32=ON \
+          -DGGML_SYCL_USE_NATIVE_FP32=ON \
           -DCMAKE_C_COMPILER=icx \
           -DCMAKE_CXX_COMPILER=icpx \
-          -DCMAKE_BUILD_TYPE=Release
+          -DCMAKE_BUILD_TYPE=Release \
+          -DLLAMA_CUBLAS=OFF \
+          -DLLAMA_VULKAN=OFF \
+          -DLLAMA_METAL=OFF
 
     fi
 
