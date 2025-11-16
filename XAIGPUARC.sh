@@ -19,7 +19,6 @@ PRECISION="FP16"
 prepare_environment() {
     echo "🧩 Preparing environment..."
 
-
     # -oneAPI Umgebung laden-
     source /opt/intel/oneapi/setvars.sh
 
@@ -32,85 +31,7 @@ prepare_environment() {
     echo "✅ oneAPI environment loaded."
 }
 
-# -- [1] Projekt-Setup -------------------------------------------------------------
-setup_project() {
-    echo "📦 Setting up llama.cpp project..."
-
-    if [ ! -d "llama.cpp" ]; then
-        echo "📦 Cloning llama.cpp ..."
-        git clone https://github.com/ggerganov/llama.cpp.git || exit 1
-    fi
-
-    cd llama.cpp || exit 1
-
-    # -Build-Verzeichnis erstellen (Gerät/Präzision-spezifisch)-
-    mkdir -p "build_${DEVICE}_${PRECISION}"
-    cd "build_${DEVICE}_${PRECISION}"
-
-    echo "✅ llama.cpp ready."
-}
-
-
-
-# -- [2] Build-Konfiguration -------------------------------------------------------
-
-configure_build() {
-    echo "⚙️ Configuring build..."
-
-    local USE_FP16=${1:-0}
-
-    #-Cache leeren für sauberen Rebuild-
-    rm -rf CMakeCache.txt CMakeFiles
-
-    if [ "$USE_FP16" -eq 1 ]; then
-        echo " Building with FP16 (GGML_SYCL_F16=ON)"
-        cmake .. \
-          -DGGML_SYCL=ON \
-          -DGGML_SYCL_BACKEND=INTEL\
-          -DCMAKE_C_COMPILER=icx \
-          -DCMAKE_CXX_COMPILER=icpx \
-          -DCMAKE_BUILD_TYPE=Release
-    # Wenn FP16 nicht verfügbar nutze FP32
-    else
-        echo " Building with FP32"
-        cmake .. \
-          -DGGML_SYCL=ON \
-          -DGGML_SYCL_BACKEND=INTEL \
-          -DCMAKE_C_COMPILER=icx \
-          -DCMAKE_CXX_COMPILER=icpx \
-          -DCMAKE_BUILD_TYPE=Release
-    fi
-
-    if [ $? -ne 0 ]; then
-        echo "❌ CMake configuration failed."
-        exit 1
-    fi
-}
-
-
-# -- [3] Kompilieren ----------------------------------------------------------------
-compile_project() {
-    echo "🔨 Compiling llama.cpp for ARC ${DEVICE} ..."
-    cmake --build /home/alucian/llama.cpp/build_Unknown_FP16 \
-          --config Release \
-          -- -j"$(nproc)" -v || {
-        echo "❌ Build failed."
-        exit 1
-    }
-    echo "✅ Compilation done."
-}
-
-# -- [5] SYCL-Geräte prüfen ---------------------------------------------------------
-list_sycl_devices() {
-    echo "🔍 Listing SYCL devices ..."
-    if [ -f "./bin/llama-ls-sycl-device" ]; then
-        ./bin/llama-ls-sycl-device
-    else
-        echo "⚠️ llama-ls-sycl-device binary not found. Konnte Geräte nicht auflisten."
-    fi
-}
-
-# -- [6] Gerät automatisch auswählen-------------------------------------------------
+# -- [1] Gerät automatisch auswählen-------------------------------------------------
 auto_select_device() {
 
     echo "🔍 Detecting available SYCL / Level Zero devices ...${GPU_ID}"
@@ -160,7 +81,86 @@ auto_select_device() {
     fi
 }
 
-# -- [7] Modellpfad + Tokenizer vorbereiten -----------------------------------------
+# -- [2] Projekt-Setup -------------------------------------------------------------
+setup_project() {
+    echo "📦 Setting up llama.cpp project..."
+
+    if [ ! -d "llama.cpp" ]; then
+        echo "📦 Cloning llama.cpp ..."
+        git clone https://github.com/ggerganov/llama.cpp.git || exit 1
+    fi
+
+    cd llama.cpp || exit 1
+
+    # -Build-Verzeichnis erstellen (Gerät/Präzision-spezifisch)-
+    mkdir -p "build_${DEVICE}_${PRECISION}"
+    cd "build_${DEVICE}_${PRECISION}"
+
+    echo "✅ llama.cpp ready."
+}
+
+
+# -- [3] Build-Konfiguration -------------------------------------------------------
+
+configure_build() {
+    echo "⚙️ Configuring build..."
+
+    local USE_FP16=${1:-0}
+
+    #-Cache leeren für sauberen Rebuild-
+    rm -rf CMakeCache.txt CMakeFiles
+
+    if [ "$USE_FP16" -eq 1 ]; then
+        echo " Building with FP16 (GGML_SYCL_F16=ON)"
+        cmake .. \
+          -DGGML_SYCL=ON \
+          -DGGML_SYCL_F16=ON \
+          -DGGML_SYCL_BACKEND=INTEL\
+          -DCMAKE_C_COMPILER=icx \
+          -DCMAKE_CXX_COMPILER=icpx \
+          -DCMAKE_BUILD_TYPE=Release
+    # Wenn FP16 nicht verfügbar nutze FP32
+    else
+        echo " Building with FP32"
+        cmake .. \
+          -DGGML_SYCL=ON \
+          -DGGML_SYCL_BACKEND=INTEL \
+          -DCMAKE_C_COMPILER=icx \
+          -DCMAKE_CXX_COMPILER=icpx \
+          -DCMAKE_BUILD_TYPE=Release
+    fi
+
+    if [ $? -ne 0 ]; then
+        echo "❌ CMake configuration failed."
+        exit 1
+    fi
+}
+
+
+
+# -- [4] Kompilieren ----------------------------------------------------------------
+compile_project() {
+    echo "🔨 Compiling llama.cpp for ARC ${DEVICE} ..."
+    cmake --build . \
+          --config Release \
+          -- -j"$(nproc)" -v || {
+        echo "❌ Build failed."
+        exit 1
+    }
+    echo "✅ Compilation done."
+}
+
+# -- [5] SYCL-Geräte prüfen ---------------------------------------------------------
+list_sycl_devices() {
+    echo "🔍 Listing SYCL devices ..."
+    if [ -f "./bin/llama-ls-sycl-device" ]; then
+        ./bin/llama-ls-sycl-device
+    else
+        echo "⚠️ llama-ls-sycl-device binary not found. Konnte Geräte nicht auflisten."
+    fi
+}
+
+# -- [6] Modellpfad + Tokenizer vorbereiten -----------------------------------------
 prepare_model() {
     MODEL_PATH=${1:-"models/gemma-3-27b-it-abliterated.q4_k_m.gguf"}
     TOKENIZER_PATH="models/tokenizer.model"
@@ -179,7 +179,7 @@ prepare_model() {
     export TOKENIZER_PATH
 }
 
-# -- [8] Inferenz ausführen ---------------------------------------------------------
+# -- [7] Inferenz ausführen ---------------------------------------------------------
 run_inference() {
     local DEFAULT_MODEL_PATH="models/gemma-3-27b-it-abliterated.q4_k_m.gguf"
     local MODEL_PATH_ARG=${1:-$DEFAULT_MODEL_PATH}
@@ -202,11 +202,14 @@ run_inference() {
     echo "✅ Inference complete."
 }
 
-# -- [9] Main Flow ------------------------------------------------------------------
+# -- [8] Main Flow ------------------------------------------------------------------
 main() {
 
-    # 1. Umgebung vorbereiten
+    # 0. Umgebung vorbereiten
     prepare_environment
+
+    # 1. Gerät automatisch auswählen und ONEAPI_DEVICE_SELECTOR setzen
+    auto_select_device # Nutzt das gerade kompilierte Binary
 
     # 2. Projekt-Setup (llama.cpp klonen/wechseln)
     setup_project
@@ -215,19 +218,16 @@ main() {
     # Nutzen Sie `main 0` für FP16 (Standart), `main 1` für FP32
     configure_build "$@"
 
-    # 4. Kompilieren
-    compile_project
-
-    # 5. SYCL Geräte auflisten
+    # 4. SYCL Geräte auflisten
     list_sycl_devices
 
-    # 6. Gerät automatisch auswählen und ONEAPI_DEVICE_SELECTOR setzen
-    auto_select_device # Nutzt das gerade kompilierte Binary
+    # 5. Kompilieren
+    compile_project
 
-    # 7. Modelldateien vorbereiten (Pfade setzen)
+    # 6. Modelldateien vorbereiten (Pfade setzen)
     prepare_model
 
-    # 8. Inferenz ausführen
+    # 7. Inferenz ausführen
     # Optional: Geben Sie einen anderen Modellpfad und Prompt ein:
     # run_inference "models/meine_q4_k_m.gguf" "Was ist der Sinn deines Lebens?"
     run_inference "${MODEL_PATH}" "Welche sind die wichtigsten Vorteile bei der Nutzung von SYCL auf Intel ARC für KI Inferenzen?"
