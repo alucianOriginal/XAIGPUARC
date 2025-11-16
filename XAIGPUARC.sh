@@ -229,3 +229,4 @@ main() {
 }
 
 # Skript starten: FP16 (Standart) oder FP3
+main ${1:-0}
