@@ -10,8 +10,8 @@
 # ----------------------------------------------------------------------------------
 
 #-Globale Variablen für Build-Verzeichnis (werden in auto_select_device gesetzt)-
-DEVICE="Unknown"
-PRECISION="FP16" 
+DEVICE="ARCINTEL"
+PRECISION="FP16"
 
 # -- [0] Umgebung vorbereiten ------------------------------------------------------
 prepare_environment() {
@@ -62,26 +62,7 @@ configure_build() {
         echo " Building with FP16 (GGML_SYCL_F16=ON)"
         cmake .. \
           -DGGML_SYCL=ON \
-          -DGGML_SYCL_TARGET="level_zero" \
-          -DGGML_SYCL_DEVICE_ARCH="intel_arc" \
-          -DGGML_SYCL_F16=ON \
-          -DGGML_SYCL_USE_NATIVE_FP16=ON \
-          -DCMAKE_C_COMPILER=icx \
-          -DCMAKE_CXX_COMPILER=icpx \
-          -DCMAKE_BUILD_TYPE=Release \
-          -DLLAMA_CUBLAS=OFF \
-          -DLLAMA_VULKAN=OFF \
-          -DLLAMA_METAL=OFF
-          
-    #-Wenn FP16 nicht verfügbar nutze FP32-
-    else
-        echo " Building with FP32 (GGML_SYCL_F32=ON)"
-        cmake .. \
-          -DGGML_SYCL=ON \
-          -DGGML_SYCL_TARGET="level_zero" \
-          -DGGML_SYCL_DEVICE_ARCH="intel_arc" \
-          -DGGML_SYCL_F32=ON \
-          -DGGML_SYCL_USE_NATIVE_FP32=ON \
+          -DGGML_SYCL_BACKEND=INTEL\
           -DCMAKE_C_COMPILER=icx \
           -DCMAKE_CXX_COMPILER=icpx \
           -DCMAKE_BUILD_TYPE=Release \
@@ -89,6 +70,18 @@ configure_build() {
           -DLLAMA_VULKAN=OFF \
           -DLLAMA_METAL=OFF
 
+    # Wenn FP16 nicht verfügbar nutze FP32
+    else
+        echo " Building with FP32"
+        cmake .. \
+          -DGGML_SYCL=ON \
+          -DGGML_SYCL_BACKEND=INTEL \
+          -DCMAKE_C_COMPILER=icx \
+          -DCMAKE_CXX_COMPILER=icpx \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DLLAMA_CUBLAS=OFF \
+          -DLLAMA_VULKAN=OFF \
+          -DLLAMA_METAL=OFF
     fi
 
     if [ $? -ne 0 ]; then
@@ -101,7 +94,7 @@ configure_build() {
 # -- [3] Kompilieren ----------------------------------------------------------------
 compile_project() {
     echo "🔨 Compiling llama.cpp for ARC ${DEVICE} ..."
-    cmake --build-sycl . --config Release -j"$(nproc)" -v || {
+    cmake --build --config Release -j"$(nproc)" -v || {
         echo "❌ Build failed."
         exit 1
     }
@@ -146,6 +139,7 @@ auto_select_device() {
     #-Suche nach ARC dGPU-
     local ARC_ID
     ARC_ID=$(echo "$DEVICES" | grep -i "Intel(R) Arc" | head -n1 | awk '{print $1}')
+
     #-Suche nach iGPU (Iris/Xe/Graphics/ARC-XE-LPG-iGPU)-
     #-Sie benötigen Dual Channel RAM Unterstützung für die Aktivierung von ARC-XE-LPG+iGPUs!-
 
@@ -240,5 +234,4 @@ main() {
     run_inference "${MODEL_PATH}" "Welche sind die wichtigsten Vorteile bei der Nutzung von SYCL auf Intel ARC für KI Inferenzen?"
 }
 
-# Skript starten: FP16 (Standart) oder FP32
-main ${1:-0}
+# Skript starten: FP16 (Standart) oder FP3
