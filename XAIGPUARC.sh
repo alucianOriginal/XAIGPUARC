@@ -101,7 +101,7 @@ configure_build() {
 # -- [3] Kompilieren ----------------------------------------------------------------
 compile_project() {
     echo "🔨 Compiling llama.cpp for ARC ${DEVICE} ..."
-    cmake --build . --config Release -j"$(nproc)" -v || {
+    cmake --build-sycl . --config Release -j"$(nproc)" -v || {
         echo "❌ Build failed."
         exit 1
     }
@@ -219,7 +219,7 @@ main() {
     setup_project
 
     # 3. Build konfigurieren (FP16 oder FP32)
-    # Nutzen Sie `main 1` für FP16, `main 0` oder `main` für FP32 (Standard)
+    # Nutzen Sie `main 0` für FP16 (Standart), `main 1` für FP32
     configure_build "$@"
 
     # 4. Kompilieren
@@ -240,5 +240,5 @@ main() {
     run_inference "${MODEL_PATH}" "Welche sind die wichtigsten Vorteile bei der Nutzung von SYCL auf Intel ARC für KI Inferenzen?"
 }
 
-# Skript starten: FP16 oder FP32 (Standard)
+# Skript starten: FP16 (Standart) oder FP32
 main ${1:-0}
