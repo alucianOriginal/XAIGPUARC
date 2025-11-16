@@ -65,11 +65,7 @@ configure_build() {
           -DGGML_SYCL_BACKEND=INTEL\
           -DCMAKE_C_COMPILER=icx \
           -DCMAKE_CXX_COMPILER=icpx \
-          -DCMAKE_BUILD_TYPE=Release \
-          -DLLAMA_CUBLAS=OFF \
-          -DLLAMA_VULKAN=OFF \
-          -DLLAMA_METAL=OFF
-
+          -DCMAKE_BUILD_TYPE=Release
     # Wenn FP16 nicht verfügbar nutze FP32
     else
         echo " Building with FP32"
@@ -78,10 +74,7 @@ configure_build() {
           -DGGML_SYCL_BACKEND=INTEL \
           -DCMAKE_C_COMPILER=icx \
           -DCMAKE_CXX_COMPILER=icpx \
-          -DCMAKE_BUILD_TYPE=Release \
-          -DLLAMA_CUBLAS=OFF \
-          -DLLAMA_VULKAN=OFF \
-          -DLLAMA_METAL=OFF
+          -DCMAKE_BUILD_TYPE=Release
     fi
 
     if [ $? -ne 0 ]; then
