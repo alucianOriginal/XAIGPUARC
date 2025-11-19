@@ -14,6 +14,25 @@
 DEVICE="Unknown"
 PRECISION="FP16"
 
+set -euo pipefail
+IFS=$'\n\t'
+
+# --000-- Konfiguration (kann per ENV überschrieben werden) ------------------------
+ROOT_DIR="$(pwd)"
+PRECISION="${PRECISION:-FP16}"
+USE_FP16="${1:-${USE_FP16:-0}}"
+BUILD_DIR_BASE="${BUILD_DIR_BASE:-build}"
+CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"
+NPROC="${NPROC:-$(nproc)}"
+CCACHE="${CCACHE:-1}"            # 1 aktivieren wenn ccache vorhanden
+export TCM_ROOT="${TCM_ROOT:-/opt/intel/oneapi/umf/latest}" # Workaround für UMF-Bug (TCM_ROOT fehlt)
+ONEAPI_SETVARS="${ONEAPI_SETVARS:-/opt/intel/oneapi/setvars.sh}"
+
+# --00-- Hilfsfunktionen ----------------------------------------------------------
+log() { echo -e "🔷 $*"; }
+warn() { echo -e "⚠️  $*" >&2; }
+err() { echo -e "❌ $*" >&2; exit 1; }
+
 # -- [0] Umgebung vorbereiten ------------------------------------------------------
 prepare_environment() {
     echo "🧩 Preparing environment..."
