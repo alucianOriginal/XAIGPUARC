@@ -99,7 +99,7 @@ configure_build() {
      echo "⚙️ Configuring build..."
      cd "$BUILD_DIR"
 
-    local USE_FP16=${1:-0}
+    local USE_FP16=${1:-1}
 
     #-Cache leeren für sauberen Rebuild-
     rm -rf CMakeCache.txt CMakeFiles
@@ -323,7 +323,7 @@ main() {
     # -Modellpfade
     local CUSTOM_MODEL_PATH="${2:-}"
     # -Optionaler Prompt
-    local CUSTOM_PROMPT="${3:-"Welche sind die wichtigsten Vorteile bei der Nutzung von SYCL auf Intel ARC für KI Inferenzen?"}"
+    local CUSTOM_PROMPT="${3:-}"
 
     # -1. Projekt-Setup (llama.cpp klonen/wechseln)
     setup_project
@@ -354,7 +354,7 @@ main() {
     # -Optional: Geben Sie einen anderen Modellpfad und Prompt ein:
     # -run_inference "models/meine_q4_k_m.gguf" "Was ist der Sinn deines Lebens?"
     local CUSTOM_MODEL_PATH="${2:-$MODEL_PATH}"
-    local CUSTOM_PROMPT="${3:-"Welche sind die wichtigsten Vorteile bei der Nutzung von SYCL auf Intel ARC für KI Inferenzen?"}"
+    local CUSTOM_PROMPT="${3:-}"
 
      # Das Modell sollte jetzt in $MODEL_PATH gespeichert sein
      run_inference "${CUSTOM_MODEL_PATH}" "${CUSTOM_PROMPT}"
