@@ -11,21 +11,21 @@
 # ----------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------
 #-Globale Variablen für Build-Verzeichnis (werden in auto_select_device gesetzt)-
-DEVICE="Unknown"
-PRECISION="FP16"
+#Wohin?# -Vram-:-(Blockgröße*Gewicht)=Automatischer-Teiler-Einbauen bei ngl
+Intel(R) Arc|ATS-M|DG2|Battlemage|Xe-HPG|Xe-LPG
 
 set -euo pipefail
 IFS=$'\n\t'
 
 # --000-- Konfiguration (kann per ENV überschrieben werden) ------------------------
 ROOT_DIR="$(pwd)"
-PRECISION="${PRECISION:-FP16}"
+PRECISION="FP16"
 USE_FP16="${1:-${USE_FP16:-0}}"
 BUILD_DIR_BASE="${BUILD_DIR_BASE:-build}"
 CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"
 NPROC="${NPROC:-$(nproc)}"
-CCACHE="${CCACHE:-1}"            # 1 aktivieren wenn ccache vorhanden
-export TCM_ROOT="${TCM_ROOT:-/opt/intel/oneapi/umf/latest}" # Workaround für UMF-Bug (TCM_ROOT fehlt)
+CCACHE="${CCACHE:-1}"
+export TCM_ROOT="${TCM_ROOT:-/opt/intel/oneapi/umf/latest}"
 ONEAPI_SETVARS="${ONEAPI_SETVARS:-/opt/intel/oneapi/setvars.sh}"
 
 # --00-- Hilfsfunktionen ----------------------------------------------------------
@@ -38,7 +38,12 @@ prepare_environment() {
     echo "🧩 Preparing environment..."
 
     # -oneAPI Umgebung laden-
-    source /opt/intel/oneapi/setvars.sh
+    source /opt/intel/oneapi/setvars.sh --force --config=gpu --level-zero
+
+    export SYCL_CACHE_PERSISTENT=1
+    export ONEAPI_DEVICE_SELECTOR="level_zero:*"
+    export OCL_ICD_FILENAMES=""
+    export ZES_ENABLE_SYSMAN=1
 
     # -Prüfen ob Compiler existiert-
     if ! command -v icx &>/dev/null; then
@@ -86,6 +91,8 @@ configure_build() {
         cmake .. \
           -DGGML_SYCL=ON \
           -DGGML_SYCL_F16=ON \
+          -DGGML_SYCL_USE_LEVEL_ZERO=ON \
+          -DGGML_SYCL_USE_OPENCL=OFF \
           -DGGML_SYCL_BACKEND=INTEL \
           -DCMAKE_C_COMPILER=icx \
           -DCMAKE_CXX_COMPILER=icpx \
@@ -96,6 +103,8 @@ configure_build() {
         echo " Building with FP32"
         cmake .. \
           -DGGML_SYCL=ON \
+          -DGGML_SYCL_USE_LEVEL_ZERO=ON \
+          -DGGML_SYCL_USE_OPENCL=OFF \
           -DGGML_SYCL_BACKEND=INTEL \
           -DCMAKE_C_COMPILER=icx \
           -DCMAKE_CXX_COMPILER=icpx \
@@ -121,6 +130,7 @@ compile_project() {
     }
     echo "✅ Compilation done."
 }
+
 
 # -- [4] Gerät automatisch auswählen-------------------------------------------------
 auto_select_device() {
@@ -224,20 +234,20 @@ run_inference() {
     echo "✅ Inference complete."
 }
 
-# -- [8] Main Flow ------------------------------------------------------------------
+# -- [8] Main Abläufe ------------------------------------------------------------------
 main() {
 
-    # 0. Umgebung vorbereiten
+    # -0. Umgebung vorbereiten
     prepare_environment
 
-    # 1. Projekt-Setup (llama.cpp klonen/wechseln)
+    # -1. Projekt-Setup (llama.cpp klonen/wechseln)
     setup_project
 
-    # 2. Build konfigurieren (FP16 oder FP32)
-    # Nutzen Sie `main 0` für FP16 (Standart), `main 1` für FP32
+    # -2. Build konfigurieren (FP16 oder FP32)
+    # -Nutzen Sie `main 0` für FP16 (Standart), `main 1` für FP32
     configure_build "$@"
 
-    # 3. Kompilieren
+    # -3. Kompilieren
     compile_project
      # list devices binary (falls vorhanden)
     if [ -x "${ROOT_DIR}/bin/llama-ls-sycl-device" ]; then
@@ -245,20 +255,21 @@ main() {
         "${ROOT_DIR}/bin/llama-ls-sycl-device" || true
     fi
 
-    # 4. Gerät automatisch auswählen und ONEAPI_DEVICE_SELECTOR setzen
+    # -4. Gerät automatisch auswählen und ONEAPI_DEVICE_SELECTOR setzen
     auto_select_device # Nutzt das gerade kompilierte Binary
 
-    # 5. SYCL Geräte auflisten
+    # -5. SYCL Geräte auflisten
     list_sycl_devices
 
-    # 6. Modelldateien vorbereiten (Pfade setzen)
+    # -6. Modelldateien vorbereiten (Pfade setzen)
     prepare_model
 
-    # 7. Inferenz ausführen
-    # Optional: Geben Sie einen anderen Modellpfad und Prompt ein:
-    # run_inference "models/meine_q4_k_m.gguf" "Was ist der Sinn deines Lebens?"
+    # -7. Inferenz ausführen
+    # -Optional: Geben Sie einen anderen Modellpfad und Prompt ein:
+    # -run_inference "models/meine_q4_k_m.gguf" "Was ist der Sinn deines Lebens?"
     run_inference "${MODEL_PATH}" "Welche sind die wichtigsten Vorteile bei der Nutzung von SYCL auf Intel ARC für KI Inferenzen?"
 }
 
-# Skript starten: FP16 (Standart) oder FP32
+#  -- Skript starten: FP16 (Standart) oder FP32--------------------------------------
 main ${1:-0}
+
