@@ -10,7 +10,6 @@
 # Intel Core 155H + ARC iGPU (16GiB RAM/ 11,5 GiB-VRAM)
 # ----------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------
-
 #-Globale Variablen für Build-Verzeichnis (werden in auto_select_device gesetzt)-
 DEVICE="Unknown"
 PRECISION="FP16"
@@ -34,6 +33,9 @@ prepare_environment() {
 # -- [1] Projekt-Setup -------------------------------------------------------------
 setup_project() {
     echo "📦 Setting up llama.cpp project..."
+
+    # Vorbeugung für ungebundene variable Fehler
+    DEVICE="${DEVICE:-ARC}"
 
     if [ ! -d "llama.cpp" ]; then
         echo "📦 Cloning llama.cpp ..."
