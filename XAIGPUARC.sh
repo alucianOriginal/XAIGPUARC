@@ -11,23 +11,32 @@
 # ----------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------
 
-
 set -euo pipefail
 IFS=$'\n\t'
 
-# --000-- Konfiguration (kann per ENV überschrieben werden) ------------------------
+# --000-- Konfiguration ------------------------
 
 ROOT_DIR="$(pwd)"
 LLAMA_CPP_DIR="${ROOT_DIR}/llama.cpp"
+
 # Nutze $1 (0=FP32, 1=FP16)
-USE_FP16="${1:-${USE_FP16:-1}}"
+
+USE_FP16="${1:-1}" # 1=FP16 (Standard), 0=FP32
 PRECISION=$([ "$USE_FP16" -eq 1 ] && echo "FP16" || echo "FP32")
 DEVICE="AUTO" # Wird in auto_select_device gesetzt
 
-BUILD_DIR_BASE="${BUILD_DIR_BASE:-build}"
+BUILD_DIR="${LLAMA_CPP_DIR}/build_${DEVICE}_${PRECISION}"
+MAIN_BINARY="${BUILD_DIR}/main"
+LS_SYCL_DEVICE_BINARY="${BUILD_DIR}/llama-ls-sycl-device"
 
 CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"
 NPROC="${NPROC:-$(nproc)}"
+
+# Modellpfad (optional via Parameter 2)
+CUSTOM_MODEL_PATH="${2:-models/gemma-3-27b-it-abliterated.q4_k_m.gguf}"
+CUSTOM_PROMPT="${3:-'Hello from SYCL on Intel ARC!'}"
+
+DEVICE_LIST_BIN="./bin/llama-ls-sycl-device"
 
 # oneAPI + SYCL Umgebungsvariablen
 export TCM_ROOT="${TCM_ROOT:-/opt/intel/oneapi/umf/latest}" #Hier findet er den Pfad nicht, austauschen?
@@ -36,7 +45,6 @@ export ONEAPI_DEVICE_SELECTOR="level_zero:*"
 export OCL_ICD_FILENAMES=""
 export ZES_ENABLE_SYSMAN=1
 export CCACHE_DIR="${ROOT_DIR}/.ccache"
-
 
 # --00-- Hilfsfunktionen ----------------------------------------------------------
 log() { echo -e "🔷 $*"; }
@@ -68,12 +76,13 @@ setup_project() {
 
     if [ ! -d "llama.cpp" ]; then
         echo "📦 Cloning llama.cpp ..."
-        git clone https://github.com/ggerganov/llama.cpp.git || exit 1
+        git clone https://github.com/ggerganov/llama.cpp.git "$LLAMA_CPP_DIR" || exit 1
     fi
 
      cd "llama.cpp" || err "Konnte nicht in llama.cpp wechseln."
 
     # -Build-Verzeichnis erstellen (Gerät/Präzision-spezifisch)-
+
     mkdir -p "build_${DEVICE}_${PRECISION}"
     cd "build_${DEVICE}_${PRECISION}"
 
@@ -87,7 +96,8 @@ setup_project() {
 # -- [2] Build-Konfiguration -------------------------------------------------------
 
 configure_build() {
-    echo "⚙️ Configuring build..."
+     echo "⚙️ Configuring build..."
+     cd "$BUILD_DIR"
 
     local USE_FP16=${1:-0}
 
@@ -129,10 +139,9 @@ configure_build() {
 
 # -- [3] Kompilieren ----------------------------------------------------------------
 compile_project() {
-    echo "🔨 Compiling llama.cpp for ARC ${DEVICE} ..."
-    cmake --build . \
-          --config Release \
-          -- -j"$(nproc)" -v || {
+     echo "🔨 Compiling llama.cpp for ARC ${DEVICE} ..."
+     cd "$BUILD_DIR"
+     cmake --build . --target llama-ls-sycl-device --config Release -- -j"$(nproc)" -v || {
         echo "❌ Build failed."
         exit 1
     }
@@ -146,7 +155,7 @@ auto_select_device() {
     echo "🔍 Detecting available SYCL / Level Zero devices ..."
 
      # Wechsle in das Build-Verzeichnis
-    cd "$BUILD_DIR" || err "Konnte nicht in Build-Verzeichnis wechseln: $BUILD_DIR"
+     cd "$BUILD_DIR"
 
     # -Liste Geräte-
     if [ ! -x "./bin/llama-ls-sycl-device" ]; then
@@ -251,17 +260,20 @@ auto_select_device() {
 list_sycl_devices() {
     echo "🔍 Listing SYCL devices ..."
     cd "$BUILD_DIR" || err "Konnte nicht in Build-Verzeichnis wechseln: $BUILD_DIR"
-    if [ -f "./bin/llama-ls-sycl-device" ]; then
-        ./bin/llama-ls-sycl-device
+
+    if [ -x "$LS_SYCL_DEVICE_BINARY" ]; then
+    "$LS_SYCL_DEVICE_BINARY"
     else
-        echo "⚠️ llama-ls-sycl-device binary not found. Konnte Geräte nicht auflisten."
-    fi
+    echo "⚠️ llama-ls-sycl-device binary fehlt. Fallback auf ARC dGPU"
+
+    export ONEAPI_DEVICE_SELECTOR="level_zero:0"
+fi
+
 }
 
 # -- [6] Modellpfad + Tokenizer vorbereiten -----------------------------------------
 prepare_model() {
     MODEL_PATH=${1:-"models/gemma-3-27b-it-abliterated.q4_k_m.gguf"}
-    TOKENIZER_PATH="models/tokenizer.model"
 
     mkdir -p models
 
@@ -270,10 +282,12 @@ prepare_model() {
     fi
 
     export MODEL_PATH
+
 }
 
 # -- [7] Inferenz ausführen ---------------------------------------------------------
 run_inference() {
+    cd "$BUILD_DIR"
     local DEFAULT_MODEL_PATH="models/gemma-3-27b-it-abliterated.q4_k_m.gguf"
     local MODEL_PATH_ARG=${1:-$DEFAULT_MODEL_PATH}
     local PROMPT_ARG=${2:-"Hello from SYCL on Intel ARC!"}
@@ -286,10 +300,10 @@ run_inference() {
 
     echo "🚀 Running inference "
 
-    ZES_ENABLE_SYSMAN=1 ./build_AUTO_FP16/bin/ \
+    ZES_ENABLE_SYSMAN=1 "${MAIN_BINARY}"\
         -no-cnv \
-        -m "${MODEL_PATH_ARG}" \
-        -p "${PROMPT_ARG}" \
+        -m "${CUSTOM_MODEL_PATH}" \
+        -p "${CUSTOM_PROMT}" \
         -n 512 \
         -e \
         -ngl 99 \
@@ -304,13 +318,19 @@ main() {
 
     # -0. Umgebung vorbereiten
     prepare_environment
+    # -FP16/FP32 übergeben
+    local USE_FP16="${1:-1}"
+    # -Modellpfade
+    local CUSTOM_MODEL_PATH="${2:-}"
+    # -Optionaler Prompt
+    local CUSTOM_PROMPT="${3:-"Welche sind die wichtigsten Vorteile bei der Nutzung von SYCL auf Intel ARC für KI Inferenzen?"}"
 
     # -1. Projekt-Setup (llama.cpp klonen/wechseln)
     setup_project
 
     # -2. Build konfigurieren (FP16 oder FP32)
     # -Nutzen Sie `main 0` für FP16 (Standart), `main 1` für FP32
-    configure_build "$@"
+    configure_build "${CUSTOM_PROMPT}"
 
     # -3. Kompilieren
     compile_project
@@ -328,7 +348,7 @@ main() {
     list_sycl_devices
 
     # -6. Modelldateien vorbereiten (Pfade setzen)
-    prepare_model "$@"
+    prepare_model "${CUSTOM_MODEL_PATH}"
 
     # -7. Inferenz ausführen
     # -Optional: Geben Sie einen anderen Modellpfad und Prompt ein:
@@ -336,10 +356,11 @@ main() {
     local CUSTOM_MODEL_PATH="${2:-$MODEL_PATH}"
     local CUSTOM_PROMPT="${3:-"Welche sind die wichtigsten Vorteile bei der Nutzung von SYCL auf Intel ARC für KI Inferenzen?"}"
 
-     run_inference "${MODEL_PATH}" "Welche sind die wichtigsten Vorteile bei der Nutzung von SYCL auf Intel ARC für KI Inferenzen?"
+     # Das Modell sollte jetzt in $MODEL_PATH gespeichert sein
+     run_inference "${CUSTOM_MODEL_PATH}" "${CUSTOM_PROMPT}"
 }
 
 #  -- Skript starten: FP16 (Standart) oder FP32--------------------------------------
 
-main "${1:-1}"
+main "${1:-1}" "${2:-}" "${3:-}"
 
