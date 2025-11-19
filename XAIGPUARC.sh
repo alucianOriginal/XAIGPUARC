@@ -10,23 +10,33 @@
 # Intel Core 155H + ARC iGPU (16GiB RAM/ 11,5 GiB-VRAM)
 # ----------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------
-#-Globale Variablen für Build-Verzeichnis (werden in auto_select_device gesetzt)-
-#Wohin?# -Vram-:-(Blockgröße*Gewicht)=Automatischer-Teiler-Einbauen bei ngl
-Intel(R) Arc|ATS-M|DG2|Battlemage|Xe-HPG|Xe-LPG
+
 
 set -euo pipefail
 IFS=$'\n\t'
 
 # --000-- Konfiguration (kann per ENV überschrieben werden) ------------------------
+
 ROOT_DIR="$(pwd)"
-PRECISION="FP16"
-USE_FP16="${1:-${USE_FP16:-0}}"
+LLAMA_CPP_DIR="${ROOT_DIR}/llama.cpp"
+# Nutze $1 (0=FP32, 1=FP16)
+USE_FP16="${1:-${USE_FP16:-1}}"
+PRECISION=$([ "$USE_FP16" -eq 1 ] && echo "FP16" || echo "FP32")
+DEVICE="AUTO" # Wird in auto_select_device gesetzt
+
 BUILD_DIR_BASE="${BUILD_DIR_BASE:-build}"
+
 CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"
 NPROC="${NPROC:-$(nproc)}"
-CCACHE="${CCACHE:-1}"
-export TCM_ROOT="${TCM_ROOT:-/opt/intel/oneapi/umf/latest}"
-ONEAPI_SETVARS="${ONEAPI_SETVARS:-/opt/intel/oneapi/setvars.sh}"
+
+# oneAPI + SYCL Umgebungsvariablen
+export TCM_ROOT="${TCM_ROOT:-/opt/intel/oneapi/umf/latest}" #Hier findet er den Pfad nicht, austauschen?
+export SYCL_CACHE_PERSISTENT=1
+export ONEAPI_DEVICE_SELECTOR="level_zero:*"
+export OCL_ICD_FILENAMES=""
+export ZES_ENABLE_SYSMAN=1
+export CCACHE_DIR="${ROOT_DIR}/.ccache"
+
 
 # --00-- Hilfsfunktionen ----------------------------------------------------------
 log() { echo -e "🔷 $*"; }
@@ -38,12 +48,7 @@ prepare_environment() {
     echo "🧩 Preparing environment..."
 
     # -oneAPI Umgebung laden-
-    source /opt/intel/oneapi/setvars.sh --force --config=gpu --level-zero
-
-    export SYCL_CACHE_PERSISTENT=1
-    export ONEAPI_DEVICE_SELECTOR="level_zero:*"
-    export OCL_ICD_FILENAMES=""
-    export ZES_ENABLE_SYSMAN=1
+    source /opt/intel/oneapi/setvars.sh --force
 
     # -Prüfen ob Compiler existiert-
     if ! command -v icx &>/dev/null; then
@@ -66,13 +71,16 @@ setup_project() {
         git clone https://github.com/ggerganov/llama.cpp.git || exit 1
     fi
 
-    cd llama.cpp || exit 1
+     cd "llama.cpp" || err "Konnte nicht in llama.cpp wechseln."
 
     # -Build-Verzeichnis erstellen (Gerät/Präzision-spezifisch)-
     mkdir -p "build_${DEVICE}_${PRECISION}"
     cd "build_${DEVICE}_${PRECISION}"
 
-    echo "✅ llama.cpp ready."
+    # Speichere den absoluten Pfad des Build-Verzeichnisses
+    BUILD_DIR="$(pwd)"
+
+    echo "✅ llama.cpp ready. Build directory: $BUILD_DIR"
 }
 
 
@@ -87,7 +95,7 @@ configure_build() {
     rm -rf CMakeCache.txt CMakeFiles
 
     if [ "$USE_FP16" -eq 1 ]; then
-        echo " Building with FP16 (GGML_SYCL_F16=ON)"
+        echo " Building with FP16 "
         cmake .. \
           -DGGML_SYCL=ON \
           -DGGML_SYCL_F16=ON \
@@ -99,7 +107,7 @@ configure_build() {
           -DCMAKE_BUILD_TYPE=Release
 
     # Wenn FP16 nicht verfügbar nutze FP32
-    else
+     else
         echo " Building with FP32"
         cmake .. \
           -DGGML_SYCL=ON \
@@ -135,25 +143,30 @@ compile_project() {
 # -- [4] Gerät automatisch auswählen-------------------------------------------------
 auto_select_device() {
 
-    echo "🔍 Detecting available SYCL / Level Zero devices ...${GPU_ID}"
+    echo "🔍 Detecting available SYCL / Level Zero devices ..."
+
+     # Wechsle in das Build-Verzeichnis
+    cd "$BUILD_DIR" || err "Konnte nicht in Build-Verzeichnis wechseln: $BUILD_DIR"
 
     # -Liste Geräte-
     if [ ! -x "./bin/llama-ls-sycl-device" ]; then
         echo "⚙️ Building llama-ls-sycl-device for device detection ..."
         export ONEAPI_DEVICE_SELECTOR="level_zero:0"
         DEVICE="ARC" # Standard-Fallback
-        echo "⚠️ llama-ls-sycl-device Binary fehlt. Fallback auf ARC dGPU (Device 0)"
+        echo "⚠️ llama-ls-sycl-device Binary fehlt. Fallback auf ARC dGPU "
         return
     fi
 
     #-Liste Geräte auf-
     local DEVICES
-    DEVICES=$(./bin/llama-ls-sycl-device 2>/dev/null)
+     DEVICES=$("$DEVICE_LIST_BIN" 2>/dev/null || true) # '|| true' um Exit-Code zu ignorieren
 
     if [ -z "$DEVICES" ]; then
         echo "⚠️ No SYCL devices detected, using CPU fallback."
         export ONEAPI_DEVICE_SELECTOR="opencl:cpu"
         DEVICE="CPU"
+        GPU_VRAM_GB=0
+        N_GPU_LAYERS=0
         return
     fi
 
@@ -170,21 +183,74 @@ auto_select_device() {
     if [ -n "$ARC_ID" ]; then
         export ONEAPI_DEVICE_SELECTOR="level_zero:${ARC_ID}"
         DEVICE="ARC"
-        echo "🎯 Using Intel ARC dGPU (Device ${ARC_ID})"
+        echo "🎯 Using Intel ARC dGPU "
     elif [ -n "$IGPU_ID" ]; then
         export ONEAPI_DEVICE_SELECTOR="level_zero:${IGPU_ID}"
         DEVICE="iGPU"
-        echo "🎯 Using Intel Integrated GPU (Device ${IGPU_ID})"
+        echo "🎯 Using Intel Integrated GPU "
     else
         export ONEAPI_DEVICE_SELECTOR="opencl:cpu"
         DEVICE="CPU"
         echo "⚠️ No suitable GPU found, CPU fallback enabled."
+    fi
+
+        if [ -n "$TARGET_LINE" ]; then
+        # Extrahiere Device ID und VRAM
+        local TARGET_ID=$(echo "$TARGET_LINE" | awk '{print $1}')
+        # Versuche VRAM (Gedeutete MiB oder GiB) zu extrahieren.
+        local VRAM_MIB=$(echo "$TARGET_LINE" | grep -oP '\d+\.\d+(?=\s*MiB)' | head -n1 | cut -d'.' -f1)
+        local VRAM_GIB=$(echo "$TARGET_LINE" | grep -oP '\d+\.\d+(?=\s*GiB)' | head -n1 | cut -d'.' -f1)
+
+        # Verwende GiB, wenn vorhanden, sonst MiB/1024
+        if [ -n "$VRAM_GIB" ]; then
+            GPU_VRAM_GB=$VRAM_GIB
+        elif [ -n "$VRAM_MIB" ]; then
+            GPU_VRAM_GB=$((VRAM_MIB / 1024))
+        else
+            warn "Konnte VRAM nicht automatisch ermitteln. Setze auf 16 GiB."
+            GPU_VRAM_GB=16
+        fi
+
+        export ONEAPI_DEVICE_SELECTOR="level_zero:${TARGET_ID}"
+
+        # ----------------------------------------------------------------------
+        # FEHLERBEHEBUNG: Automatischer ngl Teiler Einbau
+        # ngl-Faustregel: VRAM (GiB) * 1000 / (Blockgröße * Gewicht_pro_Layer)
+        # Für Q4_K_M (ca. 4.5 GB pro 7B Modell)
+        # ca. 300 MiB pro 7B Layer. Grob: VRAM (GiB) * 100 / 3
+        # VRAM (GiB) * Faktor, z.B. 1.8 für etwas Puffer.
+        # (Beispiel: 8 GiB * 1.8 = 14 Layer Puffer)
+        # Da ngl = 99 in Deinem Run-Script benutzt wird, nehmen wir mal 95% des VRAM an
+        # ----------------------------------------------------------------------
+
+        # Ein Layer braucht grob 300-350 MiB (q4_k_m)
+        local LAYER_SIZE_MIB=350
+        local VRAM_MIB_CALC=$((GPU_VRAM_GB * 1024))
+
+        # 95% des VRAM für Layer nutzen, Rest für Betriebssystem/Puffer
+        N_GPU_LAYERS=$((VRAM_MIB_CALC * 95 / 100 / LAYER_SIZE_MIB))
+
+        if [ "$N_GPU_LAYERS" -gt 99 ]; then
+            N_GPU_LAYERS=99 # Max. ngl für viele Modelle
+        fi
+        if [ "$N_GPU_LAYERS" -lt 1 ]; then
+            N_GPU_LAYERS=1 # Mindestens 1 Layer
+        fi
+
+        log "🧠 Estimated ngl for offloading: **${N_GPU_LAYERS}** layers."
+
+    else
+        export ONEAPI_DEVICE_SELECTOR="opencl:cpu"
+        DEVICE="CPU"
+        N_GPU_LAYERS=0
+        log "⚠️ No suitable GPU found, CPU fallback enabled."
     fi
 }
 
 # -- [5] SYCL-Geräte prüfen ---------------------------------------------------------
 list_sycl_devices() {
     echo "🔍 Listing SYCL devices ..."
+    cd "$BUILD_DIR" || err "Konnte nicht in Build-Verzeichnis wechseln: $BUILD_DIR"
     if [ -f "./bin/llama-ls-sycl-device" ]; then
         ./bin/llama-ls-sycl-device
     else
@@ -203,12 +269,7 @@ prepare_model() {
         echo "📥 Model nicht gefunden unter **$MODEL_PATH**. Bitte vor Ausführung herunterladen!"
     fi
 
-    if [ ! -f "$TOKENIZER_PATH" ]; then
-        echo "📥 Tokenizer nicht gefunden unter **$TOKENIZER_PATH**. Bitte vor Ausführung herunterladen!"
-    fi
-
     export MODEL_PATH
-    export TOKENIZER_PATH
 }
 
 # -- [7] Inferenz ausführen ---------------------------------------------------------
@@ -217,11 +278,15 @@ run_inference() {
     local MODEL_PATH_ARG=${1:-$DEFAULT_MODEL_PATH}
     local PROMPT_ARG=${2:-"Hello from SYCL on Intel ARC!"}
 
-    #-Extrahieren der automatisch ausgewählten GPU ID-
-    local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
+    # Wechsle in das Build-Verzeichnis
+    cd "$BUILD_DIR" || err "Konnte nicht in Build-Verzeichnis wechseln: $BUILD_DIR"
 
-    echo "🚀 Running inference on **${DEVICE} (ID: ${GPU_ID})**..."
-    ZES_ENABLE_SYSMAN=1 ./bin/llama-cli \
+    #-Extrahieren der automatisch ausgewählten GPU ID-
+    local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}' || echo "N/A")
+
+    echo "🚀 Running inference "
+
+    ZES_ENABLE_SYSMAN=1 ./build_AUTO_FP16/bin/ \
         -no-cnv \
         -m "${MODEL_PATH_ARG}" \
         -p "${PROMPT_ARG}" \
@@ -256,20 +321,25 @@ main() {
     fi
 
     # -4. Gerät automatisch auswählen und ONEAPI_DEVICE_SELECTOR setzen
+    cd "$ROOT_DIR"
     auto_select_device # Nutzt das gerade kompilierte Binary
 
     # -5. SYCL Geräte auflisten
     list_sycl_devices
 
     # -6. Modelldateien vorbereiten (Pfade setzen)
-    prepare_model
+    prepare_model "$@"
 
     # -7. Inferenz ausführen
     # -Optional: Geben Sie einen anderen Modellpfad und Prompt ein:
     # -run_inference "models/meine_q4_k_m.gguf" "Was ist der Sinn deines Lebens?"
-    run_inference "${MODEL_PATH}" "Welche sind die wichtigsten Vorteile bei der Nutzung von SYCL auf Intel ARC für KI Inferenzen?"
+    local CUSTOM_MODEL_PATH="${2:-$MODEL_PATH}"
+    local CUSTOM_PROMPT="${3:-"Welche sind die wichtigsten Vorteile bei der Nutzung von SYCL auf Intel ARC für KI Inferenzen?"}"
+
+     run_inference "${MODEL_PATH}" "Welche sind die wichtigsten Vorteile bei der Nutzung von SYCL auf Intel ARC für KI Inferenzen?"
 }
 
 #  -- Skript starten: FP16 (Standart) oder FP32--------------------------------------
-main ${1:-0}
+
+main "${1:-1}"
 
