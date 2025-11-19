@@ -239,6 +239,11 @@ main() {
 
     # 3. Kompilieren
     compile_project
+     # list devices binary (falls vorhanden)
+    if [ -x "${ROOT_DIR}/bin/llama-ls-sycl-device" ]; then
+        log "Available SYCL devices:"
+        "${ROOT_DIR}/bin/llama-ls-sycl-device" || true
+    fi
 
     # 4. Gerät automatisch auswählen und ONEAPI_DEVICE_SELECTOR setzen
     auto_select_device # Nutzt das gerade kompilierte Binary
