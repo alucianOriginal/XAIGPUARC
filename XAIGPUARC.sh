@@ -11,19 +11,20 @@
 #----------------------------------------------------------------------------------
 
 #-Globale Variablen für Build-Verzeichnis (werden in auto_select_device gesetzt)-
-DEVICE="Unknown"
+set -euo pipefail
+IFS=$'\n\t'
+
 PRECISION="FP16"
 
 CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"
 NPROC="${NPROC:-$(nproc)}"
 
 # oneAPI + SYCL Umgebungsvariablen
-export TCM_ROOT="${TCM_ROOT:-/opt/intel/oneapi/umf/latest}" #Hier findet er den Pfad nicht, austauschen?
+export TCM_ROOT="${TCM_ROOT:-/opt/intel/oneapi/tcm/latest}"
 export SYCL_CACHE_PERSISTENT=1
-export ONEAPI_DEVICE_SELECTOR="level_zero:*"
 export OCL_ICD_FILENAMES=""
 export ZES_ENABLE_SYSMAN=1
-export CCACHE_DIR="$/.ccache"
+export CCACHE_DIR="$HOME/.ccache"
 
 # --00-- Hilfsfunktionen ----------------------------------------------------------
 
@@ -82,7 +83,7 @@ rm -rf CMakeCache.txt CMakeFiles
 
     if [ "$USE_FP16" -eq 1 ]; then
         echo " Building with FP16 "
-        cmake .. "$/llama.cpp" \
+        cmake .. \
           -DGGML_SYCL=ON \
           -DGGML_SYCL_F16=ON \
           -DGGML_SYCL_USE_LEVEL_ZERO=ON \
@@ -114,13 +115,23 @@ fi
 #-- [3] Kompilieren ----------------------------------------------------------------
 
 compile_project() {
-echo "🔨 Compiling llama.cpp for ARC ${DEVICE} ..."
-cmake --build . --target llama-ls-sycl-device --config Release
--- -j"$(nproc)" -v || {
-echo "❌ Build failed."
-exit 1
-}
-echo "✅ Compilation done."
+    echo "🔨 Compiling llama.cpp (SYCL targets)..."
+
+    # llama-ls-sycl-device
+    cmake --build . --target llama-ls-sycl-device --config Release -- -j"$(nproc)"
+    if [ ! -f ./bin/llama-ls-sycl-device ]; then
+        echo "❌ llama-ls-sycl-device konnte nicht gebaut werden."
+        exit 1
+    fi
+
+    # llama-sycl
+    cmake --build . --target llama-sycl --config Release -- -j"$(nproc)"
+    if [ ! -f ./bin/llama-sycl ]; then
+        echo "❌ llama-sycl wurde nicht gebaut."
+        exit 1
+    fi
+
+    echo "✅ SYCL Binaries erfolgreich gebaut."
 }
 
 #-- [4] Gerät automatisch auswählen-------------------------------------------------
@@ -128,8 +139,6 @@ echo "✅ Compilation done."
 auto_select_device() {
 
 echo "🔍 Detecting available SYCL / Level Zero devices ..."
-
- pushd "$BUILD_DIR"
 
 # -Liste Geräte-
 if [ ! -x "./bin/llama-ls-sycl-device" ]; then
@@ -164,13 +173,17 @@ local IGPU_ID
 IGPU_ID=$(echo "$DEVICES" | grep -Ei "Iris|Xe|Graphics" | head -n1 | awk '{print $1}')
 
 if [ -n "$ARC_ID" ]; then
+    TARGET_LINE=$(echo "$DEVICES" | grep -i "Intel(R) Arc" | head -n1)
     export ONEAPI_DEVICE_SELECTOR="level_zero:${ARC_ID}"
     DEVICE="ARC"
     echo "🎯 Using Intel ARC dGPU (Device ${ARC_ID})"
+
 elif [ -n "$IGPU_ID" ]; then
+    TARGET_LINE=$(echo "$DEVICES" | grep -Ei "Iris|Xe|Graphics" | head -n1)
     export ONEAPI_DEVICE_SELECTOR="level_zero:${IGPU_ID}"
     DEVICE="iGPU"
     echo "🎯 Using Intel Integrated GPU (Device ${IGPU_ID})"
+
 else
     export ONEAPI_DEVICE_SELECTOR="opencl:cpu"
     DEVICE="CPU"
@@ -266,7 +279,7 @@ local PROMPT_ARG=${3:-"Hello from SYCL on Intel ARC!"}
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 
 echo "🚀 Running inference on **${DEVICE} (ID: ${GPU_ID})**..."
-ZES_ENABLE_SYSMAN=1 ./bin/llama-cli \
+ZES_ENABLE_SYSMAN=1 ./bin/llama-sycl \
     -no-cnv \
     -m "${MODEL_PATH_ARG}" \
     -p "${PROMPT_ARG}" \
@@ -283,29 +296,19 @@ echo "✅ Inference complete."
 
 main() {
 
-# 0. Umgebung vorbereiten
 prepare_environment
 
-# 1. Projekt-Setup
 setup_project
-
-# 2. Build konfigurieren (FP16 oder FP32)
 
 configure_build "$@"
 
-# 3. Kompilieren
 compile_project
 
-# 4. Gerät automatisch auswählen und ONEAPI_DEVICE_SELECTOR setzen
 auto_select_device
 
-# 5. SYCL Geräte auflisten
 list_sycl_devices
 
-# 6. Modelldateien vorbereiten
 prepare_model
-
-# 7. Inferenz ausführen
 
 run_inference
 
