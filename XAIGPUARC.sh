@@ -9,7 +9,6 @@
 #-Intel Core 155H + ARC iGPU (16GiB RAM/ 11,5 GiB-VRAM)
 #----------------------------------------------------------------------------------
 #----------------------------------------------------------------------------------
-
 #-Globale Variablen-
 set -euo pipefail
 IFS=$'\n\t'
@@ -39,13 +38,17 @@ err() { echo -e "❌ $*" >&2; exit 1; }
 
 prepare_environment() {
 log "Aktiviere Intel oneAPI Umgebung (MKL, SYCL/C++ Headers)..."
+local SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
+
+if [ ! -f "$SETVARS_PATH" ]; then
+    err "Die Intel oneAPI Umgebung wurde nicht gefunden unter: $SETVARS_PATH. Bitte zuerst Intel oneAPI installieren!"
+fi
 
 # -oneAPI Umgebung laden-
-# Wir unterdrücken die "read-only variable" Meldung
-source /opt/intel/oneapi/setvars.sh --force 2>&1 | grep -v 'set: Tried to change the read-only variable'
+source "$SETVARS_PATH" --force 2>&1 | grep -v 'set: Tried to change the read-only variable'
 
 # Zusätzliche Robustheit: Fügt den MKL Include Pfad zum CPATH hinzu
-export CPATH="${CPATH:-}:${ONEAPI_ROOT:-/opt/intel/oneapi/mkl/2025.0}/include"
+export CPATH="${CPATH:-}:${MKL_ROOT:-/opt/intel/oneapi/mkl/latest}/include"
 
 # -Prüfen ob Compiler existiert-
 if ! command -v icx &>/dev/null; then
@@ -73,22 +76,99 @@ mkdir -p "${BUILD_DIR}"
 echo "✅ llama.cpp ready."
 }
 
-#-- [1b] MKL Include Patch anwenden (Fix für 'oneapi/mkl.hpp' not found) ----------
+#-- [1b] Robuster Single-Shot Patch für Header-Probleme (Unverändert, aber wichtig) ---------------------------
 
 patch_llama_cpp() {
-local DPCT_HELPER_FILE="ggml/src/ggml-sycl/dpct/helper.hpp"
+    local DPCT_HELPER_FILE="ggml/src/ggml-sycl/dpct/helper.hpp"
+    local CMAKE_LISTS_FILE="ggml/src/ggml-sycl/CMakeLists.txt"
+    local MKL_INCLUDE_PATH="${ONEAPI_ROOT:-/opt/intel/oneapi}/mkl/2025.0/include"
 
-log "🩹 Applying MKL include patch to ${DPCT_HELPER_FILE}..."
+    log "🔷 🩹 Applying Robuster Single-Shot Patch in ${DPCT_HELPER_FILE} (MKL/Math-Probleme)..."
 
-if [ -f "$DPCT_HELPER_FILE" ]; then
-    # Ändere die spitzen Klammern (<>) zu Anführungszeichen ("").
-    # Dies zwingt den Compiler, im lokalen Include-Pfad (der durch CPATH gesetzt ist) zu suchen,
-    # anstatt nur in den System-Standardpfaden.
-    sed -i 's/#include <oneapi\/mkl\.hpp>/#include \"oneapi\/mkl\.hpp\"/g' "$DPCT_HELPER_FILE"
-    echo "✅ Patch applied: Changed <oneapi/mkl.hpp> to \"oneapi/mkl.hpp\" in dpct/helper.hpp."
-else
-    warn "MKL include file (${DPCT_HELPER_FILE}) not found. Skipping patch."
-fi
+    if [ -f "$DPCT_HELPER_FILE" ]; then
+
+        log "   -> Patch 1/1: Ersetze den gesamten MKL/Math Header Block durch eine einfache oneapi/math.hpp Inclusion."
+
+        # Verwende Perl für eine robuste Multi-Linien-Ersetzung, die sowohl das Original-Code-Muster als auch
+        # das Muster des zuvor teil-gepatchten Codes erkennen und ersetzen kann.
+        # Ziel: Entferne `#ifdef GGML_SYCL_USE_INTEL_ONEMKL` bis zum entsprechenden `#endif` und ersetze es durch den reinen `#include`.
+
+        # 1. Ersetze das Muster des Original-Codes
+        perl -i -0777 -pe '
+            s{
+                \#ifdef\s+GGML_SYCL_USE_INTEL_ONEMKL\n
+                \#include\s+"oneapi/mkl\.hpp"\n
+                //\s+Allow\s+to\s+use\s+the\s+same\s+namespace\s+for\s+Intel\s+oneMKL\s+and\s+oneMath\n
+                namespace\s+oneapi\s+\{\n
+                \s+namespace\s+math\s+=\s+mkl;\n
+                \}\n
+                \#else\n
+                \#include\s+<oneapi/math\.hpp>\n
+                \#endif
+            }{
+                // ---- START XAIGPUARC Patch: Simplified SYCL Math Header ----
+                #include <oneapi/math.hpp>
+                // ---- END XAIGPUARC Patch ----
+            }xmsg' "$DPCT_HELPER_FILE"
+
+        # 2. Ersetze das Muster des zuvor angewandten 3-Schritte-Patches (falls es noch da ist)
+        perl -i -0777 -pe '
+            s{
+                \#ifdef\s+GGML_SYCL_USE_INTEL_ONEMKL\n
+                \#if\s+0\n
+                \#include\s+"oneapi/mkl\.hpp"\n
+                \#endif\s+//\s+Patch\s+1:\s+MKL\s+header\s+temporarily\s+disabled\n
+                \#include\s+<oneapi/math\.hpp>\s+//\s+Patch\s+2:\s+Explicitly\s+added\s+required\s+oneapi/math\s+header\.\n
+                //\s+Allow\s+to\s+use\s+the\s+same\s+namespace\s+for\s+Intel\s+oneMKL\s+and\s+oneMath\n
+                namespace\s+oneapi\s+\{\n
+                \s+//\s+namespace\s+math\s+=\s+mkl;\s+//\s+Patch\s+3:\s+Alias\s+disabled\s+due\s+to\s+missing\s+MKL\s+header\n
+                \}\n
+                \#else\n
+                \#include\s+<oneapi/math\.hpp>\n
+                \#endif
+            }{
+                // ---- START XAIGPUARC Patch: Simplified SYCL Math Header ----
+                #include <oneapi/math.hpp>
+                // ---- END XAIGPUARC Patch ----
+            }xmsg' "$DPCT_HELPER_FILE"
+
+
+        if grep -q "XAIGPUARC Patch" "$DPCT_HELPER_FILE"; then
+            log "   -> ✅ Patch 1/1 angewandt: MKL/Math Header Block erfolgreich vereinfacht."
+        else
+            warn "   -> ⚠️ Patch 1/1 konnte den MKL/Math Header Block nicht ersetzen. Versuche es mit einer finalen, breit gefassten Ersetzung."
+
+            # 3. Finaler Versuch: Ersetze nur den Anfang, der immer gleich ist.
+            sed -i '/\#ifdef GGML_SYCL_USE_INTEL_ONEMKL/,/\#endif/c\/\/ ---- START XAIGPUARC Patch: Simplified SYCL Math Header ----\n\#include <oneapi\/math\.hpp>\n\/\/ ---- END XAIGPUARC Patch ----' "$DPCT_HELPER_FILE"
+
+            if grep -q "XAIGPUARC Patch" "$DPCT_HELPER_FILE"; then
+                 log "   -> ✅ Patch 1/1 (Finaler sed) angewandt: MKL/Math Header Block erfolgreich vereinfacht."
+            else
+                 err "   -> ❌ Kritischer Fehler: Konnte den MKL/Math Header Block nicht patchen. Build wird fehlschlagen."
+            fi
+        fi
+
+    else
+        warn "MKL include file (${DPCT_HELPER_FILE}) not gefunden. Überspringe Patches."
+    fi
+
+    # Patch 4 (Beibehalten): Füge den MKL-Include-Pfad explizit als Compile Option ein
+    log "🔷 🩹 Applying CMakeLists.txt hard-patch (compile options) to include MKL header path..."
+
+    if [ -f "$CMAKE_LISTS_FILE" ]; then
+        local INCLUDE_FLAG="-I${MKL_INCLUDE_PATH}"
+        local PATCH_LINE="\ \ \ \ target_compile_options(ggml-sycl PUBLIC ${INCLUDE_FLAG})"
+
+        # Die Überprüfung ist wichtig, um keine doppelten Einträge zu erhalten
+        if ! grep -q "target_compile_options(ggml-sycl PUBLIC ${INCLUDE_FLAG})" "$CMAKE_LISTS_FILE"; then
+            sed -i "/# Add include directories for MKL headers/a ${PATCH_LINE}" "$CMAKE_LISTS_FILE"
+            log "✅ Patch 4 applied: Added explicit **-I** MKL compile option to ggml-sycl target."
+        else
+            log "⚠️ Patch 4 (compile options) scheint bereits angewandt zu sein. Wird übersprungen."
+        fi
+    else
+        warn "CMakeLists file (${CMAKE_LISTS_FILE}) not found. Skipping patch 4."
+    fi
 }
 
 #-- [2] Build-Konfiguration -------------------------------------------------------
@@ -105,9 +185,13 @@ cd "${BUILD_DIR}"
 echo "🚨 Full clean of build directory **$(pwd)**..."
 rm -rf *
 
-# Da der Patch das Problem behebt, reichen die minimalen, sauberen CXX-Flags
+# Hinzufügen des MKL Include Pfades UND des Compiler Include Pfades, da oneapi/math.hpp dort liegt.
 local MKL_INCLUDE_PATH="${ONEAPI_ROOT:-/opt/intel/oneapi}/mkl/2025.0/include"
-local EXTRA_CXX_FLAGS="-I${MKL_INCLUDE_PATH}"
+# Die Compiler-Version ist 2025.0, basierend auf der setvars Ausgabe
+local COMPILER_INCLUDE_PATH="/opt/intel/oneapi/compiler/2025.0/include"
+
+# WICHTIG: Füge beide Pfade zu den CXX-Flags hinzu.
+local EXTRA_CXX_FLAGS="-I${MKL_INCLUDE_PATH} -I${COMPILER_INCLUDE_PATH}"
 echo " Injecting CXX Flags: ${EXTRA_CXX_FLAGS}"
 
 
@@ -116,9 +200,11 @@ echo " Injecting CXX Flags: ${EXTRA_CXX_FLAGS}"
         cmake .. \
           -DGGML_SYCL=ON \
           -DGGML_SYCL_F16=ON \
+          -DGGML_SYCL_MKL=OFF \
           -DGGML_SYCL_USE_LEVEL_ZERO=ON \
           -DGGML_SYCL_USE_OPENCL=OFF \
           -DGGML_SYCL_BACKEND=INTEL \
+          -DLLAMA_BUILD_MAIN=OFF \
           -DCMAKE_C_COMPILER=icx \
           -DCMAKE_CXX_COMPILER=icpx \
           -DCMAKE_BUILD_TYPE=Release \
@@ -128,9 +214,11 @@ echo " Injecting CXX Flags: ${EXTRA_CXX_FLAGS}"
         cmake .. \
           -DGGML_SYCL=ON \
           -DGGML_SYCL_F16=OFF \
+          -DGGML_SYCL_MKL=OFF \
           -DGGML_SYCL_USE_LEVEL_ZERO=ON \
           -DGGML_SYCL_USE_OPENCL=OFF \
           -DGGML_SYCL_BACKEND=INTEL \
+          -DLLAMA_BUILD_MAIN=OFF \
           -DCMAKE_C_COMPILER=icx \
           -DCMAKE_CXX_COMPILER=icpx \
           -DCMAKE_BUILD_TYPE=Release \
@@ -145,23 +233,68 @@ fi
 #-- [3] Kompilieren ----------------------------------------------------------------
 
 compile_project() {
-    echo "🔨 Compiling llama.cpp (SYCL targets)..."
+    echo "🔨 Compiling llama.cpp (SYCL targets) using cmake --build..."
 
-    cmake --build . -- -j"${NPROC}" || \
-    cmake --build . --target all -- -j"${NPROC}"
+    # Gehe zurück zum llama.cpp-Stammverzeichnis für den cmake --build Aufruf
+    local CURRENT_DIR=$(pwd)
+    cd .. # Wechselt in llama.cpp/
 
+    # Definiere den Log-Pfad
+    local LOG_FILE="${BUILD_DIR}/build.log"
+    log "📝 Der gesamte Kompilierungs-Output wird in **${LLAMA_CPP_DIR}/${LOG_FILE}** gespeichert."
+
+    # Ziel auf 'llama' setzen, da 'llama-sycl' in dieser llama.cpp-Version fehlt.
+    local TARGET="llama"
+    log "🎯 Setze Haupt-Build-Target auf den vorhandenen Namen: **${TARGET}**"
+
+    # Kompiliere das Haupt-Target (llama) und das Device-Listing-Tool
+    echo "🏗️ Kompiliere Haupt-Target: $TARGET (Output wird umgeleitet)"
+    # Umleitung von stdout und stderr in die Log-Datei (überschreibt alte Log-Datei)
+    cmake --build "${BUILD_DIR}" --target "$TARGET" -j "${NPROC}" &> "${LOG_FILE}"
+
+    # Führe die Fehlerprüfung *nach* dem ersten Kompilierungsbefehl durch
     if [ $? -ne 0 ]; then
-        err "Kompilierung fehlgeschlagen. Bitte prüfen Sie die obige Fehlermeldung."
+        # Zeige die letzten Zeilen des Logs für eine schnelle Ansicht
+        log "🔎 Letzten 30 Zeilen des Logs (möglicherweise die Fehlermeldung):"
+        tail -n 30 "${LOG_FILE}"
+        err "Kompilierung von '$TARGET' fehlgeschlagen. Bitte prüfen Sie die Logdatei: ${LLAMA_CPP_DIR}/${LOG_FILE}"
     fi
 
-    if [ ! -f ./bin/llama-sycl ]; then
-        err "llama-sycl wurde nicht gebaut."
+    echo "🏗️ Kompiliere Device-Listing Tool: llama-ls-sycl-device (Output wird angehängt)"
+    # Umleitung von stdout und stderr in die Log-Datei (wird angehängt)
+    cmake --build "${BUILD_DIR}" --target all -- -j "${NPROC}" &>> "${LOG_FILE}"
+
+    # Führe die Fehlerprüfung *nach* dem zweiten Kompilierungsbefehl durch
+    if [ $? -ne 0 ]; then
+        err "Kompilierung von 'llama-ls-sycl-device' fehlgeschlagen. Bitte prüfen Sie die Logdatei: ${LLAMA_CPP_DIR}/${LOG_FILE}"
     fi
+
+    # Gehe zurück zum Build-Verzeichnis für die Prüfung
+    cd "${CURRENT_DIR}"
+
+    # WICHTIG: Die run_inference-Funktion erwartet ./bin/llama-sycl.
+    local EXPECTED_SYCL_BINARY="./bin/llama-sycl"
+    local BUILT_BINARY="./bin/${TARGET}"
+
+    # 1. Prüfe, ob die erwartete llama-sycl existiert (durch einige CMake-Versionen)
+    if [ ! -f "${EXPECTED_SYCL_BINARY}" ]; then
+        # 2. Prüfe, ob die Binärdatei unter dem Target-Namen existiert (wahrscheinlich)
+        if [ -f "${BUILT_BINARY}" ]; then
+            log "⚠️ Binärdatei als **${BUILT_BINARY}** gefunden, benenne sie in **${EXPECTED_SYCL_BINARY}** um, damit der Inferenz-Schritt funktioniert."
+            mv "${BUILT_BINARY}" "${EXPECTED_SYCL_BINARY}"
+        else
+            err "Kompilierung fehlgeschlagen: Weder ${EXPECTED_SYCL_BINARY} noch ${BUILT_BINARY} im ./bin-Ordner gefunden."
+        fi
+    fi
+
     if [ ! -f ./bin/llama-ls-sycl-device ]; then
         err "llama-ls-sycl-device konnte nicht gebaut werden."
     fi
 
-    echo "✅ SYCL Binaries erfolgreich gebaut."
+    log "🔎 Die letzten 30 Zeilen des Logs:"
+    tail -n 30 "${LOG_FILE}"
+
+    echo "✅ SYCL Binaries erfolgreich gebaut. Voller Output in ${LLAMA_CPP_DIR}/${LOG_FILE}"
 }
 
 #-- [4] Gerät automatisch auswählen (Beibehalten für Vollständigkeit) ----------------
@@ -325,5 +458,3 @@ main() {
 
 # Skript starten: FP16 (Standard) oder FP32 als erstes Argument
 main "${1:-1}" "${2:-}" "${3:-}"
-
-
