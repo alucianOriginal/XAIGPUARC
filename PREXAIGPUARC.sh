@@ -133,6 +133,6 @@ echo "=== ENDE: XAIGPUARC Build-Vorbereitung ==="
 
 end
 
-Starte den Hauptablauf
+# Starte den Hauptablauf
 
 main_flow
