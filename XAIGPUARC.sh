@@ -37,6 +37,7 @@ success() { echo -e "✅ $*"; }
 error() { echo -e "❌ $*\n"; }
 warning() { echo -e "⚠️ $*\n"; }
 err() { error "$*"; }
+warn() { echo -e "⚠️ $*"; }
 
 #-- [0] Umgebung vorbereiten - FINALER FIX: Extrem robuste Fallback-Logik
 
