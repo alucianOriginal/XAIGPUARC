@@ -1,141 +1,108 @@
-#!/bin/fish
-
+#!/bin/bash
+#=============================================================================
+# PREXAIGPUARC.SH
+#
+# Dieses Bash-Shell-Skript bereitet die notwendige Umgebung (Abhängigkeiten,
+# OneAPI-Toolkit) unter Arch/Garuda Linux vor und startet den Build-Prozess.
+#
+# FÜR DIE AUSFÜHRUNG: Speichern Sie dieses Skript als PREXAIGPUARC.sh
+# und führen Sie es im Terminal aus:
+# bash PREXAIGPUARC.sh [Optionale Argumente für XAIGPUARC.sh]
 #=============================================================================
 
-# PREXAIGPUARC.FISH
+# Exit bei Fehlern, Pipe-Fehler abfangen, IFS setzen
+set -euo pipefail
+IFS=$'\n\t'
 
-# Dieses Fish-Shell-Skript bereitet die notwendige Umgebung (Abhängigkeiten,
-# OneAPI-Toolkit) unter Garuda Linux (Arch-basiert mit pacman) vor
-# und startet den Build-Prozess.
+# --- Hilfsfunktionen für Konsistente Ausgabe ---
 
-# FÜR DIE AUSFÜHRUNG: Speichern Sie dieses Skript und führen Sie es im Terminal aus:
-# fish PREXAIGPUARC.fish
-#=============================================================================
+log() { echo -e "🔷 $*"; }
+success() { echo -e "✅ $*"; }
+error() { echo -e "❌ $*"; }
+warning() { echo -e "⚠️ $*"; }
 
-# ... (Funktionen install_dependencies, install_intel_oneapi_toolkit, configure_fish_environment bleiben unverändert)
+# --- Funktionen ---
 
-function install_dependencies
-    echo "🔷 Installiere Basis-Abhängigkeiten (git, cmake, ccache, base-devel) via pacman..."
+install_dependencies() {
+    log "Installiere Basis-Abhängigkeiten (git, cmake, ccache, base-devel, onednn) via pacman..."
 
-    # Stelle sicher, dass Sie sudo-Rechte haben
-    if not command -v sudo > /dev/null
-        echo "❌ 'sudo' Befehl nicht gefunden. Bitte stellen Sie sicher, dass Sie als Benutzer mit Admin-Rechten arbeiten."
+    # 'command -v' prüft, ob der Befehl existiert.
+    if ! command -v sudo &> /dev/null; then
+        error "'sudo' Befehl nicht gefunden. Stellen Sie sicher, dass Sie mit Admin-Rechten arbeiten."
         return 1
-    end
+    fi
 
     # Installiere die erforderlichen Pakete (Best-Practice für Arch/Garuda)
+    # '-Syu' aktualisiert zuerst, '--needed' vermeidet Neuinstallationen
     sudo pacman -Syu --needed git cmake ccache base-devel onednn
-    if test $status -ne 0
-        echo "❌ Fehler beim Installieren der Pakete mit pacman. Überprüfen Sie Ihre Internetverbindung und Berechtigungen."
+
+    # Prüft den Exit-Code des letzten Befehls
+    if [ $? -ne 0 ]; then
+        error "Fehler beim Installieren der Pakete mit pacman."
         return 1
-    end
+    fi
 
-    echo "✅ Basis-Abhängigkeiten installiert (git, cmake, ccache, base-devel, onednn)."
-end
+    success "Basis-Abhängigkeiten installiert."
+}
 
-function install_intel_oneapi_toolkit
-    echo "🔷 Überprüfung der Intel oneAPI Toolkit Installation..."
+install_intel_oneapi_toolkit() {
+    log "Überprüfung der Intel oneAPI Toolkit Installation..."
 
-    # Wir prüfen hier nur, ob der notwendige setvars.sh existiert.
-    set -l ONEAPI_INSTALL_DIR "/opt/intel/oneapi"
-    set -l SETVARS_SCRIPT "$ONEAPI_INSTALL_DIR/setvars.sh"
+    # Pfad zum setvars.sh Skript (Standardpfad)
+    local SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
 
-    if not test -f "$SETVARS_SCRIPT"
-        echo "⚠️  WARNUNG: Das Intel oneAPI Toolkit scheint NICHT unter $ONEAPI_INSTALL_DIR installiert zu sein."
-        echo "   BITTE BEACHTEN SIE: Für den SYCL-Build benötigen Sie den **Intel oneAPI Base Toolkit**."
-        echo "   Das Skript kann ohne $SETVARS_SCRIPT nicht fortfahren."
+    # Prüft, ob die Datei existiert
+    if [ ! -f "$SETVARS_PATH" ]; then
+        warning "Die Intel oneAPI Installation ('$SETVARS_PATH') wurde NICHT gefunden."
+        log "Bitte installieren Sie das Intel oneAPI Base Toolkit und HPC Toolkit."
         return 1
-    end
+    fi
 
-    echo "✅ Intel oneAPI Installation unter $ONEAPI_INSTALL_DIR gefunden."
-end
+    success "Intel oneAPI Toolkit gefunden ($SETVARS_PATH)."
+}
 
-function configure_fish_environment
-    echo "🔷 Konfiguriere Fish-Shell Umgebung für oneAPI (für alle zukünftigen Sessions)..."
-    set -l FISH_CONFIG "$HOME/.config/fish/config.fish"
-    set -l ONEAPI_SOURCE_LINE ' bass source /opt/intel/oneapi/setvars.sh'
+# --- Hauptablauf ---
 
-    # Prüfen, ob die Zeile bereits existiert, um Duplikate zu vermeiden
-    if not grep -q "$ONEAPI_SOURCE_LINE" "$FISH_CONFIG"
-        echo "" >> "$FISH_CONFIG"
-        echo "# >> START XAIGPUARC/oneAPI Konfiguration (Automatisch hinzugefügt)" >> "$FISH_CONFIG"
-        echo "# Quelle das oneAPI Environment, um Compiler (icx/icpx) und MKL-Pfade zu setzen" >> "$FISH_CONFIG"
-        echo "$ONEAPI_SOURCE_LINE --force 2> /dev/null" >> "$FISH_CONFIG"
-        echo "# Setze SYCL/LevelZero Umgebungsvariablen für ARC (wie in XAIGPUARC.sh)" >> "$FISH_CONFIG"
-        echo "set -gx SYCL_CACHE_PERSISTENT 1" >> "$FISH_CONFIG"
-        echo "set -gx ZES_ENABLE_SYSMAN 1" >> "$FISH_CONFIG"
-        echo "# << END XAIGPUARC/oneAPI Konfiguration" >> "$FISH_CONFIG"
-        echo "" >> "$FISH_CONFIG"
-        echo "✅ oneAPI Source-Befehl und SYCL-Variablen zur config.fish hinzugefügt."
-        echo "   (Wird in neuen Shell-Sessions aktiv.)"
-    else
-        echo "✅ oneAPI Source-Befehl bereits in config.fish gefunden. Keine Änderung."
-    end
+main_flow() {
+    log "=== STARTE: XAIGPUARC Build-Vorbereitung (Bash) ==="
 
-    # Führe den Source-Befehl sofort für die aktuelle Session aus (Fish-Syntax)
-    if test -f "/opt/intel/oneapi/setvars.sh"
-        echo "🔷 Lade oneAPI-Umgebung in die aktuelle Shell..."
-        # Wir müssen den oneAPI-Source-Befehl über bash ausführen und die exportierten Variablen importieren
-        # DA der BASH-Source-Befehl nicht in FISH funktioniert und setvars.fish entfernt wird.
-        # Aber da Ihre ursprüngliche Logik funktionierte, belassen wir es für Einfachheit:
-        bass source "/opt/intel/oneapi/setvars.sh" --force 2> /dev/null
+    # [1] Abhängigkeiten installieren
+    if install_dependencies; then
 
-        # Manuelle Fish-Setzung der oneAPI Variablen nach dem Bash-Source
-        set -gx SYCL_CACHE_PERSISTENT 1
-        set -gx ZES_ENABLE_SYSMAN 1
+        # [2] OneAPI Installation prüfen
+        if install_intel_oneapi_toolkit; then
 
-        # Test, ob es funktioniert hat
-        if command -v icx > /dev/null
-            echo "✅ oneAPI Umgebung erfolgreich geladen. Compiler (icx) gefunden."
-        else
-            echo "❌ Wichtig: Compiler (icx/icpx) nicht gefunden, obwohl setvars gesourced wurde. Überprüfen Sie Ihre oneAPI Installation!"
-            return 1
-        end
-    end
-end
+            echo ""
+            echo "✨ VORBEREITUNG ABGESCHLOSSEN! Abhängigkeiten und oneAPI sind vorhanden. ✨"
+            echo ""
+            echo "--- NÄCHSTER SCHRITT ---"
 
+            # [3] Prüfe und starte das Haupt-Build-Skript (XAIGPUARC.sh)
+            if [ -f "./XAIGPUARC.sh" ]; then
+                log "🚀 STARTE XAIGPUARC.sh (Das Haupt-Build-Skript) direkt..."
 
-#=============================================================================
+                # Führe XAIGPUARC.sh mit allen Argumenten der PREP-Datei aus
+                # Das Hauptskript lädt die oneAPI-Umgebung (setvars.sh) selbst.
+                bash "./XAIGPUARC.sh" "$@"
 
-# HAUPTABLAUF
-
-#=============================================================================
-
-function main_flow
-    echo "=== START: XAIGPUARC Build-Vorbereitung für Garuda/Fish ==="
-
-    if install_dependencies
-        if install_intel_oneapi_toolkit
-            if configure_fish_environment
-                echo ""
-                echo "✨ VORBEREITUNG ABGESCHLOSSEN! ✨"
-                echo "Der Intel Compiler (icx/icpx) und die SYCL-Variablen sind nun in dieser und allen zukünftigen Fish-Shells aktiv."
-                echo ""
-                echo "--- NÄCHSTER SCHRITT ---"
-
-                # Prüfe, ob das Build-Skript existiert (als Fish-Version)
-                if test -f "./XAIGPUARC.fish"
-                    echo "🚀 STARTE XAIGPUARC.fish (Build-Skript) direkt..."
-                    echo "Hinweis: Argumente wie FP32, Modellpfad und Prompt können angehängt werden."
-                    # Führe XAIGPUARC.fish mit allen Argumenten der PREP-Datei aus
-                    fish ./XAIGPUARC.fish $argv
+                if [ $? -ne 0 ]; then
+                    error "Das Haupt-Build-Skript (XAIGPUARC.sh) ist mit einem Fehler beendet."
                 else
-                    echo "⚠️ KONVENTION: Bitte speichern Sie das konvertierte Build-Skript als **XAIGPUARC.fish**"
-                    echo "   und starten Sie es manuell, da die Umgebung jetzt korrekt ist:"
-                    echo "   ./XAIGPUARC.fish"
-                end
+                    success "XAIGPUARC.sh wurde erfolgreich ausgeführt."
+                fi
             else
-                echo "🔴 Kritischer Fehler bei der Konfiguration der Fish-Umgebung."
-            end
+                warning "KONVENTION: Bitte speichern Sie das Haupt-Build-Skript als **XAIGPUARC.sh**"
+                warning "   und starten Sie es manuell: bash ./XAIGPUARC.sh [args]"
+            fi
         else
-            echo "🔴 Kritischer Fehler bei der oneAPI-Überprüfung. Bitte installieren Sie Intel oneAPI."
-        end
+            error "Kritischer Fehler bei der oneAPI-Überprüfung."
+        fi
     else
-        echo "🔴 Kritischer Fehler bei der Installation der Abhängigkeiten."
-    end
+        error "Kritischer Fehler bei der Installation der Abhängigkeiten."
+    fi
 
-    echo "=== ENDE: XAIGPUARC Build-Vorbereitung ==="
-end
+    log "=== ENDE: XAIGPUARC Build-Vorbereitung ==="
+}
 
-# Starte den Hauptablauf
-main_flow $argv
+# Starte den Hauptablauf mit allen übergebenen Argumenten
+main_flow "$@"
