@@ -22,9 +22,11 @@ BUILD_DIR="${BUILD_DIR:-XAIGPUARC}"
 CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"
 NPROC="${NPROC:-$(nproc)}"
 
+LLAMA_CURL_FLAG="ON"
 
 LLAMA_CLI_PATH="bin/llama-cli"
 LS_SYCL_DEVICE_PATH="bin/llama-ls-sycl-device"
+
 # ---------------------------------
 
 # oneAPI + SYCL Umgebungsvariablen
@@ -44,7 +46,7 @@ warning() { echo -e "⚠️ $*\n"; }
 err() { error "$*"; }
 warn() { echo -e "⚠️ $*"; }
 
-#-- [0] Umgebung vorbereiten--
+#-- [0] Umgebung vorbereiten - FINALER FIX: Extrem robuste Fallback-Logik
 
 prepare_environment() {
     log "Aktiviere Intel oneAPI Umgebung (MKL, SYCL/C++ Headers)..."
@@ -72,6 +74,10 @@ prepare_environment() {
     export ONEAPI_ROOT
 
     export CPATH="${CPATH:-}:${MKL_ROOT}/include"
+
+    # NEUER KRITISCHER FIX: Setze LD_LIBRARY_PATH explizit!
+    # Dies ist notwendig, damit die Binärdateien (z.B. llama-ls-sycl-device)
+    # die gemeinsamen ggml-Bibliotheken in ./XAIGPUARC/bin/ finden können.
     local LIB_DIR="/opt/intel/oneapi/compiler/latest/lib:/opt/intel/oneapi/mkl/latest/lib"
     export LD_LIBRARY_PATH="./${BUILD_DIR}/bin:${LIB_DIR}:${LD_LIBRARY_PATH:-}"
 
@@ -82,6 +88,23 @@ prepare_environment() {
     fi
 
     log "✅ oneAPI environment loaded (DPCPP_ROOT=${DPCPP_ROOT} und MKL_ROOT=${MKL_ROOT})."
+}
+
+# --0001-- Universelle Curl-Entwickler-Prüfung -------------------------------------
+
+check_curl_dev() {
+    log "🔍 Prüfe auf vorhandene Curl-Entwickler-Dateien im Systempfad..."
+    # Prüfe nach dem Standard-Header-Pfad. curl-config ist auch eine Option,
+    # aber der Header-Check ist direkter für CMake.
+    if find /usr/include/ -name 'curl.h' 2>/dev/null | grep -q 'curl/curl.h'; then
+        log "   -> Curl-Header gefunden. **-DLLAMA_CURL=ON** wird verwendet."
+        LLAMA_CURL_FLAG="ON"
+    else
+        warning "   -> Curl-Header (z.B. curl/curl.h) NICHT im Standardpfad gefunden."
+        warning "   -> **Fallback: -DLLAMA_CURL=OFF** wird gesetzt, um den Build zu erzwingen."
+        LLAMA_CURL_FLAG="OFF"
+    fi
+    export LLAMA_CURL_FLAG # Exportieren, damit es in Unterfunktionen verfügbar ist
 }
 
 #-- [1] Projekt-Setup -------------------------------------------------------------
@@ -184,6 +207,7 @@ configure_build() {
             -DGGML_SYCL_CCACHE=ON \
             -DGGML_SYCL_F16=${FP_MODE} \
             -DGGML_SYCL_MKL_SYCL_BATCH_GEMM=1 \
+            -DLLAMA_CURL=${LLAMA_CURL_FLAG} \
             -DCMAKE_C_COMPILER=icx \
             -DCMAKE_CXX_COMPILER=icpx \
             -DCMAKE_CXX_STANDARD=17
@@ -249,7 +273,8 @@ auto_select_device() {
 
     #-Liste Geräte auf und erfasse den Output-
     local DEVICES
-
+    # KRITISCHER FIX: Wir nutzen bash -c, um sicherzustellen, dass die Umgebung
+    # (inkl. LD_LIBRARY_PATH) für die Ausführung korrekt gesetzt ist.
     DEVICES=$(bash -c "${FULL_LS_PATH}")
 
     if [ -z "$DEVICES" ]; then
@@ -259,6 +284,8 @@ auto_select_device() {
         N_GPU_LAYERS=0
         return
     fi
+
+    # ... Der Rest der Logik ist korrekt und sollte jetzt fehlerfrei arbeiten ...
 
     local ARC_ID
     ARC_ID=$(echo "$DEVICES" | grep -i "Intel Arc" | head -n1 | awk '{print $1}')
@@ -376,6 +403,8 @@ main() {
     setup_project
 
     patch_llama_cpp
+
+    check_curl_dev
 
     configure_build "${FP_MODE}"
 
