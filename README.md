@@ -44,13 +44,13 @@ chmod +x XAIGPUARC.sh
 2. 🚀 Installation und Build starten
 ----------------------------------------------
 
-
 Führen Sie nun das Vorbereitungs-Skript aus. Dieses installiert alle notwendigen Linux-Entwicklerpakete (wie cmake, git, ccache und libcurl-devel), prüft die oneAPI
 Installation und startet dann automatisch den Build-Prozess.
 
 ---------------------------------------------
 3: Build starten
 ---------------------------------------------
+
 Geben Sie im Terminal den folgenden Befehl ein:
 
 ------------------
@@ -69,6 +69,7 @@ Dauer: Der Build-Prozess kann je nach Hardware einige Minuten in Anspruch nehmen
 ---------------------------------------------
 4. 🧠 Modell-Setup und Inferenz
 ---------------------------------------------
+
 Nach dem erfolgreichen Build müssen Sie das Large Language Model (LLM) bereitstellen.
 
 Schritt 4: LLM-Datei platzieren
@@ -80,6 +81,7 @@ Laden Sie ein GGUF-Modell Ihrer Wahl (z.B. ein Mistral- oder Llama-Modell) herun
 ----------------------------------------------
 Wichtig für eigenen Modelloptionen!!!
 ----------------------------------------------
+
 Standard-Modellpfad: Das Skript ist standardmäßig auf models/openhermes-2.5-mistral-7b.Q4_K_M.gguf eingestellt. Um ein anderes Modell zu verwenden, müssen Sie dessen
 Namen im Skript XAIGPUARC.sh anpassen (siehe Sektion prepare_model). Bitte beachten Sie, das sie beide Einträge ändern müssen!!!
 
@@ -97,10 +99,11 @@ models/Ihr-Modell.gguf	Der Pfad zu Ihrem GGUF-Modell (relativ zu ~/llama.cpp).	m
 
 Prompt	Die Start-Eingabeaufforderung für das Modell.	"Hello from SYCL on Intel ARC!"
 
------------------------------------------------
------------------------------------------------
+ENDE
+
 -----------------------------------------------
 🔧 Aktuelle Einschränkungen und bekannte Probleme
+-----------------------------------------------
 
 Jeder Start ein Full-Build: Aktuell startet das Skript bei jedem Aufruf einen vollständigen neuen Build. Dies wird in zukünftigen Versionen geändert.
 
