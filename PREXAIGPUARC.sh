@@ -21,39 +21,44 @@ warning() { echo -e "⚠️ $*"; }
 # --- NEUE FUNKTION: Paketmanager erkennen und Abhängigkeiten installieren ---
 
 install_dependencies() {
-    log "🔍 Starte die automatische Erkennung des Paketmanagers..."
+    log "🔍 Starte die automatische Erkennung des Paketmanagers und der korrekten Paketnamen..."
 
     if ! command -v sudo &> /dev/null; then
         error "'sudo' Befehl nicht gefunden. Stellen Sie sicher, dass Sie als Benutzer mit Admin-Rechten arbeiten."
     fi
 
     local PKG_MANAGER=""
-    local INSTALL_CMD=() # WICHTIG: Befehls-Array-Deklaration
-    local PACKAGES_TO_INSTALL=() # WICHTIG: Paket-Array-Deklaration
+    local INSTALL_CMD=()
+    local PACKAGES_TO_INSTALL=()
 
-    # --- 2. Distributionserkennung und Paketzuteilung (mit Arrays) ---
+    # --- 2. Distributionserkennung und Paketzuteilung (Mit korrigierten Namen) ---
 
     if command -v apt &> /dev/null; then
         PKG_MANAGER="apt (Debian/Ubuntu-Familie)"
-        # Installation und Update werden getrennt behandelt, um '&&' in einem Array zu vermeiden
         INSTALL_CMD=("sudo" "apt" "install" "-y" "--no-install-recommends")
-        PACKAGES_TO_INSTALL=("git" "cmake" "ccache" "build-essential" "libcurl4-openssl-dev" "libonednn-dev")
-
+        # libonednn-dev wird entfernt, da oneAPI die MKL/DNN-Libs bereitstellt
+        PACKAGES_TO_INSTALL=("git" "cmake" "ccache" "build-essential" "libcurl4-openssl-dev")
+        # Update ausführen
         log "   -> Führe 'sudo apt update' aus..."
-        sudo apt update || warning "⚠️ Apt update fehlgeschlagen. Installation wird versucht, aber könnte fehlschlagen."
+        sudo apt update || warning "⚠️ Apt update fehlgeschlagen. Installation wird versucht."
 
 
     elif command -v dnf &> /dev/null; then
         PKG_MANAGER="dnf (Red Hat/Fedora-Familie)"
         INSTALL_CMD=("sudo" "dnf" "install" "-y")
-        PACKAGES_TO_INSTALL=("git" "cmake" "ccache" "@development-tools" "curl-devel" "onednn-devel")
+        # Entwicklungstools und curl-devel
+        PACKAGES_TO_INSTALL=("git" "cmake" "ccache" "@development-tools" "curl-devel")
 
     elif command -v zypper &> /dev/null; then
-        PKG_MANAGER="zypper (SUSE-Familie)"
+        # *** KORREKTUR FÜR SUSE ***
+        PKG_MANAGER="zypper (SUSE-Familie) - **Paketnamen korrigiert**"
         INSTALL_CMD=("sudo" "zypper" "install" "-y")
-        PACKAGES_TO_INSTALL=("git" "cmake" "ccache" "patterns-devel_basis" "libcurl-devel" "libonednn-devel")
+        # 'patterns-devel_basis' -> 'patterns-devel-base' (mit Bindestrich und 'base')
+        # 'libonednn-devel' -> Wir verlassen uns auf oneAPI, installieren nur die Basis-Tools.
+        PACKAGES_TO_INSTALL=("git" "cmake" "ccache" "patterns-devel-base" "libcurl-devel")
 
     elif command -v pacman &> /dev/null; then
+        # *** ARCH/GARUDA (Funktioniert, bleibt unverändert) ***
         PKG_MANAGER="pacman (Arch/Garuda-Familie)"
         INSTALL_CMD=("sudo" "pacman" "-Syu" "--needed")
         PACKAGES_TO_INSTALL=("git" "cmake" "ccache" "base-devel" "onednn")
@@ -65,16 +70,14 @@ install_dependencies() {
     log "Verwende ${PKG_MANAGER} zur Installation der Abhängigkeiten."
     log "Die zu installierenden Pakete sind: ${PACKAGES_TO_INSTALL[*]}"
 
-    # --- 3. Installation ausführen (mit korrekter Array-Expansion) ---
+    # --- 3. Installation ausführen ---
     log "Starte Installation..."
-    # Wichtig: Die Arrays MÜSSEN mit "${ARRAY[@]}" expandiert werden, um die Elemente
-    # korrekt als einzelne Argumente an das Installationsprogramm zu übergeben.
 
     if "${INSTALL_CMD[@]}" "${PACKAGES_TO_INSTALL[@]}"; then
         success "✅ Alle Basis-Abhängigkeiten und Curl-Entwickler-Dateien erfolgreich installiert."
         return 0
     else
-        error "❌ Fehler beim Installieren der Pakete mit ${PKG_MANAGER}. Bitte überprüfen Sie Ihre Repository-Zugriff."
+        error "❌ Fehler beim Installieren der Pakete mit ${PKG_MANAGER}. Bitte überprüfen Sie die Paketnamen/Repository-Zugriff."
     fi
 }
 
