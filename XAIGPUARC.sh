@@ -44,7 +44,7 @@ warning() { echo -e "⚠️ $*\n"; }
 err() { error "$*"; }
 warn() { echo -e "⚠️ $*"; }
 
-#-- [0] Umgebung vorbereiten - FINALER FIX: Extrem robuste Fallback-Logik
+#-- [0] Umgebung vorbereiten--
 
 prepare_environment() {
     log "Aktiviere Intel oneAPI Umgebung (MKL, SYCL/C++ Headers)..."
@@ -72,6 +72,8 @@ prepare_environment() {
     export ONEAPI_ROOT
 
     export CPATH="${CPATH:-}:${MKL_ROOT}/include"
+    local LIB_DIR="/opt/intel/oneapi/compiler/latest/lib:/opt/intel/oneapi/mkl/latest/lib"
+    export LD_LIBRARY_PATH="./${BUILD_DIR}/bin:${LIB_DIR}:${LD_LIBRARY_PATH:-}"
 
     # -Prüfen ob Compiler existiert-
     if ! command -v icx &>/dev/null; then
@@ -245,20 +247,21 @@ auto_select_device() {
         return
     fi
 
-    #-Liste Geräte auf-
+    #-Liste Geräte auf und erfasse den Output-
     local DEVICES
-    DEVICES=$("${FULL_LS_PATH}" 2>/dev/null) # Führt die Binary aus dem korrekten Pfad aus
+
+    DEVICES=$(bash -c "${FULL_LS_PATH}")
 
     if [ -z "$DEVICES" ]; then
-        warn "⚠️ No SYCL devices detected, using CPU fallback."
-        export ONEAPI_DEVICE_SELECTOR="opencl:cpu"
-        DEVICE="CPU"
+        warn "⚠️ No SYCL devices detected. The system reported an error or zero devices."
+        export ONEAPI_DEVICE_SELECTOR="level_zero:0"
+        DEVICE="ARC"
         N_GPU_LAYERS=0
         return
     fi
 
     local ARC_ID
-    ARC_ID=$(echo "$DEVICES" | grep -i "Intel(R) Arc" | head -n1 | awk '{print $1}')
+    ARC_ID=$(echo "$DEVICES" | grep -i "Intel Arc" | head -n1 | awk '{print $1}')
 
     local IGPU_ID
     IGPU_ID=$(echo "$DEVICES" | grep -Ei "Iris|Xe|Graphics" | head -n1 | awk '{print $1}')
@@ -266,7 +269,7 @@ auto_select_device() {
     local TARGET_LINE=""
 
     if [ -n "$ARC_ID" ]; then
-        TARGET_LINE=$(echo "$DEVICES" | grep -i "Intel(R) Arc" | head -n1)
+        TARGET_LINE=$(echo "$DEVICES" | grep -i "Intel Arc" | head -n1)
         DEVICE="ARC"
 
     elif [ -n "$IGPU_ID" ]; then
@@ -286,7 +289,8 @@ auto_select_device() {
         export ONEAPI_DEVICE_SELECTOR="level_zero:${TARGET_ID}"
         log "🎯 Using Intel ${DEVICE} (Device ${TARGET_ID})"
 
-        local VRAM_GIB=$(echo "$TARGET_LINE" | grep -oP '\d+\.\d+(?=\s*GiB)' | head -n1 | cut -d'.' -f1 || echo 16)
+        local VRAM_GIB=$(echo "$TARGET_LINE" | grep -oP '\d+(?=M)' | head -n1)
+        VRAM_GIB=$((VRAM_GIB / 1024)) # MIB zu GIB
 
         local LAYER_SIZE_MIB=350
         local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
