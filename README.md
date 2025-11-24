@@ -20,3 +20,6 @@ If that is done you should be able to start the PREXAIGPUARC
 ./PREXAIGPUARC
 
 The build will start every time full new until i changed that! It needs some Minutes, dependet on your Hardware.
+
+
+In some cases (known from Arch Garuda Linux) , you need to Install the "intel-oneapi-basekit" manuall over your paket manager!!!
