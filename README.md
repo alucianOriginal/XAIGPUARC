@@ -1,5 +1,5 @@
 # XAIGPUARC
-This is AI Installation Tool specialised for Linux Arch Garuda and ARC Intel GPUs to run over SYCL.
+This is AI Installation Tool specialised for Linux (Debian, Red Hat, Arch and Suse Family) and ARC Intel GPUs to run over SYCL.
 
 Tested with the help of my good old friend jeyf123! 
 
