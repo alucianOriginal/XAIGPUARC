@@ -1,9 +1,9 @@
 # XAIGPUARC
 This is AI Installation Tool specialised for Linux Arch Garuda and ARC Intel GPUs to run over SYCL.
 
-In this statium the XAIGPUARC is just a little Tool without anything, you wish to have. So expect a lot more Funktions would follow up in the next time.
+Tested with the help of my good old friend jeyf123! 
 
-For now you have to do a lot own work to make a good chat with your AI. 
+Early Version. You need to change the AI Name in XAIGPUARC for your onw AI wish.
+You need to change the Promt yourself until i build in the Chat function.
 
-Please be patient for more. Thank you for watching and do not blame a half year doing Vibe Coder. 
-
+Do the AI in the /models Folder who is created in the first build to start. 
