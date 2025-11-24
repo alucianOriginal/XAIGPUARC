@@ -1,13 +1,10 @@
 #!/bin/bash
 #=============================================================================
-# PREXAIGPUARC.SH
+# PREXAIGPUARC.SH - Version 2.0 (Distro-Agnostisch)
 #
-# Dieses Bash-Shell-Skript bereitet die notwendige Umgebung (Abhängigkeiten,
-# OneAPI-Toolkit) unter Arch/Garuda Linux vor und startet den Build-Prozess.
-#
-# FÜR DIE AUSFÜHRUNG: Speichern Sie dieses Skript als PREXAIGPUARC.sh
-# und führen Sie es im Terminal aus:
-# bash PREXAIGPUARC.sh [Optionale Argumente für XAIGPUARC.sh]
+# Dieses Skript erkennt automatisch den Paketmanager (Arch/Debian/RedHat/SUSE)
+# und installiert die notwendigen Build-Abhängigkeiten, einschließlich
+# der Curl-Entwickler-Dateien.
 #=============================================================================
 
 # Exit bei Fehlern, Pipe-Fehler abfangen, IFS setzen
@@ -18,32 +15,70 @@ IFS=$'\n\t'
 
 log() { echo -e "🔷 $*"; }
 success() { echo -e "✅ $*"; }
-error() { echo -e "❌ $*"; }
+error() { echo -e "❌ $*"; exit 1; }
 warning() { echo -e "⚠️ $*"; }
 
-# --- Funktionen ---
+# --- NEUE FUNKTION: Paketmanager erkennen und Abhängigkeiten installieren ---
 
 install_dependencies() {
-    log "Installiere Basis-Abhängigkeiten (git, cmake, ccache, base-devel, onednn) via pacman..."
+    log "🔍 Starte die automatische Erkennung des Paketmanagers..."
 
-    # 'command -v' prüft, ob der Befehl existiert.
     if ! command -v sudo &> /dev/null; then
-        error "'sudo' Befehl nicht gefunden. Stellen Sie sicher, dass Sie mit Admin-Rechten arbeiten."
-        return 1
+        error "'sudo' Befehl nicht gefunden. Stellen Sie sicher, dass Sie als Benutzer mit Admin-Rechten arbeiten."
     fi
 
-    # Installiere die erforderlichen Pakete (Best-Practice für Arch/Garuda)
-    # '-Syu' aktualisiert zuerst, '--needed' vermeidet Neuinstallationen
-    sudo pacman -Syu --needed git cmake ccache base-devel onednn
+    local PKG_MANAGER=""
+    local INSTALL_CMD=() # WICHTIG: Befehls-Array-Deklaration
+    local PACKAGES_TO_INSTALL=() # WICHTIG: Paket-Array-Deklaration
 
-    # Prüft den Exit-Code des letzten Befehls
-    if [ $? -ne 0 ]; then
-        error "Fehler beim Installieren der Pakete mit pacman."
-        return 1
+    # --- 2. Distributionserkennung und Paketzuteilung (mit Arrays) ---
+
+    if command -v apt &> /dev/null; then
+        PKG_MANAGER="apt (Debian/Ubuntu-Familie)"
+        # Installation und Update werden getrennt behandelt, um '&&' in einem Array zu vermeiden
+        INSTALL_CMD=("sudo" "apt" "install" "-y" "--no-install-recommends")
+        PACKAGES_TO_INSTALL=("git" "cmake" "ccache" "build-essential" "libcurl4-openssl-dev" "libonednn-dev")
+
+        log "   -> Führe 'sudo apt update' aus..."
+        sudo apt update || warning "⚠️ Apt update fehlgeschlagen. Installation wird versucht, aber könnte fehlschlagen."
+
+
+    elif command -v dnf &> /dev/null; then
+        PKG_MANAGER="dnf (Red Hat/Fedora-Familie)"
+        INSTALL_CMD=("sudo" "dnf" "install" "-y")
+        PACKAGES_TO_INSTALL=("git" "cmake" "ccache" "@development-tools" "curl-devel" "onednn-devel")
+
+    elif command -v zypper &> /dev/null; then
+        PKG_MANAGER="zypper (SUSE-Familie)"
+        INSTALL_CMD=("sudo" "zypper" "install" "-y")
+        PACKAGES_TO_INSTALL=("git" "cmake" "ccache" "patterns-devel_basis" "libcurl-devel" "libonednn-devel")
+
+    elif command -v pacman &> /dev/null; then
+        PKG_MANAGER="pacman (Arch/Garuda-Familie)"
+        INSTALL_CMD=("sudo" "pacman" "-Syu" "--needed")
+        PACKAGES_TO_INSTALL=("git" "cmake" "ccache" "base-devel" "onednn")
+
+    else
+        error "Kein unterstützter Paketmanager (apt, dnf, zypper, pacman) gefunden."
     fi
 
-    success "Basis-Abhängigkeiten installiert."
+    log "Verwende ${PKG_MANAGER} zur Installation der Abhängigkeiten."
+    log "Die zu installierenden Pakete sind: ${PACKAGES_TO_INSTALL[*]}"
+
+    # --- 3. Installation ausführen (mit korrekter Array-Expansion) ---
+    log "Starte Installation..."
+    # Wichtig: Die Arrays MÜSSEN mit "${ARRAY[@]}" expandiert werden, um die Elemente
+    # korrekt als einzelne Argumente an das Installationsprogramm zu übergeben.
+
+    if "${INSTALL_CMD[@]}" "${PACKAGES_TO_INSTALL[@]}"; then
+        success "✅ Alle Basis-Abhängigkeiten und Curl-Entwickler-Dateien erfolgreich installiert."
+        return 0
+    else
+        error "❌ Fehler beim Installieren der Pakete mit ${PKG_MANAGER}. Bitte überprüfen Sie Ihre Repository-Zugriff."
+    fi
 }
+
+# --- Funktionen (Rest wie gehabt) ---
 
 install_intel_oneapi_toolkit() {
     log "Überprüfung der Intel oneAPI Toolkit Installation..."
@@ -64,41 +99,37 @@ install_intel_oneapi_toolkit() {
 # --- Hauptablauf ---
 
 main_flow() {
-    log "=== STARTE: XAIGPUARC Build-Vorbereitung (Bash) ==="
+    log "=== STARTE: XAIGPUARC Build-Vorbereitung (Bash, Distro-Agnostisch) ==="
 
-    # [1] Abhängigkeiten installieren
-    if install_dependencies; then
+    # [1] Abhängigkeiten installieren (Jetzt Distro-Agnostisch)
+    install_dependencies # Exit bei Fehler durch 'set -e' in der Skript-Kopfzeile
 
-        # [2] OneAPI Installation prüfen
-        if install_intel_oneapi_toolkit; then
+    # [2] OneAPI Installation prüfen
+    if install_intel_oneapi_toolkit; then
 
-            echo ""
-            echo "✨ VORBEREITUNG ABGESCHLOSSEN! Abhängigkeiten und oneAPI sind vorhanden. ✨"
-            echo ""
-            echo "--- NÄCHSTER SCHRITT ---"
+        echo ""
+        echo "✨ VORBEREITUNG ABGESCHLOSSEN! Abhängigkeiten und oneAPI sind vorhanden. ✨"
+        echo ""
+        echo "--- NÄCHSTER SCHRITT ---"
 
-            # [3] Prüfe und starte das Haupt-Build-Skript (XAIGPUARC.sh)
-            if [ -f "./XAIGPUARC.sh" ]; then
-                log "🚀 STARTE XAIGPUARC.sh (Das Haupt-Build-Skript) direkt..."
+        # [3] Prüfe und starte das Haupt-Build-Skript (XAIGPUARC.sh)
+        if [ -f "./XAIGPUARC.sh" ]; then
+            log "🚀 STARTE XAIGPUARC.sh (Das Haupt-Build-Skript) direkt..."
 
-                # Führe XAIGPUARC.sh mit allen Argumenten der PREP-Datei aus
-                # Das Hauptskript lädt die oneAPI-Umgebung (setvars.sh) selbst.
-                bash "./XAIGPUARC.sh" "$@"
+            # Führe XAIGPUARC.sh mit allen Argumenten der PREP-Datei aus
+            bash "./XAIGPUARC.sh" "$@"
 
-                if [ $? -ne 0 ]; then
-                    error "Das Haupt-Build-Skript (XAIGPUARC.sh) ist mit einem Fehler beendet."
-                else
-                    success "XAIGPUARC.sh wurde erfolgreich ausgeführt."
-                fi
+            if [ $? -ne 0 ]; then
+                error "Das Haupt-Build-Skript (XAIGPUARC.sh) ist mit einem Fehler beendet."
             else
-                warning "KONVENTION: Bitte speichern Sie das Haupt-Build-Skript als **XAIGPUARC.sh**"
-                warning "   und starten Sie es manuell: bash ./XAIGPUARC.sh [args]"
+                success "XAIGPUARC.sh wurde erfolgreich ausgeführt."
             fi
         else
-            error "Kritischer Fehler bei der oneAPI-Überprüfung."
+            warning "KONVENTION: Bitte speichern Sie das Haupt-Build-Skript als **XAIGPUARC.sh**"
+            warning "   und starten Sie es manuell: bash ./XAIGPUARC.sh [args]"
         fi
     else
-        error "Kritischer Fehler bei der Installation der Abhängigkeiten."
+        error "Kritischer Fehler bei der oneAPI-Überprüfung."
     fi
 
     log "=== ENDE: XAIGPUARC Build-Vorbereitung ==="
