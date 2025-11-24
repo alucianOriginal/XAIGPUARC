@@ -10,17 +10,22 @@
 #----------------------------------------------------------------------------------
 #----------------------------------------------------------------------------------
 #-Globale Variablen-
+
 set -euo pipefail
 IFS=$'\n\t'
 
 # Standardwerte
 PRECISION="FP16"
-DEVICE="ARC" # Standard-Fallback
+DEVICE="ARC"
 LLAMA_CPP_DIR="llama.cpp"
-BUILD_DIR="${BUILD_DIR:-build-sycl}"
+BUILD_DIR="${BUILD_DIR:-XAIGPUARC}"
 
 CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"
 NPROC="${NPROC:-$(nproc)}"
+
+# SYCL-Build: ausführbare Datei liegt im Build-Stammverzeichnis
+LLAMA_BIN_DIR="${BUILD_DIR}"
+LLAMA_BIN="${LLAMA_BIN_DIR}/llama"
 
 # oneAPI + SYCL Umgebungsvariablen
 export TCM_ROOT="${TCM_ROOT:-/opt/intel/oneapi/tcm/latest}"
@@ -39,7 +44,7 @@ warning() { echo -e "⚠️ $*\n"; }
 err() { error "$*"; }
 warn() { echo -e "⚠️ $*"; }
 
-#-- [0] Umgebung vorbereiten - FINALER FIX: Extrem robuste Fallback-Logik
+#-- [0] Umgebung vorbereiten
 
 prepare_environment() {
     log "Aktiviere Intel oneAPI Umgebung (MKL, SYCL/C++ Headers)..."
@@ -51,19 +56,14 @@ prepare_environment() {
     fi
 
     log "Sourcing setvars.sh, um DPCPP_ROOT und MKL_ROOT zu setzen..."
-    # Source ohne Pipe, Fehler umleiten
+
     source "$SETVARS_PATH" --force 2>/dev/null
 
-    # --- KRITISCHER FIX FÜR LEERE VARIABLEN ---
-    # Da setvars.sh die Variablen nicht zuverlässig setzt, stellen wir sicher, dass
-    # die Werte auf die bekannten, korrekten Pfade gesetzt werden, falls sie leer sind.
-
-    # 1. Fallback-Werte definieren (basierend auf deinem oneAPI Pfad)
+    # 1. Fallback-Werte definieren 
     local ONEAPI_ROOT_FALLBACK="/opt/intel/oneapi"
     local COMPILER_VERSION_FALLBACK="${COMPILER_VERSION:-2025.0}"
 
-    # 2. Setze die Variablen auf den Fallback-Pfad, falls sie leer sind.
-    # Dies ist die robusteste Form der Zuweisung in Bash:
+    # 2. Setze die Variablen auf den Fallback-Pfad
     DPCPP_ROOT="${DPCPP_ROOT:-${ONEAPI_ROOT_FALLBACK}/compiler/${COMPILER_VERSION_FALLBACK}}"
     MKL_ROOT="${MKL_ROOT:-${ONEAPI_ROOT_FALLBACK}/mkl/${COMPILER_VERSION_FALLBACK}}"
     ONEAPI_ROOT="${ONEAPI_ROOT:-${ONEAPI_ROOT_FALLBACK}}"
@@ -113,20 +113,18 @@ setup_project() {
     fi
 }
 
-#-- [05] Robuster Single-Shot Patch für Header-Probleme (FINALER PATCHING-FIX) -------------------------
+#-- [05] Robuster Single-Shot Patch für Header-Probleme -------------------------
 
 patch_llama_cpp() {
     log "🔷 🔷 🩹 Patches für ggml-sycl anwenden (Header & CMake)..."
-    local LLAMA_CPP_DIR="llama.cpp" # Annahme, dass diese Variable global gesetzt ist, falls nicht, anpassen
+    local LLAMA_CPP_DIR="llama.cpp"
     local DPCT_HELPER_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/dpct/helper.hpp"
     local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
 
-    # Hinweis: Der Check auf das Hauptverzeichnis und Submodule sollte in setup_project erfolgen.
 
     # --- Patch 1: dpct/helper.hpp (MKL/Math Header Korrektur) ---
     if [ -f "$DPCT_HELPER_FILE" ]; then
-        # **KORREKTUR:** Ersetzt 'oneapi/math.hpp' durch das korrekte 'sycl/ext/intel/math.hpp',
-        # da der alte Pfad den 'file not found' Fehler im Build-Log (Zeile 22) verursacht.
+
         log "🔷     -> Patch 1/2: dpct/helper.hpp anpassen (Header Fix zu sycl/ext/intel/math.hpp)."
 
         # Sed-Befehl zum Ersetzen des gesamten MKL/Math Header Blocks
@@ -192,7 +190,6 @@ configure_build() {
 
         log "   -> Starte CMake-Konfiguration (Release, SYCL, FP-Mode: ${FP_FLAG})..."
 
-        # FIX: Verwende "../${LLAMA_CPP_DIR}", um von build-sycl/ auf llama.cpp/ zuzugreifen
         cmake "../${LLAMA_CPP_DIR}" \
             -G "Unix Makefiles" \
             -DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}" \
@@ -228,13 +225,11 @@ compile_project() {
     log "🔷 📝 Der gesamte Kompilierungs-Output wird in **${BUILD_DIR}/${LOG_FILE}** gespeichert."
     log "🔷 🎯 Setze Haupt-Build-Target auf den vorhandenen Namen: **llama**"
 
-    # In das Build-Verzeichnis wechseln (dies behebt den Fehler)
+    # In das Build-Verzeichnis wechseln
     if pushd "${BUILD_DIR}" > /dev/null; then
 
         log "🏗 Kompiliere Haupt-Target: llama (Output wird umgeleitet)"
 
-        # Die Kompilierung ausführen und Output in die Log-Datei im aktuellen Verzeichnis umleiten
-        # Das Build-Target ist der aktuelle Ordner (`.`), da wir hineingewechselt sind.
         cmake --build . --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama > "${LOG_FILE}" 2>&1
 
         local BUILD_STATUS=$?
@@ -252,14 +247,15 @@ compile_project() {
     fi
 }
 
-#-- [4] Gerät automatisch auswählen (Beibehalten für Vollständigkeit) ----------------
+#-- [4] Gerät automatisch auswählen ----------------
 
 auto_select_device() {
 
 log "🔍 Detecting available SYCL / Level Zero devices ..."
 
 # -Liste Geräte-
-if [ ! -x "./bin/llama-ls-sycl-device" ]; then
+
+if [ ! -x "${LLAMA_BIN_DIR}/llama-ls-sycl-device" ]; then
     log "⚙️ Building llama-ls-sycl-device for device detection ..."
     export ONEAPI_DEVICE_SELECTOR="level_zero:0"
     DEVICE="ARC" # Standard-Fallback
@@ -269,7 +265,8 @@ fi
 
 #-Liste Geräte auf-
 local DEVICES
-DEVICES=$(./bin/llama-ls-sycl-device 2>/dev/null)
+
+DEVICES=$("${LLAMA_BIN_DIR}/llama-ls-sycl-device" 2>/dev/null)
 
 if [ -z "$DEVICES" ]; then
     warn "⚠️ No SYCL devices detected, using CPU fallback."
@@ -310,7 +307,7 @@ if [ -n "$TARGET_LINE" ]; then
         export ONEAPI_DEVICE_SELECTOR="level_zero:${TARGET_ID}"
         log "🎯 Using Intel ${DEVICE} (Device ${TARGET_ID})"
 
-        # VRAM-Berechnung beibehalten (vereinfacht)
+        # VRAM-Berechnung
         local VRAM_GIB=$(echo "$TARGET_LINE" | grep -oP '\d+\.\d+(?=\s*GiB)' | head -n1 | cut -d'.' -f1 || echo 16)
 
         local LAYER_SIZE_MIB=350
@@ -333,8 +330,9 @@ fi
 
 list_sycl_devices() {
 log "🔍 Listing SYCL devices ..."
-if [ -f "./bin/llama-ls-sycl-device" ]; then
-./bin/llama-ls-sycl-device
+
+if [ -f "${LLAMA_BIN_DIR}/llama-ls-sycl-device" ]; then
+"${LLAMA_BIN_DIR}/llama-ls-sycl-device"
 else
 warn "⚠️ llama-ls-sycl-device binary not found. Konnte Geräte nicht auflisten."
 fi
@@ -368,7 +366,8 @@ local NGL_SET=${N_GPU_LAYERS:-99}
 log "🚀 Running inference on **${DEVICE} (ID: ${GPU_ID})** with ngl=${NGL_SET}..."
 
 # ZES_ENABLE_SYSMAN=1 für Monitoring.
-ZES_ENABLE_SYSMAN=1 ./bin/llama-sycl \
+
+ZES_ENABLE_SYSMAN=1 "${LLAMA_BIN_DIR}/llama" \
     -no-cnv \
     -m "${MODEL_PATH_ARG}" \
     -p "${PROMPT_ARG}" \
