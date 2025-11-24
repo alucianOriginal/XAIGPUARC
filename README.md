@@ -1,5 +1,5 @@
 # XAIGPUARC
-This is a AI Installation Tool specialised for Linux (Debian, Red Hat, Arch and Suse Family) and ARC Intel GPUs to run over SYCL.
+This is a AI Installation Tool specialised for Linux (Debian, Red Hat, Arch and Suse Family) and ARC Intel GPUs to run over SYCL with Llama.cpp.
 If you are a Windows User, i personal recommend to use the AIPlayground Programm from Intel itself! You see there is no need to make a Windows Version of XAIGPUARC.
 
 ----------------------------------------------
