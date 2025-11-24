@@ -67,6 +67,16 @@ install_dependencies() {
         error "Kein unterstützter Paketmanager (apt, dnf, zypper, pacman) gefunden."
     fi
 
+    # Versuche es mit Pattern-Installation für zypper, falls der erste Versuch fehlschlägt
+    if [ "${PKG_MANAGER:0:6}" == "zypper" ]; then
+        if sudo zypper install -y --type pattern "${PACKAGES_TO_INSTALL[@]}"; then
+             success "✅ Alle Basis-Abhängigkeiten (inkl. Pattern) und Curl-Entwickler-Dateien erfolgreich installiert."
+             return 0
+        else
+            error "❌ Fehler beim Installieren der Pakete/Patterns mit ${PKG_MANAGER}. Bitte überprüfen Sie die Paketnamen/Repository-Zugriff."
+        fi
+    fi
+
     log "Verwende ${PKG_MANAGER} zur Installation der Abhängigkeiten."
     log "Die zu installierenden Pakete sind: ${PACKAGES_TO_INSTALL[*]}"
 
