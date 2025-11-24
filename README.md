@@ -79,7 +79,7 @@ Das Skript erstellt während des Builds automatisch einen Ordner ~/llama.cpp/mod
 Laden Sie ein GGUF-Modell Ihrer Wahl (z.B. ein Mistral- oder Llama-Modell) herunter und legen Sie es in diesem Ordner ab.
 
 ----------------------------------------------
-Wichtig für eigenen Modelloptionen!!!
+Wichtig für eigene Modelloptionen!!!
 ----------------------------------------------
 
 Standard-Modellpfad: Das Skript ist standardmäßig auf models/openhermes-2.5-mistral-7b.Q4_K_M.gguf eingestellt. Um ein anderes Modell zu verwenden, müssen Sie dessen
