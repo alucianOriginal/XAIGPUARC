@@ -10,22 +10,22 @@
 #----------------------------------------------------------------------------------
 #----------------------------------------------------------------------------------
 #-Globale Variablen-
-
 set -euo pipefail
 IFS=$'\n\t'
 
 # Standardwerte
 PRECISION="FP16"
-DEVICE="ARC"
+DEVICE="ARC" # Standard-Fallback
 LLAMA_CPP_DIR="llama.cpp"
 BUILD_DIR="${BUILD_DIR:-XAIGPUARC}"
 
 CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"
 NPROC="${NPROC:-$(nproc)}"
 
-# SYCL-Build: ausführbare Datei liegt im Build-Stammverzeichnis
-LLAMA_BIN_DIR="${BUILD_DIR}"
-LLAMA_BIN="${LLAMA_BIN_DIR}/llama"
+
+LLAMA_CLI_PATH="bin/llama-cli"
+LS_SYCL_DEVICE_PATH="bin/llama-ls-sycl-device"
+# ---------------------------------
 
 # oneAPI + SYCL Umgebungsvariablen
 export TCM_ROOT="${TCM_ROOT:-/opt/intel/oneapi/tcm/latest}"
@@ -44,7 +44,7 @@ warning() { echo -e "⚠️ $*\n"; }
 err() { error "$*"; }
 warn() { echo -e "⚠️ $*"; }
 
-#-- [0] Umgebung vorbereiten
+#-- [0] Umgebung vorbereiten - FINALER FIX: Extrem robuste Fallback-Logik
 
 prepare_environment() {
     log "Aktiviere Intel oneAPI Umgebung (MKL, SYCL/C++ Headers)..."
@@ -56,24 +56,21 @@ prepare_environment() {
     fi
 
     log "Sourcing setvars.sh, um DPCPP_ROOT und MKL_ROOT zu setzen..."
-
+    # Source ohne Pipe, Fehler umleiten
     source "$SETVARS_PATH" --force 2>/dev/null
 
-    # 1. Fallback-Werte definieren 
+    # --- KRITISCHER FIX FÜR LEERE VARIABLEN ---
     local ONEAPI_ROOT_FALLBACK="/opt/intel/oneapi"
     local COMPILER_VERSION_FALLBACK="${COMPILER_VERSION:-2025.0}"
 
-    # 2. Setze die Variablen auf den Fallback-Pfad
     DPCPP_ROOT="${DPCPP_ROOT:-${ONEAPI_ROOT_FALLBACK}/compiler/${COMPILER_VERSION_FALLBACK}}"
     MKL_ROOT="${MKL_ROOT:-${ONEAPI_ROOT_FALLBACK}/mkl/${COMPILER_VERSION_FALLBACK}}"
     ONEAPI_ROOT="${ONEAPI_ROOT:-${ONEAPI_ROOT_FALLBACK}}"
 
-    # 3. Variablen explizit exportieren.
     export DPCPP_ROOT
     export MKL_ROOT
     export ONEAPI_ROOT
 
-    # Zusätzliche Robustheit: Fügt den MKL Include Pfad zum CPATH hinzu
     export CPATH="${CPATH:-}:${MKL_ROOT}/include"
 
     # -Prüfen ob Compiler existiert-
@@ -91,7 +88,6 @@ setup_project() {
     log "📦 Setting up llama.cpp project..."
     if [ ! -d "${LLAMA_CPP_DIR}" ]; then
         log "   -> Klonen von llama.cpp..."
-        # Führe den Klon-Befehl aus
         git clone https://github.com/ggerganov/llama.cpp "${LLAMA_CPP_DIR}"
         if [ $? -ne 0 ]; then
             err "❌ Klonen von llama.cpp fehlgeschlagen. Breche ab."
@@ -99,11 +95,9 @@ setup_project() {
         fi
     fi
 
-    # Submodule initialisieren und aktualisieren (inklusive des dpct-Ordners)
     if pushd "${LLAMA_CPP_DIR}" > /dev/null; then
         log "   -> Aktualisiere und initialisiere Submodule..."
         git pull
-        # Submodule-Update ist KRITISCH für ggml-sycl/dpct/helper.hpp
         git submodule update --init --recursive
         popd > /dev/null
         success "✅ llama.cpp ready. (Repo und Submodule sind vorhanden)."
@@ -117,17 +111,12 @@ setup_project() {
 
 patch_llama_cpp() {
     log "🔷 🔷 🩹 Patches für ggml-sycl anwenden (Header & CMake)..."
-    local LLAMA_CPP_DIR="llama.cpp"
     local DPCT_HELPER_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/dpct/helper.hpp"
     local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
 
-
     # --- Patch 1: dpct/helper.hpp (MKL/Math Header Korrektur) ---
     if [ -f "$DPCT_HELPER_FILE" ]; then
-
         log "🔷     -> Patch 1/2: dpct/helper.hpp anpassen (Header Fix zu sycl/ext/intel/math.hpp)."
-
-        # Sed-Befehl zum Ersetzen des gesamten MKL/Math Header Blocks
         if sed -i 's|#if \!defined(DPCT\_USM\_LEVEL\_NONE) && defined(DPCT\_ENABLE\_MKL\_MATH).*#endif|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
             log "🔷     -> ✅ Patch 1/2 erfolgreich."
         else
@@ -143,7 +132,6 @@ patch_llama_cpp() {
     if [ -f "$CMAKE_LISTS_FILE" ]; then
         log "🔷     -> Patch 2/2: CMakeLists.txt anpassen (Alle Header-Pfade für icpx)."
 
-        # Lokale Pfad-Variablen (sollten aus der oneAPI-Umgebung stammen)
         local MKL_INCLUDE_PATH="${MKL_ROOT}/include"
         local COMPILER_INCLUDE_PATH="${DPCPP_ROOT}/include"
         local DPCPP_LIB_INCLUDE_PATH="${DPCPP_ROOT}/lib/dpcpp/include"
@@ -153,7 +141,6 @@ patch_llama_cpp() {
         local SEARCH_MARKER="# Add include directories for MKL headers"
 
         if ! grep -q "${COMPILER_INCLUDE_PATH}" "$CMAKE_LISTS_FILE"; then
-            # Den Sed-Befehl robuster gestalten, um Pfadzeichen zu escapen
             local SED_PATCH_LINE=$(echo "$PATCH_LINE" | sed 's/ /\\ /g; s/[\/&]/\\&/g')
             if sed -i "/${SEARCH_MARKER}/a $SED_PATCH_LINE" "$CMAKE_LISTS_FILE"; then
                 log "🔷     -> ✅ Patch 2/2 erfolgreich: Alle Header-Pfade injiziert."
@@ -179,13 +166,11 @@ configure_build() {
     local FP_MODE="${1:-1}" # Standard 1 (FP16)
     local FP_FLAG="-DGGML_SYCL_F16=${FP_MODE}"
 
-    # Erstelle das Build-Verzeichnis, falls es nicht existiert
     if [ ! -d "${BUILD_DIR}" ]; then
         log "   -> Erstelle Build-Verzeichnis: ${BUILD_DIR}"
         mkdir -p "${BUILD_DIR}" || { err "❌ Konnte das Build-Verzeichnis '${BUILD_DIR}' nicht erstellen."; return 1; }
     fi
 
-    # In das Build-Verzeichnis wechseln
     if pushd "${BUILD_DIR}" > /dev/null; then
 
         log "   -> Starte CMake-Konfiguration (Release, SYCL, FP-Mode: ${FP_FLAG})..."
@@ -202,7 +187,7 @@ configure_build() {
             -DCMAKE_CXX_STANDARD=17
 
         local CMAKE_STATUS=$?
-        popd > /dev/null # Zurück zum Ursprungsverzeichnis
+        popd > /dev/null
 
         if [ ${CMAKE_STATUS} -ne 0 ]; then
             err "❌ CMake-Konfiguration fehlgeschlagen."
@@ -220,23 +205,22 @@ configure_build() {
 
 compile_project() {
     log "🔨 Compiling llama.cpp (SYCL targets) using cmake --build..."
-    local LOG_FILE="build.log" # Log-Dateiname relativ zum BUILD_DIR
+    local LOG_FILE="build.log"
 
     log "🔷 📝 Der gesamte Kompilierungs-Output wird in **${BUILD_DIR}/${LOG_FILE}** gespeichert."
-    log "🔷 🎯 Setze Haupt-Build-Target auf den vorhandenen Namen: **llama**"
+    log "🔷 🎯 Setze Haupt-Build-Targets auf die ausführbaren Programme: llama-cli und llama-ls-sycl-device"
 
-    # In das Build-Verzeichnis wechseln
     if pushd "${BUILD_DIR}" > /dev/null; then
 
-        log "🏗 Kompiliere Haupt-Target: llama (Output wird umgeleitet)"
+        log "🏗 Kompiliere Haupt-Targets..."
 
-        cmake --build . --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama > "${LOG_FILE}" 2>&1
+        cmake --build . --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama-cli llama-ls-sycl-device > "${LOG_FILE}" 2>&1
 
         local BUILD_STATUS=$?
-        popd > /dev/null # Zurück zum Ursprungsverzeichnis
+        popd > /dev/null
 
         if [ ${BUILD_STATUS} -ne 0 ]; then
-            error "❌ Kompilierung des Haupt-Targets (llama) fehlgeschlagen. Überprüfen Sie **${BUILD_DIR}/${LOG_FILE}** für Details."
+            error "❌ Kompilierung der Haupt-Targets (llama-cli) fehlgeschlagen. Überprüfen Sie **${BUILD_DIR}/${LOG_FILE}** für Details."
             return 1
         fi
 
@@ -247,67 +231,61 @@ compile_project() {
     fi
 }
 
-#-- [4] Gerät automatisch auswählen ----------------
+#-- [4] Gerät automatisch auswählen ------------------------------------------------
 
 auto_select_device() {
+    log "🔍 Detecting available SYCL / Level Zero devices ..."
 
-log "🔍 Detecting available SYCL / Level Zero devices ..."
+    local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 
-# -Liste Geräte-
+    if [ ! -x "${FULL_LS_PATH}" ]; then
+        warn "⚠️ llama-ls-sycl-device Binary fehlt im Pfad: ${FULL_LS_PATH}. Fallback auf ARC dGPU."
+        export ONEAPI_DEVICE_SELECTOR="level_zero:0"
+        DEVICE="ARC" # Standard-Fallback
+        return
+    fi
 
-if [ ! -x "${LLAMA_BIN_DIR}/llama-ls-sycl-device" ]; then
-    log "⚙️ Building llama-ls-sycl-device for device detection ..."
-    export ONEAPI_DEVICE_SELECTOR="level_zero:0"
-    DEVICE="ARC" # Standard-Fallback
-    warn "⚠️ llama-ls-sycl-device Binary fehlt. Fallback auf ARC dGPU"
-    return
-fi
+    #-Liste Geräte auf-
+    local DEVICES
+    DEVICES=$("${FULL_LS_PATH}" 2>/dev/null) # Führt die Binary aus dem korrekten Pfad aus
 
-#-Liste Geräte auf-
-local DEVICES
+    if [ -z "$DEVICES" ]; then
+        warn "⚠️ No SYCL devices detected, using CPU fallback."
+        export ONEAPI_DEVICE_SELECTOR="opencl:cpu"
+        DEVICE="CPU"
+        N_GPU_LAYERS=0
+        return
+    fi
 
-DEVICES=$("${LLAMA_BIN_DIR}/llama-ls-sycl-device" 2>/dev/null)
+    local ARC_ID
+    ARC_ID=$(echo "$DEVICES" | grep -i "Intel(R) Arc" | head -n1 | awk '{print $1}')
 
-if [ -z "$DEVICES" ]; then
-    warn "⚠️ No SYCL devices detected, using CPU fallback."
-    export ONEAPI_DEVICE_SELECTOR="opencl:cpu"
-    DEVICE="CPU"
-    N_GPU_LAYERS=0
-    return
-fi
+    local IGPU_ID
+    IGPU_ID=$(echo "$DEVICES" | grep -Ei "Iris|Xe|Graphics" | head -n1 | awk '{print $1}')
 
-#-Suche nach ARC dGPU-
-local ARC_ID
-ARC_ID=$(echo "$DEVICES" | grep -i "Intel(R) Arc" | head -n1 | awk '{print $1}')
+    local TARGET_LINE=""
 
-#-Suche nach iGPU (Iris/Xe/Graphics/ARC-XE-LPG-iGPU)-
-local IGPU_ID
-IGPU_ID=$(echo "$DEVICES" | grep -Ei "Iris|Xe|Graphics" | head -n1 | awk '{print $1}')
+    if [ -n "$ARC_ID" ]; then
+        TARGET_LINE=$(echo "$DEVICES" | grep -i "Intel(R) Arc" | head -n1)
+        DEVICE="ARC"
 
-local TARGET_LINE=""
+    elif [ -n "$IGPU_ID" ]; then
+        TARGET_LINE=$(echo "$DEVICES" | grep -Ei "Iris|Xe|Graphics" | head -n1)
+        DEVICE="iGPU"
 
-if [ -n "$ARC_ID" ]; then
-    TARGET_LINE=$(echo "$DEVICES" | grep -i "Intel(R) Arc" | head -n1)
-    DEVICE="ARC"
+    else
+        export ONEAPI_DEVICE_SELECTOR="opencl:cpu"
+        DEVICE="CPU"
+        N_GPU_LAYERS=0
+        log "⚠️ No suitable GPU found, CPU fallback enabled."
+        return
+    fi
 
-elif [ -n "$IGPU_ID" ]; then
-    TARGET_LINE=$(echo "$DEVICES" | grep -Ei "Iris|Xe|Graphics" | head -n1)
-    DEVICE="iGPU"
-
-else
-    export ONEAPI_DEVICE_SELECTOR="opencl:cpu"
-    DEVICE="CPU"
-    N_GPU_LAYERS=0
-    log "⚠️ No suitable GPU found, CPU fallback enabled."
-    return
-fi
-
-if [ -n "$TARGET_LINE" ]; then
+    if [ -n "$TARGET_LINE" ]; then
         local TARGET_ID=$(echo "$TARGET_LINE" | awk '{print $1}')
         export ONEAPI_DEVICE_SELECTOR="level_zero:${TARGET_ID}"
         log "🎯 Using Intel ${DEVICE} (Device ${TARGET_ID})"
 
-        # VRAM-Berechnung
         local VRAM_GIB=$(echo "$TARGET_LINE" | grep -oP '\d+\.\d+(?=\s*GiB)' | head -n1 | cut -d'.' -f1 || echo 16)
 
         local LAYER_SIZE_MIB=350
@@ -323,82 +301,82 @@ if [ -n "$TARGET_LINE" ]; then
         fi
 
         log "🧠 Estimated ngl for offloading: **${N_GPU_LAYERS}** layers."
-fi
+    fi
 }
 
 #-- [5] SYCL-Geräte prüfen ---------------------------------------------------------
 
 list_sycl_devices() {
-log "🔍 Listing SYCL devices ..."
+    log "🔍 Listing SYCL devices ..."
+    local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 
-if [ -f "${LLAMA_BIN_DIR}/llama-ls-sycl-device" ]; then
-"${LLAMA_BIN_DIR}/llama-ls-sycl-device"
-else
-warn "⚠️ llama-ls-sycl-device binary not found. Konnte Geräte nicht auflisten."
-fi
+    if [ -f "${FULL_LS_PATH}" ]; then
+        "${FULL_LS_PATH}"
+    else
+        warn "⚠️ llama-ls-sycl-device binary not found in ${FULL_LS_PATH}. Konnte Geräte nicht auflisten."
+    fi
 }
 
 #-- [6] Modellpfad -----------------------------------------
 
 prepare_model() {
-MODEL_PATH=${1:-"models/gemma-3-27b-it-abliterated.q4_k_m.gguf"}
+    MODEL_PATH=${1:-"models/openhermes-2.5-mistral-7b.Q4_K_M.gguf"}
 
-mkdir -p models
+    mkdir -p models
 
-if [ ! -f "$MODEL_PATH" ]; then
-    warn "Model nicht gefunden unter **$MODEL_PATH**. Bitte vor Ausführung herunterladen!"
-fi
+    if [ ! -f "$MODEL_PATH" ]; then
+        warn "Model nicht gefunden unter **$MODEL_PATH**. Bitte vor Ausführung herunterladen!"
+    fi
 
-export MODEL_PATH
+    export MODEL_PATH
 }
 
 #-- [7] Inferenz ausführen ---------------------------------------------------------
 
 run_inference() {
-local DEFAULT_MODEL_PATH="models/gemma-3-27b-it-abliterated.q4_k_m.gguf"
-local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
-local PROMPT_ARG=${3:-"Hello from SYCL on Intel ARC!"}
+    local DEFAULT_MODEL_PATH="models/openhermes-2.5-mistral-7b.Q4_K_M.gguf"
+    local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
+    local PROMPT_ARG=${3:-"Hello from SYCL on Intel ARC!"}
+    local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
+    local NGL_SET=${N_GPU_LAYERS:-99}
+    local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 
-#-Extrahieren der automatisch ausgewählten GPU ID-
-local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
-local NGL_SET=${N_GPU_LAYERS:-99}
+    log "🚀 Running inference on **${DEVICE} (ID: ${GPU_ID})** with ngl=${NGL_SET} using **${FULL_LLAMA_CLI_PATH}**..."
 
-log "🚀 Running inference on **${DEVICE} (ID: ${GPU_ID})** with ngl=${NGL_SET}..."
+    # Check, ob das Binary existiert, bevor es aufgerufen wird
+    if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
+        err "❌ Fehler: Ausführbare Datei **llama-cli** nicht gefunden unter: ${FULL_LLAMA_CLI_PATH}. Build fehlgeschlagen?"
+        return 1
+    fi
 
-# ZES_ENABLE_SYSMAN=1 für Monitoring.
+    ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
+        -no-cnv \
+        -m "${MODEL_PATH_ARG}" \
+        -p "${PROMPT_ARG}" \
+        -n 512 \
+        -e \
+        -ngl "${NGL_SET}" \
+        --split-mode none \
+        --main-gpu "${GPU_ID}"
 
-ZES_ENABLE_SYSMAN=1 "${LLAMA_BIN_DIR}/llama" \
-    -no-cnv \
-    -m "${MODEL_PATH_ARG}" \
-    -p "${PROMPT_ARG}" \
-    -n 512 \
-    -e \
-    -ngl "${NGL_SET}" \
-    --split-mode none \
-    --main-gpu "${GPU_ID}"
-
-echo "✅ Inference complete."
+    echo "✅ Inference complete."
 }
 
 #-- [8] Main Flow ------------------------------------------------------------------
 
 main() {
-    # Setze FP-Präzision basierend auf dem ersten Argument (1=FP16, 0=FP32)
     local FP_MODE="${1:-1}"
 
     prepare_environment
 
     setup_project
 
-    # Der integrierte Fix
     patch_llama_cpp
 
-    # Konfiguration und Kompilierung
     configure_build "${FP_MODE}"
 
     compile_project
 
-    # Post-Kompilierung Schritte (Geräteerkennung und Run)
     auto_select_device
 
     list_sycl_devices
@@ -407,7 +385,7 @@ main() {
 
     run_inference "${2:-}" "${3:-}"
 
-    log "✨ Skript abgeschlossen. Binärdateien sind bereit in ${LLAMA_CPP_DIR}/${BUILD_DIR}/bin."
+    log "✨ Skript abgeschlossen. Binärdateien sind bereit in **${BUILD_DIR}/${LLAMA_CLI_PATH}** und **${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}**."
 }
 
 # Skript starten: FP16 (Standard) oder FP32 als erstes Argument
