@@ -23,3 +23,5 @@ The build will start every time full new until i changed that! It needs some Min
 
 
 In some cases (known from Arch Garuda Linux) , you need to Install the "intel-oneapi-basekit" manuall over your paket manager!!!
+
+Also the "oneDNN" Paket must be installed in the llama.cpp file! until i automated this! 
