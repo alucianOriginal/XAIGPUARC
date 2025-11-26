@@ -55,7 +55,7 @@ install_dependencies() {
         INSTALL_CMD=("sudo" "zypper" "install" "-y")
         # 'patterns-devel_basis' -> 'patterns-devel-base' (mit Bindestrich und 'base')
         # 'libonednn-devel' -> Wir verlassen uns auf oneAPI, installieren nur die Basis-Tools.
-        PACKAGES_TO_INSTALL=("git" "cmake" "ccache" "patterns-devel-base" "libcurl-devel")
+        PACKAGES_TO_INSTALL=("git" "cmake" "ccache" "patterns-devel-base-devel_basis" "libcurl-devel")
 
     elif command -v pacman &> /dev/null; then
         # *** ARCH/GARUDA (Funktioniert, bleibt unverändert) ***
