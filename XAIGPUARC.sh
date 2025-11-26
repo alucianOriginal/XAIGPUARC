@@ -403,35 +403,21 @@ main() {
     if [[ "$RERUN_BUILD" -eq 1 ]]; then
         log "🏗 Starte Build-Vorgang..."
 
-        # Führe setup_project ZUERST aus, da es das Verzeichnis
-        # für die nachfolgenden Schritte benötigt, auch wenn es ein Rebuild ist.
         setup_project
 
         patch_llama_cpp
-
-        # check_curl_dev (Diese Funktion existiert nicht im bereitgestellten Skript,
-        # ich habe sie hier entfernt, aber du musst sie ggf. einfügen, falls sie fehlt)
 
         configure_build "${FP_MODE}"
 
         compile_project
     else
-        # Wenn der Build übersprungen wird, musst du trotzdem das Repository
-        # aktualisieren und die Patches anwenden, falls sie neu sind oder
-        # sich das Repo geändert hat, aber OHNE neu zu kompilieren.
-        # Nur das Update des Repos und der Patches sollte ausgeführt werden.
+ 
         log "⚙ Update des llama.cpp Repositories und Überprüfung der Patches..."
         setup_project # Für git pull/submodule update
         patch_llama_cpp # Für die Header-Korrektur
     fi
 
-    # ⚠️ WICHTIG: Die folgenden Zeilen müssen GELÖSCHT oder AUSKOMMENTIERT werden,
-    # da sie den kompletten Build erzwingen:
-    #
-    # setup_project
-    # patch_llama_cpp
-    # configure_build "${FP_MODE}"
-    # compile_project
+
 
     auto_select_device
 
