@@ -22,7 +22,6 @@ BUILD_DIR="${BUILD_DIR:-XAIGPUARC}"
 CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"
 NPROC="${NPROC:-$(nproc)}"
 
-LLAMA_CURL_FLAG="ON"
 
 LLAMA_CLI_PATH="bin/llama-cli"
 LS_SYCL_DEVICE_PATH="bin/llama-ls-sycl-device"
@@ -88,23 +87,6 @@ prepare_environment() {
     fi
 
     log "✅ oneAPI environment loaded (DPCPP_ROOT=${DPCPP_ROOT} und MKL_ROOT=${MKL_ROOT})."
-}
-
-# --0001-- Universelle Curl-Entwickler-Prüfung -------------------------------------
-
-check_curl_dev() {
-    log "🔍 Prüfe auf vorhandene Curl-Entwickler-Dateien im Systempfad..."
-    # Prüfe nach dem Standard-Header-Pfad. curl-config ist auch eine Option,
-    # aber der Header-Check ist direkter für CMake.
-    if find /usr/include/ -name 'curl.h' 2>/dev/null | grep -q 'curl/curl.h'; then
-        log "   -> Curl-Header gefunden. **-DLLAMA_CURL=ON** wird verwendet."
-        LLAMA_CURL_FLAG="ON"
-    else
-        warning "   -> Curl-Header (z.B. curl/curl.h) NICHT im Standardpfad gefunden."
-        warning "   -> **Fallback: -DLLAMA_CURL=OFF** wird gesetzt, um den Build zu erzwingen."
-        LLAMA_CURL_FLAG="OFF"
-    fi
-    export LLAMA_CURL_FLAG # Exportieren, damit es in Unterfunktionen verfügbar ist
 }
 
 #-- [1] Projekt-Setup -------------------------------------------------------------
@@ -207,7 +189,6 @@ configure_build() {
             -DGGML_SYCL_CCACHE=ON \
             -DGGML_SYCL_F16=${FP_MODE} \
             -DGGML_SYCL_MKL_SYCL_BATCH_GEMM=1 \
-            -DLLAMA_CURL=${LLAMA_CURL_FLAG} \
             -DCMAKE_C_COMPILER=icx \
             -DCMAKE_CXX_COMPILER=icpx \
             -DCMAKE_CXX_STANDARD=17
@@ -392,11 +373,14 @@ run_inference() {
 
     echo "✅ Inference complete."
 }
+
 #-- [8] Main Flow ------------------------------------------------------------------
 
 main() {
     local FP_MODE="${1:-1}"
-    local RERUN_BUILD=1 # Standard: Gehe davon aus, dass ein Build erforderlich ist
+
+    # ⚠️ WICHTIG: Setze RERUN_BUILD standardmäßig auf 1 und überprüfe dann, ob es 0 sein kann.
+    local RERUN_BUILD=1
 
     prepare_environment
 
@@ -404,7 +388,7 @@ main() {
     local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 
     # --- PRÜFUNG: Build-Skip-Logik ---
-    
+
     if [[ -f "${FULL_LLAMA_CLI_PATH}" && -f "${FULL_LS_PATH}" ]]; then
         success "✅ Gefundene Binaries: ${FULL_LLAMA_CLI_PATH} und ${FULL_LS_PATH}"
         log "   -> Überspringe die Schritte Setup, Patch, Configure und Compile."
@@ -414,27 +398,47 @@ main() {
         RERUN_BUILD=1
     fi
 
-    # -----------------------------------
+    #----------------------------------------
 
     if [[ "$RERUN_BUILD" -eq 1 ]]; then
+        log "🏗 Starte Build-Vorgang..."
+
+        # Führe setup_project ZUERST aus, da es das Verzeichnis
+        # für die nachfolgenden Schritte benötigt, auch wenn es ein Rebuild ist.
         setup_project
-        
+
         patch_llama_cpp
-        
-        check_curl_dev
-        
+
+        # check_curl_dev (Diese Funktion existiert nicht im bereitgestellten Skript,
+        # ich habe sie hier entfernt, aber du musst sie ggf. einfügen, falls sie fehlt)
+
         configure_build "${FP_MODE}"
-        
+
         compile_project
+    else
+        # Wenn der Build übersprungen wird, musst du trotzdem das Repository
+        # aktualisieren und die Patches anwenden, falls sie neu sind oder
+        # sich das Repo geändert hat, aber OHNE neu zu kompilieren.
+        # Nur das Update des Repos und der Patches sollte ausgeführt werden.
+        log "⚙ Update des llama.cpp Repositories und Überprüfung der Patches..."
+        setup_project # Für git pull/submodule update
+        patch_llama_cpp # Für die Header-Korrektur
     fi
 
-    # Die folgenden Schritte müssen IMMER ausgeführt werden (Laufzeitumgebung):
+    # ⚠️ WICHTIG: Die folgenden Zeilen müssen GELÖSCHT oder AUSKOMMENTIERT werden,
+    # da sie den kompletten Build erzwingen:
+    #
+    # setup_project
+    # patch_llama_cpp
+    # configure_build "${FP_MODE}"
+    # compile_project
+
     auto_select_device
-    
+
     list_sycl_devices
-    
+
     prepare_model "${2:-}"
-    
+
     run_inference "${2:-}" "${3:-}"
 
     log "✨ Skript abgeschlossen. Binärdateien sind bereit in **${BUILD_DIR}/${LLAMA_CLI_PATH}** und **${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}**."
@@ -442,4 +446,3 @@ main() {
 
 # Skript starten: FP16 (Standard) oder FP32 als erstes Argument
 main "${1:-1}" "${2:-}" "${3:-}"
-
