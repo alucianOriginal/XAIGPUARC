@@ -367,7 +367,7 @@ run_inference() {
         -p "${PROMPT_ARG}" \
         -n 512 \
         -e \
-        -ngl "${NGL_SET}" \
+        -ngl -1 \
         --split-mode none \
         --main-gpu "${GPU_ID}"
 
