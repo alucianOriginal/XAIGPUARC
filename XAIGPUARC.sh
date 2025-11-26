@@ -332,7 +332,7 @@ list_sycl_devices() {
 #-- [6] Modellpfad -----------------------------------------
 
 prepare_model() {
-    MODEL_PATH=${1:-"models/openhermes-2.5-mistral-7b.Q4_K_M.gguf"}
+    MODEL_PATH=${1:-"models/openhermes-2.5-mistral-7b.Q8_0.gguf"}
 
     mkdir -p models
 
@@ -346,7 +346,7 @@ prepare_model() {
 #-- [7] Inferenz ausführen ---------------------------------------------------------
 
 run_inference() {
-    local DEFAULT_MODEL_PATH="models/openhermes-2.5-mistral-7b.Q4_K_M.gguf"
+    local DEFAULT_MODEL_PATH="models/openhermes-2.5-mistral-7b.Q8_0.gguf"
     local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
     local PROMPT_ARG=${3:-"Hello from SYCL on Intel ARC!"}
     local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
@@ -416,8 +416,6 @@ main() {
         setup_project # Für git pull/submodule update
         patch_llama_cpp # Für die Header-Korrektur
     fi
-
-
 
     auto_select_device
 
