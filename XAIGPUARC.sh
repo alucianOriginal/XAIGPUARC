@@ -392,30 +392,49 @@ run_inference() {
 
     echo "✅ Inference complete."
 }
-
 #-- [8] Main Flow ------------------------------------------------------------------
 
 main() {
     local FP_MODE="${1:-1}"
+    local RERUN_BUILD=1 # Standard: Gehe davon aus, dass ein Build erforderlich ist
 
     prepare_environment
 
-    setup_project
+    local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
+    local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 
-    patch_llama_cpp
+    # --- PRÜFUNG: Build-Skip-Logik ---
+    
+    if [[ -f "${FULL_LLAMA_CLI_PATH}" && -f "${FULL_LS_PATH}" ]]; then
+        success "✅ Gefundene Binaries: ${FULL_LLAMA_CLI_PATH} und ${FULL_LS_PATH}"
+        log "   -> Überspringe die Schritte Setup, Patch, Configure und Compile."
+        RERUN_BUILD=0
+    else
+        warning "⚠️ Keine Binaries gefunden. Starte erstmaligen Build/Rebuild."
+        RERUN_BUILD=1
+    fi
 
-    check_curl_dev
+    # -----------------------------------
 
-    configure_build "${FP_MODE}"
+    if [[ "$RERUN_BUILD" -eq 1 ]]; then
+        setup_project
+        
+        patch_llama_cpp
+        
+        check_curl_dev
+        
+        configure_build "${FP_MODE}"
+        
+        compile_project
+    fi
 
-    compile_project
-
+    # Die folgenden Schritte müssen IMMER ausgeführt werden (Laufzeitumgebung):
     auto_select_device
-
+    
     list_sycl_devices
-
+    
     prepare_model "${2:-}"
-
+    
     run_inference "${2:-}" "${3:-}"
 
     log "✨ Skript abgeschlossen. Binärdateien sind bereit in **${BUILD_DIR}/${LLAMA_CLI_PATH}** und **${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}**."
@@ -423,3 +442,4 @@ main() {
 
 # Skript starten: FP16 (Standard) oder FP32 als erstes Argument
 main "${1:-1}" "${2:-}" "${3:-}"
+
