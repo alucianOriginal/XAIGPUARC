@@ -106,7 +106,12 @@ ENDE
 🔧 Aktuelle Einschränkungen und bekannte Probleme
 -----------------------------------------------
 
-Jeder Start ein Full-Build: Aktuell startet das Skript bei jedem Aufruf einen vollständigen neuen Build. Dies wird in zukünftigen Versionen geändert.
+Es werden vom Programm grundsätzlich nicht alle Modelle vollständig Unterstützt. Eine Liste für funktionierende Modelle wird nachgereicht.
+
+Es wird empfohlen Q8 Modelle zu nutzen, um eine möglichst sichere Ausführung zu gewährleisten. 
+
+Der Bau des Programms kann nun bei wiederholung automatisch übergangen werden. Wenn der Bau nicht erfolgreich ist, oder es Probleme mit neuen Modellen gibt,
+löschen sie die Ordner und versuchen einen neuen Bau des Programms.
 
 Fehlendes Chat-Interface: Die Chat-Funktion ist noch nicht implementiert; Sie müssen den Prompt aktuell direkt über die Kommandozeilen-Argumente übergeben.
 
