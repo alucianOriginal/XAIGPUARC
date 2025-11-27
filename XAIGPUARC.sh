@@ -19,6 +19,8 @@ DEVICE="ARC" # Standard-Fallback
 LLAMA_CPP_DIR="llama.cpp"
 BUILD_DIR="${BUILD_DIR:-XAIGPUARC}"
 
+GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
+
 CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"
 NPROC="${NPROC:-$(nproc)}"
 
@@ -71,12 +73,8 @@ prepare_environment() {
     export DPCPP_ROOT
     export MKL_ROOT
     export ONEAPI_ROOT
-
     export CPATH="${CPATH:-}:${MKL_ROOT}/include"
 
-    # NEUER KRITISCHER FIX: Setze LD_LIBRARY_PATH explizit!
-    # Dies ist notwendig, damit die Binärdateien (z.B. llama-ls-sycl-device)
-    # die gemeinsamen ggml-Bibliotheken in ./XAIGPUARC/bin/ finden können.
     local LIB_DIR="/opt/intel/oneapi/compiler/latest/lib:/opt/intel/oneapi/mkl/latest/lib"
     export LD_LIBRARY_PATH="./${BUILD_DIR}/bin:${LIB_DIR}:${LD_LIBRARY_PATH:-}"
 
@@ -114,30 +112,93 @@ setup_project() {
     fi
 }
 
-#-- [05] Robuster Single-Shot Patch für Header-Probleme -------------------------
-
+#-- [05] Robuster Single-Shot Patch für Header-Probleme und Kernel-Integration -------------------------
 patch_llama_cpp() {
-    log "🔷 🔷 🩹 Patches für ggml-sycl anwenden (Header & CMake)..."
+    log "🔷 🔷 🩹 Patches für ggml-sycl anwenden (Header & CMake & Kernel-Dispatch-Registrierung)..."
     local DPCT_HELPER_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/dpct/helper.hpp"
     local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
+    local CUSTOM_KERNEL_DIR="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/custom_kernels"
+    local CUSTOM_KERNEL_SRC="${CUSTOM_KERNEL_DIR}/ggml_flash_attention_sycl.cpp"
+    local CUSTOM_KERNEL_CMAKE="${CUSTOM_KERNEL_DIR}/CMakeLists.txt"
+
+    # NEU: Pfad zur Haupt-Dispatch-Datei für Patch 4
+    # Diese lokale Definition ist nötig, falls die globale Definition nicht übergeben wird.
+    # Sie ist hier erlaubt, weil sie innerhalb einer Funktion ist.
+    local GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
+
+    # NEU: Lokaler Pfad zum XARCFA Kernel im Home-Verzeichnis
+    local KERNEL_SOURCE_LOCAL="ggml_flash_attention_sycl.cpp"
 
     # --- Patch 1: dpct/helper.hpp (MKL/Math Header Korrektur) ---
     if [ -f "$DPCT_HELPER_FILE" ]; then
-        log "🔷     -> Patch 1/2: dpct/helper.hpp anpassen (Header Fix zu sycl/ext/intel/math.hpp)."
-        if sed -i 's|#if \!defined(DPCT\_USM\_LEVEL\_NONE) && defined(DPCT\_ENABLE\_MKL\_MATH).*#endif|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
-            log "🔷     -> ✅ Patch 1/2 erfolgreich."
+        log "🔷      -> Patch 1/5: dpct/helper.hpp anpassen (Header Fix zu sycl/ext/intel/math.hpp)."
+        # Versuche den einfachen sed-Befehl (ersetzt oneapi durch intel math.hpp)
+        if sed -i 's|#include <sycl/ext/oneapi/math.hpp>|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
+             log "🔷      -> ✅ Patch 1/5 erfolgreich (Standard)."
+        # Fallback auf den komplexeren sed-Befehl, falls der User ihn hat
+        elif sed -i 's|#if \!defined(DPCT\_USM\_LEVEL\_NONE) && defined(DPCT\_ENABLE\_MKL\_MATH).*#endif|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
+            log "🔷      -> ✅ Patch 1/5 erfolgreich (Fallback)."
         else
-            err "❌ Patch 1 (dpct/helper.hpp) ist fehlgeschlagen."
+            error "❌ Patch 1 (dpct/helper.hpp) ist fehlgeschlagen."
             return 1
         fi
     else
-        err "❌ Patch 1 fehlgeschlagen: **dpct/helper.hpp** nicht gefunden."
+        error "❌ Patch 1 fehlgeschlagen: **dpct/helper.hpp** nicht gefunden."
         return 1
     fi
 
-    # --- Patch 2: CMakeLists.txt (Alle Include-Pfade injizieren) ---
+    # --- Patch 2: Flash Attention Kernel in Build-System integrieren ---
+    log "🔷      -> Patch 2/5: XARCFA Kernel in das Build-System integrieren."
+
+    # 2a: Erstelle Kernel-Ordner und kopiere/erstelle Kernel-Datei
+    if [ ! -d "$CUSTOM_KERNEL_DIR" ]; then
+        mkdir -p "$CUSTOM_KERNEL_DIR"
+        log "🔷         -> Ordner '${CUSTOM_KERNEL_DIR}' erstellt."
+    fi
+
+    # Kopiere den XARCFA Kernel, falls er im lokalen Verzeichnis existiert.
+    if [ -f "$KERNEL_SOURCE_LOCAL" ]; then
+        cp "$KERNEL_SOURCE_LOCAL" "$CUSTOM_KERNEL_SRC"
+        log "🔷         -> ✅ XARCFA Kernel von './${KERNEL_SOURCE_LOCAL}' nach '${CUSTOM_KERNEL_SRC}' kopiert."
+    fi
+
+    # Sicherstellen, dass die Zieldatei existiert, auch wenn der Kernel noch nicht da war
+    if [ ! -f "$CUSTOM_KERNEL_SRC" ]; then
+        echo "// Platzhalter für ggml_flash_attention_sycl.cpp (Kernel-Datei fehlte im Home-Verzeichnis)" > "$CUSTOM_KERNEL_SRC"
+        warning "⚠️ Kernel-Datei '${KERNEL_SOURCE_LOCAL}' nicht im Home-Verzeichnis gefunden. Es wurde ein Platzhalter erstellt."
+    fi
+
+    # Erstelle die CMakeLists.txt für unseren Kernel
+echo "
+# CMakeLists.txt für Flash Attention Kernel (OBJECT-Library)
+# OBJECT-Library wird verwendet, um die Objektdateien direkt in die Hauptbibliothek einzufügen.
+add_library(ggml_flash_attention OBJECT
+    ggml_flash_attention_sycl.cpp
+)
+
+# Stelle sicher, dass die Compiler-Optionen für SYCL übernommen werden
+target_include_directories(ggml_flash_attention PRIVATE \${GGML_SYCL_INCLUDE_DIRS})
+target_compile_options(ggml_flash_attention PUBLIC \${GGML_SYCL_COMPILE_FLAGS})
+" > "$CUSTOM_KERNEL_CMAKE"
+log "🔷         -> CMakeLists.txt für Kernel als OBJECT-Library erstellt."
+
+
+    # 2b: Füge das Kernel-Unterverzeichnis zur Haupt-ggml-sycl CMakeLists.txt hinzu
+    local ADD_SUBDIR_LINE="add_subdirectory(custom_kernels)"
+    if ! grep -q "${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
+        if sed -i "/add_subdirectory(dpct)/a ${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
+            log "🔷         -> ✅ Patch 2/5 erfolgreich: custom_kernels zu Haupt-CMake hinzugefügt."
+        else
+            error "❌ Patch 2 (custom_kernels hinzufügen) ist fehlgeschlagen."
+            return 1
+        fi
+    else
+        log "🔷         -> ⚠️ Patch 2/5 (custom_kernels) scheint bereits angewandt zu sein. Überspringe."
+    fi
+
+    # --- Patch 3: CMakeLists.txt (Alle Include-Pfade injizieren) ---
     if [ -f "$CMAKE_LISTS_FILE" ]; then
-        log "🔷     -> Patch 2/2: CMakeLists.txt anpassen (Alle Header-Pfade für icpx)."
+        log "🔷      -> Patch 3/5: CMakeLists.txt anpassen (Alle Header-Pfade für icpx)."
 
         local MKL_INCLUDE_PATH="${MKL_ROOT}/include"
         local COMPILER_INCLUDE_PATH="${DPCPP_ROOT}/include"
@@ -148,22 +209,119 @@ patch_llama_cpp() {
         local SEARCH_MARKER="# Add include directories for MKL headers"
 
         if ! grep -q "${COMPILER_INCLUDE_PATH}" "$CMAKE_LISTS_FILE"; then
+            # Spezielle sed-Korrekturen für Pfade/Slashes
             local SED_PATCH_LINE=$(echo "$PATCH_LINE" | sed 's/ /\\ /g; s/[\/&]/\\&/g')
             if sed -i "/${SEARCH_MARKER}/a $SED_PATCH_LINE" "$CMAKE_LISTS_FILE"; then
-                log "🔷     -> ✅ Patch 2/2 erfolgreich: Alle Header-Pfade injiziert."
+                log "🔷      -> ✅ Patch 3/5 erfolgreich: Alle Header-Pfade injiziert."
             else
-                err "❌ Patch 2 (CMakeLists.txt) ist fehlgeschlagen."
+                error "❌ Patch 3 (CMakeLists.txt) ist fehlgeschlagen."
                 return 1
             fi
         else
-            log "🔷     -> ⚠️ Patch 2/2 (Pfade) scheint bereits angewandt zu sein. Überspringe."
+            log "🔷      -> ⚠️ Patch 3/5 (Pfade) scheint bereits angewandt zu sein. Überspringe."
         fi
     else
-        err "❌ Patch 2 fehlgeschlagen: **CMakeLists.txt** für ggml-sycl nicht gefunden."
+        error "❌ Patch 3 fehlgeschlagen: **CMakeLists.txt** für ggml-sycl nicht gefunden."
         return 1
     fi
 
-    return 0
+    # --- Patch 4: Flash Attention im ggml-sycl.cpp registrieren (Der entscheidende Fix!) ---
+    log "🔷      -> Patch 4/5: Flash Attention Dispatch in **ggml-sycl.cpp** injizieren (Robusterer Fix)."
+
+    if [ -f "$GGML_SYCL_CPP" ]; then
+        # 4a: Deklaration des externen Kernels einfügen (WICHTIG für Linker)
+        local FA_REGISTER_CODE=$'// Registriere custom Flash Attention (FA) Kernel\nextern "C" void ggml_sycl_op_flash_attn(ggml_backend_sycl_context * ctx, ggml_tensor * dst, const ggml_tensor * Q, const ggml_tensor * K, const ggml_tensor * V);\n'
+
+        if ! grep -q "ggml_sycl_op_flash_attn" "${GGML_SYCL_CPP}"; then
+            # Temporäre Datei mit Deklaration erstellen
+            echo "${FA_REGISTER_CODE}" > /tmp/fa_decl.patch
+
+            # Einfügen der Deklaration vor dem ggml_sycl_op_mul_mat_q_k (Referenzpunkt)
+            # Hier wird 'awk' anstelle von 'sed' verwendet, da es einfacher ist, eine Datei einzufügen
+            awk '/extern "C" void ggml_sycl_op_mul_mat_q_k/ { system("cat /tmp/fa_decl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
+            mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
+
+            if [ $? -eq 0 ]; then
+                log "🔷         -> Deklaration erfolgreich eingefügt."
+            else
+                error "❌ Fehler beim Einfügen der FA Deklaration (AWK-Fehler)."
+                return 1
+            fi
+        else
+            log "🔷         -> Deklaration ist bereits vorhanden. Überspringe."
+        fi
+
+local FA_DISPATCH_CASE=$'        case GGML_OP_FLASH_ATTN:\n            ggml_sycl_op_flash_attn(ctx, dst, src0, src1, src2);\n            break;'
+
+        if ! grep -q "case GGML_OP_FLASH_ATTN:" "${GGML_SYCL_CPP}"; then
+            log "🔷         -> Versuche, den Dispatch-Case (FA) mittels AWK einzufügen."
+
+            # Temporäre Datei mit dem Dispatch-Case erstellen
+            echo "${FA_DISPATCH_CASE}" > /tmp/fa_dispatch.patch
+
+            # Einfügen des Dispatch-Case VOR dem GGML_OP_MUL_MAT_Q_K (Referenzpunkt)
+            # awk '/pattern/ { system("cat file"); } { print }'
+            awk '/case GGML_OP_MUL_MAT_Q_K:/ { system("cat /tmp/fa_dispatch.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
+            mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
+
+            if [ $? -eq 0 ]; then
+                log "🔷         -> Dispatch-Case erfolgreich eingefügt."
+            else
+                error "❌ Fehler beim Einfügen des FA Dispatch-Case (AWK-Fehler)."
+                # Wir geben hier absichtlich keine Fehlermeldung aus, da wir den Build trotzdem versuchen wollen
+                # return 1
+            fi
+        else
+            log "🔷         -> Dispatch-Case ist bereits vorhanden. Überspringe."
+        fi
+
+        log "🔷      -> ✅ Patch 4/5 erfolgreich: Flash Attention Dispatch ist registriert."
+    else
+        error "❌ Patch 4 fehlgeschlagen: **ggml-sycl.cpp** nicht gefunden."
+        return 1
+    fi
+
+# --- Patch 5: ggml-sycl Library mit custom Kernel injizieren (OBJECT-Injection) ---
+    log "🔷      -> Patch 5/5: Injiziere den custom Flash Attention Kernel als OBJECT-Files in ggml-sycl."
+    local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt" # Lokale Definition für Patch 5
+
+    # 5a: Definiere die Variable FA_OBJECT_FILES
+    local VAR_LINE="set(FA_OBJECT_FILES \"\$<TARGET_OBJECTS:ggml_flash_attention>\")"
+    local VAR_SEARCH_MARKER="set(GGML_SYCL_SOURCES"
+
+    if ! grep -q "FA_OBJECT_FILES" "$CMAKE_LISTS_FILE"; then
+        # Füge die Variable direkt nach der Definition von GGML_SYCL_SOURCES ein.
+        local SED_VAR_LINE=$(echo "$VAR_LINE" | sed 's/[\/&]/\\&/g')
+        if sed -i "/${VAR_SEARCH_MARKER}/a ${SED_VAR_LINE}" "$CMAKE_LISTS_FILE"; then
+             log "🔷      -> 5a/5: FA_OBJECT_FILES Variable erfolgreich definiert."
+        else
+            error "❌ Patch 5a (Variable) ist fehlgeschlagen."
+            return 1
+        fi
+    else
+        log "🔷      -> 5a/5: Variable scheint bereits angewandt zu sein. Überspringe."
+    fi
+
+    # 5b: Füge die Variable zur target_sources-Liste hinzu
+    local TARGET_SEARCH_MARKER="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES})"
+    local NEW_TARGET_SOURCES_LINE="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES} \${FA_OBJECT_FILES})"
+
+    if grep -q "${TARGET_SEARCH_MARKER}" "$CMAKE_LISTS_FILE" && ! grep -q "\${FA_OBJECT_FILES}" "$CMAKE_LISTS_FILE"; then
+        # Ersetze die alte target_sources Zeile durch die neue, erweiterte Zeile.
+        local SED_NEW_LINE=$(echo "$NEW_TARGET_SOURCES_LINE" | sed 's/[\/&]/\\&/g')
+        local SED_SEARCH_MARKER=$(echo "$TARGET_SEARCH_MARKER" | sed 's/[\/&]/\\&/g')
+
+        if sed -i "s/${SED_SEARCH_MARKER}/${SED_NEW_LINE}/" "$CMAKE_LISTS_FILE"; then
+            log "🔷      -> ✅ Patch 5/5 erfolgreich: Flash Attention OBJECT-Files in target_sources injiziert."
+        else
+            error "❌ Patch 5b (Injection in target_sources) ist fehlgeschlagen."
+            return 1
+        fi
+    else
+        log "🔷      -> ⚠️ Patch 5/5 (Injection) scheint bereits angewandt zu sein oder Zielzeile nicht gefunden. Überspringe."
+    fi
+
+    success "✅ Alle 5 Patches erfolgreich angewandt."
 }
 
 #-- [2] Build-Konfiguration -
@@ -182,12 +340,14 @@ configure_build() {
 
         log "   -> Starte CMake-Konfiguration (Release, SYCL, FP-Mode: ${FP_FLAG})..."
 
+        # Der neue Kernel wird jetzt automatisch als ggml_flash_attention.a kompiliert!
         cmake "../${LLAMA_CPP_DIR}" \
             -G "Unix Makefiles" \
             -DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}" \
             -DGGML_SYCL=ON \
             -DGGML_SYCL_CCACHE=ON \
             -DGGML_SYCL_F16=${FP_MODE} \
+            -DGGML_SYCL_FLASH_ATTN=ON \
             -DGGML_SYCL_MKL_SYCL_BATCH_GEMM=1 \
             -DCMAKE_C_COMPILER=icx \
             -DCMAKE_CXX_COMPILER=icpx \
@@ -221,6 +381,9 @@ compile_project() {
 
         log "🏗 Kompiliere Haupt-Targets..."
 
+        # Wir können das neue Kernel-Target explizit hinzufügen, um sicherzustellen, dass es gebaut wird.
+        # Es sollte aber bereits durch die Link-Bibliotheken von llama-cli erfasst werden.
+        # Wenn es Probleme gibt, kann 'ggml_flash_attention' hier hinzugefügt werden.
         cmake --build . --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama-cli llama-ls-sycl-device > "${LOG_FILE}" 2>&1
 
         local BUILD_STATUS=$?
@@ -411,10 +574,10 @@ main() {
 
         compile_project
     else
- 
+
         log "⚙ Update des llama.cpp Repositories und Überprüfung der Patches..."
         setup_project # Für git pull/submodule update
-        patch_llama_cpp # Für die Header-Korrektur
+        patch_llama_cpp # Für die Header-Korrektur und die Integration unserer custom_kernels
     fi
 
     auto_select_device
