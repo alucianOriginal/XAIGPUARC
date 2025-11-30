@@ -6,6 +6,9 @@
 #------------------------------------------------------------------------------------------------------------------
 #--XAIGPUARC----------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------------------
+#--//--XAIGPUARC--//--DATA-FACTS--///--VIBE-CODE-HANDARBEIT 1.07 MIN Promt TIME--//--
+#--//--Lama3-12B-iQ-6Q.gguf.1.5-15B GGUF//--
+#--AI/dGPU/iGPU/ARC/XE/VECTOR/SYCL/Q8/Q6/f16.RAMmin:2x8GiB--
 #------------------------------------------------------------------------------------------------------------------
 #--AI-16GB-RAM+11,5GB-VRAM-iGPU-dGPU--
 #--LowSPEC-SYCL-F16-oneAPI-VECTOR-ARCH-LINUX-TOOL--
@@ -18,7 +21,8 @@
 #-------------------------------------------------------------------------------------------------------------------
 #--Globale Variablen--
 #--Pfade für Modelle unten Beachten.--
-#--Q6+Q8 Unterstützung für FP16 Vectoren.--
+#--Q6+Q8 Unterstützung für-FP16 Vector-Berechnungen auf --
+#--kleinen bis mittleren iGPUs und dGPUs-XE,ARC,XMX--
 #--
 
 set -euo pipefail
@@ -38,7 +42,7 @@ LOG_FILE="${BUILD_DIR:-XAIGPUARC}/XAIGPUARC.log"
 LLAMA_CLI_PATH="bin/llama-cli"
 LS_SYCL_DEVICE_PATH="bin/llama-ls-sycl-device"
 #--
-#--oneAPI + SYCL Umgebungsvariablen--
+#ONEAPI+SYCL-FUNKTIONEN--
 export TCM_ROOT="${TCM_ROOT:-/opt/intel/oneapi/tcm/latest}"
 export SYCL_CACHE_PERSISTENT=1
 export OCL_ICD_FILENAMES=""
@@ -46,7 +50,7 @@ export ZES_ENABLE_SYSMAN=1
 export CCACHE_DIR="$HOME/.ccache"
 export COMPILER_VERSION="2025.0"
 #--
-#--00-Hilfsfunktionen --------------------------------------------------------------------------------------------
+#--00-HILFSFUNKTIONEN-------------------------------------------------------------------------------------
 log() { echo -e "🔷 $*"; }
 success() { echo -e "✅ $*"; }
 error() { echo -e "❌ $*\n"; }
@@ -54,14 +58,16 @@ warning() { echo -e "⚠️ $*\n"; }
 err() { error "$*"; }
 warn() { echo -e "⚠️ $*"; }
 #--
-#--Trennung des Inferenz-Outputs-------------------------------------------------------------------------------
+#--AUSGABE-BEGRUESUNG-UND-VORSTELLUNG-----------------------------------------------------------
 separator() {
     echo -e "\n\n========================================================================="
     echo -e "###-🏗--🏗-XAIGPUARC-🏗--🏗-CLEAR-ANGEL-VERSION--30.11.2025-FREE-ADVENT-EDITION-## "
     echo -e "===========================================================================\n"
+    echo -e "===========================================================================\n"
+    echo -e "===========================================================================\n"
 }
 #--
-#--0--Umgebung vorbereiten. Extrem robuste Fallback-Logik---------------------------------------------------
+#--0--UMGEBUNG-UND-RUCKFALLMECHANISMEN-VORBEREITEN-----------------------------------------
 prepare_environment() {
     log "HOLE ONE API KOEPF"
     local SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
@@ -89,7 +95,7 @@ prepare_environment() {
     fi
     log "✅ VERBINDUNG ONEAPI GELADEN... (DPCPP_ROOT=${DPCPP_ROOT} und MKL_ROOT=${MKL_ROOT})."
 }
-#--1--Projekt-Setup ------------------------------------------------------------------------------------------------
+#--1--PROJEKT-GESTALTUNG --------------------------------------------------------------------------------------
 setup_project() {
     log "📦 BAUE XAIGPUARC.... BITTE WARTEN....."
     if [ ! -d "${LLAMA_CPP_DIR}" ]; then
@@ -111,7 +117,12 @@ setup_project() {
         exit 1
     fi
 }
-#--XX--XX-PATCH-5/5-----------------------------------------------------------------------------------------------
+
+    echo -e "===========================================================================\n"
+    echo -e "================================PATCH5/5=================================\n"
+    echo -e "===========================================================================\n"
+
+#--PATCH-5/5-LOGIK------------------------------------------------------------------------------------------
 patch_llama_cpp() {
     log "🔷 🔷 🩹 Patches für ggml-sycl anwenden (Header & CMake & Kernel-Dispatch-Registrierung)..."
     local DPCT_HELPER_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/dpct/helper.hpp"
@@ -278,7 +289,7 @@ local FA_DISPATCH_CASE=$' case GGML_OP_FLASH_ATTN:\n ggml_sycl_op_flash_attn(ctx
     success "✅ ALLE FÜNF PATCHES ERFOLGREICH ANGEWAND"
 }
 #--
-#--2--Build-Konfiguration--------------------------------------------------------------------------------------
+#--2--XAIGPUARC-BAU-KONFIGURATION---------------------------------------------------------------------
 configure_build() {
     log "🔷 ⚙ BEREITE XAIGPUARC BAUVORGANG VOR"
     local FP_MODE="${1:-1}" #--PRIO-f16-Q8-Q6gguf--
@@ -315,7 +326,7 @@ configure_build() {
     fi
 }
 #--
-#--3--Kompilieren----------------------------------------------------------------------------------------------
+#--3--KOMPILIEREN----------------------------------------------------------------------------------------------
 compile_project() {
     log "🔨 BAUE ....XAIGPUARC....BITTE WARTEN..."
     local LOG_FILE="build.log"
@@ -338,7 +349,7 @@ compile_project() {
     fi
 }
 #--
-#--4--Gerät-automatisch-auswählen--------------------------------------------------------------------------
+#--4--AUTOMATISCHE-GERAETEAUSWAHL----------------------------------------------------------------
 auto_select_device() {
     log "🔍 SUCHE NACH VERFÜGBAREN SYCL GERÄTEN AUF IHREM SYSTEM."
     local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
@@ -398,7 +409,7 @@ auto_select_device() {
     fi
 }
 #--
-#--5--SYCL-Geräte-prüfen-----------------------------------------------------------------------------------
+#--5--SYCL-KOMPATIBLE-GERÄTE-PRUEFEN------------------------------------------------------------------
 list_sycl_devices() {
     log "🔍 SUCHE SYCL FÄHIGES GERÄT AUF IHREM SYSTEM"
     local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
@@ -411,7 +422,7 @@ list_sycl_devices() {
     fi
 }
 #--
-#--6--Modellpfad -------------------------------------------------------------------------------------------
+#--6--MODELLPFAD-------------------------------------------------------------------------------------------
 prepare_model() {
     MODEL_PATH=${1:-"models/llama-3-12b-Instruct.i1-Q6_Kgguf"}
 #--Change-Human-AI-Modell-NAME-Here-and-Below!-Accurate!-ANFANG--
@@ -422,7 +433,7 @@ prepare_model() {
     export MODEL_PATH
 }
 #--
-#-- 7--Inferenz ausführen ----------------------------------------------------------------------------------
+#-- 7--MODELL-AUSFUEHREN ---------------------------------------------------------------------------------
 #--Human-AI-Change-Modell-NAME-Here-and-Above!-Accurate!-ENDE--
 run_inference() {
     local DEFAULT_MODEL_PATH="models/llama-3-12b-Instruct.i1-Q6_K.gguf"
@@ -450,7 +461,7 @@ run_inference() {
     echo "✅->AI/KI-ANTWORT-FERTIG-GLÜCKWUNSCH"
 }
 #--
-#--8--Main Ablauf------------------------------------------------------------------------------------------
+#--8--HAUPTABLAUF--------------------------------------------------------------------------------------
 main() {
     local FP_MODE="${1:-1}"
     #--⚠️--WICHTIG--
@@ -491,10 +502,10 @@ main() {
     #--
     run_inference "${2:-}" "${3:-}"
     #--
-    log "✨✅GLÜCKWUNSCH✅✨✅XAIGPUARC✅✨✅SCHLUSS-ENDE-ANTWORT✨-ABGESCHLOSSEN-UND-GESPEICHERT 📝📝📝📝📝 UNTER: ✨**${BUILD_DIR}/${LLAMA_CLI_PATH}**🔍🔍🔍DANKE FÜR DIE NUTZUNG VON🧠 XAIGPUARC🧠!!! PROMT: BESUCHEN SIE DIE HERUNTERGELADENE XAIGPUARC DATEI UND FÜGEN SIE IHREN EIGENEN 📝📝📝 PROMT 📝 STATT DEM STANDART📝 EIN"
+    log "🎯GLÜCKWUNSCH✅XAIGPUARCANT🧠 ANTWORT✨-ABGESCHLOSSEN-UND-GESPEICHERT 📝 UNTER:**${BUILD_DIR}/${LLAMA_CLI_PATH}**--🔍DANKE FÜR DIE NUTZUNG VON🧠 XAIGPUARC🧠--//--Vergleichen Sie ihren Computer mit den der Andere,n durch die einfachen integrierten Vergleichsmethoden, Wichtige Werten sind unten am Ende der Ausgabe die Token pro Sekunde und wieviel Strom sie für den Vergleich verwenden mussten. Folgen Sie für weitere Tipps den letzten Updates"
 }
 #--
-#--XAIGPUARC-starten:-FP16-PRIO-oder-FP32(NOT-PRIO)------------------------------------------------
+#--XAIGPUARC-STARTEN:-FP16-PRIO-oder-FP32(NOT-PRIO)------------------------------------------------
 main "${1:-1}" "${2:-}" "${3:-}"
 #------------------------------------------------------------------------------------------------------------
 log "DER VERLAUF WIRD HIER GESPEICHERT: **${LOG_FILE}**"
