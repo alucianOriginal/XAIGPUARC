@@ -1,6 +1,22 @@
 # XAIGPUARC
 This is a AI Installation Tool specialised for Linux 
-(Debian, Red Hat, Arch and Suse Family) and ARC Intel GPUs to run over SYCL with Llama.cpp.
+(Arch GARUDA Family) and ARC Intel iGPUs and dGPUs / 
+also older iGPUS to run over SYCL with Llama.cpp.
+There are build in a lot who looks like should not be in, but belive me, some things must be other ways.
+
+Here whe talk about to fast computers, to slow computers and so on.
+No matter for you. Matter is funcution! Fast Efizient and from wishes you ever can fell free to ask.
+There follow a lot usefull updates who i created from scratch like everytime.
+
+my own way :-)
+USE Big Modells!!! Q8/Q6 !!! FP16 half Calculation, double Performance, quad Quality with Q8 and Q6 Modells ONLY!!! 
+
+NOT USEABLE WITH LOW END Modells!!!
+
+I hope you like the small builds and use solar 10.7b Q6 IQ for the first time, llama3 12b also works in Q6 fine. 
+11,5 Gib VRAM needet for that. If you use you normal RAM, try to make him fast as possible. 
+Testest well with 718 Gib/s Bandwith on Claw Quad Cannel Meteor Lake Mod.
+
 If you are a Windows User, i personal recommend to use the AIPlayground Programm from Intel itself! 
 You see there is no need to make a Windows Version of XAIGPUARC.
 
