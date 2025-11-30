@@ -1,5 +1,7 @@
 #!/bin/bash
+
 #----------------------------------------------------------------------------------
+#---START XAIGPUARC BEACHTE MODELLAUSWAHL UNTEN DOPPELT EINTRAGEN ACURATE!
 #-XAIGPUARC
 #-Automatischer Build + Run von llama.cpp mit Intel oneAPI / SYCL Backend
 #-Getestet und Optimiert mit fünf unterschiedlichen ARC Endgeräten auf Garuda Linux
@@ -10,6 +12,9 @@
 #----------------------------------------------------------------------------------
 #----------------------------------------------------------------------------------
 #-Globale Variablen-
+
+#--ggml_backend_sycl_get_queue
+
 set -euo pipefail
 IFS=$'\n\t'
 
@@ -46,6 +51,13 @@ error() { echo -e "❌ $*\n"; }
 warning() { echo -e "⚠️ $*\n"; }
 err() { error "$*"; }
 warn() { echo -e "⚠️ $*"; }
+
+# NEU: Funktion zur sauberen Trennung des Inferenz-Outputs
+separator() {
+    echo -e "\n\n=================================================================================="
+    echo -e "### LLAMA.CPP INFERENCE START - $(date +'%Y-%m-%d %H:%M:%S') ###"
+    echo -e "==================================================================================\n"
+}
 
 #-- [0] Umgebung vorbereiten - FINALER FIX: Extrem robuste Fallback-Logik
 
@@ -495,8 +507,8 @@ list_sycl_devices() {
 #-- [6] Modellpfad -----------------------------------------
 
 prepare_model() {
-    MODEL_PATH=${1:-"models/openhermes-2.5-mistral-7b.Q8_0.gguf"}
-
+    MODEL_PATH=${1:-"models/llama-3-12b-Instruct.i1-Q6_Kgguf"}
+#--Change Modell NAME Here and Below! Accurate!
     mkdir -p models
 
     if [ ! -f "$MODEL_PATH" ]; then
@@ -507,11 +519,11 @@ prepare_model() {
 }
 
 #-- [7] Inferenz ausführen ---------------------------------------------------------
-
+#--Change Modell NAME Here and Above! Accurate!
 run_inference() {
-    local DEFAULT_MODEL_PATH="models/openhermes-2.5-mistral-7b.Q8_0.gguf"
+    local DEFAULT_MODEL_PATH="models/llama-3-12b-Instruct.i1-Q6_K.gguf"
     local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
-    local PROMPT_ARG=${3:-"Hello from SYCL on Intel ARC!"}
+    local PROMPT_ARG=${3:-"Baue eine SYCL ARC INTEL GPU FÄHIGE DEMOKRATIE ABSTIMM BLOCKCHAIN!"}
     local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
     local NGL_SET=${N_GPU_LAYERS:-99}
     local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
@@ -550,7 +562,7 @@ main() {
     local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
     local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 
-    # --- PRÜFUNG: Build-Skip-Logik ---
+    #--- PRÜFUNG: Build-Skip-Logik ---
 
     if [[ -f "${FULL_LLAMA_CLI_PATH}" && -f "${FULL_LS_PATH}" ]]; then
         success "✅ Gefundene Binaries: ${FULL_LLAMA_CLI_PATH} und ${FULL_LS_PATH}"
@@ -593,3 +605,11 @@ main() {
 
 # Skript starten: FP16 (Standard) oder FP32 als erstes Argument
 main "${1:-1}" "${2:-}" "${3:-}"
+
+
+LOG_FILE="${BUILD_DIR:-XAIGPUARC}/full_script.log"
+mkdir -p "${BUILD_DIR:-XAIGPUARC}"
+log "Der gesamte Skript-Verlauf (Build & Run) wird in die Datei **${LOG_FILE}** umgeleitet."
+
+# tee leitet den Standard-Output (stdout) und Standard-Fehler (stderr)
+# in die Datei um, während er ihn gleichzeitig auf der Konsole anzeigt.
