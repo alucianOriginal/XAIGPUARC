@@ -1,29 +1,27 @@
 #!/bin/bash
 
 #--
-#--run-with-PREXAIGPUARC-First-TIME--
-#------------------------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------------------
-#--XAIGPUARC----------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------------------
-#--//--XAIGPUARC--//--DATA-FACTS--///--VIBE-CODE-HANDARBEIT 1.07 MIN Promt TIME--//--
-#--//--Lama3-12B-iQ-6Q.gguf.1.5-15B GGUF//--
-#--AI/dGPU/iGPU/ARC/XE/VECTOR/SYCL/Q8/Q6/f16.RAMmin:2x8GiB--
-#------------------------------------------------------------------------------------------------------------------
+#--run-with-PREXAIGPUARC-First--
+#--//--XAIGPUARC--//--DATA-FACTS--
+#--VIBE-CODE-HANDARBEIT--1.07-MIN--Promt TIME--
+#--//--Lama3-12B-iQ-6Q.gguf.1.5-15B-GGUF--
+#--AI/-dGPU/-iGPU/ARC/XE/VECTOR-SYCL/Q8--/Q6--/f16.RAMmin:2x8GiB--
+#-----------------------------
 #--AI-16GB-RAM+11,5GB-VRAM-iGPU-dGPU--
 #--LowSPEC-SYCL-F16-oneAPI-VECTOR-ARCH-LINUX-TOOL--
-#------------------------------------------------------------------------------------------------------------------
-#--2x-Intel ARC A770 (16GiB)/ 4x-750 (8GiB)/--
-#--Single + Dual GPU auf AMD Ryzen 2600/ 2700x/ Intel 6700K @Z170--
-#--Intel 12700h/12650h + A730m 12 GiB + 6GiB /--8.7T/s+50-80Promt-T/s--500T/min--
-#--Intel Core 155H + ARC iGPU (16GiB RAM/ 11,5 GiB-VRAM)--4.7T/s-Solar-10.7b--500T/min--
-#-------------------------------------------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------------------------------------------
-#--Globale Variablen--
-#--Pfade für Modelle unten Beachten.--
-#--Q6+Q8 Unterstützung für-FP16 Vector-Berechnungen auf --
+#-----------------------------
+#--EXAMPLE--TECHNIK--PROMPT--
+#--400-Watt-2x-Intel-ARC-A770-(16GiB)-/-4x-750-(8GiB)-/--
+#--142-Watt-Single-+-Dual-GPU-auf-AMD-Ryzen-2600-2700x-Intel-6700K-@Z170-/--
+#--80-Watt-Intel-12700h-/-12650h-+-A730m-12 GiB-+-6GiB-/--8.7T/s-+-50-80-Promt-T/s--500T/min--
+#--30-Watt-Intel-Core-155H-+-ARC-iGPU-(16GiB RAM/-11,5 GiB-VRAM)--4.7T/s-Solar-10.7b--500T/min--
+#----------------------------
+#----------------------------
+#--Globale-Variablen--
+#--Pfade-für-Modelle-unten-Beachten--
+#--Q6+Q8-Unterstützung-für-FP16-Vector-Berechnungen-auf--
 #--kleinen bis mittleren iGPUs und dGPUs-XE,ARC,XMX--
-#--
+#--Set--#--FOR--#--LITTLE-##PAUSE--
 
 set -euo pipefail
 IFS=$'\n\t'
@@ -50,24 +48,23 @@ export ZES_ENABLE_SYSMAN=1
 export CCACHE_DIR="$HOME/.ccache"
 export COMPILER_VERSION="2025.0"
 #--
-#--00-HILFSFUNKTIONEN-------------------------------------------------------------------------------------
-log() { echo -e "🔷 $*"; }
-success() { echo -e "✅ $*"; }
-error() { echo -e "❌ $*\n"; }
-warning() { echo -e "⚠️ $*\n"; }
+#--00-HILFSFUNKTIONEN---------------
+log() { printf "🔷 %s\n" "$*"; }
+success() { printf "✅ %s\n" "$*"; }
+error() { printf "❌ %s\n\n" "$*"; }
+warning() { printf "⚠️ %s\n\n" "$*"; }
 err() { error "$*"; }
-warn() { echo -e "⚠️ $*"; }
+warn() { printf "⚠️ %s\n" "$*"; }
 #--
-#--AUSGABE-BEGRUESUNG-UND-VORSTELLUNG-----------------------------------------------------------
+#--AUSGABE-BEGRUESUNG-UND-VORSTELLUNG--------
 separator() {
-    echo -e "\n\n========================================================================="
-    echo -e "###-🏗--🏗-XAIGPUARC-🏗--🏗-CLEAR-ANGEL-VERSION--30.11.2025-FREE-ADVENT-EDITION-## "
-    echo -e "===========================================================================\n"
-    echo -e "===========================================================================\n"
-    echo -e "===========================================================================\n"
+    echo -e "-----------------------"\n"
+    echo -e "----🏗--🏗-XAIGPUARC-🏗--🏗-CLEAR-ANGEL-\n"
+    echo -e "VERSION--30.11.2025-FREE-ADVENT-EDITION"\n"
+    echo -e "------ENDE------\n"
 }
 #--
-#--0--UMGEBUNG-UND-RUCKFALLMECHANISMEN-VORBEREITEN-----------------------------------------
+#--0--UMGEBUNG-UND-RUCKFALLMECHANISMEN-VORBEREITEN-----------
 prepare_environment() {
     log "HOLE ONE API KOEPF"
     local SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
@@ -95,7 +92,7 @@ prepare_environment() {
     fi
     log "✅ VERBINDUNG ONEAPI GELADEN... (DPCPP_ROOT=${DPCPP_ROOT} und MKL_ROOT=${MKL_ROOT})."
 }
-#--1--PROJEKT-GESTALTUNG --------------------------------------------------------------------------------------
+#--1--PROJEKT-GESTALTUNG--------
 setup_project() {
     log "📦 BAUE XAIGPUARC.... BITTE WARTEN....."
     if [ ! -d "${LLAMA_CPP_DIR}" ]; then
@@ -118,11 +115,12 @@ setup_project() {
     fi
 }
 
-    echo -e "===========================================================================\n"
-    echo -e "================================PATCH5/5=================================\n"
-    echo -e "===========================================================================\n"
+separator() {
+    echo -e "============PATCH5/5=========\n"
+    echo -e "=======================\n"
+}
 
-#--PATCH-5/5-LOGIK------------------------------------------------------------------------------------------
+#--PATCH-5/5-LOGIK------------
 patch_llama_cpp() {
     log "🔷 🔷 🩹 Patches für ggml-sycl anwenden (Header & CMake & Kernel-Dispatch-Registrierung)..."
     local DPCT_HELPER_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/dpct/helper.hpp"
@@ -251,7 +249,7 @@ local FA_DISPATCH_CASE=$' case GGML_OP_FLASH_ATTN:\n ggml_sycl_op_flash_attn(ctx
         error "❌ PATCH 4/5 FEHLGESCHLAGEN 📝 **ggml-sycl.cpp** NICHT GEFUNDEN!!!"
         return 1
     fi
-#--PATCH-5/5-----------------------------------------------------------------------------------------------------
+#--PATCH-5/5--------------------
 #--
     log "🔷 -> PATCH 5/5: INJIZIEREN OBJEKT 🏗 VARIABLEN AUS UNTERBLOCK VON  SYCL BIBLIOTHEKEN.."
     local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
@@ -289,7 +287,7 @@ local FA_DISPATCH_CASE=$' case GGML_OP_FLASH_ATTN:\n ggml_sycl_op_flash_attn(ctx
     success "✅ ALLE FÜNF PATCHES ERFOLGREICH ANGEWAND"
 }
 #--
-#--2--XAIGPUARC-BAU-KONFIGURATION---------------------------------------------------------------------
+#--2--XAIGPUARC-BAU-KONFIGURATION-------
 configure_build() {
     log "🔷 ⚙ BEREITE XAIGPUARC BAUVORGANG VOR"
     local FP_MODE="${1:-1}" #--PRIO-f16-Q8-Q6gguf--
@@ -325,8 +323,17 @@ configure_build() {
         return 1
     fi
 }
+
+separator() {
+    echo -e "====XAIGPUARC BAUFORGANG KANN FORTGESETZT WERDEN========\n"
+    echo -e "=====XAIGPUARC===EINRICHTUNG ABGESCHLOSSEN=========\n"
+    echo -e "===LOKAL KI BAUVORGANG=====ABHÄNGIGKEITEN VORHANDEN====\n"
+    echo -e "===FESTE KONFIGURATION VON XAIGPUARC AUF LOKALER MASCHINE======\n"
+    echo -e "=====AUF HOME ORDNER GESPEICHERT UND LÖSCHBAR=====\n"
+}
+
 #--
-#--3--KOMPILIEREN----------------------------------------------------------------------------------------------
+#--3--KOMPILIEREN-----------
 compile_project() {
     log "🔨 BAUE ....XAIGPUARC....BITTE WARTEN..."
     local LOG_FILE="build.log"
@@ -348,8 +355,16 @@ compile_project() {
         return 1
     fi
 }
+
+separator() {
+    echo -e "======================\n"
+    echo -e "========AUTOMATISCHE SYCL KOMPATIBLE======\n"
+    echo -e "=============\n"
+    echo -e "====GERÄTEAUSWAHLVERFAHREN STARTET JETZT !! BITTE GEDULD==\n"
+}
+
 #--
-#--4--AUTOMATISCHE-GERAETEAUSWAHL----------------------------------------------------------------
+#--4--AUTOMATISCHE-GERAETEAUSWAHL-------
 auto_select_device() {
     log "🔍 SUCHE NACH VERFÜGBAREN SYCL GERÄTEN AUF IHREM SYSTEM."
     local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
@@ -409,7 +424,7 @@ auto_select_device() {
     fi
 }
 #--
-#--5--SYCL-KOMPATIBLE-GERÄTE-PRUEFEN------------------------------------------------------------------
+#--5--SYCL-KOMPATIBLE-GERÄTE-PRUEFEN-------
 list_sycl_devices() {
     log "🔍 SUCHE SYCL FÄHIGES GERÄT AUF IHREM SYSTEM"
     local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
@@ -421,8 +436,14 @@ list_sycl_devices() {
         KONNTE KEIN FÄHIGES GERÄT FINDEN🔍🔍🔍!!!"
     fi
 }
-#--
-#--6--MODELLPFAD-------------------------------------------------------------------------------------------
+
+separator() {
+    echo -e "===========\n"
+    echo -e "=======STARTE-MODELLAUSWAHL======\n"
+    echo -e "==============\n"
+}
+
+#--0%-MODELL-PFAD-WAEHLEN------
 prepare_model() {
     MODEL_PATH=${1:-"models/llama-3-12b-Instruct.i1-Q6_Kgguf"}
 #--Change-Human-AI-Modell-NAME-Here-and-Below!-Accurate!-ANFANG--
@@ -432,8 +453,17 @@ prepare_model() {
     fi
     export MODEL_PATH
 }
+
+separator() {
+    echo -e "========\n"
+    echo -e "==========ACHTUNG! AB HIER KI ANTWORT ERWARTEN======\n"
+    echo -e "===============\n"
+    echo -e "====ANWORT AI/KI INFERENCE AUF LOKALER iGPU/dGPU FOLGT AB HIER========\n"
+    echo -e "=======\n"
+}
+
 #--
-#-- 7--MODELL-AUSFUEHREN ---------------------------------------------------------------------------------
+#-- 7--MODELL-AUSFUEHREN -----
 #--Human-AI-Change-Modell-NAME-Here-and-Above!-Accurate!-ENDE--
 run_inference() {
     local DEFAULT_MODEL_PATH="models/llama-3-12b-Instruct.i1-Q6_K.gguf"
@@ -460,8 +490,7 @@ run_inference() {
         --main-gpu "${GPU_ID}"
     echo "✅->AI/KI-ANTWORT-FERTIG-GLÜCKWUNSCH"
 }
-#--
-#--8--HAUPTABLAUF--------------------------------------------------------------------------------------
+#--PROJEKT-GESTALTUNG----
 main() {
     local FP_MODE="${1:-1}"
     #--⚠️--WICHTIG--
@@ -505,8 +534,8 @@ main() {
     log "🎯GLÜCKWUNSCH✅XAIGPUARCANT🧠 ANTWORT✨-ABGESCHLOSSEN-UND-GESPEICHERT 📝 UNTER:**${BUILD_DIR}/${LLAMA_CLI_PATH}**--🔍DANKE FÜR DIE NUTZUNG VON🧠 XAIGPUARC🧠--//--Vergleichen Sie ihren Computer mit den der Andere,n durch die einfachen integrierten Vergleichsmethoden, Wichtige Werten sind unten am Ende der Ausgabe die Token pro Sekunde und wieviel Strom sie für den Vergleich verwenden mussten. Folgen Sie für weitere Tipps den letzten Updates"
 }
 #--
-#--XAIGPUARC-STARTEN:-FP16-PRIO-oder-FP32(NOT-PRIO)------------------------------------------------
+#--XAIGPUARC-STARTEN:-FP16-PRIO-oder-FP32(NOT-PRIO)-----
 main "${1:-1}" "${2:-}" "${3:-}"
-#------------------------------------------------------------------------------------------------------------
+#---
 log "DER VERLAUF WIRD HIER GESPEICHERT: **${LOG_FILE}**"
-#--ENDE-ENDE-ENDE-XAIGPUARC--------------------------------------------------------------------------
+#--ENDE-ENDE-ENDE-XAIGPUARC----
