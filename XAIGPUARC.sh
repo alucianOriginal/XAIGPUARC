@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#models/llama-3-12b-Instruct.i1-Q6_Kv.gguf
 set -euo pipefail
 IFS=$'\n\t'
 
@@ -7,6 +8,7 @@ PRECISION="FP16"
 DEVICE="ARC"
 LLAMA_CPP_DIR="llama.cpp"
 BUILD_DIR="${BUILD_DIR:-XAIGPUARC}"
+
 #-XAIGPUARC-PRE-
 GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"
@@ -245,7 +247,6 @@ local FA_DISPATCH_CASE=$' case GGML_OP_FLASH_ATTN:\n ggml_sycl_op_flash_attn(ctx
     local VAR_LINE="set(FA_OBJECT_FILES \"\$<TARGET_OBJECTS:ggml_flash_attention>\")"
     local VAR_SEARCH_MARKER="set(GGML_SYCL_SOURCES"
     if ! grep -q "FA_OBJECT_FILES" "$CMAKE_LISTS_FILE"; then
-        #--XAIGPUARC--PAUSE-
         local SED_VAR_LINE=$(echo "$VAR_LINE" | sed 's/[\/&]/\\&/g')
         if sed -i "/${VAR_SEARCH_MARKER}/a ${SED_VAR_LINE}" "$CMAKE_LISTS_FILE"; then
              log "🔷      -> 5a/5: OBJEKT VARIABLEN 🏗 ERFOLGREICH DEFINIERT"
@@ -429,7 +430,7 @@ separator() {
 
 #-0-MODELL-PFAD-WAEHLEN-
 prepare_model() {
-    MODEL_PATH=${1:-"models/llama-3-12b-Instruct.i1-Q6_Kgguf"}
+    MODEL_PATH=${1:-"models/llama-3-12b-Instruct.i1-Q6_Kv.gguf"}
 #-Change-Human-AI-Modell-NAME-Here-and-Below!-Accurate!-ANFANG-
     mkdir -p models
     if [ ! -f "$MODEL_PATH" ]; then
@@ -448,13 +449,17 @@ separator() {
 #-7-MODELL-AUSFUEHREN-
 #-HEREMODELLCHANGE!!!-
 #-Human-AI-Change-Modell-NAME-Here-and-Above!-Accurate!-ENDE-
-
+#-PROMTCHANGINGALSOHERE
 run_inference() {
     local DEFAULT_MODEL_PATH="models/llama-3-12b-Instruct.i1-Q6_K.gguf"
     #-end-Modell-change-PAUSE-
-
+    #STARTCHANGEPROMTBELOWHEREDIREKTBELOWUNTENÄNDERNDESTEXTESFÜRKI
     local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
-    local PROMPT_ARG=${3:-"//--BUILD-A-PERFEKT--//--DIRECT-LOTTERY-DEMOCRACY-BLOCKCHAIN--//--FOR-EVERY-CULTURE--//--ALL-IN-ONE--//--OVER-SYCL--//--START-PYRAMIDIAL-STRUCTURED-MODULAR--TOP-DOWN-CODE--//--"}
+
+    #########------CHANGEPROMPTPRONTO------############
+    local PROMPT_ARG=${3:-"HELLO. I AM ALUCIAN; I AM A GERMAN TECHNICAN IT GPU OPEN SOURCE DEVELOPER. CAN YOU HELP ME MAKING BETTER SYCL AI BASED LLAMA.CPP FOR ARC INTEL dGPU.iGPU"}
+
+    ####STOPCHANGEPROMT-----####
     local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
     local NGL_SET=${N_GPU_LAYERS:-99}
     local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
@@ -467,7 +472,7 @@ run_inference() {
         -no-cnv \
         -m "${MODEL_PATH_ARG}" \
         -p "${PROMPT_ARG}" \
-        -n 256 \
+        -n 512 \
         -e \
         -ngl -1 \
         --split-mode none \
@@ -509,7 +514,7 @@ main() {
     prepare_model "${2:-}"
     run_inference "${2:-}" "${3:-}"
 
-    log "🎯 GLÜCKWUNSCH ✅ XAIGPUARCANT🧠 ANTWORT ✨ -ABGESCHLOSSEN-UND-GESPEICHERT 📝 UNTER: **${BUILD_DIR}/${LLAMA_CLI_PATH}**"
+    log "🎯GLÜCKWUNSCH✅XAIGPUARC🧠ANTWORT✨ABGESCHLOSSEN-UND-GESPEICHERT📝UNTER**${BUILD_DIR}/${LLAMA_CLI_PATH}**"
 } # Die Funktion wird HIER geschlossen
 
 #--
