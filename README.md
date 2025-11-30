@@ -18,7 +18,8 @@ I hope you like the small builds and use solar 10.7b Q6 IQ for the first time, l
 Testest well with 718 Gib/s Bandwith on Claw Quad Cannel Meteor Lake Mod.
 
 If you are a Windows User, i personal recommend to use the AIPlayground Programm from Intel itself! 
-You see there is no need to make a Windows Version of XAIGPUARC.
+You see there is no need to make a Windows Version of XAIGPUARC. 
+(Update 1 DEZ.25 Now i think this is way faster in the special cases woh it works fine!!!)
 
 A Pro Version with also own made Code from Scratch is comming soon only for Customers.
 Let us make AI usefull and less expensive for your Company.
