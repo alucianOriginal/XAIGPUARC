@@ -1,9 +1,17 @@
 #!/bin/bash
 
-#models/llama-3-12b-Instruct.i1-Q6_Kv.gguf
+#🔍LOW-SPEC-GERMAN-AI-AUTOMAT-
+#Intel-iGPU-2x2GB=4GB-RAM-4GB-VRAM-1.5B-HQ-IQ-Modell-
+#Intel-Xe-iGPU/dGPU/XMX/ARC/VEC/f16/FP16/32/SYCL/11,5GB/V/RAM/2x2GB-
+#9-GB-FREE-DISK-SPACE-SDD-MIN-FOR-INCLUDE-AI SOLAR 10.7B!-USE-THAT-
+#Optimal Modell!Q8-Q6-IQ-GGUF-BELOW16GB-RAM+VRAM!LOWSPEFRIENDLY!-
+#FASTER-RAM/VRAM-FASTER-MODELL-
+#/models/solar-10.7b-instruct-v1.0.Q6_K.gguf-
+#/models/llama-3-12b-Instruct.i1-Q6_Kv.gguf-
+#wizardcoder-python-7b-v1.0.Q8_0-
+
 set -euo pipefail
 IFS=$'\n\t'
-
 PRECISION="FP16"
 DEVICE="ARC"
 LLAMA_CPP_DIR="llama.cpp"
@@ -13,13 +21,11 @@ BUILD_DIR="${BUILD_DIR:-XAIGPUARC}"
 GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"
 NPROC="${NPROC:-$(nproc)}"
-
 LOG_FILE="${BUILD_DIR:-XAIGPUARC}/XAIGPUARC.log"
 LLAMA_CLI_PATH="bin/llama-cli"
 LS_SYCL_DEVICE_PATH="bin/llama-ls-sycl-device"
 
 #-ONEAPI+SYCL-FUNKTIONEN-
-
 export TCM_ROOT="${TCM_ROOT:-/opt/intel/oneapi/tcm/latest}"
 export SYCL_CACHE_PERSISTENT=1
 export OCL_ICD_FILENAMES=""
@@ -28,20 +34,16 @@ export CCACHE_DIR="$HOME/.ccache"
 export COMPILER_VERSION="2025.0"
 
 #-00-HILFSFUNKTIONEN-
-
 log() { printf "🔷 %s\n" "$*"; }
 success() { printf "✅ %s\n" "$*"; }
 error() { printf "❌ %s\n\n" "$*"; }
 warning() { printf "⚠️ %s\n\n" "$*"; }
 err() { error "$*"; }
 warn() { printf "⚠️ %s\n" "$*"; }
-
-#-AUSGABE-BEGRUESUNG-UND-VORSTELLUNG-
+#-AUSGABE-VORSTELLUNG-
 separator() {
-    echo -e "==\n"
-    echo -e "==🏗=XAIGPUARC=🏗=Clear-Angel=Vanilla==\n"
-    echo -e "==VERSION--30.11.2025-FREE-ADVENT-EDITION==\n"
-    echo -e "-==ENDE==\n"
+    echo -e "--🏗-XAIGPUARC-🏗-Clear-DARK-Angel-Vanilla-MATRIX-🔍AI--\n"
+    echo -e "--VERSION--30.11.2025-FREE-ADVENT-EDITION--\n"
 }
 #-0-UMGEBUNG-UND-RUCKFALLMECHANISMEN-VORBEREITEN-
 prepare_environment() {
@@ -51,8 +53,7 @@ prepare_environment() {
         err "ONEAPI NICHT GEFUNDEN: $SETVARS_PATH. INSTALLIERE ZU ERST ONE API"
         exit 1
     fi
-
-    log "SETVARS.SH SETZEN UND PRÜFEN..."
+    log "SETVARS.SH SETZEN UND🔍"
     source "$SETVARS_PATH" --force 2>/dev/null
     local ONEAPI_ROOT_FALLBACK="/opt/intel/oneapi"
     local COMPILER_VERSION_FALLBACK="${COMPILER_VERSION:-2025.0}"
@@ -65,48 +66,43 @@ prepare_environment() {
     export CPATH="${CPATH:-}:${MKL_ROOT}/include"
     local LIB_DIR="/opt/intel/oneapi/compiler/latest/lib:/opt/intel/oneapi/mkl/latest/lib"
     export LD_LIBRARY_PATH="./${BUILD_DIR}/bin:${LIB_DIR}:${LD_LIBRARY_PATH:-}"
-
     if ! command -v icx &>/dev/null; then
         err "ICX/IPX INTEL COMPILER INSTALLATION..."
         exit 1
     fi
-
     log "✅ VERBINDUNG ONEAPI GELADEN... (DPCPP_ROOT=${DPCPP_ROOT} und MKL_ROOT=${MKL_ROOT})."
 }
-
 #-1-PROJEKT-VORBAU-
 setup_project() {
-    log "📦 BAUE XAIGPUARC.... BITTE WARTEN....."
+    log "📦 BAUE-XAIGPUARC-BITTE WARTEN"
     if [ ! -d "${LLAMA_CPP_DIR}" ]; then
-        log "   -> KLONE GRUNDLAGEN VON LLAMA.CPP......"
+        log "📦->KLONE GRUNDLAGEN VON LLAMA.CPP"
         git clone https://github.com/ggerganov/llama.cpp "${LLAMA_CPP_DIR}"
         if [ $? -ne 0 ]; then
             err "❌ KLONEN FEHLGESCHLAGEN ABBRUCH"
             exit 1
         fi
     fi
-
     if pushd "${LLAMA_CPP_DIR}" > /dev/null; then
-        log "  ->AKTUALISIERE UNTERMODULE"
+        log "🔍->AKTUALISIERE UNTERMODULE"
         git pull
         git submodule update --init --recursive
         popd > /dev/null
-        success "✅ LLAMA.CPP ANTWORTET.... UNTERGRUPPEN WERDEN GELADEN..."
+        success "✅ LLAMA.CPP ANTWORTET..UNTERGRUPPEN WERDEN GELADEN"
     else
-        err "❌ FEHLER HAUPTVERZEICHNIS '${LLAMA_CPP_DIR}' NICHT GEFUNDEN ABBRUCH"
+        err "❌FEHLER HAUPTVERZEICHNIS'${LLAMA_CPP_DIR}'NICHT GEFUNDEN ABBRUCH"
         exit 1
     fi
 }
-
 separator() {
     echo -e "==\n"
-    echo -e "==PATCH5/5==\n"
+    echo -e "==PATCH5/6==\n"
     echo -e "==\n"
 }
 
-#-PATCH-5/5-LOGIK-
+#-00-PATCH-6/6-PLUS-a-b-c-d-e-
 patch_llama_cpp() {
-    log "🔷 🔷 🩹 Patches für ggml-sycl anwenden (Header & CMake & Kernel-Dispatch-Registrierung)..."
+    log "🔷 🏗 🩹 Patches für ggml-sycl anwenden (Header & CMake & Kernel-Dispatch-Registrierung)"
     local DPCT_HELPER_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/dpct/helper.hpp"
     local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
     local CUSTOM_KERNEL_DIR="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/custom_kernels"
@@ -114,69 +110,59 @@ patch_llama_cpp() {
     local CUSTOM_KERNEL_CMAKE="${CUSTOM_KERNEL_DIR}/CMakeLists.txt"
     local GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
     local KERNEL_SOURCE_LOCAL="ggml_flash_attention_sycl.cpp"
-
-    #-PATCH-1/5-
-
+    #-PATCH-1/6-
     if [ -f "$DPCT_HELPER_FILE" ]; then
-        log "🔷      -> PATCH 1/5: DOCTPHELPER FEHLGESCHLAGEN. ABHÄNGIGKEITSLISTE PRÜFEN"
+        log "🔷->PATCH 1/6: DOCTPHELPER FEHLGESCHLAGEN. ABHÄNGIGKEITSLISTE PRÜFEN"
         if sed -i 's|#include <sycl/ext/oneapi/math.hpp>|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
-             log "🔷      -> ✅ PATCH 1/5 ERFOLGREICH"
+             log "🔷-> ✅ PATCH 1/6 ERFOLGREICH"
         elif sed -i 's|#if \!defined(DPCT\_USM\_LEVEL\_NONE) && defined(DPCT\_ENABLE\_MKL\_MATH).*#endif|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
-            log "🔷      -> ✅ PATCH 1/5 ERFOLGREICH (SPEICHERE IN LOG)."
+            log "🔷->✅ PATCH 1/6 ERFOLGREICH (SPEICHERE IN LOG"
         else
-            error "🏗❌ PATCH 1/5 HELPER INSTALLIEREN (dpct/helper.hpp) IST FEHLGESCHLAGEN."
+            error "🔷->❌ PATCH 1/6 HELPER INSTALLIEREN (dpct/helper.hpp) IST FEHLGESCHLAGEN"
             return 1
         fi
     else
-        error "❌ PATCH 1/5 FEHLGESCHLAGEN**dpct/helper.hpp** NICHT GEFUNDEN. ABHÄNGIKEITEN PRÜFEN"
+        error "🔷->❌ PATCH 1/6 FEHLGESCHLAGEN**dpct/helper.hpp** NICHT GEFUNDEN. ABHÄNGIKEITEN PRÜFEN"
         return 1
     fi
-
-    #-PATCH-2/5-
-    log "🔷      -> PATCH 2/5: KRASSEN XARCFA SUPERSPEICHERMATHEKERNEL IN DAS KRASSE XAIGPUARC INTEGRIEREN...."
+    #-PATCH-2/6-
+    log "🔷->PATCH 2/6: XARCFA SUPERSPEICHERMATHEKERNEL"
     #--2a-
-
     if [ ! -d "$CUSTOM_KERNEL_DIR" ]; then
         mkdir -p "$CUSTOM_KERNEL_DIR"
-        log "🔷ZZZ -> ORNDER... '${CUSTOM_KERNEL_DIR}' ...ANGELEGT"
+        log "🔷ORNDER '${CUSTOM_KERNEL_DIR}'ANGELEGT"
     fi
     if [ -f "$KERNEL_SOURCE_LOCAL" ]; then
         cp "$KERNEL_SOURCE_LOCAL" "$CUSTOM_KERNEL_SRC"
-        log "🔷         -> ✅ XARCFA Kernel von './${KERNEL_SOURCE_LOCAL}' nach '${CUSTOM_KERNEL_SRC}' kopiert."
+        log "🔷->✅XARCFA KERNEL './${KERNEL_SOURCE_LOCAL}' nach '${CUSTOM_KERNEL_SRC}' kopiert"
     fi
     if [ ! -f "$CUSTOM_KERNEL_SRC" ]; then
-        echo "// Platzhalter für ggml_flash_attention_sycl.cpp (Kernel-Datei fehlte im Home-Verzeichnis)" > "$CUSTOM_KERNEL_SRC"
-        warning "⚠️ Kernel-Datei '${KERNEL_SOURCE_LOCAL}' nicht im Home-Verzeichnis gefunden. Es wurde ein Platzhalter erstellt."
+        echo "//Platzhalter für ggml_flash_attention_sycl.cpp KERNELHOME" > "$CUSTOM_KERNEL_SRC"
+        warning "⚠️KERNELDATEI '${KERNEL_SOURCE_LOCAL}'HOMEPLATZHALTER"
     fi
-
 echo "
-#==CMakeLists.txt für Flash Attention Kernel (OBJECT-Library)==
-#==OBJECT-Library wird verwendet, um die Objektdateien direkt in die Hauptbibliothek einzufügen.==
-add_library(ggml_flash_attention OBJECT==
+add_library(ggml_flash_attention_sycl OBJECT==
     ggml_flash_attention_sycl.cpp==
 )
-#==Stelle sicher, dass die Compiler-Optionen für SYCL übernommen werden==
-target_include_directories(ggml_flash_attention PRIVATE \${GGML_SYCL_INCLUDE_DIRS})==
-target_compile_options(ggml_flash_attention PUBLIC \${GGML_SYCL_COMPILE_FLAGS})==
+target_include_directories(ggml_flash_attention_sycl PRIVATE \${GGML_SYCL_INCLUDE_DIRS})--
+target_compile_options(ggml_flash_attention_sycl PUBLIC \${GGML_SYCL_COMPILE_FLAGS})--
 " > "$CUSTOM_KERNEL_CMAKE"
-log "🔷         -> CMakeLists.txt für Kernel als OBJECT-Library erstellt."
-
-    #-2b/5-
-    local ADD_SUBDIR_LINE="add_subdirectory(custom_kernels)"
+log "🔷-> CMakeLists.txt für Kernel als OBJECT-Library erstellt"
+    #-2b/6-b-
+    local ADD_SUBDIR_LINE="add_subdirectory(ggml_flash_attention_sycl)"
     if ! grep -q "${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
         if sed -i "/add_subdirectory(dpct)/a ${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
-            log "🔷         -> ✅ PATCH 2/5 erfolgreich: custom_kernels zu Haupt-CMake hinzugefügt."
+            log "🔷->✅🏗PATCH 2/6 ERFOLGREICH ggml_flash_attention_sycl zu Haupt-CMake hinzugefügt"
         else
-            error "❌ PATCH 2/5 (custom_kernels hinzufügen) ist fehlgeschlagen."
+            error "❌PATCH 2/6 ggml_flash_attention_sycl hinzufügen ist FEHLGESCHLAGEN"
             return 1
         fi
     else
-        log "🔷         -> ⚠️ PATCH 2/5 (custom_kernels) scheint bereits angewandt zu sein. Überspringe."
+        log "🔷->⚠️PATCH 2/6 ggml_flash_attention_sycl bereits angewandt zu sein. UEBVERSPRINGE"
     fi
-
-    #-PATCH-3/5-
+    #-PATCH-3/6-a-
     if [ -f "$CMAKE_LISTS_FILE" ]; then
-        log "🔷      -> PATCH 3/5: CMakeLists.txt anpassen (Alle Header-Pfade für icpx)."
+        log "🔷-> PATCH 3/6: CMakeLists.txt anpassen (Alle Header-Pfade für icpx)."
         local MKL_INCLUDE_PATH="${MKL_ROOT}/include"
         local COMPILER_INCLUDE_PATH="${DPCPP_ROOT}/include"
         local DPCPP_LIB_INCLUDE_PATH="${DPCPP_ROOT}/lib/dpcpp/include"
@@ -186,110 +172,115 @@ log "🔷         -> CMakeLists.txt für Kernel als OBJECT-Library erstellt."
         if ! grep -q "${COMPILER_INCLUDE_PATH}" "$CMAKE_LISTS_FILE"; then
             local SED_PATCH_LINE=$(echo "$PATCH_LINE" | sed 's/ /\\ /g; s/[\/&]/\\&/g')
             if sed -i "/${SEARCH_MARKER}/a $SED_PATCH_LINE" "$CMAKE_LISTS_FILE"; then
-                log "🔷      -> ✅ PATCH 3/5 erfolgreich: Alle Header-Pfade injiziert."
+                log "🔷->✅🏗PATCH 3/6 erfolgreich: Alle Header-Pfade injiziert."
             else
-                error "❌ PATCH 3/5 📝 CMAKE LISTS:TXT NICHT GEFUNDEN. ABHÄNGIKEITEN PRÜFEN"
+                error "❌PATCH 3/6📝CMAKE LISTSTXT NICHT GEFUNDEN ABHÄNGIKEITEN PRÜFEN"
                 return 1
             fi
         else
-            log "🔷      -> ⚠️ PATCH 3/5 PFAD BEREITS BENUTZT... ÜBERSPRINGE"
+            log "🔷->⚠️PATCH 3/6📝PFAD BEREITS BENUTZT... ÜBERSPRINGE"
         fi
     else
-        error "❌ PATCH 3/5 FEHLGESCHLAGEN: 📝 CMAKE LISTS FÜR SYCL GGML PFADE NICHT GEFUNDEN ABHÄNGIGKEITEN PRÜFEN"
+        error "❌PATCH 3/6 FEHLGESCHLAGEN:📝CMAKE LISTS FÜR SYCL GGML PFADE NICHT GEFUNDEN ABHÄNGIGKEITEN PRÜFEN"
         return 1
     fi
-
-    #-PATCH-4/5-
-    log "🔷      -> PATCH 4/5: FLASH ATTENTION XARCFA IN **ggml-sycl.cpp** INJIZIEREN🏗"
+    #-PATCH-4/6-a-
+    log "🔷->🏗PATCH 4/6: FLASH ATTENTION XARCFAggmlsyclcppINJIZIEREN🏗"
     if [ -f "$GGML_SYCL_CPP" ]; then
-        #-4a/5-
-        local FA_REGISTER_CODE=$'// REGESTRIERE FLASH ATTENTION KERNEL XARCFA \nextern "C" void ggml_sycl_op_flash_attn(ggml_backend_sycl_context * ctx, ggml_tensor * dst, const ggml_tensor * Q, const ggml_tensor * K, const ggml_tensor * V);\n'
-        if ! grep -q "ggml_sycl_op_flash_attn" "${GGML_SYCL_CPP}"; then
+        #-4a/6-
+        local FA_REGISTER_CODE=$'//REGESTRIERE FLASH ATTENTION KERNEL XARCFA \nextern "C" void ggml_flash_attention_sycl(ggml_flash_attention_sycl * ctx, ggml_tensor * dst, const ggml_tensor * Q, const ggml_tensor * K, const ggml_tensor * V);\n'
+        if ! grep -q "ggml_flash_attention_sycl" "${GGML_SYCL_CPP}"; then
             echo "${FA_REGISTER_CODE}" > /tmp/fa_decl.patch
-
-            awk '/extern "C" void ggml_sycl_op_mul_mat_q_k/ { system("cat /tmp/fa_decl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
+            awk '/extern "C" void ggml_flash_attention_sycl/ { system("cat /tmp/fa_decl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
             mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
             if [ $? -eq 0 ]; then
-                log "🔷 -> PATCH 4/5 DEKLARATION ERFOLGREICH EINGEFÜGT"
+                log "🔷->PATCH 4/6 DEKLARATION ERFOLGREICH EINGEFÜGT"
             else
-                error "❌ PATCH 4/5 FEHLER BEIM EINFÜGEN DER FLASH ATTENTION XARCFA DEKLARATION (AWK-FEHLER)"
+                error "❌PATCH 4/56 FEHLER BEIM EINFÜGEN DER FLASH ATTENTION XARCFA DEKLARATION (AWK-FEHLER)"
                 return 1
             fi
-
         else
-            log "🔷 -> DEKLARATIONEN VORHANDEN FORTFAHRE."
+            log "🔷->DEKLARATIONEN VORHANDEN FORTFAHREN"
         fi
 local FA_DISPATCH_CASE=$' case GGML_OP_FLASH_ATTN:\n ggml_sycl_op_flash_attn(ctx, dst, src0, src1, src2);\n            break;'
         if ! grep -q "case GGML_OP_FLASH_ATTN:" "${GGML_SYCL_CPP}"; then
-            log "🔷 -> Versuche, den Dispatch-Case (FA) mittels AWK einzufügen."
-
+            log "🔷->Versuche, den Dispatch-Case (FA) mittels AWK einzufügen."
             echo "${FA_DISPATCH_CASE}" > /tmp/fa_dispatch.patch
             awk '/case GGML_OP_MUL_MAT_Q_K:/ { system("cat /tmp/fa_dispatch.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
             mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
             if [ $? -eq 0 ]; then
-                log "🔷 -> PATCH 4/5 ERFOLGREICH ✅ UNTERBAU ERFOLGREICH EINGEFÜHRT✅"
+                log "🔷->PATCH 4/6 ERFOLGREICH✅UNTERBAU ERFOLGREICH EINGEFÜHRT✅"
             else
-                error "❌ PATCH 4/5 📝 Fehler beim Einfügen des FA Dispatch-Case (AWK-Fehler)"
+                error "🔷->❌PATCH 4/6FEHLER BEIM EINFUEGEN AKW PATCH"
             fi
         else
-            log "🔷 -> ✅ PATCH 4/5 UNTERBAU VORHANDEN FORTFAHREN"
+            log "🔷->✅PATCH 4/6 UNTERBAU🔷VORHANDEN FORTFAHREN"
         fi
-        log "🔷 -> ✅ PATCH 4/5 ERFOLGREICH FLASH ATTENTENTION GELADEN"
+        log "🔷->✅PATCH 4/6 ERFOLGREICH-FLASHATTENTENTION-GELADEN"
     else
-        error "❌ PATCH 4/5 FEHLGESCHLAGEN 📝 **ggml-sycl.cpp** NICHT GEFUNDEN!!!"
+        error "❌PATCH 4/6 FEHLGESCHLAGEN📝❌ggmlsyclcppNICHT🔍GEFUNDEN🔍"
         return 1
     fi
-
-#-PATCH-5/5-
-    log "🔷 -> PATCH 5/5: INJIZIEREN OBJEKT 🏗 VARIABLEN AUS UNTERBLOCK VON  SYCL BIBLIOTHEKEN.."
+#-PATCH-5/6-a-
+    log "🔷->PATCH 5/6: INJIZIEREN OBJEKT🏗VARIABLEN AUS UNTERBLOCK VON  SYCL BIBLIOTHEKEN.."
     local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
-    #-5a/5-
-    local VAR_LINE="set(FA_OBJECT_FILES \"\$<TARGET_OBJECTS:ggml_flash_attention>\")"
+    #-5a/6-
+    local VAR_LINE="set(FA_OBJECT_FILES \"\$<TARGET_OBJECTS:ggml_flash_attention_sycl>\")"
     local VAR_SEARCH_MARKER="set(GGML_SYCL_SOURCES"
     if ! grep -q "FA_OBJECT_FILES" "$CMAKE_LISTS_FILE"; then
         local SED_VAR_LINE=$(echo "$VAR_LINE" | sed 's/[\/&]/\\&/g')
         if sed -i "/${VAR_SEARCH_MARKER}/a ${SED_VAR_LINE}" "$CMAKE_LISTS_FILE"; then
-             log "🔷      -> 5a/5: OBJEKT VARIABLEN 🏗 ERFOLGREICH DEFINIERT"
+             log "🔷->5a/6: OBJEKT VARIABLEN 🏗 ERFOLGREICH DEFINIERT"
         else
-            error "❌ Patch 5a/5 OBJEKT VARIABLEN FEHLGESCHLAGEN STOPP"
+            error "❌Patch 5a/6 OBJEKT VARIABLEN🔷FEHLGESCHLAGEN STOPP"
             return 1
         fi
     else
-        log "🔷 -> 5a/5: OBJEKT VARIABLEN VORHANDEN ÜBERSPRINGE"
+        log "🔷->5a/6: OBJEKT VARIABLEN VORHANDEN🔍ÜBERSPRINGE"
     fi
-
-    #-5b/5-
+    #-5b/6-
     local TARGET_SEARCH_MARKER="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES})"
     local NEW_TARGET_SOURCES_LINE="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES} \${FA_OBJECT_FILES})"
     if grep -q "${TARGET_SEARCH_MARKER}" "$CMAKE_LISTS_FILE" && ! grep -q "\${FA_OBJECT_FILES}" "$CMAKE_LISTS_FILE"; then
         local SED_NEW_LINE=$(echo "$NEW_TARGET_SOURCES_LINE" | sed 's/[\/&]/\\&/g')
         local SED_SEARCH_MARKER=$(echo "$TARGET_SEARCH_MARKER" | sed 's/[\/&]/\\&/g')
         if sed -i "s/${SED_SEARCH_MARKER}/${SED_NEW_LINE}/" "$CMAKE_LISTS_FILE"; then
-            log "🔷 -> ✅ PATCH 5/5 ERFOLGREICHE INJEKTIONEN IN BAUVORGANG"
+            log "🔷->✅PATCH 5/6 ERFOLGREICHE INJEKTIONEN IN BAUVORGANG"
         else
-            error "❌ PATCH 5b/5 INJEKTION FEHLGESCHLAGEN!!!"
+            error "❌PATCH 5b/6 INJEKTION FEHLGESCHLAGEN"
             return 1
         fi
-
     else
-        log "🔷 -> ⚠️PATCH 5b/5 IST BEREITS AKTIV INJECTION WIRD ÜBERSPRUNGEN"
+        log "🔷->⚠️PATCH 5b/6 IST BEREITS AKTIV INJECTION WIRD ÜBERSPRUNGEN"
     fi
-
-    success "✅ ALLE FÜNF PATCHES ERFOLGREICH ANGEWAND"
+    success "✅ALLE FÜNF PATCHES ERFOLGREICH ANGEWAND"
+#-PATCH-6/6-
+log "🔷->PATCH 6/6: ssm_conv.cpp WARNUNG beheben VORZEICHENVERGLEICH"
+local SSM_CONV_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ssm_conv.cpp"
+local SEARCH_LINE='GGML_ASSERT(src0->nb[1] == src0->ne[0] * static_cast<int>(sizeof(float)));'
+local REPLACE_LINE='GGML_ASSERT(src0->nb[1] == (size_t)(src0->ne[0] * sizeof(float)));' # Explizites Casting
+if grep -q "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
+    if sed -i "s/${SEARCH_LINE}/${REPLACE_LINE}/g" "$SSM_CONV_FILE"; then
+        log "🔷->✅PATCH 6/6ssm_conv.cppERFOLGREICH"
+    else
+        error "❌PATCH 6/6ssm_conv.cppFEHLGESCHLAGEN"
+        return 1
+    fi
+else
+    log "🔷->⚠️PATCH 6/6ssm_conv.cppZEILE-NICHT-GEFUNDEN-UEBERSPRINGE"
+fi
 }
-
 #-2-XAIGPUARC-BAU-KONFIGURATION-
 configure_build() {
-    log "🔷 ⚙ BEREITE XAIGPUARC BAUVORGANG VOR"
+    log "🔷⚙BEREITE🏗XAIGPUARCBAUVORGANG"
     local FP_MODE="${1:-1}" #-PRIO-f16-Q8-Q6gguf-
     local FP_FLAG="-DGGML_SYCL_F16=${FP_MODE}"
     if [ ! -d "${BUILD_DIR}" ]; then
-        log " -> LEGE XAIGPUARCORDNER AN ${BUILD_DIR}"
-        mkdir -p "${BUILD_DIR}" || { err "❌ 📝 KONNTE DEN ORDNER XAIGPUARC '${BUILD_DIR}' NICHT ANLEGEN"; return 1; }
+        log "🔷->LEGE-XAIGPUARCORDNER${BUILD_DIR}"
+        mkdir -p "${BUILD_DIR}" || { err "❌📝KONNTE DEN ORDNER XAIGPUARC '${BUILD_DIR}' NICHT ANLEGEN"; return 1; }
     fi
-
     if pushd "${BUILD_DIR}" > /dev/null; then
-        log " -> STARTE CMAKE BAU XAIGPUARC ${FP_FLAG})..."
+        log "🔷->STARTE-CMAKE-BAU-XAIGPUARC ${FP_FLAG})..."
         cmake "../${LLAMA_CPP_DIR}" \
             -G "Unix Makefiles" \
             -DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}" \
@@ -304,69 +295,58 @@ configure_build() {
         local CMAKE_STATUS=$?
         popd > /dev/null
         if [ ${CMAKE_STATUS} -ne 0 ]; then
-            err "❌ CMAKE FEHLGESCHLAGEN"
+            err "❌CMAKE-FEHLGESCHLAGEN"
             return 1
         fi
-
-        success "✅ 🏗 BAU ABGESCHLOSSEN XAIGPUARC BEREIT"
+        success "✅🏗BAU-ABGESCHLOSSEN-XAIGPUARC-BEREIT"
     else
-        err "❌ KONNTE NICHT IN XAIGPUARC WECHSENL '${BUILD_DIR}' BERECHTIGUNG PRÜFEN"
+        err "❌KONNTE NICHT IN-XAIGPUARC-WECHSENL '${BUILD_DIR}'COMPUTER-NUTZER-BERECHTIGUNG-PRÜFEN"
         return 1
     fi
 }
-
 separator() {
-    echo -e "==XAIGPUARC BAUFORGANG KANN FORTGESETZT WERDEN==\n"
-    echo -e "==XAIGPUARC EINRICHTUNG ABGESCHLOSSEN==\n"
-    echo -e "==LOKAL KI BAUVORGANG ABHÄNGIGKEITEN VORHANDEN==\n"
-    echo -e "==FESTE KONFIGURATION VON XAIGPUARC AUF LOKALER MASCHINE==\n"
-    echo -e "==AUF HOME ORDNER GESPEICHERT UND LÖSCHBAR==\n"
+    echo -e "--XAIGPUARC-BAUFORGANG KANN FORTGESETZT WERDEN--\n"
 }
-
 #-3-KOMPILIEREN-
 compile_project() {
-    log "🔨 BAUE ....XAIGPUARC....BITTE WARTEN..."
+    log "🔨✅BAUE-XAIGPUARC-BITTE WARTEN..."
     local LOG_FILE="build.log"
-    log "🔷 🏗 📝 KOPFZEILENAUSGABE IM LOG **${BUILD_DIR}/${LOG_FILE}** GESPEICHERT"
-    log "🔷 🏗 BAU VON XAIGPUARC KOPFZEILEN"
+    log "🔷🏗📝✅KOPFZEILENAUSGABE**${BUILD_DIR}/${LOG_FILE}**GESPEICHERT"
+    log "🏗✅BAU-XAIGPUARC-KOPFZEILEN"
     if pushd "${BUILD_DIR}" > /dev/null; then
-        log "🏗 BAU VON XAIGPUARC"
+        log "🏗✅BAU VON XAIGPUARC"
         cmake --build . --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama-cli llama-ls-sycl-device > "${LOG_FILE}" 2>&1
         local BUILD_STATUS=$?
         popd > /dev/null
         if [ ${BUILD_STATUS} -ne 0 ]; then
-            error "❌ BAU VON XAIGPUARC KOPF FEHLGESCHLAGEN: ÜBERPRÜFEN SIE DAS LOG **${BUILD_DIR}/${LOG_FILE}**."
+            error "❌BAU VON XAIGPUARC KOPF FEHLGESCHLAGEN: ÜBERPRÜFEN SIE DAS LOG**${BUILD_DIR}/${LOG_FILE}**."
             return 1
         fi
-        success "✅ BAU VON XAIGPUARC ERFOLGREICH."
+        success "✅BAU VON XAIGPUARC ERFOLGREICH"
     else
-        error "❌ KONNTE XAIGPUARC NICHT NEU BAUEN '${BUILD_DIR}' WEGEN FEHLERHAFTEM WECHSEL. BAU NICHT MÖGLICH❌❌❌"
+        error "❌KONNTE XAIGPUARC NICHT NEU BAUEN '${BUILD_DIR}' WEGEN FEHLERHAFTEM WECHSEL. BAU NICHT MÖGLICH❌"
         return 1
     fi
 }
-
 separator() {
-    echo -e "==\n"
-    echo -e "==AUTOMATISCHE SYCL KOMPATIBLE==\n"
-    echo -e "==\n"
-    echo -e "==GERÄTEAUSWAHLVERFAHREN STARTET JETZT !! BITTE GEDULD==\n"
+    echo -e "-AUTOMATISCHE-SYCL-KOMPATIBLE-\n"
+    echo -e "--GERÄTEAUSWAHLVERFAHREN-STARTEN-JETZT--BITTE GEDULD...--\n"
 }
-
 #-4-AUTOMATISCHE-GERAETEAUSWAHL-
 auto_select_device() {
-    log "🔍 SUCHE NACH VERFÜGBAREN SYCL GERÄTEN AUF IHREM SYSTEM."
+    log "🔍SUCHE NACH VERFÜGBAREN SYCL GERÄTEN AUF IHREM SYSTEM."
     local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
     if [ ! -x "${FULL_LS_PATH}" ]; then
-        warn "⚠️ ❌ LLAMA UNTERBAU NICHT GEFUNDEN ${FULL_LS_PATH}. RÜCKFALL AUF ARC dGPU✅"
-        export ONEAPI_DEVICE_SELECTOR="level_zero:0 -->ANBINDUNG ERFOLGREICH!✅"
+        warn "⚠️❌LLAMA UNTERBAU NICHT GEFUNDEN ${FULL_LS_PATH}RÜCKFALL AUF ARC dGPU✅"
+        export ONEAPI_DEVICE_SELECTOR="level_zero:0->ANBINDUNG ERFOLGREICH✅"
         DEVICE="ARC"
         return
     fi
     local DEVICES
     DEVICES=$(bash -c "${FULL_LS_PATH}")
     if [ -z "$DEVICES" ]; then
-        warn "⚠️ KEINE KOMPATIBLEN SYCL GERÄTE GEFUNDEN: ERROR! ❌AKTUELLE ABHÄNGIGKEITEN PRÜFEN!"
-        export ONEAPI_DEVICE_SELECTOR="level_zero:0 --> ❌ ANBINDUNG FEHLGESCHLAGEN!"
+        warn "⚠️KEINE KOMPATIBLEN SYCL GERÄTE GEFUNDEN: ERROR❌AKTUELLE ABHÄNGIGKEITEN PRÜFEN"
+        export ONEAPI_DEVICE_SELECTOR="level_zero:0->❌ANBINDUNG FEHLGESCHLAGEN"
         DEVICE="ARC"
         N_GPU_LAYERS=0
         return
@@ -386,14 +366,13 @@ auto_select_device() {
         export ONEAPI_DEVICE_SELECTOR="opencl:cpu"
         DEVICE="CPU"
         N_GPU_LAYERS=0
-        log "⚠️ KEINE GEEIGNETE GRAFIKKARTE GEFUNDEN❌ , FALL AUF CPU ✅ ZURÜCK"
+        log "⚠️KEINE GEEIGNETE GRAFIKKARTE GEFUNDEN❌ ,FALL AUF CPU✅ZURÜCK"
         return
     fi
-
     if [ -n "$TARGET_LINE" ]; then
         local TARGET_ID=$(echo "$TARGET_LINE" | awk '{print $1}')
         export ONEAPI_DEVICE_SELECTOR="level_zero:${TARGET_ID}"
-        log "🎯 Using Intel ${DEVICE} (Device ${TARGET_ID})"
+        log "🎯Using Intel ${DEVICE} (Device ${TARGET_ID})"
         local VRAM_GIB=$(echo "$TARGET_LINE" | grep -oP '\d+(?=M)' | head -n1)
         VRAM_GIB=$((VRAM_GIB / 1024)) #MIB-zu-GIB-
         local LAYER_SIZE_MIB=350
@@ -405,121 +384,93 @@ auto_select_device() {
         if [ "$N_GPU_LAYERS" -lt 1 ]; then
             N_GPU_LAYERS=1
         fi
-        log "🧠 UNGEFÄHRE NGL in  **${N_GPU_LAYERS}** 🧠🎯SCHICHTEN🎯🧠"
+        log "UNGEFÄHRE🔍NGL-1-in  **${N_GPU_LAYERS}**SCHICHTEN🧠"
     fi
 }
-
 #-5-SYCL-KOMPATIBLE-GERÄTE-PRUEFEN-
 list_sycl_devices() {
-    log "🔍 SUCHE SYCL FÄHIGES GERÄT AUF IHREM SYSTEM"
+    log "🔍SUCHE SYCL FÄHIGES GERÄT AUF IHREM SYSTEM"
     local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 
     if [ -f "${FULL_LS_PATH}" ]; then
         "${FULL_LS_PATH}"
     else
-        warn "⚠️ KEIN SYCL FÄHIGES SYSTEM GEFUNDEN!!! ${FULL_LS_PATH}.
-        KONNTE KEIN FÄHIGES GERÄT FINDEN🔍🔍🔍!!!"
+        warn "⚠️KEIN SYCL FÄHIGES SYSTEM GEFUNDEN!!! ${FULL_LS_PATH}.
+        KONNTE KEIN FÄHIGES GERÄT FINDEN🔍"
     fi
 }
-
 separator() {
-    echo -e "==\n"
-    echo -e "==STARTE-MODELLAUSWAHL==\n"
-    echo -e "==\n"
+    echo -e "-STARTE-MODELLAUSWAHL-\n"
 }
-
-#-0-MODELL-PFAD-WAEHLEN-
+#-6-MODELL-PFAD-WAEHLEN-
 prepare_model() {
-    MODEL_PATH=${1:-"models/llama-3-12b-Instruct.i1-Q6_Kv.gguf"}
-#-Change-Human-AI-Modell-NAME-Here-and-Below!-Accurate!-ANFANG-
+    MODEL_PATH=${1:-"models/Qwen2.5-Coder-1.5B-Instruct-F16.gguf"}
     mkdir -p models
     if [ ! -f "$MODEL_PATH" ]; then
-        warn "Ihr AI/KI-Modell konnte leider nicht unter: --home/ihrname/models/-- gefunden werden. Bitte Kopieren Sie das Modell dorthin.**$MODEL_PATH**. Bitte laden Sie das gewünschte AI/KI Modell. Für die Nutzung von XAIGPUARC wird Empfohlen ein Q6 oder  Q8 gguf IQ-Modell entsprechend 2-3 Gigabyte weniger ihrem VRAM der Größe nach gewählt, um einen Puffer für die Arbeiten auf der iGPU oder der dGPU ihres Systems zu gewährleisten."
+        warn "Ihr AI/KI-Modell konnte leider nicht unter:home/ihrname/models/-gefunden werden.Bitte Kopieren Sie das gewünschte Modell dorthin**$MODEL_PATH**"
     fi
     export MODEL_PATH
 }
 separator() {
-    echo -e "===\n"
-    echo -e "==ACHTUNG! AB HIER KI ANTWORT ERWARTEN==\n"
-    echo -e "==\n"
-    echo -e "==ANWORT AI/KI INFERENCE AUF LOKALER iGPU/dGPU FOLGT AB HIER==\n"
-    echo -e "==\n"
+    echo -e "--ANWORT AI/KI INFERENCE AUF LOKALER iGPU/dGPU FOLGT AB HIER--\n"
 }
-
 #-7-MODELL-AUSFUEHREN-
-#-HEREMODELLCHANGE!!!-
-#-Human-AI-Change-Modell-NAME-Here-and-Above!-Accurate!-ENDE-
-#-PROMTCHANGINGALSOHERE
 run_inference() {
-    local DEFAULT_MODEL_PATH="models/llama-3-12b-Instruct.i1-Q6_K.gguf"
-    #-end-Modell-change-PAUSE-
-    #STARTCHANGEPROMTBELOWHEREDIREKTBELOWUNTENÄNDERNDESTEXTESFÜRKI
+    local DEFAULT_MODEL_PATH="models/Qwen2.5-Coder-1.5B-Instruct-F16.gguf"
     local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
-
-    #########------CHANGEPROMPTPRONTO------############
-    local PROMPT_ARG=${3:-"HELLO. I AM ALUCIAN; I AM A GERMAN TECHNICAN IT GPU OPEN SOURCE DEVELOPER. CAN YOU HELP ME MAKING BETTER SYCL AI BASED LLAMA.CPP FOR ARC INTEL dGPU.iGPU"}
-
-    ####STOPCHANGEPROMT-----####
+    local PROMPT_ARG=${3:-"wie hoch sollte der -n- wert von llama auf intel arc igpus sein"}
     local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
     local NGL_SET=${N_GPU_LAYERS:-99}
     local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
-    log "🚀 STARTE KI ANTWORT PER F16 INFERENCE AUF IHRER iGPU/dGPU mit folgenden PARAMETERN: **${DEVICE} (ID: ${GPU_ID})** with ngl=${NGL_SET} using **${FULL_LLAMA_CLI_PATH}**..."
+    log "🚀STARTE KI ANTWORT PER F16 INFERENCE AUF IHRER iGPU/dGPU MIT FOLGENDEN PARAMETERN**${DEVICE} (ID: ${GPU_ID})** with ngl=${NGL_SET} using **${FULL_LLAMA_CLI_PATH}**..."
     if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
-        err "❌ FEHLER. AKTUELLER LLAMA-UNTERBAU-NICHT GEFUNDEN- NEUBAU-FEHLGESCHLAGEN ${FULL_LLAMA_CLI_PATH} ?"
+        err "❌FEHLER. AKTUELLER LLAMA-UNTERBAU-NICHT GEFUNDEN- NEUBAU-FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH} ?"
         return 1
     fi
     ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
         -no-cnv \
         -m "${MODEL_PATH_ARG}" \
         -p "${PROMPT_ARG}" \
-        -n 512 \
+        -n 896 \
         -e \
         -ngl -1 \
         --split-mode none \
         --main-gpu "${GPU_ID}"
     echo "✅->AI/KI-ANTWORT-FERTIG-GLÜCKWUNSCH"
 }
-
-#-1-DEFINITION DER MAIN-FUNKTION-
+#-0-DEFINITION-HAUPT-MAIN-FUNKTION-
 main() {
     local FP_MODE="${1:-1}"
     local RERUN_BUILD=1
     prepare_environment
-
     local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
     local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
-    #--
     if [[ -f "${FULL_LLAMA_CLI_PATH}" ]] && [[ -f "${FULL_LS_PATH}" ]]; then
-        success "✅ GEFUNDENE AKTUELLE XAIGPUARC VERSION-NEUBAU UNNÖTIG-FORTFAHREN: **${FULL_LLAMA_CLI_PATH}** und **${FULL_LS_PATH}**"
-        log " -> ÜBERSPRINGE BAUVORGANG"
+        success "✅GEFUNDENE-AKTUELLE XAIGPUARC VERSION-NEUBAU-UNNÖTIG-FORTFAHREN**${FULL_LLAMA_CLI_PATH}** und **${FULL_LS_PATH}**"
+        log "✅->ÜBERSPRINGE-BAUVORGANG"
         RERUN_BUILD=0
     else
-        warning "⚠️ KEINE-AKTUELLES-XAIGPUARC-GEFUNDEN--!!!WIRD NEU GEBAUT!!!-BITTE WARTEN."
+        warning "⚠️KEINE-AKTUELLES-XAIGPUARC-GEFUNDEN-GEBAUT-BITTE WARTEN"
         RERUN_BUILD=1
     fi
     if [[ "$RERUN_BUILD" -eq 1 ]]; then
-        log "🏗 STARTE ERSTMALIGEN BAUVORGANG XAIGPUARC"
+        log "🏗STARTE-ERSTMALIGEN-BAUVORGANG-XAIGPUARC"
         setup_project
         patch_llama_cpp
         configure_build "${FP_MODE}"
         compile_project
     else
-        log "⚙->UPDATE-JETZT-NEUESTE-LLAMA-VERSION-BITTE-WARTEN."
+        log "⚙->UPDATE-JETZT-NEUESTE-LLAMA-VERSION-BITTE-WARTEN"
         setup_project
         patch_llama_cpp
     fi
-
     auto_select_device
     list_sycl_devices
     prepare_model "${2:-}"
     run_inference "${2:-}" "${3:-}"
-
-    log "🎯GLÜCKWUNSCH✅XAIGPUARC🧠ANTWORT✨ABGESCHLOSSEN-UND-GESPEICHERT📝UNTER**${BUILD_DIR}/${LLAMA_CLI_PATH}**"
-} # Die Funktion wird HIER geschlossen
-
-#--
-#-HAUPTSCHLEIFE AUFRUF DER MAIN-HAUPT-FUNKTION
+    log "🎯GLÜCKWUNSCH✅XAIGPUARC🧠ANTWORT✨ABGESCHLOSSEN📝UNTER**${BUILD_DIR}/${LLAMA_CLI_PATH}**"
+}
+#-HAUPTSCHLEIFE-
 main "${1:-1}" "${2:-}" "${3:-}"
-
-#-Abschließendes Logging
-log "DER VERLAUF WIRD HIER GESPEICHERT: **${LOG_FILE}**"
+#-LOG-
+log "DER🏗BAUVERLAUF📝VON-XAIGPUARC-WIRD HIER GESPEICHERT**${LOG_FILE}**"
