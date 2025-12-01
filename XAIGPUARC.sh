@@ -1,14 +1,20 @@
 #!/bin/bash
 
-#🔍LOW-SPEC-GERMAN-AI-AUTOMAT-
-#Intel-iGPU-2x2GB=4GB-RAM-4GB-VRAM-1.5B-HQ-IQ-Modell-
-#Intel-Xe-iGPU/dGPU/XMX/ARC/VEC/f16/FP16/32/SYCL/11,5GB/V/RAM/2x2GB-
-#9-GB-FREE-DISK-SPACE-SDD-MIN-FOR-INCLUDE-AI SOLAR 10.7B!-USE-THAT-
-#Optimal Modell!Q8-Q6-IQ-GGUF-BELOW16GB-RAM+VRAM!LOWSPEFRIENDLY!-
-#FASTER-RAM/VRAM-FASTER-MODELL-
-#/models/solar-10.7b-instruct-v1.0.Q6_K.gguf-
-#/models/llama-3-12b-Instruct.i1-Q6_Kv.gguf-
-#wizardcoder-python-7b-v1.0.Q8_0-
+#-🔍LOW-SPEC-GERMAN-AI-AUTOMAT-
+#-INTEL-MKL-ICX-IQ-DynamicGate-F16Bit-ICX-HQ-IQ-F16-30B-Modell-Support--
+#-Low-V/RAM/SSD-USAGE-
+#-Mobile iGPU+dGPU+dualGPU+triGPU-
+#-SYCL/F16/IQ-DG/XTC/MEMSC/ADD/APP/APU/XMX/NPU/ICX/MKL/N/30B-M/-
+
+#-/models/solar-10.7b-instruct-v1.0.Q6_K.gguf-UNTER11GBVRAM-
+#-llama3bthinkingonly5B-F16-6.43GB-
+#-llama-3-12b-Instruct.i1-Q6_Kv.gguf-
+#-Llama-3.2-11B-Vision-Instruct-F16 18GB SEHR GUT IN Q8-
+#-Llama-3-16B.IQ4_XS.gguf-
+#-Qwen3-VL-32B-Instruct-F16 65.5GB-
+#-Qwen2.5-VL-32B-Instruct-2iQX2BITgguf.10GB)-
+#-Qwen3-30B-A3B.gguf-
+#-wizardcoder-python-7b-v1.0.Q8_0.gguf-
 
 set -euo pipefail
 IFS=$'\n\t'
@@ -70,7 +76,7 @@ prepare_environment() {
         err "ICX/IPX INTEL COMPILER INSTALLATION..."
         exit 1
     fi
-    log "✅ VERBINDUNG ONEAPI GELADEN... (DPCPP_ROOT=${DPCPP_ROOT} und MKL_ROOT=${MKL_ROOT})."
+    log "✅ VERBINDUNG ONEAPI GELADEN... (DPCPP_ROOT=${DPCPP_ROOT} und MKL_ROOT=${MKL_ROOT})"
 }
 #-1-PROJEKT-VORBAU-
 setup_project() {
@@ -122,7 +128,7 @@ patch_llama_cpp() {
             return 1
         fi
     else
-        error "🔷->❌ PATCH 1/6 FEHLGESCHLAGEN**dpct/helper.hpp** NICHT GEFUNDEN. ABHÄNGIKEITEN PRÜFEN"
+        error "🔷->❌ PATCH 1/6 FEHLGESCHLAGEN**dpct/helper.hpp** NICHT GEFUNDEN ABHÄNGIKEITEN PRÜFEN"
         return 1
     fi
     #-PATCH-2/6-
@@ -147,60 +153,60 @@ add_library(ggml_flash_attention_sycl OBJECT==
 target_include_directories(ggml_flash_attention_sycl PRIVATE \${GGML_SYCL_INCLUDE_DIRS})--
 target_compile_options(ggml_flash_attention_sycl PUBLIC \${GGML_SYCL_COMPILE_FLAGS})--
 " > "$CUSTOM_KERNEL_CMAKE"
-log "🔷-> CMakeLists.txt für Kernel als OBJECT-Library erstellt"
+log "🔷-> CMAKE LISTE ERFOLGRAUCH AUS OBJEKTLISTE ERSTELLT"
     #-2b/6-b-
-    local ADD_SUBDIR_LINE="add_subdirectory(ggml_flash_attention_sycl)"
+    local ADD_SUBDIR_LINE="add_subdirectory(ggml_flash_attention_sycl.cpp)"
     if ! grep -q "${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
         if sed -i "/add_subdirectory(dpct)/a ${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
-            log "🔷->✅🏗PATCH 2/6 ERFOLGREICH ggml_flash_attention_sycl zu Haupt-CMake hinzugefügt"
+            log "🔷->✅🏗PATCH 2/6 ERFOLGREICH ggml_flash_attention_sycl.cpp KOPF CMAKE EINGETRAGEN"
         else
-            error "❌PATCH 2/6 ggml_flash_attention_sycl hinzufügen ist FEHLGESCHLAGEN"
+            error "❌PATCH 2/6 ggml_flash_attention_sycl.cpp KOPFVERBINDUNG FEHLGESCHLAGEN"
             return 1
         fi
     else
-        log "🔷->⚠️PATCH 2/6 ggml_flash_attention_sycl bereits angewandt zu sein. UEBVERSPRINGE"
+        log "🔷->⚠️PATCH 2/6 ggml_flash_attention_sycl.cpp BEREITS VORHANDEN UEBVERSPRINGE"
     fi
     #-PATCH-3/6-a-
     if [ -f "$CMAKE_LISTS_FILE" ]; then
-        log "🔷-> PATCH 3/6: CMakeLists.txt anpassen (Alle Header-Pfade für icpx)."
+        log "🔷-> PATCH 3/6: CMakeLists.txt anpassen (Alle Header-Pfade für icpx)"
         local MKL_INCLUDE_PATH="${MKL_ROOT}/include"
         local COMPILER_INCLUDE_PATH="${DPCPP_ROOT}/include"
         local DPCPP_LIB_INCLUDE_PATH="${DPCPP_ROOT}/lib/dpcpp/include"
         local ALL_INCLUDE_FLAGS="-I${MKL_INCLUDE_PATH} -I${COMPILER_INCLUDE_PATH} -I${DPCPP_LIB_INCLUDE_PATH}"
-        local PATCH_LINE="    target_compile_options(ggml-sycl PUBLIC \"${ALL_INCLUDE_FLAGS}\")"
-        local SEARCH_MARKER="# Add include directories for MKL headers"
+        local PATCH_LINE=" target_compile_options(ggml-sycl PUBLIC \"${ALL_INCLUDE_FLAGS}\")"
+        local SEARCH_MARKER="Add include directories for MKL headers"
         if ! grep -q "${COMPILER_INCLUDE_PATH}" "$CMAKE_LISTS_FILE"; then
             local SED_PATCH_LINE=$(echo "$PATCH_LINE" | sed 's/ /\\ /g; s/[\/&]/\\&/g')
             if sed -i "/${SEARCH_MARKER}/a $SED_PATCH_LINE" "$CMAKE_LISTS_FILE"; then
-                log "🔷->✅🏗PATCH 3/6 erfolgreich: Alle Header-Pfade injiziert."
+                log "🔷->✅🏗PATCH 3/6 ERFOLGREICH ALLE KOPFZEILEN INJIZIERT"
             else
                 error "❌PATCH 3/6📝CMAKE LISTSTXT NICHT GEFUNDEN ABHÄNGIKEITEN PRÜFEN"
                 return 1
             fi
         else
-            log "🔷->⚠️PATCH 3/6📝PFAD BEREITS BENUTZT... ÜBERSPRINGE"
+            log "🔷->⚠️PATCH 3/6📝PFAD BEREITS BENUTZT..ÜBERSPRINGE"
         fi
     else
         error "❌PATCH 3/6 FEHLGESCHLAGEN:📝CMAKE LISTS FÜR SYCL GGML PFADE NICHT GEFUNDEN ABHÄNGIGKEITEN PRÜFEN"
         return 1
     fi
     #-PATCH-4/6-a-
-    log "🔷->🏗PATCH 4/6: FLASH ATTENTION XARCFAggmlsyclcppINJIZIEREN🏗"
+    log "🔷->🏗PATCH 4/6: FLASH ATTENTION INJIZIERENKOPFZEILEN ERSTELLEN🏗"
     if [ -f "$GGML_SYCL_CPP" ]; then
         #-4a/6-
-        local FA_REGISTER_CODE=$'//REGESTRIERE FLASH ATTENTION KERNEL XARCFA \nextern "C" void ggml_flash_attention_sycl(ggml_flash_attention_sycl * ctx, ggml_tensor * dst, const ggml_tensor * Q, const ggml_tensor * K, const ggml_tensor * V);\n'
-        if ! grep -q "ggml_flash_attention_sycl" "${GGML_SYCL_CPP}"; then
+        local FA_REGISTER_CODE=$'//REGESTRIERE FLASH ATTENTION KERNEL XARCFA \nextern "C" void ggml_flash_attention_sycl.cpp(ggml_flash_attention_sycl.cpp * ctx, ggml_tensor * dst, const ggml_tensor * Q, const ggml_tensor * K, const ggml_tensor * V);\n'
+        if ! grep -q "ggml_flash_attention_sycl.cpp" "${GGML_SYCL_CPP}"; then
             echo "${FA_REGISTER_CODE}" > /tmp/fa_decl.patch
-            awk '/extern "C" void ggml_flash_attention_sycl/ { system("cat /tmp/fa_decl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
+            awk '/extern "C" void ggml_flash_attention_sycl.cpp/ { system("cat /tmp/fa_decl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
             mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
             if [ $? -eq 0 ]; then
-                log "🔷->PATCH 4/6 DEKLARATION ERFOLGREICH EINGEFÜGT"
+                log "🔷->PATCH 4/6 DEKLARATION ERFOLGREICH EINGEFÜGT🏗"
             else
                 error "❌PATCH 4/56 FEHLER BEIM EINFÜGEN DER FLASH ATTENTION XARCFA DEKLARATION (AWK-FEHLER)"
                 return 1
             fi
         else
-            log "🔷->DEKLARATIONEN VORHANDEN FORTFAHREN"
+            log "🔷->DEKLARATIONEN VORHANDEN FORTFAHREN✅"
         fi
 local FA_DISPATCH_CASE=$' case GGML_OP_FLASH_ATTN:\n ggml_sycl_op_flash_attn(ctx, dst, src0, src1, src2);\n            break;'
         if ! grep -q "case GGML_OP_FLASH_ATTN:" "${GGML_SYCL_CPP}"; then
@@ -218,14 +224,14 @@ local FA_DISPATCH_CASE=$' case GGML_OP_FLASH_ATTN:\n ggml_sycl_op_flash_attn(ctx
         fi
         log "🔷->✅PATCH 4/6 ERFOLGREICH-FLASHATTENTENTION-GELADEN"
     else
-        error "❌PATCH 4/6 FEHLGESCHLAGEN📝❌ggmlsyclcppNICHT🔍GEFUNDEN🔍"
+        error "❌PATCH 4/6 FEHLGESCHLAGEN📝ggmlsyclcppNICHT GEFUNDEN🔍"
         return 1
     fi
 #-PATCH-5/6-a-
     log "🔷->PATCH 5/6: INJIZIEREN OBJEKT🏗VARIABLEN AUS UNTERBLOCK VON  SYCL BIBLIOTHEKEN.."
     local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
     #-5a/6-
-    local VAR_LINE="set(FA_OBJECT_FILES \"\$<TARGET_OBJECTS:ggml_flash_attention_sycl>\")"
+    local VAR_LINE="set(FA_OBJECT_FILES \"\$<TARGET_OBJECTS:ggml_flash_attention_sycl.cpp>\")"
     local VAR_SEARCH_MARKER="set(GGML_SYCL_SOURCES"
     if ! grep -q "FA_OBJECT_FILES" "$CMAKE_LISTS_FILE"; then
         local SED_VAR_LINE=$(echo "$VAR_LINE" | sed 's/[\/&]/\\&/g')
@@ -305,7 +311,7 @@ configure_build() {
     fi
 }
 separator() {
-    echo -e "--XAIGPUARC-BAUFORGANG KANN FORTGESETZT WERDEN--\n"
+    echo -e "--XAIGPUARC-BAUFORGANG KANN FORTGESETZT WERDEN❌--\n"
 }
 #-3-KOMPILIEREN-
 compile_project() {
@@ -324,14 +330,11 @@ compile_project() {
         fi
         success "✅BAU VON XAIGPUARC ERFOLGREICH"
     else
-        error "❌KONNTE XAIGPUARC NICHT NEU BAUEN '${BUILD_DIR}' WEGEN FEHLERHAFTEM WECHSEL. BAU NICHT MÖGLICH❌"
+        error "❌KONNTE XAIGPUARC NICHT NEU BAUEN '${BUILD_DIR}' WEGEN FEHLERHAFTEM WECHSEL BAU NICHT MÖGLICH"
         return 1
     fi
 }
-separator() {
-    echo -e "-AUTOMATISCHE-SYCL-KOMPATIBLE-\n"
-    echo -e "--GERÄTEAUSWAHLVERFAHREN-STARTEN-JETZT--BITTE GEDULD...--\n"
-}
+
 #-4-AUTOMATISCHE-GERAETEAUSWAHL-
 auto_select_device() {
     log "🔍SUCHE NACH VERFÜGBAREN SYCL GERÄTEN AUF IHREM SYSTEM."
@@ -389,7 +392,7 @@ auto_select_device() {
 }
 #-5-SYCL-KOMPATIBLE-GERÄTE-PRUEFEN-
 list_sycl_devices() {
-    log "🔍SUCHE SYCL FÄHIGES GERÄT AUF IHREM SYSTEM"
+    log "🔍SUCHE SYCL FÄHIGES GERÄT 🏗 AUF IHREM SYSTEM"
     local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 
     if [ -f "${FULL_LS_PATH}" ]; then
@@ -404,7 +407,7 @@ separator() {
 }
 #-6-MODELL-PFAD-WAEHLEN-
 prepare_model() {
-    MODEL_PATH=${1:-"models/Qwen2.5-Coder-1.5B-Instruct-F16.gguf"}
+    MODEL_PATH=${1:-"models/solar-10.7b-instruct-v1.0.Q6_K.gguf"}
     mkdir -p models
     if [ ! -f "$MODEL_PATH" ]; then
         warn "Ihr AI/KI-Modell konnte leider nicht unter:home/ihrname/models/-gefunden werden.Bitte Kopieren Sie das gewünschte Modell dorthin**$MODEL_PATH**"
@@ -416,9 +419,10 @@ separator() {
 }
 #-7-MODELL-AUSFUEHREN-
 run_inference() {
-    local DEFAULT_MODEL_PATH="models/Qwen2.5-Coder-1.5B-Instruct-F16.gguf"
+    local DEFAULT_MODEL_PATH="models/solar-10.7b-instruct-v1.0.Q6_K.gguf"
     local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
-    local PROMPT_ARG=${3:-"wie hoch sollte der -n- wert von llama auf intel arc igpus sein"}
+    local PROMPT_ARG=${3:-"Hallo, ich bin dein XAIGPUARC KI-Assistent.
+    Wie kann ich dir heute helfen?"}
     local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
     local NGL_SET=${N_GPU_LAYERS:-99}
     local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
