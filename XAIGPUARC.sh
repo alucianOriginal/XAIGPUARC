@@ -1,6 +1,16 @@
 #!/bin/bash
 
 #-🔍LOW-SPEC-GERMAN-AI-AUTOMAT-
+#-Use F16 Modell or BF16. 7B Below for 16GB. 
+#-No Garantie. Try Out lower GB!!! Need some Puffer!!!
+#-Try Math Tutor Modell for 16GB only 770(LE tested well under FL
+#-Only Modell i found from a lot trys who is 14,2 GB and uses full power. 
+#ooooooooo
+#-Try Solar 10.7B for 12 GB 11,5GB 730/iGPU/155H +
+#ooooooooo
+#-Try openhermes-2.5-mistral-7b.Q8_0 for 8GB 750 +
+#-Try Ministral-3-3B-Reasoning-2512-BF16 for 8GB 750 +
+#-Try Qwen2.5-7B-Instruct-bf16-q4_k for 8GB 750 +
 
 set -euo pipefail
 IFS=$'\n\t'
