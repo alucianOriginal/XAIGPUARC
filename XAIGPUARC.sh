@@ -1,20 +1,6 @@
 #!/bin/bash
 
 #-🔍LOW-SPEC-GERMAN-AI-AUTOMAT-
-#-INTEL-MKL-ICX-IQ-DynamicGate-F16Bit-ICX-HQ-IQ-F16-30B-Modell-Support--
-#-Low-V/RAM/SSD-USAGE-
-#-Mobile iGPU+dGPU+dualGPU+triGPU-
-#-SYCL/F16/IQ-DG/XTC/MEMSC/ADD/APP/APU/XMX/NPU/ICX/MKL/N/30B-M/-
-
-#-/models/solar-10.7b-instruct-v1.0.Q6_K.gguf-UNTER11GBVRAM-
-#-llama3bthinkingonly5B-F16-6.43GB-
-#-llama-3-12b-Instruct.i1-Q6_Kv.gguf-
-#-Llama-3.2-11B-Vision-Instruct-F16 18GB SEHR GUT IN Q8-
-#-Llama-3-16B.IQ4_XS.gguf-
-#-Qwen3-VL-32B-Instruct-F16 65.5GB-
-#-Qwen2.5-VL-32B-Instruct-2iQX2BITgguf.10GB)-
-#-Qwen3-30B-A3B.gguf-
-#-wizardcoder-python-7b-v1.0.Q8_0.gguf-
 
 set -euo pipefail
 IFS=$'\n\t'
