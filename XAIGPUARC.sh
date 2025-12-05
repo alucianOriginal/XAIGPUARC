@@ -6,7 +6,7 @@
 #-Try Math Tutor Modell for 16GB only 770(LE tested well under FL
 #-Only Modell i found from a lot trys who is 14,2 GB and uses full power. 
 #ooooooooo
-#-Try Solar 10.7B for 12 GB 11,5GB 730/iGPU/155H +
+#-Try Solar 10.7B for 12 GB 11,5GB 730m or /iGPU/155H +
 #ooooooooo
 #-Try openhermes-2.5-mistral-7b.Q8_0 for 8GB 750 +
 #-Try Ministral-3-3B-Reasoning-2512-BF16 for 8GB 750 +
