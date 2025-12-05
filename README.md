@@ -12,7 +12,7 @@ my own way :-)
 USE Big Modells!!! Q8/Q6 !!! FP16 half Calculation, double Performance, quad Quality with Q8 and Q6 Modells ONLY!!! 
 
 NOT USEABLE WITH LOW END Modells!!!
-
+On 16GB ARC A770 you will youse the Math Tutor and no other for two years of reasearch. ;-) 
 I hope you like the small builds and use solar 10.7b Q6 IQ for the first time, llama3 12b also works in Q6 fine. 
 11,5 Gib VRAM needet for that. If you use you normal RAM, try to make him fast as possible. 
 Testest well with 718 Gib/s Bandwith on Claw Quad Cannel Meteor Lake Mod.
