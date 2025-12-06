@@ -12,7 +12,9 @@
 #Dont forget to change the names of your Model here below twice.
 #Carefull with the Nvidia Nemotrons for Laptops/CPU/iGPU/sharedV/RAM
 #I just build on ARC and ARC iGPUs ith 9x Chips so i do not know older will run. 
-#Try out.Give feedback for better code.
+#Try it out also on low INTEL iGPU Dual Channel Devices. 
+#I think there will not much to be made to run also on them!!! 
+#For Reasons. Please feel free to give your Ffeedback for better AIXIT Code.
 
 set -euo pipefail
 IFS=$'\n\t'
@@ -424,6 +426,7 @@ export MODEL_PATH
 #7MODELLAUSFUEHREN
 run_inference() {
 local DEFAULT_MODEL_PATH="models/NVIDIA-Nemotron-Nano-12B-v2-Q8_0.gguf"
+#Try run MODELLS from NVIDIA NEMOTRON GGUF in Google for your VRAM iGPU or and or dGPU Device! 
 #16GB770ARConlyMathTutor-7B-H_v0.0.1.f16mythomax-l2-13b.Q4_K_M
 #mistral-7b-instruct-v0.2.Q4_K_Mopenhermes-2.5-mistral-7b.Q8_0
 #solar-10.7b-instruct-v1.0.Q6_KNVIDIA-Nemotron-Nano-9B-v2-Q8_0
