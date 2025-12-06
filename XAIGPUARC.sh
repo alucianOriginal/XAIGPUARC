@@ -69,14 +69,14 @@ if ! command -v icx &>/dev/null; then
 error "ICX/IPX INTEL COMPILER INSTALLATION"
 exit 1
 fi
-log "✅ VERBINDUNG ONEAPI GELADEN (DPCPP_ROOT=${DPCPP_ROOT} UND MKL_ROOT=${MKL_ROOT}"
+log "✅VERBINDUNG ONEAPI GELADEN (DPCPP_ROOT=${DPCPP_ROOT} UND MKL_ROOT=${MKL_ROOT}"
 }
 
 #1PROJEKT-VORBAU
 setup_project() {
-log "BAUE VORBAU XAIGPUARC BITTE WARTEN"
+log "✅BAUE VORBAU XAIGPUARC BITTE WARTEN"
 if [ ! -d "${LLAMA_CPP_DIR}" ]; then
-log "KLONE GRUNDLAGEN VON LLAMA.CPP"
+log "✅KLONE GRUNDLAGEN VON LLAMA.CPP"
 git clone https://github.com/ggerganov/llama.cpp "${LLAMA_CPP_DIR}"
 if [ $? -ne 0 ]; then
 error "❌KLONEN FEHLGESCHLAGEN ABBRUCH"
@@ -84,7 +84,7 @@ exit 1
 fi
 fi
 if pushd "${LLAMA_CPP_DIR}" > /dev/null; then
-log "🔍->AKTUALISIERE UNTERMODULE"
+log "✅AKTUALISIERE UNTERMODULE"
 git pull
 git submodule update --init --recursive
 popd > /dev/null
@@ -106,17 +106,17 @@ local GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 local KERNEL_SOURCE_LOCAL="ggml_flash_attention_sycl.cpp"
 #PATCH1/6
 if [ -f "$DPCT_HELPER_FILE" ]; then
-log "🔷->PATCH 1/6: DOCTPHELPER FEHLGESCHLAGEN ABHÄNGIGKEITSLISTE PRÜFEN"
+log "🔷PATCH 1/6: DOCTPHELPER FEHLGESCHLAGEN ABHÄNGIGKEITSLISTE PRÜFEN"
 if sed -i 's|#include <sycl/ext/oneapi/math.hpp>|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
-log "🔷-> ✅PATCH 1/6 ERFOLGREICH"
+log "🔷✅PATCH 1/6 ERFOLGREICH"
 elif sed -i 's|#if !defined(DPCT_USM_LEVEL_NONE) && defined(DPCT_ENABLE_MKL_MATH).#endif|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
-log "🔷->✅PATCH 1/6 ERFOLGREICH (SPEICHERE IN LOG"
+log "🔷✅PATCH 1/6 ERFOLGREICH (SPEICHERE IN LOG"
 else
-error "🔷->❌PATCH 1/6 HELPER INSTALLIEREN (dpct/helper.hpp) IST FEHLGESCHLAGEN"
+error "🔷❌PATCH 1/6 HELPER INSTALLIEREN (dpct/helper.hpp) IST FEHLGESCHLAGEN"
 return 1
 fi
 else
-error "🔷->❌ PATCH 1/6 FEHLGESCHLAGEN pct/helper.hpp NICHT GEFUNDEN ABHAENIGKEITEN PRÜFEN"
+error "🔷❌ PATCH 1/6 FEHLGESCHLAGEN pct/helper.hpp NICHT GEFUNDEN ABHAENIGKEITEN PRÜFEN"
 return 1
 fi
 #PATCH2/6
@@ -146,17 +146,17 @@ log "🔷-> CMAKE LISTEN FÜR OBJEKTE ALS KERN EINGEFUEGT"
 local ADD_SUBDIR_LINE="add_subdirectory(ggml_flash_attention_sycl)"
 if ! grep -q "${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
 if sed -i "/add_subdirectory(dpct)/a ${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
-log "🔷->✅PATCH 2/6 ERFOLGREICH ggml_flash_attention_sycl ZU KOPFZEILEN AN CMAKE GESCHRIEBEN"
+log "🔷PATCH 2/6 ERFOLGREICH ggml_flash_attention_sycl ZU KOPFZEILEN AN CMAKE GESCHRIEBEN"
 else
 error "❌PATCH 2/6 ggml_flash_attention_sycl EINGLIEDERUNG FEHLGESCHLAGEN"
 return 1
 fi
 else
-log "🔷->⚠️PATCH 2/6 ggml_flash_attention_sycl BEREITS AKTIV UEBERSPRINGE"
+log "🔷PATCH 2/6 ggml_flash_attention_sycl BEREITS AKTIV UEBERSPRINGE"
 fi
 #PATCH3/6-a
 if [ -f "$CMAKE_LISTS_FILE" ]; then
-log "🔷-> PATCH 3/6: CMAKE LISTEN FUER KOPZEILEN ZUR ICPX IMPLEMENTIERUNG VORBEREITEN"
+log "🔷PATCH 3/6: CMAKE LISTEN FUER KOPZEILEN ZUR ICPX IMPLEMENTIERUNG VORBEREITEN"
 local MKL_INCLUDE_PATH="${MKL_ROOT}/include"
 local COMPILER_INCLUDE_PATH="${DPCPP_ROOT}/include"
 local DPCPP_LIB_INCLUDE_PATH="${DPCPP_ROOT}/lib/dpcpp/include"
@@ -166,20 +166,20 @@ local SEARCH_MARKER="# Add include directories for MKL headers"
 if ! grep -q "${COMPILER_INCLUDE_PATH}" "$CMAKE_LISTS_FILE"; then
 local SED_PATCH_LINE=$(echo "$PATCH_LINE" | sed 's/ /\ /g; s/[/&]/\&/g')
 if sed -i "/${SEARCH_MARKER}/a $SED_PATCH_LINE" "$CMAKE_LISTS_FILE"; then
-log "🔷->✅PATCH 3/6 ERFOLGREICH ALLE KOPFZEILEN EINGEFUEGT"
+log "✅PATCH 3/6 ERFOLGREICH ALLE KOPFZEILEN EINGEFUEGT"
 else
 error "❌PATCH 3/6 CMAKE LISTSTXT NICHT GEFUNDEN ABHAENGIKEITEN PRUEFEN"
 return 1
 fi
 else
-log "🔷->⚠️PATCH 3/6 PFAD BEREITS BENUTZT...UEBERSPRINGE"
+log "🔷PATCH 3/6 PFAD BEREITS BENUTZT...UEBERSPRINGE"
 fi
 else
 error "❌PATCH 3/6 FEHLGESCHLAGEN CMAKE LISTS FÜR SYCL GGML PFADE NICHT GEFUNDEN ABHAENGIGKEITEN PRUEFEN"
 return 1
 fi
 #PATCH4/6-a
-log "🔷->PATCH 4/6: ggml_flash_attention_sycl.cpp INJIZIEREN"
+log "🔷PATCH 4/6: ggml_flash_attention_sycl.cpp INJIZIEREN"
 if [ -f "$GGML_SYCL_CPP" ]; then
 #4a/6
 local FA_REGISTER_CODE=$'//REGESTRIERE ggml_flash_attention_sycl.cpp \nextern "C" void ggml_flash_attention_sycl(ggml_flash_attention_sycl * ctx, ggml_tensor * dst, const ggml_tensor * Q, const ggml_tensor * K, const ggml_tensor * V);\n'
@@ -188,35 +188,35 @@ echo "${FA_REGISTER_CODE}" > /tmp/fa_decl.patch
 awk '/extern "C" void ggml_flash_attention_sycl/ { system("cat /tmp/fa_decl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
 if [ $? -eq 0 ]; then
-log "🔷->PATCH 4/6 DEKLARATION ERFOLGREICH EINGEFÜGT"
+log "🔷PATCH 4/6 DEKLARATION ERFOLGREICH EINGEFÜGT"
 else
 error "❌PATCH 4/6 FEHLER BEIM EINFÜGEN DER ggml_flash_attention_sycl.cpp DEKLARATION AWK-FEHLER"
 return 1
 fi
 else
-log "🔷->DEKLARATIONEN VORHANDEN FORTFAHREN"
+log "🔷DEKLARATIONEN VORHANDEN FORTFAHREN"
 fi
 local FA_DISPATCH_CASE=$' case GGML_OP_FLASH_ATTN:\n ggml_flash_attention_sycl(ctx, dst, src0, src1, src2);\n break;'
 if ! grep -q "case GGML_OP_FLASH_ATTN:" "${GGML_SYCL_CPP}"; then
-log "🔷->Versuche, den Dispatch-Case (FA) mittels AWK einzufügen."
+log "🔷Versuche, den Dispatch-Case (FA) mittels AWK einzufügen."
 echo "${FA_DISPATCH_CASE}" > /tmp/fa_dispatch.patch
 awk '/case GGML_OP_MUL_MAT_Q_K:/ { system("cat /tmp/fa_dispatch.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
 if [ $? -eq 0 ]; then
-log "🔷->PATCH 4/6 ERFOLGREICH UNTERBAU EINGEFÜHRT✅"
+log "🔷PATCH 4/6 ERFOLGREICH UNTERBAU EINGEFÜHRT"
 else
-error "🔷->❌PATCH 4/6 FEHLER BEIM EINFUEGEN AKW PATCH"
+error "❌PATCH 4/6 FEHLER BEIM EINFUEGEN AKW PATCH"
 fi
 else
-log "🔷->✅PATCH 4/6 UNTERBAU VORHANDEN FORTFAHREN"
+log "🔷PATCH 4/6 UNTERBAU VORHANDEN FORTFAHREN"
 fi
-log "🔷->✅PATCH 4/6 ERFOLGREICH FLASHATTENTENTION GELADEN"
+log "🔷PATCH 4/6 ERFOLGREICH FLASHATTENTENTION GELADEN"
 else
 error "❌PATCH 4/6 FEHLGESCHLAGEN FLASHATTENTION KERN NICHT GEFUNDEN"
 return 1
 fi
 #PATCH5/6-a
-log "🔷->PATCH 5/6: INJIZIEREN OBJEKT VARIABLEN AUS UNTERBLOCK VON SYCL BIBLIOTHEKEN"
+log "🔷PATCH 5/6: INJIZIEREN OBJEKT VARIABLEN AUS UNTERBLOCK VON SYCL BIBLIOTHEKEN"
 local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
 #5a/6
 local VAR_LINE="set(FA_OBJECT_FILES \"\$<TARGET_OBJECTS:ggml_flash_attention_sycl>\")"
@@ -224,13 +224,13 @@ local VAR_SEARCH_MARKER="set(GGML_SYCL_SOURCES"
 if ! grep -q "FA_OBJECT_FILES" "$CMAKE_LISTS_FILE"; then
 local SED_VAR_LINE=$(echo "$VAR_LINE" | sed 's/[\/&]/\\&/g')
 if sed -i "/${VAR_SEARCH_MARKER}/a ${SED_VAR_LINE}" "$CMAKE_LISTS_FILE"; then
-log "🔷->5a/6: OBJEKT VARIABLEN ERFOLGREICH DEFINIERT"
+log "🔷5a/6: OBJEKT VARIABLEN ERFOLGREICH DEFINIERT"
 else
 error "❌Patch 5a/6 OBJEKT VARIABLEN🔷FEHLGESCHLAGEN STOPP"
 return 1
 fi
 else
-log "🔷->5a/6: OBJEKT VARIABLEN VORHANDEN ÜBERSPRINGE"
+log "🔷5a/6: OBJEKT VARIABLEN VORHANDEN ÜBERSPRINGE"
 fi
 #5b/6
 local TARGET_SEARCH_MARKER="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES})"
@@ -239,13 +239,13 @@ if grep -q "${TARGET_SEARCH_MARKER}" "$CMAKE_LISTS_FILE" && ! grep -q "\${FA_OBJ
 local SED_NEW_LINE=$(echo "$NEW_TARGET_SOURCES_LINE" | sed 's/[\/&]/\\&/g')
 local SED_SEARCH_MARKER=$(echo "$TARGET_SEARCH_MARKER" | sed 's/[\/&]/\\&/g')
 if sed -i "s/${SED_SEARCH_MARKER}/${SED_NEW_LINE}/" "$CMAKE_LISTS_FILE"; then
-log "🔷->✅PATCH 5/6 ERFOLGREICHE INJEKTIONEN IN BAUVORGANG"
+log "🔷PATCH 5/6 ERFOLGREICHE INJEKTIONEN IN BAUVORGANG"
 else
 error "❌PATCH 5b/6 INJEKTION FEHLGESCHLAGEN"
 return 1
 fi
 else
-log "🔷->⚠️PATCH 5b/6 IST BEREITS AKTIV INJECTION WIRD ÜBERSPRUNGEN"
+log "🔷PATCH 5b/6 IST BEREITS AKTIV INJECTION WIRD ÜBERSPRUNGEN"
 fi
 #PATCH6/6
 log "🔷->PATCH 6/6: ssm_conv.cpp WARNUNG BEHEBEN VORZEICHENVERGLEICH"
@@ -254,13 +254,13 @@ local SEARCH_LINE='GGML_ASSERT(src0->nb[1] == src0->ne[0] * static_cast(sizeof(f
 local REPLACE_LINE='GGML_ASSERT(src0->nb[1] == (size_t)(src0->ne[0] * sizeof(float)));' 
 if grep -q "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
 if sed -i "s/${SEARCH_LINE}/${REPLACE_LINE}/g" "$SSM_CONV_FILE"; then
-log "🔷->✅PATCH 6/6ssm_conv.cpp ERFOLGREICH"
+log "🔷PATCH 6/6ssm_conv.cpp ERFOLGREICH"
 else
 error "❌PATCH 6/6ssm_conv.cpp FEHLGESCHLAGEN"
 return 1
 fi
 else
-log "🔷->⚠️PATCH 6/6ssm_conv.cpp ZEILE NICHT GEFUNDEN UEBERSPRINGE"
+log "🔷PATCH 6/6ssm_conv.cpp ZEILE NICHT GEFUNDEN UEBERSPRINGE"
 fi
 success "✅ALLE EINGLIEDERUNGEN FUER DAS INTEL ARC GPU BASIERTE XAIGPUARC SPRACHMODELL ERFOLGREICH ANGEWAND"
 }
@@ -303,8 +303,8 @@ fi
 compile_project() {
 log "✅BAUE XAIGPUARC GRUNDGERUESTSTRUKTUR BITTE WARTEN"
 local LOG_FILE="build.log"
-log "🔷✅KOPFZEILENAUSGABE IN UNTERORNDER GESPEICHERT"
-log " BAU XAIGPUARC KOPFZEILEN"
+log "🔷KOPFZEILENAUSGABE IN UNTERORNDER GESPEICHERT"
+log "✅BAU XAIGPUARC KOPFZEILEN"
 if pushd "${BUILD_DIR}" > /dev/null; then
 log "✅BAU VON XAIGPUARC KOMPLETTSYSTEM AUF LOKALEM COMPUTER MOEGLICH. BAU WIRD JETZT FERTIGGESTELLT. DIESER VORGANG KANN JE NACH LEISTUNG IHRES SYSTEMS EIN PAAR MINUTEN ANDAUERN. BITTE HABEN SIE ETWAS GEDULD. DANKE FUER DIE NUTZUNG VON XAIGPUARC"
 cmake --build . --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama-cli llama-ls-sycl-device > "${LOG_FILE}" 2>&1
@@ -322,10 +322,10 @@ fi
 }
 #4AUTOMATISCHEGERAETEAUSWAHL
 auto_select_device() {
-log "🔍 NACH VERFÜGBAREN SYCL GERÄTEN AUF IHREM SYSTEM"
+log "✅NACH VERFÜGBAREN SYCL GERÄTEN AUF IHREM SYSTEM"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 if [ ! -x "${FULL_LS_PATH}" ]; then
-warn "⚠️❌LLAMA UNTERBAU NICHT GEFUNDEN ${FULL_LS_PATH}RÜCKFALL AUF ARC dGPU✅"
+warn "⚠️LLAMA UNTERBAU NICHT GEFUNDEN ${FULL_LS_PATH}RÜCKFALL AUF ARC dGPU✅"
 export ONEAPI_DEVICE_SELECTOR="LZ 0 ANBINDUNG ERFOLGREICH✅"
 DEVICE="ARC"
 return
@@ -354,16 +354,16 @@ else
 export ONEAPI_DEVICE_SELECTOR="opencl:cpu"
 DEVICE="CPU"
 N_GPU_LAYERS=0
-log "⚠️KEINE GEEIGNETE GRAFIKKARTE GEFUNDENFALLE AUF CPU ZURÜCK"
+error "❌KEINE GEEIGNETE GRAFIKKARTE GEFUNDENFALLE AUF CPU ZURÜCK"
 return
 fi
 if [ -n "$TARGET_LINE" ]; then
 local TARGET_ID=$(echo "$TARGET_LINE" | awk '{print $1}')
 export ONEAPI_DEVICE_SELECTOR="level_zero:${TARGET_ID}"
-log "🎯Using Intel ${DEVICE} (Device ${TARGET_ID})"
+log "✅Using Intel ${DEVICE} (Device ${TARGET_ID})"
 local VRAM_GIB=$(echo "$TARGET_LINE" | grep -oP '\d+(?=M)' | head -n1)
 VRAM_GIB=$((VRAM_GIB / 1024)) #MIB-zu-GIB-
-local LAYER_SIZE_MIB=512
+local LAYER_SIZE_MIB=64
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 N_GPU_LAYERS=$((VRAM_MIB_CALC * 99 / 100 / LAYER_SIZE_MIB))
 if [ "$N_GPU_LAYERS" -gt 99 ]; then
@@ -372,12 +372,12 @@ fi
 if [ "$N_GPU_LAYERS" -lt 1 ]; then
 N_GPU_LAYERS=87
 fi
-log "UNGEFÄHRE NGL -1 in  **${N_GPU_LAYERS}**SCHICHTEN"
+log "✅UNGEFÄHRE NGL -1 in  **${N_GPU_LAYERS}**SCHICHTEN"
 fi
 }
 #5SYCLKOMPATIBLEGERÄTEPRUEFEN
 list_sycl_devices() {
-log "SUCHE SYCL FÄHIGES GERÄT AUF IHREM SYSTEM"
+log "✅SUCHE SYCL FÄHIGES GERÄT AUF IHREM SYSTEM"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 if [ -f "${FULL_LS_PATH}" ]; then
 "${FULL_LS_PATH}"
@@ -391,7 +391,7 @@ prepare_model() {
 MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
-warn "IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN. BITTE DORTHIN KOPIEREN **$MODEL_PATH**"
+warn "⚠️IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN. BITTE DORTHIN KOPIEREN **$MODEL_PATH**"
 fi
 export MODEL_PATH
 }
@@ -402,10 +402,21 @@ local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
 #mistral-7b-instruct-v0.2.Q4_K_Mopenhermes-2.5-mistral-7b.Q8_0
 #solar-10.7b-instruct-v1.0.Q6_K
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
-local PROMPT_ARG=${3:-"medi8tor create a simple open source design tool that lets a user build small interactive programs and tiny games by using point and click interactions describe the structure only with plain words as if outlining code without symbols medi8tor should behave like an old school visual builder where every element on the screen is a block that has behavior rules the program manages a canvas where the user places blocks such as buttons images text fields sprites counters and logic triggers each block exposes actions like when clicked when touched when timer expires or when value changes the user connects blocks by defining reactions for example a button block can trigger a sound block or move a sprite block across the canvas medi8tor loads all blocks from a simple library of stable open source components that have been used for many years such as basic drawing routines simple timers keyboard and mouse events and sprite movement the core loop handles input updates and drawing the routing logic matches events to blocks and their reactions the block system contains all interactive elements and the logging unit records what happens during a project session a project file is a plain text description listing all blocks their properties and the connections between them when the user starts a project medi8tor reads this file creates each block builds a reaction table then enters the main loop that reads input updates block states triggers reactions and redraws the canvas the program remains simple enough that small educational games can be built without writing code by connecting blocks through clearly described rules the goal is clarity stability and playful creativity so that anyone can extend the block library or create new interactions without changing the core design"}
+local PROMPT_ARG=${3:-"medi8tor create a simple open source design tool that lets a user build small interactive programs
+and tiny games by using point and click interactions describe the structure only with plain words as if outlining code without symbols
+medi8tor should behave like an old school visual builder where every element on the screen is a block that has behavior rules the program
+manages a canvas where the user places blocks such as buttons images text fields sprites counters and logic triggers each block exposes actions
+like when clicked when touched when timer expires or when value changes the user connects blocks by defining reactions for example a button block can trigger
+a sound block or move a sprite block across the canvas medi8tor loads all blocks from a simple library of stable open source components that have been used for many years
+such as basic drawing routines simple timers keyboard and mouse events and sprite movement the core loop handles input updates and drawing the routing logic matches events to blocks
+and their reactions the block system contains all interactive elements and the logging unit records what happens during a project session a project file is a plain text description listing
+all blocks their properties and the connections between them when the user starts a project medi8tor reads this file creates each block builds a reaction table then enters the main loop that reads
+input updates block states triggers reactions and redraws the canvas the program remains simple enough that small educational games can be built without writing code by connecting blocks through clearly described rules
+the goal is clarity stability and playful creativity so that anyone can extend the block library or create new interactions without changing the core design"}
+local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
-log "STARTE KI ANTWORT PER F16 INFERENCE AUF IHRER iGPU/dGPU MIT FOLGENDEN PARAMETERN**${DEVICE} (ID: ${GPU_ID})** with ngl=${NGL_SET} using **${FULL_LLAMA_CLI_PATH}**..."
+log "✅STARTE KI ANTWORT PER F16 INFERENCE AUF IHRER iGPU/dGPU MIT FOLGENDEN PARAMETERN**${DEVICE} (ID: ${GPU_ID})** with ngl=${NGL_SET} using **${FULL_LLAMA_CLI_PATH}**..."
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
 error "❌FEHLER AKTUELLER LLAMA UNTERBAU NICHT GEFUNDEN NEUBAU FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
 return 1
@@ -418,7 +429,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -ngl -1 \
     --split-mode layer \
     --main-gpu ${GPU_ID}
-echo "✅->AI/KI ANTWORT FERTIG GLÜCKWUNSCH"
+echo "✅AI/KI ANTWORT FERTIG GLÜCKWUNSCH"
 }
 #00DEFINITIONHAUPTMAINFUNKTION
 main() {
@@ -429,20 +440,20 @@ local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 if [[ -f "${FULL_LLAMA_CLI_PATH}" ]] && [[ -f "${FULL_LS_PATH}" ]]; then
 success "✅GEFUNDENE AKTUELLE XAIGPUARC VERSION NEUBAU UNNÖTIG FORTFAHREN**${FULL_LLAMA_CLI_PATH}** und **${FULL_LS_PATH}**"
-log "✅->ÜBERSPRINGE BAUVORGANG"
+log "✅ÜBERSPRINGE BAUVORGANG"
 RERUN_BUILD=0
 else
 warn "⚠️KEINE AKTUELLES XAIGPUARC GEFUNDEN GEBAUT BITTE WARTEN"
 RERUN_BUILD=1
 fi
 if [[ "$RERUN_BUILD" -eq 1 ]]; then
-log "STARTE ERSTMALIGEN BAUVORGANG XAIGPUARC"
+log "✅STARTE ERSTMALIGEN BAUVORGANG XAIGPUARC"
 setup_project
 patch_llama_cpp
 configure_build "${FP_MODE}"
 compile_project
 else
-log "⚙->LADE JETZT NEUESTE LLAMA VERSION BITTE WARTEN"
+log "✅LADE JETZT NEUESTE LLAMA VERSION BITTE WARTEN"
 setup_project
 patch_llama_cpp
 fi
@@ -455,4 +466,4 @@ log "✅XAIGPUARC ANTWORT ABGESCHLOSSEN**${BUILD_DIR}/${LLAMA_CLI_PATH}**"
 #HAUPTSCHLEIFE
 main "${1:-1}" "${2:-}" "${3:-}"
 #42
-log "KOMPLETTBAUVORGANG WIRD HIER GESPEICHERT**${LOG_FILE}**"
+log "✅KOMPLETTBAUVORGANG WIRD HIER GESPEICHERT**${LOG_FILE}**"
