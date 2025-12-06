@@ -35,7 +35,6 @@ export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=100
 log() { printf "🔷 %s\n" "$*"; }
 success() { printf "✅ %s\n" "$*"; }
 error() { printf "❌ %s\n\n" "$*"; }
-err() { error "$*"; }
 warn() { printf "⚠️ %s\n" "$*"; }
 
 #AUSGABEVORSTELLUNG
@@ -47,7 +46,7 @@ prepare_environment() {
 log "HOLE ONE API KOEPFE FUER XAIGPUARC UC DARK ANGEL GOLD MATRIX AI"
 local SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
 if [ ! -f "$SETVARS_PATH" ]; then
-err "ONEAPI KOEPFE NICHT GEFUNDEN: $SETVARS_PATH. INSTALLIERE ZU ERST ONE API BIBLIOTHEKEN"
+error "ONEAPI KOEPFE NICHT GEFUNDEN: $SETVARS_PATH. INSTALLIERE ZU ERST ONE API BIBLIOTHEKEN"
 exit 1
 fi
 log "SETVARS.SH SETZEN UND 🔍"
@@ -67,7 +66,7 @@ export CPATH="${CPATH:-}:${MKL_ROOT}/include"
 local LIB_DIR="/opt/intel/oneapi/compiler/latest/lib:/opt/intel/oneapi/mkl/latest/lib"
 export LD_LIBRARY_PATH="./${BUILD_DIR}/bin:${LIB_DIR}:${LD_LIBRARY_PATH:-}"
 if ! command -v icx &>/dev/null; then
-err "ICX/IPX INTEL COMPILER INSTALLATION"
+error "ICX/IPX INTEL COMPILER INSTALLATION"
 exit 1
 fi
 log "✅ VERBINDUNG ONEAPI GELADEN (DPCPP_ROOT=${DPCPP_ROOT} UND MKL_ROOT=${MKL_ROOT}"
@@ -80,7 +79,7 @@ if [ ! -d "${LLAMA_CPP_DIR}" ]; then
 log "KLONE GRUNDLAGEN VON LLAMA.CPP"
 git clone https://github.com/ggerganov/llama.cpp "${LLAMA_CPP_DIR}"
 if [ $? -ne 0 ]; then
-err "❌KLONEN FEHLGESCHLAGEN ABBRUCH"
+error "❌KLONEN FEHLGESCHLAGEN ABBRUCH"
 exit 1
 fi
 fi
@@ -91,7 +90,7 @@ git submodule update --init --recursive
 popd > /dev/null
 success "✅LLAMA.CPP ANTWORTET UNTERGRUPPEN WERDEN GELADEN"
 else
-err "❌FEHLER HAUPTVERZEICHNIS'${LLAMA_CPP_DIR}'NICHT GEFUNDEN ABBRUCH"
+error "❌FEHLER HAUPTVERZEICHNIS'${LLAMA_CPP_DIR}'NICHT GEFUNDEN ABBRUCH"
 exit 1
 fi
 }
@@ -291,12 +290,12 @@ cmake "../${LLAMA_CPP_DIR}" \
 local CMAKE_STATUS=$?
 popd > /dev/null
 if [ ${CMAKE_STATUS} -ne 0 ]; then
-err "❌CMAKE FEHLGESCHLAGEN"
+error "❌CMAKE FEHLGESCHLAGEN"
 return 1
 fi
 success "✅BAU ABGESCHLOSSEN XAIGPUARC BEREIT"
 else
-err "❌KONNTE NICHT IN XAIGPUARC WECHSELN '${BUILD_DIR}'COMPUTER NUTZER BERECHTIGUNG PRÜFEN"
+error "❌KONNTE NICHT IN XAIGPUARC WECHSELN '${BUILD_DIR}'COMPUTER NUTZER BERECHTIGUNG PRÜFEN"
 return 1
 fi
 }
@@ -364,7 +363,7 @@ export ONEAPI_DEVICE_SELECTOR="level_zero:${TARGET_ID}"
 log "🎯Using Intel ${DEVICE} (Device ${TARGET_ID})"
 local VRAM_GIB=$(echo "$TARGET_LINE" | grep -oP '\d+(?=M)' | head -n1)
 VRAM_GIB=$((VRAM_GIB / 1024)) #MIB-zu-GIB-
-local LAYER_SIZE_MIB=128
+local LAYER_SIZE_MIB=256
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 N_GPU_LAYERS=$((VRAM_MIB_CALC * 99 / 100 / LAYER_SIZE_MIB))
 if [ "$N_GPU_LAYERS" -gt 99 ]; then
@@ -410,7 +409,7 @@ local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 log "STARTE KI ANTWORT PER F16 INFERENCE AUF IHRER iGPU/dGPU MIT FOLGENDEN PARAMETERN**${DEVICE} (ID: ${GPU_ID})** with ngl=${NGL_SET} using **${FULL_LLAMA_CLI_PATH}**..."
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
-err "❌FEHLER AKTUELLER LLAMA UNTERBAU NICHT GEFUNDEN NEUBAU FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
+error "❌FEHLER AKTUELLER LLAMA UNTERBAU NICHT GEFUNDEN NEUBAU FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
 return 1
 fi
 ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
