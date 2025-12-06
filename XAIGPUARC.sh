@@ -37,10 +37,6 @@ success() { printf "✅ %s\n" "$*"; }
 error() { printf "❌ %s\n\n" "$*"; }
 warn() { printf "⚠️ %s\n" "$*"; }
 
-#AUSGABEVORSTELLUNG
-separator(){
-echo -e "XAIGPUARC UC DARK ANGEL GOLD MATRIX AI \n"
-}
 #XAIUMGEBUNGUNDRUCKFALLMECHANISMENVORBEREITEN
 prepare_environment() {
 log "HOLE ONE API KOEPFE FUER XAIGPUARC UC DARK ANGEL GOLD MATRIX AI"
@@ -88,7 +84,7 @@ log "✅AKTUALISIERE UNTERMODULE"
 git pull
 git submodule update --init --recursive
 popd > /dev/null
-success "✅LLAMA.CPP ANTWORTET UNTERGRUPPEN WERDEN GELADEN"
+success "✅LLAMA.CPP ANTWORTET UNTERGRUPPENMODULE WERDEN GELADEN"
 else
 error "❌FEHLER HAUPTVERZEICHNIS'${LLAMA_CPP_DIR}'NICHT GEFUNDEN ABBRUCH"
 exit 1
@@ -96,7 +92,7 @@ fi
 }
 #00PATCH6/6
 patch_llama_cpp() {
-log "🔷->PATCH FUER GGML SYCL ANLEGEN KOPZEILENREGESTRIERUNG"
+log "🔷PATCH FUER GGML SYCL ANLEGEN KOPZEILENREGESTRIERUNG"
 local DPCT_HELPER_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/dpct/helper.hpp"
 local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
 local CUSTOM_KERNEL_DIR="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/custom_kernels"
@@ -106,21 +102,21 @@ local GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 local KERNEL_SOURCE_LOCAL="ggml_flash_attention_sycl.cpp"
 #PATCH1/6
 if [ -f "$DPCT_HELPER_FILE" ]; then
-log "🔷PATCH 1/6: DOCTPHELPER FEHLGESCHLAGEN ABHÄNGIGKEITSLISTE PRÜFEN"
+log "🔷PATCH 1/6 DOCTPHELPER FEHLGESCHLAGEN ABHAENGIGKEITSLISTE PRUEFEN"
 if sed -i 's|#include <sycl/ext/oneapi/math.hpp>|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
-log "🔷✅PATCH 1/6 ERFOLGREICH"
+log "🔷PATCH 1/6 ERFOLGREICH"
 elif sed -i 's|#if !defined(DPCT_USM_LEVEL_NONE) && defined(DPCT_ENABLE_MKL_MATH).#endif|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
-log "🔷✅PATCH 1/6 ERFOLGREICH (SPEICHERE IN LOG"
+log "🔷PATCH 1/6 ERFOLGREICH SPEICHERE IN AUSGABE"
 else
-error "🔷❌PATCH 1/6 HELPER INSTALLIEREN (dpct/helper.hpp) IST FEHLGESCHLAGEN"
+error "❌PATCH 1/6 HELPER INSTALLIEREN (dpct/helper.hpp) IST FEHLGESCHLAGEN"
 return 1
 fi
 else
-error "🔷❌ PATCH 1/6 FEHLGESCHLAGEN pct/helper.hpp NICHT GEFUNDEN ABHAENIGKEITEN PRÜFEN"
+error "❌PATCH 1/6 FEHLGESCHLAGEN pct/helper.hpp NICHT GEFUNDEN ABHAENIGKEITEN PRUEFEN"
 return 1
 fi
 #PATCH2/6
-log "🔷->PATCH 2/6: ggml_flash_attention_sycl"
+log "🔷PATCH 2/6: ggml_flash_attention_sycl"
 #2a
 if [ ! -d "$CUSTOM_KERNEL_DIR" ]; then
 mkdir -p "$CUSTOM_KERNEL_DIR"
@@ -128,11 +124,11 @@ log "🔷ORNDER '${CUSTOM_KERNEL_DIR}'ANGELEGT"
 fi
 if [ -f "$KERNEL_SOURCE_LOCAL" ]; then
 cp "$KERNEL_SOURCE_LOCAL" "$CUSTOM_KERNEL_SRC"
-log "🔷->✅ggml_flash_attention_sycl.cpp KERNEL './${KERNEL_SOURCE_LOCAL}' nach '${CUSTOM_KERNEL_SRC}' KOPIERT"
+log "🔷ggml_flash_attention_sycl.cpp KERNEL './${KERNEL_SOURCE_LOCAL}' NACH '${CUSTOM_KERNEL_SRC}' KOPIERT"
 fi
 if [ ! -f "$CUSTOM_KERNEL_SRC" ]; then
 echo "//PLATZHALTER FUER ggml_flash_attention_sycl.cpp KERNELHOME" > "$CUSTOM_KERNEL_SRC"
-warn "⚠️KERNELDATEI '${KERNEL_SOURCE_LOCAL}'HOMEPLATZHALTER"
+warn "⚠️KERNELDATEI '${KERNEL_SOURCE_LOCAL}"
 fi
 echo "
 add_library(ggml_flash_attention_sycl OBJECT
@@ -141,7 +137,7 @@ add_library(ggml_flash_attention_sycl OBJECT
 target_include_directories(ggml_flash_attention_sycl PRIVATE \${GGML_SYCL_INCLUDE_DIRS})
 target_compile_options(ggml_flash_attention_sycl PUBLIC \${GGML_SYCL_COMPILE_FLAGS})
 " > "$CUSTOM_KERNEL_CMAKE"
-log "🔷-> CMAKE LISTEN FÜR OBJEKTE ALS KERN EINGEFUEGT"
+log "🔷CMAKE LISTEN FÜR OBJEKTE ALS KERN EINGEFUEGT"
 #2b/6-b
 local ADD_SUBDIR_LINE="add_subdirectory(ggml_flash_attention_sycl)"
 if ! grep -q "${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
@@ -271,11 +267,11 @@ log "🔷BEREITE XAIGPUARC BAUVORGANG VOR"
 local FP_MODE="${1:-1}"
 local FP_FLAG="-DGGML_SYCL_F16=${FP_MODE}"
 if [ ! -d "${BUILD_DIR}" ]; then
-log "🔷->LEGE XAIGPUARC ORDNER AN ${BUILD_DIR}"
-mkdir -p "${BUILD_DIR}" || { err "❌ KONNTE DEN ORDNER XAIGPUARC '${BUILD_DIR}' NICHT ANLEGEN"; return 1; }
+log "🔷LEGE XAIGPUARC ORDNER AN ${BUILD_DIR}"
+mkdir -p "${BUILD_DIR}" || { err "❌KONNTE DEN ORDNER XAIGPUARC '${BUILD_DIR}' NICHT ANLEGEN"; return 1; }
 fi
 if pushd "${BUILD_DIR}" > /dev/null; then
-log "🔷->STARTE CMAKE BAU VON XAIGPUARC ${FP_FLAG})..."
+log "🔷STARTE CMAKE BAU VON XAIGPUARC ${FP_FLAG})..."
 cmake "../${LLAMA_CPP_DIR}" \
     -G "Unix Makefiles" \
     -DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}" \
@@ -372,7 +368,7 @@ fi
 if [ "$N_GPU_LAYERS" -lt 1 ]; then
 N_GPU_LAYERS=87
 fi
-log "✅UNGEFÄHRE NGL -1 in  **${N_GPU_LAYERS}**SCHICHTEN"
+log "✅AUTOMATISCHE NGL -1 in  **${N_GPU_LAYERS}**SCHICHTEN"
 fi
 }
 #5SYCLKOMPATIBLEGERÄTEPRUEFEN
@@ -416,7 +412,7 @@ the goal is clarity stability and playful creativity so that anyone can extend t
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
-log "✅STARTE KI ANTWORT PER F16 INFERENCE AUF IHRER iGPU/dGPU MIT FOLGENDEN PARAMETERN**${DEVICE} (ID: ${GPU_ID})** with ngl=${NGL_SET} using **${FULL_LLAMA_CLI_PATH}**..."
+log "✅STARTE KI ANTWORT PER F16 INFERENCE AUF IHRER iGPU/dGPU und CPU MIT FOLGENDEN PARAMETERN**${DEVICE} (ID: ${GPU_ID})** with ngl=${NGL_SET} using **${FULL_LLAMA_CLI_PATH}**..."
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
 error "❌FEHLER AKTUELLER LLAMA UNTERBAU NICHT GEFUNDEN NEUBAU FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
 return 1
@@ -429,7 +425,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -ngl -1 \
     --split-mode layer \
     --main-gpu ${GPU_ID}
-echo "✅AI/KI ANTWORT FERTIG GLÜCKWUNSCH"
+echo "✅AI/KI ANTWORT FERTIG GLUECKWUNSCH"
 }
 #00DEFINITIONHAUPTMAINFUNKTION
 main() {
@@ -439,8 +435,8 @@ prepare_environment
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 if [[ -f "${FULL_LLAMA_CLI_PATH}" ]] && [[ -f "${FULL_LS_PATH}" ]]; then
-success "✅GEFUNDENE AKTUELLE XAIGPUARC VERSION NEUBAU UNNÖTIG FORTFAHREN**${FULL_LLAMA_CLI_PATH}** und **${FULL_LS_PATH}**"
-log "✅ÜBERSPRINGE BAUVORGANG"
+success "✅GEFUNDENE AKTUELLE XAIGPUARC VERSION NEUBAU UNNOETIG FORTFAHREN**${FULL_LLAMA_CLI_PATH}** UND **${FULL_LS_PATH}**"
+log "✅UEBERSPRINGE BAUVORGANG"
 RERUN_BUILD=0
 else
 warn "⚠️KEINE AKTUELLES XAIGPUARC GEFUNDEN GEBAUT BITTE WARTEN"
