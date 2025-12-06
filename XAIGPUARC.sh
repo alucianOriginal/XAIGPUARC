@@ -1,11 +1,14 @@
 #!/bin/bash
 
-
 #LOW-SPEC-GERMAN-AI-AUTOMAT
 #INTEL-MKL-ICX-IQ-DynamicGate-F16C-MULTI-Bit-ICX-HQ-IQ-F16-BF16
 #Low-V/RAM/SSD-USAGE
 #Mobile-iGPU+dGPU Compatible with modern INTEL Laptop XE/ARC iGPUs if Modell fit in VRAM/RAM.
 #MathTutor-7B-0.0.1.F16 14.2GB at 16GB 770LE max.
+#Use Nvidia Double AI Nemotron Modells in
+#FP16 who can fit in your VRAM/RAM!
+#Carefull with the Nvidia Nemotrons for Laptops/CPU/iGPU/sharedV/RAM:
+#Double RAM usage, means half iGPU VRAM allowed with your RAM shared.
 
 set -euo pipefail
 IFS=$'\n\t'
