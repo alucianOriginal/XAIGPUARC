@@ -12,10 +12,13 @@
 
 set -euo pipefail
 IFS=$'\n\t'
+
 PRECISION="FP16"
 DEVICE="ARC"
+
 LLAMA_CPP_DIR="llama.cpp"
 BUILD_DIR="${BUILD_DIR:-XAIGPUARC}"
+
 #XAIGPUARC
 GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"
@@ -23,6 +26,7 @@ NPROC="${NPROC:-$(nproc)}"
 LOG_FILE="${BUILD_DIR:-XAIGPUARC}/XAIGPUARC.log"
 LLAMA_CLI_PATH="bin/llama-cli"
 LS_SYCL_DEVICE_PATH="bin/llama-ls-sycl-device"
+
 #ONEAPISYCLFUNKTIONEN
 export TCM_ROOT="${TCM_ROOT:-/opt/intel/oneapi/tcm/latest}"
 export SYCL_CACHE_PERSISTENT=1
@@ -34,16 +38,16 @@ export COMPILER_VERSION="2025.0"
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
 export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=100
 
-#-00-HILFSFUNKTIONEN-
+#00HILFSFUNKTIONEN
 log() { printf "🔷 %s\n" "$*"; }
 success() { printf "✅ %s\n" "$*"; }
 error() { printf "❌ %s\n\n" "$*"; }
 warn() { printf "⚠️ %s\n" "$*"; }
 
-#NEU: Internet-Prüfung als eigene, nicht verschachtelte Funktion
+#INTERNETPRUEFUNG
 check_internet() {
 log "🔷PRUEFE INTERNETVERBINDUNG..."
-# Versuche, Google DNS über TCP-Port 53 zu erreichen
+#GOOGLE DNS TCP-Port 53
 if timeout 5 bash -c "</dev/tcp/8.8.8.8/53" 2>/dev/null; then
 success "✅INTERNETVERBINDUNG VORHANDEN."
 return 0
@@ -55,7 +59,7 @@ fi
 
 #XAIUMGEBUNGUNDRUCKFALLMECHANISMENVORBEREITEN
 prepare_environment() {
-log "HOLE ONE API KOEPFE FUER XAIGPUARC UC DARK ANGEL GOLD MATRIX AI"
+log "HOLE ONE API KOEPFE FUER XAIGPUARC POW-BWO-BCXAI-Project-Edition"
 local SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
 if [ ! -f "$SETVARS_PATH" ]; then
 error "ONEAPI KOEPFE NICHT GEFUNDEN: $SETVARS_PATH. INSTALLIERE ZU ERST ONE API BIBLIOTHEKEN"
@@ -108,7 +112,7 @@ fi
 }
 #00PATCH6/6
 patch_llama_cpp() {
-log "🔷PATCH FUER GGML SYCL ANLEGEN KOPZEILENREGESTRIERUNG"
+log "🔷PATCH FUER GGML SYCL ANLEGEN KOPFZEILENREGESTRIERUNG"
 local DPCT_HELPER_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/dpct/helper.hpp"
 local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
 local CUSTOM_KERNEL_DIR="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/custom_kernels"
@@ -124,15 +128,15 @@ log "🔷PATCH 1/6 ERFOLGREICH"
 elif sed -i 's|#if !defined(DPCT_USM_LEVEL_NONE) && defined(DPCT_ENABLE_MKL_MATH).#endif|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
 log "🔷PATCH 1/6 ERFOLGREICH SPEICHERE IN AUSGABE"
 else
-error "❌PATCH 1/6 HELPER INSTALLIEREN (dpct/helper.hpp) IST FEHLGESCHLAGEN"
+error "❌PATCH 1/6 HELPER INSTALLIEREN IST FEHLGESCHLAGEN"
 return 1
 fi
 else
-error "❌PATCH 1/6 FEHLGESCHLAGEN pct/helper.hpp NICHT GEFUNDEN ABHAENIGKEITEN PRUEFEN"
+error "❌PATCH 1/6 FEHLGESCHLAGEN NICHT GEFUNDEN ABHAENIGKEITEN PRUEFEN"
 return 1
 fi
 #PATCH2/6
-log "🔷PATCH 2/6: ggml_flash_attention_sycl"
+log "🔷PATCH 2/6 ggml_flash_attention_sycl"
 #2a
 if [ ! -d "$CUSTOM_KERNEL_DIR" ]; then
 mkdir -p "$CUSTOM_KERNEL_DIR"
@@ -184,7 +188,7 @@ error "❌PATCH 3/6 CMAKE LISTSTXT NICHT GEFUNDEN ABHAENGIKEITEN PRUEFEN"
 return 1
 fi
 else
-log "🔷PATCH 3/6 PFAD BEREITS BENUTZT...UEBERSPRINGE"
+log "🔷PATCH 3/6 PFAD BEREITS BENUTZT UEBERSPRINGE"
 fi
 else
 error "❌PATCH 3/6 FEHLGESCHLAGEN CMAKE LISTS FÜR SYCL GGML PFADE NICHT GEFUNDEN ABHAENGIGKEITEN PRUEFEN"
@@ -202,9 +206,9 @@ echo "${FA_REGISTER_CODE}" > /tmp/fa_decl.patch
 awk '/extern "C" void ggml_flash_attention_sycl/ { system("cat /tmp/fa_decl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
 if [ $? -eq 0 ]; then
-log "🔷PATCH 4/6 DEKLARATION ERFOLGREICH EINGEFÜGT"
+log "🔷PATCH 4/6 DEKLARATION ERFOLGREICH EINGEFUEGT"
 else
-error "❌PATCH 4/6 FEHLER BEIM EINFÜGEN DER ggml_flash_attention_sycl.cpp DEKLARATION AWK-FEHLER"
+error "❌PATCH 4/6 FEHLER BEIM EINFUEGEN DER ggml_flash_attention_sycl.cpp DEKLARATION AWK FEHLER"
 return 1
 fi
 else
@@ -212,12 +216,12 @@ log "🔷DEKLARATIONEN VORHANDEN FORTFAHREN"
 fi
 local FA_DISPATCH_CASE=$' case GGML_OP_FLASH_ATTN:\n ggml_flash_attention_sycl(ctx, dst, src0, src1, src2);\n break;'
 if ! grep -q "case GGML_OP_FLASH_ATTN:" "${GGML_SYCL_CPP}"; then
-log "🔷Versuche, den Dispatch-Case (FA) mittels AWK einzufügen."
+log "🔷FUEGE DEN DISPATCH CACHE PER AWK EIN"
 echo "${FA_DISPATCH_CASE}" > /tmp/fa_dispatch.patch
 awk '/case GGML_OP_MUL_MAT_Q_K:/ { system("cat /tmp/fa_dispatch.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
 if [ $? -eq 0 ]; then
-log "🔷PATCH 4/6 ERFOLGREICH UNTERBAU EINGEFÜHRT"
+log "🔷PATCH 4/6 ERFOLGREICH UNTERBAU EINGEFUEHRT"
 else
 error "❌PATCH 4/6 FEHLER BEIM EINFUEGEN AKW PATCH"
 fi
@@ -230,7 +234,7 @@ error "❌PATCH 4/6 FEHLGESCHLAGEN FLASHATTENTION KERN NICHT GEFUNDEN"
 return 1
 fi
 #PATCH5/6-a
-log "🔷PATCH 5/6: INJIZIEREN OBJEKT VARIABLEN AUS UNTERBLOCK VON SYCL BIBLIOTHEKEN"
+log "🔷PATCH 5/6 INJIZIEREN OBJEKT VARIABLEN AUS UNTERBLOCK VON SYCL BIBLIOTHEKEN"
 local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
 #5a/6
 local VAR_LINE="set(FA_OBJECT_FILES \"\$<TARGET_OBJECTS:ggml_flash_attention_sycl>\")"
@@ -238,7 +242,7 @@ local VAR_SEARCH_MARKER="set(GGML_SYCL_SOURCES"
 if ! grep -q "FA_OBJECT_FILES" "$CMAKE_LISTS_FILE"; then
 local SED_VAR_LINE=$(echo "$VAR_LINE" | sed 's/[\/&]/\\&/g')
 if sed -i "/${VAR_SEARCH_MARKER}/a ${SED_VAR_LINE}" "$CMAKE_LISTS_FILE"; then
-log "🔷5a/6: OBJEKT VARIABLEN ERFOLGREICH DEFINIERT"
+log "🔷5a/6 OBJEKT VARIABLEN ERFOLGREICH DEFINIERT"
 else
 error "❌PATCH 5a/6 OBJEKT VARIABLEN BAU FEHLGESCHLAGEN STOPP"
 return 1
@@ -268,13 +272,13 @@ local SEARCH_LINE='GGML_ASSERT(src0->nb[1] == src0->ne[0] * static_cast(sizeof(f
 local REPLACE_LINE='GGML_ASSERT(src0->nb[1] == (size_t)(src0->ne[0] * sizeof(float)));' 
 if grep -q "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
 if sed -i "s/${SEARCH_LINE}/${REPLACE_LINE}/g" "$SSM_CONV_FILE"; then
-log "🔷PATCH 6/6ssm_conv.cpp ERFOLGREICH"
+log "🔷PATCH 6/6 ssm_conv.cpp ERFOLGREICH"
 else
-error "❌PATCH 6/6ssm_conv.cpp FEHLGESCHLAGEN"
+error "❌PATCH 6/6 ssm_conv.cpp FEHLGESCHLAGEN"
 return 1
 fi
 else
-log "🔷PATCH 6/6ssm_conv.cpp ZEILE NICHT GEFUNDEN UEBERSPRINGE"
+log "🔷PATCH 6/6 ssm_conv.cpp ZEILE NICHT GEFUNDEN UEBERSPRINGE"
 fi
 success "✅ALLE EINGLIEDERUNGEN FUER DAS INTEL ARC GPU BASIERTE XAIGPUARC SPRACHMODELL ERFOLGREICH ANGEWAND"
 }
@@ -321,7 +325,7 @@ log "🔷KOPFZEILENAUSGABE IN UNTERORNDER GESPEICHERT"
 log "BAU XAIGPUARC KOPFZEILEN"
 if pushd "${BUILD_DIR}" > /dev/null; then
 log "🔷BAU VON XAIGPUARC KOMPLETTSYSTEM AUF LOKALEM COMPUTER MOEGLICH
-BAU WIRD JETZT FERTIGGESTELLT...
+BAU WIRD JETZT FERTIGGESTELLT
 DIESER VORGANG KANN JE NACH LEISTUNG IHRES SYSTEMS EIN PAAR MINUTEN ANDAUERN
 BITTE HABEN SIE ETWAS GEDULD
 DANKE FUER DIE NUTZUNG VON XAIGPUARC..."
@@ -334,7 +338,7 @@ return 1
 fi
 success "✅BAU VON XAIGPUARC ERFOLGREICH"
 else
-error "❌KONNTE XAIGPUARC NICHT NEU BAUEN '${BUILD_DIR}' WEGEN FEHLERHAFTEM WECHSEL BAU NICHT MÖGLICH"
+error "❌KONNTE XAIGPUARC NICHT NEU BAUEN '${BUILD_DIR}' WEGEN FEHLERHAFTEM WECHSEL BAU NICHT MOEGLICH"
 return 1
 fi
 }
@@ -344,14 +348,14 @@ log "🔷NACH VERFÜGBAREN SYCL GERÄTEN AUF IHREM SYSTEM"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 if [ ! -x "${FULL_LS_PATH}" ]; then
 warn "⚠️LLAMA UNTERBAU NICHT GEFUNDEN ${FULL_LS_PATH}RÜCKFALL AUF ARC dGPU"
-export ONEAPI_DEVICE_SELECTOR="LZ 0 ANBINDUNG ERFOLGREICH"
+export ONEAPI_DEVICE_SELECTOR="level_zero ERFOLGREICH"
 DEVICE="ARC"
 return
 fi
 local DEVICES
 DEVICES=$(bash -c "${FULL_LS_PATH}")
 if [ -z "$DEVICES" ]; then
-warn "⚠️KEINE KOMPATIBLEN SYCL GERÄTE GEFUNDEN ERRORAKTUELLE ABHÄNGIGKEITEN PRÜFEN"
+warn "⚠️KEINE KOMPATIBLEN SYCL GERAETE GEFUNDEN ERRORAKTUELLE ABHAENGIGKEITEN PRUEFEN"
 export ONEAPI_DEVICE_SELECTOR="level_zero:0->❌ANBINDUNG FEHLGESCHLAGEN"
 DEVICE="ARC"
 N_GPU_LAYERS=0
@@ -372,7 +376,7 @@ else
 export ONEAPI_DEVICE_SELECTOR="opencl:cpu"
 DEVICE="CPU"
 N_GPU_LAYERS=0
-error "❌KEINE GEEIGNETE GRAFIKKARTE GEFUNDENFALLE AUF CPU ZURÜCK"
+error "❌KEINE GEEIGNETE GRAFIKKARTE GEFUNDENFALLE AUF CPU ZURUECK"
 return
 fi
 if [ -n "$TARGET_LINE" ]; then
@@ -381,7 +385,7 @@ export ONEAPI_DEVICE_SELECTOR="level_zero:${TARGET_ID}"
 log "🔷Using Intel ${DEVICE} (Device ${TARGET_ID})"
 local VRAM_GIB=$(echo "$TARGET_LINE" | grep -oP '\d+(?=M)' | head -n1)
 VRAM_GIB=$((VRAM_GIB / 1024)) #MIB-zu-GIB-
-local LAYER_SIZE_MIB=64
+local LAYER_SIZE_MIB=128
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 N_GPU_LAYERS=$((VRAM_MIB_CALC * 99 / 100 / LAYER_SIZE_MIB))
 if [ "$N_GPU_LAYERS" -gt 99 ]; then
@@ -395,18 +399,18 @@ fi
 }
 #5SYCLKOMPATIBLEGERÄTEPRUEFEN
 list_sycl_devices() {
-log "🔷SUCHE SYCL FÄHIGES GERÄT AUF IHREM SYSTEM"
+log "🔷SUCHE SYCL FAEHIGES GERAET AUF IHREM SYSTEM"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 if [ -f "${FULL_LS_PATH}" ]; then
 "${FULL_LS_PATH}"
 else
-warn "⚠️KEIN SYCL FÄHIGES SYSTEM GEFUNDEN!!! ${FULL_LS_PATH}.
-KONNTE KEIN FÄHIGES GERÄT FINDEN"
+warn "⚠️KEIN SYCL FAEHIGES SYSTEM GEFUNDEN!!! ${FULL_LS_PATH}.
+KONNTE KEIN FAEHIGES GERAET FINDEN"
 fi
 }
 #6MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/NVIDIA-Nemotron-Nano-12B-v2-F16.gguf"}
+MODEL_PATH=${1:-"models/NVIDIA-Nemotron-Nano-9B-v2-Q8_0.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN. BITTE DORTHIN KOPIEREN **$MODEL_PATH**"
@@ -415,7 +419,7 @@ export MODEL_PATH
 }
 #7MODELLAUSFUEHREN
 run_inference() {
-local DEFAULT_MODEL_PATH="models/NVIDIA-Nemotron-Nano-12B-v2-F16.gguf"
+local DEFAULT_MODEL_PATH="models/NVIDIA-Nemotron-Nano-9B-v2-Q8_0.gguf"
 #16GB770ARConlyMathTutor-7B-H_v0.0.1.f16mythomax-l2-13b.Q4_K_M
 #mistral-7b-instruct-v0.2.Q4_K_Mopenhermes-2.5-mistral-7b.Q8_0
 #solar-10.7b-instruct-v1.0.Q6_KNVIDIA-Nemotron-Nano-9B-v2-Q8_0
@@ -434,7 +438,7 @@ the goal is clarity stability and playful creativity so that anyone can extend t
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
-log "🔷STARTE KI ANTWORT PER F16 INFERENCE AUF IHRER iGPU/dGPU und CPU MIT FOLGENDEN PARAMETERN**${DEVICE} (ID: ${GPU_ID})** with ngl=${NGL_SET} using **${FULL_LLAMA_CLI_PATH}**..."
+log "🔷STARTE KI ANTWORT AUF IHRER iGPU/dGPU UND CPU MIT FOLGENDEN PARAMETERN**${DEVICE} (ID: ${GPU_ID})** MIT ngl=${NGL_SET} AUF DIESEM **${FULL_LLAMA_CLI_PATH}**"
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
 error "❌FEHLER AKTUELLER LLAMA UNTERBAU NICHT GEFUNDEN NEUBAU FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
 return 1
@@ -443,7 +447,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -no-cnv \
     -m "${MODEL_PATH_ARG}" \
     -p "${PROMPT_ARG}" \
-    -n 512 \
+    -n 1024 \
     -ngl -1 \
     --split-mode layer \
     --main-gpu ${GPU_ID}
