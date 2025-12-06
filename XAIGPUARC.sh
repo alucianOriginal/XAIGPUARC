@@ -344,10 +344,10 @@ fi
 }
 #4AUTOMATISCHEGERAETEAUSWAHL
 auto_select_device() {
-log "🔷NACH VERFÜGBAREN SYCL GERÄTEN AUF IHREM SYSTEM"
+log "🔷NACH VERFUEGBAREN SYCL GERAETEN AUF IHREM SYSTEM"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 if [ ! -x "${FULL_LS_PATH}" ]; then
-warn "⚠️LLAMA UNTERBAU NICHT GEFUNDEN ${FULL_LS_PATH}RÜCKFALL AUF ARC dGPU"
+warn "⚠️LLAMA UNTERBAU NICHT GEFUNDEN ${FULL_LS_PATH}RUECKFALL AUF ARC dGPU"
 export ONEAPI_DEVICE_SELECTOR="level_zero ERFOLGREICH"
 DEVICE="ARC"
 return
@@ -376,7 +376,7 @@ else
 export ONEAPI_DEVICE_SELECTOR="opencl:cpu"
 DEVICE="CPU"
 N_GPU_LAYERS=0
-error "❌KEINE GEEIGNETE GRAFIKKARTE GEFUNDENFALLE AUF CPU ZURUECK"
+error "❌KEINE GEEIGNETE GRAFIKKARTE GEFUNDEN FALLE AUF CPU ZURUECK"
 return
 fi
 if [ -n "$TARGET_LINE" ]; then
@@ -389,12 +389,12 @@ local LAYER_SIZE_MIB=128
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 N_GPU_LAYERS=$((VRAM_MIB_CALC * 99 / 100 / LAYER_SIZE_MIB))
 if [ "$N_GPU_LAYERS" -gt 99 ]; then
-N_GPU_LAYERS=99
+N_GPU_LAYERS=0
 fi
 if [ "$N_GPU_LAYERS" -lt 1 ]; then
-N_GPU_LAYERS=87
+N_GPU_LAYERS=0
 fi
-log "🔷AUTOMATISCHE NGL -1 in  **${N_GPU_LAYERS}**SCHICHTEN"
+log "🔷AUTOMATISCHE NGL -n1 in  **${N_GPU_LAYERS}**SCHICHTEN"
 fi
 }
 #5SYCLKOMPATIBLEGERÄTEPRUEFEN
@@ -410,7 +410,7 @@ fi
 }
 #6MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/NVIDIA-Nemotron-Nano-9B-v2-Q8_0.gguf"}
+MODEL_PATH=${1:-"models/NVIDIA-Nemotron-Nano-12B-v2-Q8_0.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN. BITTE DORTHIN KOPIEREN **$MODEL_PATH**"
@@ -419,22 +419,70 @@ export MODEL_PATH
 }
 #7MODELLAUSFUEHREN
 run_inference() {
-local DEFAULT_MODEL_PATH="models/NVIDIA-Nemotron-Nano-9B-v2-Q8_0.gguf"
+local DEFAULT_MODEL_PATH="models/NVIDIA-Nemotron-Nano-12B-v2-Q8_0.gguf"
 #16GB770ARConlyMathTutor-7B-H_v0.0.1.f16mythomax-l2-13b.Q4_K_M
 #mistral-7b-instruct-v0.2.Q4_K_Mopenhermes-2.5-mistral-7b.Q8_0
 #solar-10.7b-instruct-v1.0.Q6_KNVIDIA-Nemotron-Nano-9B-v2-Q8_0
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"medi8tor create a simple open source design tool that lets a user build small interactive programs
 and tiny games by using point and click interactions describe the structure only with plain words as if outlining code without symbols
-medi8tor should behave like an old school visual builder where every element on the screen is a block that has behavior rules the program
-manages a canvas where the user places blocks such as buttons images text fields sprites counters and logic triggers each block exposes actions
-like when clicked when touched when timer expires or when value changes the user connects blocks by defining reactions for example a button block can trigger
-a sound block or move a sprite block across the canvas medi8tor loads all blocks from a simple library of stable open source components that have been used for many years
-such as basic drawing routines simple timers keyboard and mouse events and sprite movement the core loop handles input updates and drawing the routing logic matches events to blocks
-and their reactions the block system contains all interactive elements and the logging unit records what happens during a project session a project file is a plain text description listing
-all blocks their properties and the connections between them when the user starts a project medi8tor reads this file creates each block builds a reaction table then enters the main loop that reads
-input updates block states triggers reactions and redraws the canvas the program remains simple enough that small educational games can be built without writing code by connecting blocks through clearly described rules
-the goal is clarity stability and playful creativity so that anyone can extend the block library or create new interactions without changing the core design"}
+medi8tor should behave like an old school visual builder where every element on the screen create new interactions without changing the core design
+not use any visual scripting, it should use only point and click to define interactions
+not require any coding experience
+work on desktop only
+written in c++
+create a new interaction each time a user clicks on the screen
+use a grid system
+toolbar with buttons to select different types of interactions
+canvas area where users can place interactions
+sidebar for settings
+play button to run the created interaction
+save button to export the interaction as a standalone html file
+load button to import previously saved interactions
+delete button to remove interactions
+duplicate button to copy interactions
+settings button to change global settings
+should have a help button to display instructions
+medi8tor should have a reset button to clear the canvas
+should have a grid toggle button to show or hide the grid
+shadow slider to adjust the shadow effect should have a glow slider to adjust the glow effect
+blur slider to adjust the blur effect
+scale slider to adjust the scale of interactions
+adjust the skew of interactions
+should have a translate slider to adjust the translate of interactions
+rotate slider to adjust the rotate of interactions
+opacity slider to adjust the opacity of interactions
+z-index slider to adjust the layering of interactions
+alignment dropdown to adjust the text alignment
+height slider to adjust the line height of text
+decoration dropdown to adjust the text decoration
+text parameter frome her below
+transform dropdown to adjust the text transform
+glow slider to adjust the text glow
+blur slider to adjust the text blur
+scale slider to adjust the text scale
+skew slider to adjust the text skew
+text translate ai to adjust the text translate
+rotate slider to adjust the text rotate
+opacity slider to adjust the text opacity
+z-index slider to adjust the text z-index
+color picker to adjust the text color
+medi8tor should have a text background color picker to adjust the text background color
+border color picker to adjust the text border color
+border width slider to adjust the text border width
+corner radius slider to adjust the text corner radius
+shadow slider to adjust the text shadow
+glow slider to adjust the text glow
+blur slider to adjust the text blur
+scale slider to adjust the text scale
+skew slider to adjust the text skew
+translate slider to adjust the text translate
+rotate slider to adjust the text rotate
+opacity slider to adjust the text opacity
+z-index slider to adjust the text z-index
+color picker to adjust the text color
+background color picker to adjust
+"}
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
@@ -447,7 +495,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -no-cnv \
     -m "${MODEL_PATH_ARG}" \
     -p "${PROMPT_ARG}" \
-    -n 1024 \
+    -n 512 \
     -ngl -1 \
     --split-mode layer \
     --main-gpu ${GPU_ID}
