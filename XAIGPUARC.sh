@@ -5,7 +5,10 @@
 #INTEL-MKL-ICX-IQ-DynamicGate-F16C-MULTI-Bit-ICX-HQ-IQ-F16-BF16
 #Low-V/RAM/SSD-USAGE
 #Mobile-iGPU+dGPU Compatible with modern INTEL Laptop XE/ARC iGPUs if Modell fit in VRAM/RAM.
-#MathTutor-7B-0.0.1.F16 14.2GB at 16GB 770LE max.
+#MathTutor-7B-0.0.1.F16 14.2GB at 16GB 770LE max. 
+#Try newer Nvidia DUAL AI. CPU+GPU F16 Nanotron Modules
+#Look for Layer if something not fit in VRAM!
+#Lool for N 
 
 set -euo pipefail
 IFS=$'\n\t'
@@ -384,7 +387,7 @@ fi
 }
 #6MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
+MODEL_PATH=${1:-"models/NVIDIA-Nemotron-Nano-9B-v2-Q8_0.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN. BITTE DORTHIN KOPIEREN **$MODEL_PATH**"
@@ -393,10 +396,10 @@ export MODEL_PATH
 }
 #7MODELLAUSFUEHREN
 run_inference() {
-local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
+local DEFAULT_MODEL_PATH="models/NVIDIA-Nemotron-Nano-9B-v2-Q8_0.gguf"
 #16GB770ARConlyMathTutor-7B-H_v0.0.1.f16mythomax-l2-13b.Q4_K_M
 #mistral-7b-instruct-v0.2.Q4_K_Mopenhermes-2.5-mistral-7b.Q8_0
-#solar-10.7b-instruct-v1.0.Q6_K
+#solar-10.7b-instruct-v1.0.Q6_KNVIDIA-Nemotron-Nano-9B-v2-Q8_0
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"medi8tor create a simple open source design tool that lets a user build small interactive programs
 and tiny games by using point and click interactions describe the structure only with plain words as if outlining code without symbols
