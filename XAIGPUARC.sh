@@ -250,7 +250,7 @@ fi
 log "🔷->PATCH 6/6: ssm_conv.cpp WARNUNG beheben VORZEICHENVERGLEICH"
 local SSM_CONV_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ssm_conv.cpp"
 local SEARCH_LINE='GGML_ASSERT(src0->nb[1] == src0->ne[0] * static_cast(sizeof(float)));'
-local REPLACE_LINE='GGML_ASSERT(src0->nb[1] == (size_t)(src0->ne[0] * sizeof(float)));' # Explizites Casting
+local REPLACE_LINE='GGML_ASSERT(src0->nb[1] == (size_t)(src0->ne[0] * sizeof(float)));' 
 if grep -q "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
 if sed -i "s/${SEARCH_LINE}/${REPLACE_LINE}/g" "$SSM_CONV_FILE"; then
 log "🔷->✅PATCH 6/6ssm_conv.cppERFOLGREICH"
@@ -389,7 +389,7 @@ fi
 }
 #6MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/velara-11b-v2.Q8_0CODE.gguf"} #velara-11b-v2.Q8_0CODE
+MODEL_PATH=${1:-"models/velara-11b-v2.Q8_0CODE.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "Ihr AI/KI-Modell konnte leider nicht unter:home/ihrname/models/-gefunden werden.Bitte Kopieren Sie das gewünschte Modell dorthin**$MODEL_PATH**"
