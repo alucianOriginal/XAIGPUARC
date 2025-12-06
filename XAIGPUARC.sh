@@ -40,6 +40,19 @@ success() { printf "✅ %s\n" "$*"; }
 error() { printf "❌ %s\n\n" "$*"; }
 warn() { printf "⚠️ %s\n" "$*"; }
 
+#NEU: Internet-Prüfung als eigene, nicht verschachtelte Funktion
+check_internet() {
+log "🔷PRUEFE INTERNETVERBINDUNG..."
+# Versuche, Google DNS über TCP-Port 53 zu erreichen
+if timeout 5 bash -c "</dev/tcp/8.8.8.8/53" 2>/dev/null; then
+success "✅INTERNETVERBINDUNG VORHANDEN."
+return 0
+else
+warn "⚠️KEINE INTERNETVERBINDUNG GEFUNDEN."
+return 1
+fi
+}
+
 #XAIUMGEBUNGUNDRUCKFALLMECHANISMENVORBEREITEN
 prepare_environment() {
 log "HOLE ONE API KOEPFE FUER XAIGPUARC UC DARK ANGEL GOLD MATRIX AI"
@@ -393,7 +406,7 @@ fi
 }
 #6MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/NVIDIA-Nemotron-Nano-9B-v2-Q8_0.gguf"}
+MODEL_PATH=${1:-"models/NVIDIA-Nemotron-Nano-12B-v2-F16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN. BITTE DORTHIN KOPIEREN **$MODEL_PATH**"
@@ -402,7 +415,7 @@ export MODEL_PATH
 }
 #7MODELLAUSFUEHREN
 run_inference() {
-local DEFAULT_MODEL_PATH="models/NVIDIA-Nemotron-Nano-9B-v2-Q8_0.gguf"
+local DEFAULT_MODEL_PATH="models/NVIDIA-Nemotron-Nano-12B-v2-F16.gguf"
 #16GB770ARConlyMathTutor-7B-H_v0.0.1.f16mythomax-l2-13b.Q4_K_M
 #mistral-7b-instruct-v0.2.Q4_K_Mopenhermes-2.5-mistral-7b.Q8_0
 #solar-10.7b-instruct-v1.0.Q6_KNVIDIA-Nemotron-Nano-9B-v2-Q8_0
@@ -453,15 +466,16 @@ RERUN_BUILD=1
 fi
 if [[ "$RERUN_BUILD" -eq 1 ]]; then
 log "🔷STARTE ERSTMALIGEN BAUVORGANG XAIGPUARC"
-setup_project
-patch_llama_cpp
-configure_build "${FP_MODE}"
-compile_project
-else
+if check_internet; then
 log "🔷LADE JETZT NEUESTE LLAMA VERSION BITTE WARTEN"
 setup_project
 patch_llama_cpp
+else
+warn "⚠️INTERNET NICHT VERFÜGBAR UEBERSPRINGE UPDATE VON LLAMA.CPP NUTZE LOKALE VERSION"
 fi
+fi
+configure_build "${FP_MODE}"
+compile_project
 auto_select_device
 list_sycl_devices
 prepare_model "${2:-}"
