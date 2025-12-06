@@ -5,10 +5,7 @@
 #INTEL-MKL-ICX-IQ-DynamicGate-F16C-MULTI-Bit-ICX-HQ-IQ-F16-BF16
 #Low-V/RAM/SSD-USAGE
 #Mobile-iGPU+dGPU Compatible with modern INTEL Laptop XE/ARC iGPUs if Modell fit in VRAM/RAM.
-#MathTutor-7B-0.0.1.F16 14.2GB at 16GB 770LE max. 
-#Try newer Nvidia DUAL AI. CPU+GPU F16 Nanotron Modules
-#Look for Layer if something not fit in VRAM!
-#Lool for N 
+#MathTutor-7B-0.0.1.F16 14.2GB at 16GB 770LE max.
 
 set -euo pipefail
 IFS=$'\n\t'
@@ -181,7 +178,9 @@ fi
 log "🔷PATCH 4/6: ggml_flash_attention_sycl.cpp INJIZIEREN"
 if [ -f "$GGML_SYCL_CPP" ]; then
 #4a/6
-local FA_REGISTER_CODE=$'//REGESTRIERE ggml_flash_attention_sycl.cpp \nextern "C" void ggml_flash_attention_sycl(ggml_flash_attention_sycl * ctx, ggml_tensor * dst, const ggml_tensor * Q, const ggml_tensor * K, const ggml_tensor * V);\n'
+local FA_REGISTER_CODE=$'//REGESTRIERE ggml_flash_attention_sycl.cpp \nextern "C"
+void ggml_flash_attention_sycl(ggml_flash_attention_sycl * ctx, ggml_tensor *
+dst, const ggml_tensor * Q, const ggml_tensor * K, const ggml_tensor * V);\n'
 if ! grep -q "ggml_flash_attention_sycl" "${GGML_SYCL_CPP}"; then
 echo "${FA_REGISTER_CODE}" > /tmp/fa_decl.patch
 awk '/extern "C" void ggml_flash_attention_sycl/ { system("cat /tmp/fa_decl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
@@ -305,7 +304,11 @@ local LOG_FILE="build.log"
 log "🔷KOPFZEILENAUSGABE IN UNTERORNDER GESPEICHERT"
 log "BAU XAIGPUARC KOPFZEILEN"
 if pushd "${BUILD_DIR}" > /dev/null; then
-log "🔷BAU VON XAIGPUARC KOMPLETTSYSTEM AUF LOKALEM COMPUTER MOEGLICH. BAU WIRD JETZT FERTIGGESTELLT. DIESER VORGANG KANN JE NACH LEISTUNG IHRES SYSTEMS EIN PAAR MINUTEN ANDAUERN. BITTE HABEN SIE ETWAS GEDULD. DANKE FUER DIE NUTZUNG VON XAIGPUARC"
+log "🔷BAU VON XAIGPUARC KOMPLETTSYSTEM AUF LOKALEM COMPUTER MOEGLICH
+BAU WIRD JETZT FERTIGGESTELLT...
+DIESER VORGANG KANN JE NACH LEISTUNG IHRES SYSTEMS EIN PAAR MINUTEN ANDAUERN
+BITTE HABEN SIE ETWAS GEDULD
+DANKE FUER DIE NUTZUNG VON XAIGPUARC..."
 cmake --build . --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama-cli llama-ls-sycl-device > "${LOG_FILE}" 2>&1
 local BUILD_STATUS=$?
 popd > /dev/null
@@ -324,15 +327,15 @@ auto_select_device() {
 log "🔷NACH VERFÜGBAREN SYCL GERÄTEN AUF IHREM SYSTEM"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 if [ ! -x "${FULL_LS_PATH}" ]; then
-warn "⚠️LLAMA UNTERBAU NICHT GEFUNDEN ${FULL_LS_PATH}RÜCKFALL AUF ARC dGPU✅"
-export ONEAPI_DEVICE_SELECTOR="LZ 0 ANBINDUNG ERFOLGREICH✅"
+warn "⚠️LLAMA UNTERBAU NICHT GEFUNDEN ${FULL_LS_PATH}RÜCKFALL AUF ARC dGPU"
+export ONEAPI_DEVICE_SELECTOR="LZ 0 ANBINDUNG ERFOLGREICH"
 DEVICE="ARC"
 return
 fi
 local DEVICES
 DEVICES=$(bash -c "${FULL_LS_PATH}")
 if [ -z "$DEVICES" ]; then
-warn "⚠️KEINE KOMPATIBLEN SYCL GERÄTE GEFUNDEN: ERROR❌AKTUELLE ABHÄNGIGKEITEN PRÜFEN"
+warn "⚠️KEINE KOMPATIBLEN SYCL GERÄTE GEFUNDEN ERRORAKTUELLE ABHÄNGIGKEITEN PRÜFEN"
 export ONEAPI_DEVICE_SELECTOR="level_zero:0->❌ANBINDUNG FEHLGESCHLAGEN"
 DEVICE="ARC"
 N_GPU_LAYERS=0
