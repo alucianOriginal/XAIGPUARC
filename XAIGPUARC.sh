@@ -363,14 +363,14 @@ export ONEAPI_DEVICE_SELECTOR="level_zero:${TARGET_ID}"
 log "🎯Using Intel ${DEVICE} (Device ${TARGET_ID})"
 local VRAM_GIB=$(echo "$TARGET_LINE" | grep -oP '\d+(?=M)' | head -n1)
 VRAM_GIB=$((VRAM_GIB / 1024)) #MIB-zu-GIB-
-local LAYER_SIZE_MIB=256
+local LAYER_SIZE_MIB=512
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 N_GPU_LAYERS=$((VRAM_MIB_CALC * 99 / 100 / LAYER_SIZE_MIB))
 if [ "$N_GPU_LAYERS" -gt 99 ]; then
 N_GPU_LAYERS=99
 fi
 if [ "$N_GPU_LAYERS" -lt 1 ]; then
-N_GPU_LAYERS=1
+N_GPU_LAYERS=87
 fi
 log "UNGEFÄHRE NGL -1 in  **${N_GPU_LAYERS}**SCHICHTEN"
 fi
@@ -402,9 +402,7 @@ local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
 #mistral-7b-instruct-v0.2.Q4_K_Mopenhermes-2.5-mistral-7b.Q8_0
 #solar-10.7b-instruct-v1.0.Q6_K
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
-local PROMPT_ARG=${3:-"
-medi8tor rebuild on linux arch code"}
-local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
+local PROMPT_ARG=${3:-"medi8tor create a simple open source design tool that lets a user build small interactive programs and tiny games by using point and click interactions describe the structure only with plain words as if outlining code without symbols medi8tor should behave like an old school visual builder where every element on the screen is a block that has behavior rules the program manages a canvas where the user places blocks such as buttons images text fields sprites counters and logic triggers each block exposes actions like when clicked when touched when timer expires or when value changes the user connects blocks by defining reactions for example a button block can trigger a sound block or move a sprite block across the canvas medi8tor loads all blocks from a simple library of stable open source components that have been used for many years such as basic drawing routines simple timers keyboard and mouse events and sprite movement the core loop handles input updates and drawing the routing logic matches events to blocks and their reactions the block system contains all interactive elements and the logging unit records what happens during a project session a project file is a plain text description listing all blocks their properties and the connections between them when the user starts a project medi8tor reads this file creates each block builds a reaction table then enters the main loop that reads input updates block states triggers reactions and redraws the canvas the program remains simple enough that small educational games can be built without writing code by connecting blocks through clearly described rules the goal is clarity stability and playful creativity so that anyone can extend the block library or create new interactions without changing the core design"
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 log "STARTE KI ANTWORT PER F16 INFERENCE AUF IHRER iGPU/dGPU MIT FOLGENDEN PARAMETERN**${DEVICE} (ID: ${GPU_ID})** with ngl=${NGL_SET} using **${FULL_LLAMA_CLI_PATH}**..."
@@ -416,7 +414,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -no-cnv \
     -m "${MODEL_PATH_ARG}" \
     -p "${PROMPT_ARG}" \
-    -n 2048 \
+    -n 512 \
     -ngl -1 \
     --split-mode layer \
     --main-gpu ${GPU_ID}
