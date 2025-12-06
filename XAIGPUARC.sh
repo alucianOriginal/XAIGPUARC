@@ -35,7 +35,6 @@ export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=100
 log() { printf "🔷 %s\n" "$*"; }
 success() { printf "✅ %s\n" "$*"; }
 error() { printf "❌ %s\n\n" "$*"; }
-warning() { printf "⚠️ %s\n\n" "$*"; }
 err() { error "$*"; }
 warn() { printf "⚠️ %s\n" "$*"; }
 
