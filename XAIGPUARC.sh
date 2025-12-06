@@ -6,9 +6,13 @@
 #Mobile-iGPU+dGPU Compatible with modern INTEL Laptop XE/ARC iGPUs if Modell fit in VRAM/RAM.
 #MathTutor-7B-0.0.1.F16 14.2GB at 16GB 770LE max.
 #Use Nvidia Double AI Nemotron Modells in
-#FP16 who can fit in your VRAM/RAM!
-#Carefull with the Nvidia Nemotrons for Laptops/CPU/iGPU/sharedV/RAM:
-#Double RAM usage, means half iGPU VRAM allowed with your RAM shared.
+#FP16 is best for this Programm all is made for that!!! 
+#Just search one you like as .gguf file on Huggingface and Co.
+#Copie the Modell you wish in your /home/PC-Name/models/ folder
+#Dont forget to change the names of your Model here below twice.
+#Carefull with the Nvidia Nemotrons for Laptops/CPU/iGPU/sharedV/RAM
+#I just build on ARC and ARC iGPUs ith 9x Chips so i do not know older will run. 
+#Try out.Give feedback for better code.
 
 set -euo pipefail
 IFS=$'\n\t'
