@@ -1,11 +1,11 @@
 #!/bin/bash
 
 
-#🔍LOW-SPEC-GERMAN-AI-AUTOMAT
-#INTEL-MKL-ICX-IQ-DynamicGate-F16C-Bit-ICX-HQ-IQ-F16-BF16
+#LOW-SPEC-GERMAN-AI-AUTOMAT
+#INTEL-MKL-ICX-IQ-DynamicGate-F16C-MULTI-Bit-ICX-HQ-IQ-F16-BF16
 #Low-V/RAM/SSD-USAGE
-#Mobile-iGPU+dGPU
-#Math-Tutor-7B-F16 16GB 770LE
+#Mobile-iGPU+dGPU Compatible with modern INTEL Laptop XE/ARC iGPUs if Modell fit in VRAM/RAM.
+#MathTutor-7B-0.0.1.F16 14.2GB at 16GB 770LE max.
 
 set -euo pipefail
 IFS=$'\n\t'
