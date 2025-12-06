@@ -391,7 +391,7 @@ export ONEAPI_DEVICE_SELECTOR="level_zero:${TARGET_ID}"
 log "🔷Using Intel ${DEVICE} (Device ${TARGET_ID})"
 local VRAM_GIB=$(echo "$TARGET_LINE" | grep -oP '\d+(?=M)' | head -n1)
 VRAM_GIB=$((VRAM_GIB / 1024)) #MIB-zu-GIB-
-local LAYER_SIZE_MIB=128
+local LAYER_SIZE_MIB=256
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 N_GPU_LAYERS=$((VRAM_MIB_CALC * 99 / 100 / LAYER_SIZE_MIB))
 if [ "$N_GPU_LAYERS" -gt 99 ]; then
@@ -416,7 +416,7 @@ fi
 }
 #6MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/NVIDIA-Nemotron-Nano-12B-v2-Q8_0.gguf"}
+MODEL_PATH=${1:-"models/Llama-3.1-Nemotron-Nano-4B-v1.1-bf16_q8_0.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN. BITTE DORTHIN KOPIEREN **$MODEL_PATH**"
@@ -425,11 +425,13 @@ export MODEL_PATH
 }
 #7MODELLAUSFUEHREN
 run_inference() {
-local DEFAULT_MODEL_PATH="models/NVIDIA-Nemotron-Nano-12B-v2-Q8_0.gguf"
+local DEFAULT_MODEL_PATH="models/Llama-3.1-Nemotron-Nano-4B-v1.1-bf16_q8_0.gguf"
 #Try run MODELLS from NVIDIA NEMOTRON GGUF in Google for your VRAM iGPU or and or dGPU Device! 
 #16GB770ARConlyMathTutor-7B-H_v0.0.1.f16mythomax-l2-13b.Q4_K_M
 #mistral-7b-instruct-v0.2.Q4_K_Mopenhermes-2.5-mistral-7b.Q8_0
 #solar-10.7b-instruct-v1.0.Q6_KNVIDIA-Nemotron-Nano-9B-v2-Q8_0
+#Nemotron-Orchestrator-8B-GGUFLlama-3.1-Nemotron-Nano-4B-v1.1-bf16
+#OKLlama-3.1-Nemotron-Nano-4B-v1.1-bf16_q8_0.gguf Nemotron-Orchestrator-8B-f16_q8_0.gguf
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"medi8tor create a simple open source design tool that lets a user build small interactive programs
 and tiny games by using point and click interactions describe the structure only with plain words as if outlining code without symbols
