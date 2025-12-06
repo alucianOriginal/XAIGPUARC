@@ -418,9 +418,6 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -m "${MODEL_PATH_ARG}" \
     -p "${PROMPT_ARG}" \
     -n 512 \
-    -t 2048 \
-    -c 2048 \
-    -b 2048 \
     -ngl -1 \
     --split-mode layer \
     --main-gpu ${GPU_ID}
