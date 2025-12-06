@@ -30,14 +30,17 @@ export CCACHE_DIR="$HOME/.ccache"
 export COMPILER_VERSION="2025.0"
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
 export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=100
-#HILFSFUNKTIONEN
-log() { printf ""; } #1Delete all 4 "🔷 %s\n" "$*" between
-success() { printf ""; } #2""for a Clean RUN without "✅ %s\n" "$*"
-error() { printf ""; } #3"❌ %s\n\n "$*" the Background Output from XAIGPUARC
-err() { error "$*"; } #here better not!
-warn() { printf ""; } #4"⚠️ %s\n" "$*" and here.
+
+#-00-HILFSFUNKTIONEN-
+log() { printf "🔷 %s\n" "$*"; }
+success() { printf "✅ %s\n" "$*"; }
+error() { printf "❌ %s\n\n" "$*"; }
+warning() { printf "⚠️ %s\n\n" "$*"; }
+err() { error "$*"; }
+warn() { printf "⚠️ %s\n" "$*"; }
+
 #AUSGABEVORSTELLUNG
-separator() {
+separator(){
 echo -e "XAIGPUARC UC DARK ANGEL GOLD MATRIX AI \n"
 }
 #XAIUMGEBUNGUNDRUCKFALLMECHANISMENVORBEREITEN
@@ -68,8 +71,9 @@ if ! command -v icx &>/dev/null; then
 err "ICX/IPX INTEL COMPILER INSTALLATION"
 exit 1
 fi
-log "✅VERBINDUNG ONEAPI GELADEN (DPCPP_ROOT=${DPCPP_ROOT} UND MKL_ROOT=${MKL_ROOT})"
+log "✅ VERBINDUNG ONEAPI GELADEN (DPCPP_ROOT=${DPCPP_ROOT} UND MKL_ROOT=${MKL_ROOT}"
 }
+
 #1PROJEKT-VORBAU
 setup_project() {
 log "BAUE VORBAU XAIGPUARC BITTE WARTEN"
@@ -395,7 +399,10 @@ export MODEL_PATH
 }
 #7MODELLAUSFUEHREN
 run_inference() {
-local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf" #16GB770ARConly
+local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
+#16GB770ARConlyMathTutor-7B-H_v0.0.1.f16mythomax-l2-13b.Q4_K_M
+#mistral-7b-instruct-v0.2.Q4_K_Mopenhermes-2.5-mistral-7b.Q8_0
+#solar-10.7b-instruct-v1.0.Q6_K
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
 medi8tor rebuild on linux arch code"}
@@ -411,7 +418,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -no-cnv \
     -m "${MODEL_PATH_ARG}" \
     -p "${PROMPT_ARG}" \
-    -n 512 \
+    -n 2048 \
     -ngl -1 \
     --split-mode layer \
     --main-gpu ${GPU_ID}
