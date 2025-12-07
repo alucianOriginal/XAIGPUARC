@@ -1,17 +1,14 @@
 #!/bin/bash
 
+#9.) HOW TO START OF XAIGPUARC ONE KLICK AI MACHINE
 #0.) INTEL_ONE_API_BASEKIT MUST BE INSTALLED ON YOUR PC/LAPTOP/SYSTEM
-#0.) ARCH GARUDA LINUX BY THE WAY! ALSO GOOD FOR GAMING and WINDOWS EX POWER USE!
+#0.) ARCH GARUDA LINUX BY THE WAY! ALSO GOOD FOR GAMING and WINDOWS EX POWER USE
 #1.) Kopie XAIGPUARC.sh in your HOME/PCNAME/ Folder
 #2.) Between XAIGPUARC Full INSTALLATION Download a gguf AI fit in your
 #a.) V/Ram to /models/ also in your Home/PCNAME/models/HereAINAME Folder!
 #3.) Open Console and Type: chmod +x ./XAIGPUARC.sh Enter
 #4.) START with type again in new Console ./XAIGPUARC.sh Enter
 
-
-#Tested on mulitble Devices with
-#16GB 12GB 11.5GB 8GB 6GB
-#XE ARC Alchemist Battlemage iGPU dGPU Dual Systems
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1     GB
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8     GB
 #Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7     GB
@@ -84,7 +81,7 @@ fi
 
 #UMGEBUNG RUECKFALLMECHANISMEN VORBEREITEN
 prepare_environment() {
-log "🔷HOLE ONE API KOEPFE FUER XAIGPUARC BCXAI ALUCIAN EDITION"
+log "🔷HOLE ONE API KOEPFE FUER XAIGPUARC BCXAI ALUCIAN BLOCKWORKORANGE ORIGINAL EDITION"
 local SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
 if [ ! -f "$SETVARS_PATH" ]; then
 error "❌ONEAPI KOEPFE NICHT GEFUNDEN $SETVARS_PATH INSTALLIERE ZU ERST ONE API BIBLIOTHEKEN"
@@ -470,7 +467,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -m "${MODEL_PATH_ARG}" \
     -p "${PROMPT_ARG}" \
     -n 512 \
-    -ngl -1 \
+    -ngl ${N_GPU_LAYERS} \
     --split-mode layer \
     --main-gpu ${GPU_ID}
 echo "KI ANTWORT FERTIG GLUECKWUNSCH"
