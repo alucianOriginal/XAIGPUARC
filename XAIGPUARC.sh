@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#9.) HOW TO START OF XAIGPUARC ONE KLICK AI MACHINE
-#0.) INTEL_ONE_API_BASEKIT MUST BE INSTALLED ON YOUR PC/LAPTOP/SYSTEM
-#0.) ARCH GARUDA LINUX BY THE WAY! ALSO GOOD FOR GAMING and WINDOWS EX POWER USE
-#1.) Kopie XAIGPUARC.sh in your HOME/PCNAME/ Folder
+#9.) How to START your XAIGPUARC ONEKLICK AI-MACHINE?
+#0.) FIRST INTEL_ONE_API_BASEKIT MUST BE INSTALLED ON YOUR PC/LAPTOP/SYSTEM
+#0.) SECOND Is USING ARCH GARUDA LINUX BY THE WAY! ALSO GOOD FOR GAMING and WINDOWS EX POWER USE!
+#1.) Kopie XAIGPUARC.sh in your Home/PCNAME/ Folder!
 #2.) Between XAIGPUARC Full INSTALLATION Download a gguf AI fit in your
-#a.) V/Ram to /models/ also in your Home/PCNAME/models/HereAINAME Folder!
-#3.) Open Console and Type: chmod +x ./XAIGPUARC.sh Enter
-#4.) START with type again in new Console ./XAIGPUARC.sh Enter
+#a.) V/RAM to /models/HereAINAME also in your Home/PCNAME/models/HereAINAME Folder!
+#3.) Open Console and Type: chmod +x ./XAIGPUARC.sh Enter...
+#4.) START with type again in new Console ./XAIGPUARC.sh Enter...
 
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1     GB
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8     GB
