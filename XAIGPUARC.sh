@@ -1,12 +1,14 @@
 #!/bin/bash
 
 #1.) Kopie XAIGPUARC.sh in your HOME FOLDER
-#2.) Download a gguf Modell fit in your
+#2.) Download a gguf AI fit in your
 #a.) V/Ram to /models/ also in your Home Folder!
 #3.) Open Console and Type: chmod +x ./XAIGPUARC.sh
 #4.) START with type again in new Console ./XAIGPUARC.sh
 
-#TESTED 16GB 12GB 11.5GB 8GB 6GB ARC iGPU/dGPU/DualGPUSystems
+#Tested on mulitble Devices with
+#16GB 12GB 11.5GB 8GB 6GB
+#XE/ARC/Alchemist/Battlemage/iGPU/dGPU/Dual+GPU Systems
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf 2.1GB
 #Qwen2.5-VL-3B-Instruct-f16.gguf 5.8GB
 #Qwen2.5-7B-Instruct-f16-q4_k.gguf 5.7GB
