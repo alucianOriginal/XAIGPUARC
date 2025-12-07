@@ -1,20 +1,15 @@
 #!/bin/bash
 
 #LOW-SPEC-GERMAN-AI-AUTOMAT
-#INTEL-MKL-ICX-IQ-DynamicGate-F16C-MULTI-Bit-ICX-HQ-IQ-F16-BF16
-#Low-V/RAM/SSD-USAGE
-#Mobile-iGPU+dGPU Compatible with modern INTEL Laptop XE/ARC iGPUs if Modell fit in VRAM/RAM.
-#MathTutor-7B-0.0.1.F16 14.2GB at 16GB 770LE max.
-#Use Nvidia Double AI Nemotron Modells like Minitron-4B-Base.FP16
-#FP16 is best for this Programm all is made for that!!! 
-#Just search one you like as .gguf file on Huggingface and Co.
-#Copie the Modell you wish in your /home/PC-Name/models/ folder
-#Dont forget to change the names of your Model here below twice.
-#Carefull with the Nvidia Nemotrons for Laptops/CPU/iGPU/sharedV/RAM
-#I just build on ARC and ARC iGPUs ith 9x Chips so i do not know older will run. 
-#Try it out also on low INTEL iGPU Dual Channel Devices. 
-#I think there will not much to be made to run also on them!!! 
-#For Reasons. Please feel free to give your Ffeedback for better AIXIT Code.
+#Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf 2.1GB
+#Qwen2.5-VL-3B-Instruct-f16.gguf 5.8GB
+#Qwen3-Embedding-4B-f16.gguf 7.5GB
+#Qwen3-16B-A3B-IQ4_NL.gguf 8.5GB
+#llama3bthinkingonly5B.f16.gguf 6.0GB
+#Nemotron-Mini-4B-Instruct-f16.gguf 7.8GB
+#DiffuCoder-7B-cpGRPO-f16_q8_0.gguf 10.5GB
+#gpt-oss-20b-mxfp4.gguf 11.3GB
+#MathTutor-7B-H_v0.0.1.f16.gguf 14.2GB
 
 set -euo pipefail
 IFS=$'\n\t'
@@ -426,12 +421,7 @@ export MODEL_PATH
 #7MODELLAUSFUEHREN
 run_inference() {
 local DEFAULT_MODEL_PATH="models/Minitron-4B-Base.FP16.gguf"
-#Try run MODELLS from NVIDIA NEMOTRON GGUF in Google for your VRAM iGPU or and or dGPU Device! 
-#16GB770ARConlyMathTutor-7B-H_v0.0.1.f16mythomax-l2-13b.Q4_K_M
-#mistral-7b-instruct-v0.2.Q4_K_Mopenhermes-2.5-mistral-7b.Q8_0
-#solar-10.7b-instruct-v1.0.Q6_KNVIDIA-Nemotron-Nano-9B-v2-Q8_0
-#Nemotron-Orchestrator-8B-GGUFLlama-3.1-Nemotron-Nano-4B-v1.1-bf16
-#OKLlama-3.1-Nemotron-Nano-4B-v1.1-bf16_q8_0.gguf Nemotron-Orchestrator-8B-f16_q8_0.gguf
+#Change Modells above twice like List Support with FP16 Only.
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"medi8tor create a simple open source design tool that lets a user build small interactive programs
 and tiny games by using point and click interactions describe the structure only with plain words as if outlining code without symbols
@@ -440,57 +430,6 @@ not use any visual scripting, it should use only point and click to define inter
 not require any coding experience
 work on desktop only
 written in c++
-create a new interaction each time a user clicks on the screen
-use a grid system
-toolbar with buttons to select different types of interactions
-canvas area where users can place interactions
-sidebar for settings
-play button to run the created interaction
-save button to export the interaction as a standalone html file
-load button to import previously saved interactions
-delete button to remove interactions
-duplicate button to copy interactions
-settings button to change global settings
-should have a help button to display instructions
-medi8tor should have a reset button to clear the canvas
-should have a grid toggle button to show or hide the grid
-shadow slider to adjust the shadow effect should have a glow slider to adjust the glow effect
-blur slider to adjust the blur effect
-scale slider to adjust the scale of interactions
-adjust the skew of interactions
-should have a translate slider to adjust the translate of interactions
-rotate slider to adjust the rotate of interactions
-opacity slider to adjust the opacity of interactions
-z-index slider to adjust the layering of interactions
-alignment dropdown to adjust the text alignment
-height slider to adjust the line height of text
-decoration dropdown to adjust the text decoration
-text parameter frome her below
-transform dropdown to adjust the text transform
-glow slider to adjust the text glow
-blur slider to adjust the text blur
-scale slider to adjust the text scale
-skew slider to adjust the text skew
-text translate ai to adjust the text translate
-rotate slider to adjust the text rotate
-opacity slider to adjust the text opacity
-z-index slider to adjust the text z-index
-color picker to adjust the text color
-medi8tor should have a text background color picker to adjust the text background color
-border color picker to adjust the text border color
-border width slider to adjust the text border width
-corner radius slider to adjust the text corner radius
-shadow slider to adjust the text shadow
-glow slider to adjust the text glow
-blur slider to adjust the text blur
-scale slider to adjust the text scale
-skew slider to adjust the text skew
-translate slider to adjust the text translate
-rotate slider to adjust the text rotate
-opacity slider to adjust the text opacity
-z-index slider to adjust the text z-index
-color picker to adjust the text color
-background color picker to adjust
 "}
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
