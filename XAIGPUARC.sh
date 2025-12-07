@@ -1,14 +1,24 @@
 #!/bin/bash
 
-#LOW-SPEC-GERMAN-AI-AUTOMAT
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf 2.1GB
 #Qwen2.5-VL-3B-Instruct-f16.gguf 5.8GB
 #Qwen3-Embedding-4B-f16.gguf 7.5GB
+#Qwen2.5-7B-Instruct-f16-q4_k.gguf 5.7GB
+#Qwen3-4B-f16.gguf 7.5GB
+#Qwen3-Embedding-4B-f16.gguf 7.4GB
 #Qwen3-16B-A3B-IQ4_NL.gguf 8.5GB
 #llama3bthinkingonly5B.f16.gguf 6.0GB
-#Nemotron-Mini-4B-Instruct-f16.gguf 7.8GB
 #DiffuCoder-7B-cpGRPO-f16_q8_0.gguf 10.5GB
+#gemma-3n-E4B-it-F16.gguf 12.8GB
+#ggml-model-f16.gguf 12.6GB
 #gpt-oss-20b-mxfp4.gguf 11.3GB
+#gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf 11.3GB
+#gpt-oss-20b-F16.gguf 12.8GB
+#Nemotron-Mini-4B-Instruct-f16.gguf 7.8GB
+#Minitron-4B-Base.BF16.gguf 7.8GB #(For Compare against F16 ONLY DONT USE BF16 Modells!)
+#Minitron-4B-Base.FP16-.gguf 7.8GB
+#Nemotron-Orchestrator-8B-f16_q8_0.gguf 11.4GB
+#NVIDIA-Nemotron-Nano-12B-v2-F16.gguf 22.9GB
 #MathTutor-7B-H_v0.0.1.f16.gguf 14.2GB
 
 set -euo pipefail
