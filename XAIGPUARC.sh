@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#1.) Kopie XAIGPUARC.sh in your HOME FOLDER
-#2.) Download a gguf AI fit in your
-#a.) V/Ram to /models/ also in your Home Folder!
+#1.) Kopie XAIGPUARC.sh in your HOME/PCNAME/ Folder
+#2.) Between XAIGPUARC Full INSTALLATION Download a gguf AI fit in your
+#a.) V/Ram to /models/ also in your Home/PCNAME/models/HereAINAME Folder!
 #3.) Open Console and Type: chmod +x ./XAIGPUARC.sh Enter
 #4.) START with type again in new Console ./XAIGPUARC.sh Enter
 
