@@ -1,10 +1,13 @@
 #!/bin/bash
 
+#0.) INTEL_ONE_API_BASEKIT MUST BE INSTALLED ON YOUR PC/LAPTOP/SYSTEM
+#0.) ARCH GARUDA LINUX BY THE WAY! ALSO GOOD FOR GAMING and WINDOWS EX POWER USE!
 #1.) Kopie XAIGPUARC.sh in your HOME/PCNAME/ Folder
 #2.) Between XAIGPUARC Full INSTALLATION Download a gguf AI fit in your
 #a.) V/Ram to /models/ also in your Home/PCNAME/models/HereAINAME Folder!
 #3.) Open Console and Type: chmod +x ./XAIGPUARC.sh Enter
 #4.) START with type again in new Console ./XAIGPUARC.sh Enter
+
 
 #Tested on mulitble Devices with
 #16GB 12GB 11.5GB 8GB 6GB
