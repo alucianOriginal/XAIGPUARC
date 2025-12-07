@@ -32,6 +32,8 @@
 
 #Testmodell BF16 against F16 VERSION ABOVE NOT RECOMMEND!
 #Minitron-4B-Base.BF16.gguf 7.8GB 
+0
+
 
 set -euo pipefail
 IFS=$'\n\t'
@@ -381,7 +383,7 @@ if [ -z "$DEVICES" ]; then
 warn "⚠️KEINE KOMPATIBLEN SYCL GERAETE GEFUNDEN ERRORAKTUELLE ABHAENGIGKEITEN PRUEFEN"
 export ONEAPI_DEVICE_SELECTOR="level_zero:0->❌ANBINDUNG FEHLGESCHLAGEN"
 DEVICE="ARC"
-N_GPU_LAYERS=0
+N_GPU_LAYERS=99
 return
 fi
 local ARC_ID
@@ -398,7 +400,7 @@ DEVICE="iGPU"
 else
 export ONEAPI_DEVICE_SELECTOR="opencl:cpu"
 DEVICE="CPU"
-N_GPU_LAYERS=0
+N_GPU_LAYERS=99
 error "❌KEINE GEEIGNETE GRAFIKKARTE GEFUNDEN FALLE AUF CPU ZURUECK"
 return
 fi
@@ -408,7 +410,7 @@ export ONEAPI_DEVICE_SELECTOR="level_zero:${TARGET_ID}"
 log "🔷Using Intel ${DEVICE} (Device ${TARGET_ID})"
 local VRAM_GIB=$(echo "$TARGET_LINE" | grep -oP '\d+(?=M)' | head -n1)
 VRAM_GIB=$((VRAM_GIB / 1024)) #MIB-zu-GIB-
-local LAYER_SIZE_MIB=256
+local LAYER_SIZE_MIB=128
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 N_GPU_LAYERS=$((VRAM_MIB_CALC * 99 / 100 / LAYER_SIZE_MIB))
 if [ "$N_GPU_LAYERS" -gt 99 ]; then
