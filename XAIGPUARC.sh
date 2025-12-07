@@ -413,7 +413,7 @@ VRAM_GIB=$((VRAM_GIB_RAW / 1024)) #MIB-zu-GIB-
 if [ -z "${VRAM_GIB_RAW}" ]; then
 VRAM_GIB_RAW=1024
 fi
-local LAYER_SIZE_MIB=256
+local LAYER_SIZE_MIB=128
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 if [ "${VRAM_GIB}" -lt 1 ]; then
 VRAM_GIB=1
@@ -454,11 +454,7 @@ local DEFAULT_MODEL_PATH="models/gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf"
 #Change Modells above twice like List Support with FP16 Only.
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"medi8tor create a simple open source design tool that lets a user build small interactive programs
-and tiny games by using point and click interactions describe the structure only with plain words as if outlining code without symbols
-medi8tor should behave like an old school visual builder where every element on the screen create new interactions without changing the core design
-not use any visual scripting, it should use only point and click to define interactions
-not require any coding experience
-work on desktop only
+and tiny games by using point and click interactions describe the structure only with plain words as if outlining code only
 written in c++
 "}
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
@@ -473,7 +469,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -no-cnv \
     -m "${MODEL_PATH_ARG}" \
     -p "${PROMPT_ARG}" \
-    -n 2048 \
+    -n 512 \
     -ngl -1 \
     --split-mode layer \
     --main-gpu ${GPU_ID}
@@ -487,7 +483,7 @@ prepare_environment
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 if [[ -f "${FULL_LLAMA_CLI_PATH}" ]] && [[ -f "${FULL_LS_PATH}" ]]; then
-success "✅GEFUNDENE AKTUELLE XAIGPUARC VERSION NEUBAU UNNOETIG FORTFAHREN**${FULL_LLAMA_CLI_PATH}** UND **${FULL_LS_PATH}**"
+success "✅GEFUNDENE AKTUELLE XAIGPUARC VERSION x NEUBAU UNNOETIG FORTFAHREN**${FULL_LLAMA_CLI_PATH}** UND **${FULL_LS_PATH}**"
 log "🔷UEBERSPRINGE BAUVORGANG"
 RERUN_BUILD=0
 else
