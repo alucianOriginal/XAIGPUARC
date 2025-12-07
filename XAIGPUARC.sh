@@ -5,9 +5,6 @@
 #a.) Ram to /modells also in your Home Folder!
 #3.) Open Console and Type: chmod +x ./XAIGPUARC.sh
 #4.) START with ./XAIGPUARC.sh
-#5.) Have Fun with your lokal free AI
-#b.) First Run can Take a wile
-#6.) Change here all below Prompt/AI/Code all Free
 
 #Use these F16.GGUF Modells in the list below only
 #Who fit in your iGPU/dGPU VRAM with XAIGPUARC ON
@@ -353,10 +350,11 @@ compile_project() {
 log "🔷BAUE XAIGPUARC GRUNDGERUESTSTRUKTUR"
 local LOG_FILE="build.log"
 log "🔷KOPFZEILENAUSGABE IN UNTERORNDER GESPEICHERT"
-log "BAU XAIGPUARC KOPFZEILEN"
+log "🔷BAU XAIGPUARC KOPFZEILEN ERFOLGREICH ABGESCHLOSSEN"
 if pushd "${BUILD_DIR}" > /dev/null; then
-log "🔷BAU VON XAIGPUARC KOMPLETTSYSTEM AUF LOKALEM COMPUTER IM HOME VERZEICHNIS MOEGLICH
-KOMPLETTBAU VON SYCL XAIGPUARC ZERO NULL 0 WIRD JETZT FERTIGGESTELLT
+log "🔷INSTALLATION VON XAIGPUARC KOMPLETTSYSTEM AUF LOKALEM COMPUTER IM HOME VERZEICHNIS MOEGLICH
+KOMPLETTBAU VON SYCL XAIGPUARC
+ZERO NULL 0 WIRD JETZT FERTIGGESTELLT
 DIE INSTALLATION KANN JE NACH LEISTUNG IHRES SYSTEMS
 EIN PAAR MINUTEN ANDAUERN
 BITTE HABEN SIE ETWAS GEDULD
@@ -420,7 +418,7 @@ VRAM_GIB=$((VRAM_GIB_RAW / 1024)) #MIB-zu-GIB-
 if [ -z "${VRAM_GIB_RAW}" ]; then
 VRAM_GIB_RAW=1024
 fi
-local LAYER_SIZE_MIB=128
+local LAYER_SIZE_MIB=256
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 if [ "${VRAM_GIB}" -lt 1 ]; then
 VRAM_GIB=1
@@ -480,7 +478,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -no-cnv \
     -m "${MODEL_PATH_ARG}" \
     -p "${PROMPT_ARG}" \
-    -n 512 \
+    -n 2048 \
     -ngl -1 \
     --split-mode layer \
     --main-gpu ${GPU_ID}
