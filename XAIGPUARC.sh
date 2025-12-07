@@ -41,12 +41,13 @@ DEVICE="ARC"
 
 LLAMA_CPP_DIR="llama.cpp"
 BUILD_DIR="${BUILD_DIR:-XAIGPUARC}"
+BUILD_DIR="${BUILD_DIR%/}"
 
 #XAIGPUARC
 GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"
 NPROC="${NPROC:-$(nproc)}"
-LOG_FILE="${BUILD_DIR:-XAIGPUARC}/XAIGPUARC.log"
+LOG_FILE="${BUILD_DIR}/XAIGPUARC.log"
 LLAMA_CLI_PATH="bin/llama-cli"
 LS_SYCL_DEVICE_PATH="bin/llama-ls-sycl-device"
 
