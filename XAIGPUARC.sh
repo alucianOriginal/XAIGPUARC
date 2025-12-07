@@ -405,11 +405,17 @@ fi
 if [ -n "$TARGET_LINE" ]; then
 local TARGET_ID=$(echo "$TARGET_LINE" | awk '{print $1}')
 export ONEAPI_DEVICE_SELECTOR="level_zero:${TARGET_ID}"
-log "🔷Using Intel ${DEVICE} (Device ${TARGET_ID})"
-local VRAM_GIB=$(echo "$TARGET_LINE" | grep -oP '\d+(?=M)' | head -n1)
-VRAM_GIB=$((VRAM_GIB / 1024)) #MIB-zu-GIB-
+log "🔷NUTZE INTEL GRAFIKKARTE ${DEVICE} (Device ${TARGET_ID})"
+local VRAM_GIB_RAW=$(echo "$TARGET_LINE" | grep -oP '\d+(?=M)' | head -n1)
+VRAM_GIB=$((VRAM_GIB_RAW / 1024)) #MIB-zu-GIB-
+if [ -z "${VRAM_GIB_RAW}" ]; then
+VRAM_GIB_RAW=1024
+fi
 local LAYER_SIZE_MIB=128
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
+if [ "${VRAM_GIB}" -lt 1 ]; then
+VRAM_GIB=1
+fi
 N_GPU_LAYERS=$((VRAM_MIB_CALC * 99 / 100 / LAYER_SIZE_MIB))
 if [ "$N_GPU_LAYERS" -gt 99 ]; then
 N_GPU_LAYERS=99
