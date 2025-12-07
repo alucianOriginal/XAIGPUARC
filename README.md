@@ -65,9 +65,7 @@ ARCH GARUDA FAMILY ONLY FOR FREE SUPPORT XE/ARC Intel iGPUs and dGPUs
 ---
 //NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.6     GB
 ---
-//000
----
-#-//-//-//-
+
 ----------------------------------------------
 💻 XAIGPUARC: LLM-Build- und Start-Anleitung für Intel Arc (SYCL-Backend)
 ----------------------------------------------
