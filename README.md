@@ -1,6 +1,15 @@
+-----------
 #XAIGPUARC
+-----------
+
+----
+ENGLISH WELCOME / DEUTSCH WILLKOMMEN
+----
+
+----
 This is a AI Installation Tool specialised for Linux 
 ARCH GARUDA FAMILY ONLY FOR FREE SUPPORT XE/ARC Intel iGPUs and dGPUs
+----
 
 ------------
 #USAGE INSTALL INTEL ONE API BASEKIT!
@@ -66,3 +75,4 @@ ARCH GARUDA FAMILY ONLY FOR FREE SUPPORT XE/ARC Intel iGPUs and dGPUs
 //NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.6     GB
 ---
 
+INSTALL INTEL ONEAPI BASEKIT FOR YOUR COMPUTER
