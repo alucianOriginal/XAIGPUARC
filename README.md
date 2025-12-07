@@ -6,13 +6,20 @@ ARCH GARUDA FAMILY ONLY FOR FREE SUPPORT XE/ARC Intel iGPUs and dGPUs
 #USAGE INSTALL INTEL ONE API BASEKIT!
 ------------
 #1.) Kopie XAIGPUARC.sh in your HOME/PCNAME/ Folder
+----
 #2.) Between XAIGPUARC Full INSTALLATION Download a gguf AI fit in your
+----
 #a.) V/Ram to /models/ also in your Home/PCNAME/models/HereAINAME Folder!
+----
 #3.) Open Console and Type: chmod +x ./XAIGPUARC.sh Enter
+----
 #4.) START with type again in new Console ./XAIGPUARC.sh Enter
+----
 
+----
 #Tested on mulitble Devices with 16GB 12GB 11.5GB 8GB 6GB XE/ARC/ARC2
 #Alchemist and Battlemage iGPU dGPU Dual Systems testd well
+----
 
 //Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1     GB
 ---
