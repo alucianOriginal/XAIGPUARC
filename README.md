@@ -1,28 +1,40 @@
 # XAIGPUARC
 This is a AI Installation Tool specialised for Linux 
-(Arch GARUDA Family) and ARC Intel iGPUs and dGPUs / 
-also older iGPUS to run over SYCL with Llama.cpp.
-There are build in a lot who looks like should not be in, but belive me, some things must be other ways.
+ARCH GARUDA FAMILY ONLY FOR FREE SUPPORT XE/ARC Intel iGPUs and dGPUs
 
-Here whe talk about to fast computers, to slow computers and so on.
-No matter for you. Matter is funcution! Fast Efizient and from wishes you ever can fell free to ask.
-There follow a lot usefull updates who i created from scratch like everytime.
+USAGE
 
-my own way :-)
-USE Big Modells!!! Q8/Q6 !!! FP16 half Calculation, double Performance, quad Quality with Q8 and Q6 Modells ONLY!!! 
+#1.) Kopie XAIGPUARC.sh in your HOME/PCNAME/ Folder
+#2.) Between XAIGPUARC Full INSTALLATION Download a gguf AI fit in your
+#a.) V/Ram to /models/ also in your Home/PCNAME/models/HereAINAME Folder!
+#3.) Open Console and Type: chmod +x ./XAIGPUARC.sh Enter
+#4.) START with type again in new Console ./XAIGPUARC.sh Enter
 
-NOT USEABLE WITH LOW END Modells!!!
-On 16GB ARC A770 you will youse the Math Tutor and no other for two years of reasearch. ;-) 
-I hope you like the small builds and use solar 10.7b Q6 IQ for the first time, llama3 12b also works in Q6 fine. 
-11,5 Gib VRAM needet for that. If you use you normal RAM, try to make him fast as possible. 
-Testest well with 718 Gib/s Bandwith on Claw Quad Cannel Meteor Lake Mod.
-
-If you are a Windows User, i personal recommend to use the AIPlayground Programm from Intel itself! 
-You see there is no need to make a Windows Version of XAIGPUARC. 
-(Update 1 DEZ.25 Now i think this is way faster in the special cases woh it works fine!!!)
-
-A Pro Version with also own made Code from Scratch is comming soon only for Customers.
-Let us make AI usefull and less expensive for your Company.
+#Tested on mulitble Devices with
+#16GB 12GB 11.5GB 8GB 6GB
+#XE ARC Alchemist Battlemage iGPU dGPU Dual Systems
+#Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1     GB
+#Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8     GB
+#Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7     GB
+#Qwen3-Embedding-4B-f16.gguf                     7.5     GB
+#Qwen3-4B-f16.gguf                               7.5     GB
+#DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5    GB
+#gemma-3n-E4B-it-F16.gguf                        12.8    GB
+#ggml-model-f16.gguf                             12.6    GB
+#gpt-oss-20b-F16.gguf                            12.8    GB
+#Mistral-7B-Instruct-v0.3.fp16.gguf              13.5    GB
+#Nemotron-Mini-4B-Instruct-f16.gguf              7.8     GB
+#Minitron-4B-Base.FP16-.gguf                     7.8     GB
+#Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4    GB
+#NVIDIA-Nemotron-Nano-12B-v2-F16.gguf            22.9    GB
+#llama3bthinkingonly5B.f16.gguf                  6.0     GB
+#MathTutor-7B-H_v0.0.1.f16.gguf                  14.2    GB
+#NOT F16! MODE but also nice Tested:             00      00
+#Qwen3-16B-A3B-IQ4_NL.gguf                       8.5     GB
+#Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7     GB
+#gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3    GB
+#gpt-oss-20b-mxfp4.gguf                          11.3    GB
+#NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.6     GB
 
 ----------------------------------------------
 💻 XAIGPUARC: LLM-Build- und Start-Anleitung für Intel Arc (SYCL-Backend)
