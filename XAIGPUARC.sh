@@ -2,7 +2,7 @@
 
 #9.) How to START your XAIGPUARC ONEKLICK AI-MACHINE?!
 #0.) FIRST INTEL_ONE_API_BASEKIT MUST BE INSTALLED ON YOUR PC/LAPTOP/SYSTEM
-#0.) SECOND Is USING ARCH GARUDA LINUX BY THE WAY! ALSO GOOD FOR GAMING and WINDOWS EX POWER USE!
+#0.) Second is using ARCH Garuda LINUX By The Way!?! Also Good for GAMING and WINDOWS Ex Power Use!
 #1.) Kopie XAIGPUARC.sh in your Home/PCNAME/ Folder!
 #2.) Between XAIGPUARC Full INSTALLATION Download a gguf AI fit in your
 #a.) V/RAM to /models/HereAINAME also in your Home/PCNAME/models/HereAINAME Folder!
