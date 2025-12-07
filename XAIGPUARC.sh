@@ -17,7 +17,8 @@
 #gpt-oss-20b-F16.gguf 12.8GB
 #Mistral-7B-Instruct-v0.3.fp16.gguf 13.5GB
 #Nemotron-Mini-4B-Instruct-f16.gguf 7.8GB
-#Minitron-4B-Base.BF16.gguf 7.8GB #(For Compare against F16 ONLY DONT USE BF16 Modells!)
+#Minitron-4B-Base.BF16.gguf 7.8GB 
+#(For Compare against F16 ONLY DONT USE BF16 Modells with XAIGPUARC!)
 #Minitron-4B-Base.FP16-.gguf 7.8GB
 #Nemotron-Orchestrator-8B-f16_q8_0.gguf 11.4GB
 #NVIDIA-Nemotron-Nano-12B-v2-F16.gguf 22.9GB
