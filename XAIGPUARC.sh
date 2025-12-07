@@ -5,7 +5,7 @@
 #Low-V/RAM/SSD-USAGE
 #Mobile-iGPU+dGPU Compatible with modern INTEL Laptop XE/ARC iGPUs if Modell fit in VRAM/RAM.
 #MathTutor-7B-0.0.1.F16 14.2GB at 16GB 770LE max.
-#Use Nvidia Double AI Nemotron Modells in
+#Use Nvidia Double AI Nemotron Modells like Minitron-4B-Base.FP16
 #FP16 is best for this Programm all is made for that!!! 
 #Just search one you like as .gguf file on Huggingface and Co.
 #Copie the Modell you wish in your /home/PC-Name/models/ folder
@@ -416,7 +416,7 @@ fi
 }
 #6MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/Llama-3.1-Nemotron-Nano-4B-v1.1-bf16_q8_0.gguf"}
+MODEL_PATH=${1:-"models/Minitron-4B-Base.FP16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN. BITTE DORTHIN KOPIEREN **$MODEL_PATH**"
@@ -425,7 +425,7 @@ export MODEL_PATH
 }
 #7MODELLAUSFUEHREN
 run_inference() {
-local DEFAULT_MODEL_PATH="models/Llama-3.1-Nemotron-Nano-4B-v1.1-bf16_q8_0.gguf"
+local DEFAULT_MODEL_PATH="models/Minitron-4B-Base.FP16.gguf"
 #Try run MODELLS from NVIDIA NEMOTRON GGUF in Google for your VRAM iGPU or and or dGPU Device! 
 #16GB770ARConlyMathTutor-7B-H_v0.0.1.f16mythomax-l2-13b.Q4_K_M
 #mistral-7b-instruct-v0.2.Q4_K_Mopenhermes-2.5-mistral-7b.Q8_0
