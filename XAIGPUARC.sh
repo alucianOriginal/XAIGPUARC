@@ -2,7 +2,7 @@
 
 #1.) Kopie XAIGPUARC.sh in your HOME FOLDER
 #2.) Download a gguf Modell fit in your
-#a.) Ram to /models/ also in your Home Folder!
+#a.) Ram to /modells also in your Home Folder!
 #3.) Open Console and Type: chmod +x ./XAIGPUARC.sh
 #4.) START with type again in new Console ./XAIGPUARC.sh
 
@@ -82,7 +82,7 @@ fi
 
 #XAIUMGEBUNGUNDRUCKFALLMECHANISMENVORBEREITEN
 prepare_environment() {
-log "🔷HOLE ONE API KOEPFE FUER XAIGPUARC BCXAI"
+log "🔷HOLE ONE API KOEPFE FUER XAIGPUARC BCXAI ALUCIANŚ EDITION"
 local SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
 if [ ! -f "$SETVARS_PATH" ]; then
 error "❌ONEAPI KOEPFE NICHT GEFUNDEN $SETVARS_PATH INSTALLIERE ZU ERST ONE API BIBLIOTHEKEN"
@@ -183,7 +183,7 @@ target_compile_options(ggml_flash_attention_sycl PUBLIC \${GGML_SYCL_COMPILE_FLA
 log "🔷CMAKE LISTEN FÜR OBJEKTE ALS KERN EINGEFUEGT"
 #2b/6-b
 local ADD_SUBDIR_LINE="add_subdirectory(ggml_flash_attention_sycl)"
-if ! grep -q "${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
+if ! grep -Fq "${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
 if sed -i "/add_subdirectory(dpct)/a ${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
 log "🔷PATCH 2/6 ERFOLGREICH ggml_flash_attention_sycl ZU KOPFZEILEN AN CMAKE GESCHRIEBEN"
 else
@@ -202,7 +202,7 @@ local DPCPP_LIB_INCLUDE_PATH="${DPCPP_ROOT}/lib/dpcpp/include"
 local ALL_INCLUDE_FLAGS="-I${MKL_INCLUDE_PATH} -I${COMPILER_INCLUDE_PATH} -I${DPCPP_LIB_INCLUDE_PATH}"
 local PATCH_LINE="target_compile_options(ggml-sycl PUBLIC "${ALL_INCLUDE_FLAGS}")"
 local SEARCH_MARKER="#Add include directories for MKL headers"
-if ! grep -q "${COMPILER_INCLUDE_PATH}" "$CMAKE_LISTS_FILE"; then
+if ! grep -Fq "${COMPILER_INCLUDE_PATH}" "$CMAKE_LISTS_FILE"; then
 local SED_PATCH_LINE=$(echo "$PATCH_LINE" | sed 's/ /\ /g; s/[/&]/\&/g')
 if sed -i "/${SEARCH_MARKER}/a $SED_PATCH_LINE" "$CMAKE_LISTS_FILE"; then
 log "🔷PATCH 3/6 ERFOLGREICH ALLE KOPFZEILEN EINGEFUEGT"
@@ -224,7 +224,7 @@ if [ -f "$GGML_SYCL_CPP" ]; then
 local FA_REGISTER_CODE=$'//REGESTRIERE ggml_flash_attention_sycl.cpp \nextern "C"
 void ggml_flash_attention_sycl(ggml_flash_attention_sycl * ctx, ggml_tensor *
 dst, const ggml_tensor * Q, const ggml_tensor * K, const ggml_tensor * V);\n'
-if ! grep -q "ggml_flash_attention_sycl" "${GGML_SYCL_CPP}"; then
+if ! grep -Fq "ggml_flash_attention_sycl" "${GGML_SYCL_CPP}"; then
 echo "${FA_REGISTER_CODE}" > /tmp/fa_decl.patch
 awk '/extern "C" void ggml_flash_attention_sycl/ { system("cat /tmp/fa_decl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
@@ -235,25 +235,25 @@ error "❌PATCH 4/6 FEHLER BEIM EINFUEGEN DER ggml_flash_attention_sycl.cpp DEKL
 return 1
 fi
 else
-log "🔷DEKLARATIONEN VORHANDEN FORTFAHREN"
+log "🔷PATCH 4/6 DEKLARATIONEN VORHANDEN FORTFAHREN"
 fi
 local FA_DISPATCH_CASE=$' case GGML_OP_FLASH_ATTN:\n ggml_flash_attention_sycl(ctx, dst, src0, src1, src2);\n break;'
-if ! grep -q "case GGML_OP_FLASH_ATTN:" "${GGML_SYCL_CPP}"; then
-log "🔷FUEGE DEN DISPATCH CACHE PER AWK EIN"
+if ! grep -Fq "case GGML_OP_FLASH_ATTN:" "${GGML_SYCL_CPP}"; then
+log "🔷PATCH 4a/6 FUEGE DEN ZWISCHENSPEICHER PER AWK KOPFZEILE EIN"
 echo "${FA_DISPATCH_CASE}" > /tmp/fa_dispatch.patch
 awk '/case GGML_OP_MUL_MAT_Q_K:/ { system("cat /tmp/fa_dispatch.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
 if [ $? -eq 0 ]; then
-log "🔷PATCH 4/6 UNTERBAU EINGEFUEHRT"
+log "🔷PATCH 4a/6 AKW UNTERBAU EINGEFUEHRT"
 else
-error "❌PATCH 4/6 FEHLER BEIM EINFUEGEN AKW PATCH"
+error "❌PATCH 4a/6 FEHLER BEIM EINFUEGEN AKW KOPFZEILEN"
 fi
 else
-log "🔷PATCH 4/6 UNTERBAU VORHANDEN FORTFAHREN"
+log "🔷PATCH 4a/6 AKW UNTERBAU VORHANDEN FORTFAHREN"
 fi
-log "🔷PATCH 4/6 ERFOLGREICH FLASHATTENTION GELADEN"
+log "🔷PATCH 4b/6 ERFOLGREICH FLASHATTENTION GELADEN"
 else
-error "❌PATCH 4/6 FEHLGESCHLAGEN FLASHATTENTION KERN NICHT GEFUNDEN"
+error "❌PATCH 4b/6 FEHLGESCHLAGEN FLASHATTENTION KERN NICHT GEFUNDEN"
 return 1
 fi
 #PATCH5/6a
@@ -262,10 +262,10 @@ local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
 #5a/6
 local VAR_LINE="set(FA_OBJECT_FILES \"\$<TARGET_OBJECTS:ggml_flash_attention_sycl>\")"
 local VAR_SEARCH_MARKER="set(GGML_SYCL_SOURCES"
-if ! grep -q "FA_OBJECT_FILES" "$CMAKE_LISTS_FILE"; then
+if ! grep -Fq "FA_OBJECT_FILES" "$CMAKE_LISTS_FILE"; then
 local SED_VAR_LINE=$(echo "$VAR_LINE" | sed 's/[\/&]/\\&/g')
 if sed -i "/${VAR_SEARCH_MARKER}/a ${SED_VAR_LINE}" "$CMAKE_LISTS_FILE"; then
-log "🔷5a/6 OBJEKT VARIABLEN ERFOLGREICH DEFINIERT"
+log "🔷PATCH 5a/6 OBJEKT VARIABLEN ERFOLGREICH DEFINIERT WEITER"
 else
 error "❌PATCH 5a/6 OBJEKT VARIABLEN BAU FEHLGESCHLAGEN STOPP"
 return 1
@@ -276,11 +276,11 @@ fi
 #5b/6
 local TARGET_SEARCH_MARKER="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES})"
 local NEW_TARGET_SOURCES_LINE="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES} \${FA_OBJECT_FILES})"
-if grep -q "${TARGET_SEARCH_MARKER}" "$CMAKE_LISTS_FILE" && ! grep -q "\${FA_OBJECT_FILES}" "$CMAKE_LISTS_FILE"; then
+if grep -Fq "${TARGET_SEARCH_MARKER}" "$CMAKE_LISTS_FILE" && ! grep -Fq "\${FA_OBJECT_FILES}" "$CMAKE_LISTS_FILE"; then
 local SED_NEW_LINE=$(echo "$NEW_TARGET_SOURCES_LINE" | sed 's/[\/&]/\\&/g')
 local SED_SEARCH_MARKER=$(echo "$TARGET_SEARCH_MARKER" | sed 's/[\/&]/\\&/g')
 if sed -i "s/${SED_SEARCH_MARKER}/${SED_NEW_LINE}/" "$CMAKE_LISTS_FILE"; then
-log "🔷PATCH 5/6 ERFOLGREICHE INJEKTIONEN IN BAUVORGANG"
+log "🔷PATCH 5b/6 ERFOLGREICHE INJEKTIONEN IN BAUVORGANG"
 else
 error "❌PATCH 5b/6 INJEKTION FEHLGESCHLAGEN"
 return 1
@@ -289,11 +289,11 @@ else
 log "🔷PATCH 5b/6 IST BEREITS AKTIV INJECTION WIRD UEBERSPRUNGEN"
 fi
 #PATCH6/6
-log "🔷->PATCH 6/6: ssm_conv.cpp WARNUNG BEHEBEN VORZEICHENVERGLEICH"
+log "🔷PATCH 6/6: ssm_conv.cpp WARNUNG BEHEBEN VORZEICHENVERGLEICH"
 local SSM_CONV_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ssm_conv.cpp"
 local SEARCH_LINE='GGML_ASSERT(src0->nb[1] == src0->ne[0] * static_cast(sizeof(float)));'
-local REPLACE_LINE='GGML_ASSERT(src0->nb[1] == (size_t)(src0->ne[0] * sizeof(float)));' 
-if grep -q "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
+local REPLACE_LINE='GGML_ASSERT(src0->nb[1] == (size_t)(src0->ne[0] * sizeof(float)));'
+if grep -Fq "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
 if sed -i "s/${SEARCH_LINE}/${REPLACE_LINE}/g" "$SSM_CONV_FILE"; then
 log "🔷PATCH 6/6 SSMCONVCPP ERFOLGREICH"
 else
@@ -425,7 +425,7 @@ fi
 if [ "$N_GPU_LAYERS" -lt 1 ]; then
 N_GPU_LAYERS=99
 fi
-log "🔷AUTOMATISCHE NGL BERECHNUNG IN **${N_GPU_LAYERS}**SCHICHTEN"
+log "🔷AUTOMATISCHE NGL BERECHNUNG IN **${N_GPU_LAYERS}**SCHICHTEN JE NACH MODELL AUF CPU UND GPU AUTOMATISCH VERTEILT"
 fi
 }
 #5SYCLKOMPATIBLEGERÄTEPRUEFEN
@@ -454,9 +454,7 @@ local DEFAULT_MODEL_PATH="models/gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf"
 #Change Modells above twice like List Support with FP16 Only.
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"medi8tor create a simple open source design tool that lets a user build small interactive programs
-and tiny games by using point and click interactions describe the structure only with plain words as if outlining code only
-written in c++
-"}
+and tiny games by using point desktop only written in c++"}
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
@@ -483,7 +481,7 @@ prepare_environment
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 if [[ -f "${FULL_LLAMA_CLI_PATH}" ]] && [[ -f "${FULL_LS_PATH}" ]]; then
-success "✅GEFUNDENE AKTUELLE XAIGPUARC VERSION x NEUBAU UNNOETIG FORTFAHREN**${FULL_LLAMA_CLI_PATH}** UND **${FULL_LS_PATH}**"
+success "✅GEFUNDENE AKTUELLE XAIGPUARC VERSION NEUBAU UNNOETIG FORTFAHREN**${FULL_LLAMA_CLI_PATH}** UND **${FULL_LS_PATH}**"
 log "🔷UEBERSPRINGE BAUVORGANG"
 RERUN_BUILD=0
 else
