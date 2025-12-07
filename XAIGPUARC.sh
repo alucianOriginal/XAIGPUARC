@@ -105,7 +105,7 @@ export CPATH="${CPATH:-}:${MKL_ROOT}/include"
 local LIB_DIR="/opt/intel/oneapi/compiler/latest/lib:/opt/intel/oneapi/mkl/latest/lib"
 export LD_LIBRARY_PATH="./${BUILD_DIR}/bin:${LIB_DIR}:${LD_LIBRARY_PATH:-}"
 if ! command -v icx &>/dev/null; then
-error "❌ICX/IPX INTEL XAIGPUARC BAUUNTERMODUL INSTALLATION FEHLGESCHLAGEN"
+error "❌ICX/IPX ONEAPI INTEL XAIGPUARC BAUUNTERMODUL INSTALLATION FEHLGESCHLAGEN"
 exit 1
 fi
 log "🔷VERBINDUNG ONEAPI GELADEN DPCPP_ROOT=${DPCPP_ROOT} UND MKL_ROOT=${MKL_ROOT}"
@@ -118,7 +118,7 @@ if [ ! -d "${LLAMA_CPP_DIR}" ]; then
 log "🔷KLONE GRUNDLAGEN VON LLAMACPP"
 git clone https://github.com/ggerganov/llama.cpp "${LLAMA_CPP_DIR}"
 if [ $? -ne 0 ]; then
-error "❌KLONEN FEHLGESCHLAGEN ABBRUCH"
+error "❌KLONEN VON LAMACPP FEHLGESCHLAGEN ABBRUCH"
 exit 1
 fi
 fi
@@ -159,7 +159,7 @@ error "❌PATCH 1/6 FEHLGESCHLAGEN NICHT GEFUNDEN ABHAENIGKEITEN PRUEFEN"
 return 1
 fi
 #PATCH2/6
-log "🔷PATCH 2/6 ggml_flash_attention_sycl"
+log "🔷PATCH 2/6 BAUE ggml_flash_attention_sycl KERN"
 #2a
 if [ ! -d "$CUSTOM_KERNEL_DIR" ]; then
 mkdir -p "$CUSTOM_KERNEL_DIR"
@@ -501,7 +501,7 @@ log "🔷LADE JETZT NEUESTE LLAMA VERSION BITTE WARTEN"
 setup_project
 patch_llama_cpp
 else
-warn "⚠️INTERNET NICHT VERFÜGBAR UEBERSPRINGE UPDATE VON LLAMA.CPP NUTZE LOKALE VERSION"
+warn "⚠️INTERNET NICHT VERFÜGBAR UEBERSPRINGE UPDATE VON LLAMACPP NUTZE LOKALE VERSION"
 fi
 fi
 configure_build "${FP_MODE}"
