@@ -2,7 +2,7 @@
 
 #9.) How to START your XAIGPUARC ONEKLICK AI-MACHINE?!
 
-#0.) First Do: INTEL_ONE_API_BASEKIT install on your PC/LAPTOP/SYSTEM
+#0.) FIRST INTEL_ONE_API_BASEKIT MUST BE INSTALLED ON YOUR PC/LAPTOP/SYSTEM
 #0.) Second is using ARCH Garuda LINUX By The Way!?! Also Good for GAMING and WINDOWS Ex Power Use!
 
 #1.) Kopie XAIGPUARC.sh in your Home/PCNAME/ Folder!
@@ -25,7 +25,6 @@
 #Minitron-4B-Base.FP16-.gguf                     7.8     GB
 #Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4    GB
 #NVIDIA-Nemotron-Nano-12B-v2-F16.gguf            22.9    GB
-#OpenReasoning-Nemotron-7B-F16.gguf              14.2    GB
 #llama3bthinkingonly5B.f16.gguf                  6.0     GB
 #MathTutor-7B-H_v0.0.1.f16.gguf                  14.2    GB
 #NOT F16! MODE but also nice Tested:             00      00
@@ -182,7 +181,7 @@ add_library(ggml_flash_attention_sycl OBJECT
 target_include_directories(ggml_flash_attention_sycl PRIVATE \${GGML_SYCL_INCLUDE_DIRS})
 target_compile_options(ggml_flash_attention_sycl PUBLIC \${GGML_SYCL_COMPILE_FLAGS})
 " > "$CUSTOM_KERNEL_CMAKE"
-log "🔷PATCH 2a/6 CMAKE LISTEN FÜR OBJEKTE ALS KERN EINGEFUEGT"
+log "🔷PATCH 2a/6 CMAKE LISTEN FUER OBJEKTE ALS KERN EINGEFUEGT"
 #2b/6
 local ADD_SUBDIR_LINE="add_subdirectory(ggml_flash_attention_sycl)"
 if ! grep -Fq "${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
@@ -344,23 +343,30 @@ fi
 }
 #KOMPILIEREN
 compile_project() {
-log "🔷BAUE XAIGPUARC GRUNDGERUESTSTRUKTUR"
+log "🔷BAUE XAIGPUARC GRUNDGERUEST-STRUKTUR"
 local LOG_FILE="build.log"
-log "🔷KOPFZEILENAUSGABE IN UNTERORNDER GESPEICHERT"
-log "🔷BAU XAIGPUARC KOPFZEILEN ERFOLGREICH ABGESCHLOSSEN"
+log "🔷KOPFZEILEN AUSGABE IN UNTERORNDER GESPEICHERT"
+log "🔷BAUVORGANG LAEUFT XAIGPUARC KOPFZEILEN ERFOLGREICH ABGESCHLOSSEN"
 if pushd "${BUILD_DIR}" > /dev/null; then
-log "🔷INSTALLATION VON XAIGPUARC KOMPLETTSYSTEM AUF LOKALEM COMPUTER IM HOME VERZEICHNIS MOEGLICH
+log "🔷INSTALLATION VON XAIGPUARC KOMPLETTSYSTEM AUF LOKALEM COMPUTER
+IM HOME VERZEICHNIS MOEGLICH
 KOMPLETTBAU VON SYCL XAIGPUARC
 ZERO NULL 0 WIRD JETZT FERTIGGESTELLT
-DIE INSTALLATION KANN JE NACH LEISTUNG IHRES SYSTEMS
+DIE INSTALLATION KANN
+JE NACH LEISTUNG IHRES SYSTEMS
 EIN PAAR MINUTEN ANDAUERN
+---
 BITTE HABEN SIE ETWAS GEDULD
-DANKE FUR DIE NUTZUNG VON XAIGPUARC"
+DANKE FUR DIE NUTZUNG VON XAIGPUARC
+SIE HABEN DEN GROSSTEIL GLEICH GESCHAFFT
+DIE KI INFERENZ BEGINNT IN KUERZE
+NACH DIESEM VORGANG IST EINE ZWEITE INFERENZ WESENTLICH SCHNELLER
+VERSUCHEN SIE UNTERSCHIEDLICHE STARTVORGAENGE MIT EIGENEN PROMTS UND MODELLEN"
 cmake --build . --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama-cli llama-ls-sycl-device > "${LOG_FILE}" 2>&1
 local BUILD_STATUS=$?
 popd > /dev/null
 if [ ${BUILD_STATUS} -ne 0 ]; then
-error "❌BAU VON XAIGPUARC KOPF FEHLGESCHLAGEN ÜBERPRÜFEN SIE DAS LOG**${BUILD_DIR}/${LOG_FILE}**"
+error "❌BAU VON XAIGPUARC KOPF FEHLGESCHLAGEN UEBERPRÜFEN SIE DAS LOG**${BUILD_DIR}/${LOG_FILE}**"
 return 1
 fi
 success "✅BAU VON XAIGPUARC ERFOLGREICH"
@@ -415,7 +421,7 @@ VRAM_GIB=$((VRAM_GIB_RAW / 1024)) #MIB-zu-GIB-
 if [ -z "${VRAM_GIB_RAW}" ]; then
 VRAM_GIB_RAW=1024
 fi
-local LAYER_SIZE_MIB=128
+local LAYER_SIZE_MIB=256
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 if [ "${VRAM_GIB}" -lt 1 ]; then
 VRAM_GIB=1
@@ -443,7 +449,7 @@ fi
 }
 #6MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf"}
+MODEL_PATH=${1:-"models/gemma-3n-E4B-it-F16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN. BITTE DORTHIN KOPIEREN **$MODEL_PATH**"
@@ -452,10 +458,10 @@ export MODEL_PATH
 }
 #7MODELLAUSFUEHREN
 run_inference() {
-local DEFAULT_MODEL_PATH="models/gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf"
+local DEFAULT_MODEL_PATH="models/gemma-3n-E4B-it-F16.gguf"
 #Change Modells above twice like List Support with FP16 Only.
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
-local PROMPT_ARG=${3:-"medi8tor create a simple open source design tool that lets a user build small interactive programs
+local PROMPT_ARG=${3:-"medi8tor create code for a simple open source design tool that lets a user build small interactive programs
 and tiny games by using point desktop only written in c++"}
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
@@ -491,9 +497,9 @@ warn "⚠️KEINE AKTUELLES XAIGPUARC GEFUNDEN GEBAUT BITTE WARTEN"
 RERUN_BUILD=1
 fi
 if [[ "$RERUN_BUILD" -eq 1 ]]; then
-log "🔷STARTE ERSTMALIGEN BAUVORGANG XAIGPUARC"
+log "🔷STARTE ERSTMALIGEN BAUVORGANG VON XAIGPUARC"
 if check_internet; then
-log "🔷LADE JETZT NEUESTE LLAMA VERSION BITTE WARTEN"
+log "🔷LADE JETZT AKTUELLE LLAMA VERSION BITTE WARTEN"
 setup_project
 patch_llama_cpp
 else
