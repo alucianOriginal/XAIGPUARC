@@ -32,8 +32,6 @@
 
 #Testmodell BF16 against F16 VERSION ABOVE NOT RECOMMEND!
 #Minitron-4B-Base.BF16.gguf 7.8GB 
-0
-
 
 set -euo pipefail
 IFS=$'\n\t'
@@ -63,7 +61,7 @@ export COMPILER_VERSION="2025.0"
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
 export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=100
 
-#00HILFSFUNKTIONEN
+#HILFSFUNKTIONEN
 log() { printf "🔷 %s\n" "$*"; }
 success() { printf "✅ %s\n" "$*"; }
 error() { printf "❌ %s\n\n" "$*"; }
@@ -71,26 +69,25 @@ warn() { printf "⚠️ %s\n" "$*"; }
 
 #INTERNETPRUEFUNG
 check_internet() {
-log "🔷PRUEFE INTERNETVERBINDUNG..."
-#GOOGLE DNS TCP-Port 53
+log "🔷PRUEFE INTERNETVERBINDUNG"
 if timeout 5 bash -c "</dev/tcp/8.8.8.8/53" 2>/dev/null; then
-success "✅INTERNETVERBINDUNG VORHANDEN."
+success "✅INTERNETVERBINDUNG VORHANDEN"
 return 0
 else
-warn "⚠️KEINE INTERNETVERBINDUNG GEFUNDEN."
+warn "⚠️KEINE INTERNETVERBINDUNG GEFUNDEN"
 return 1
 fi
 }
 
 #XAIUMGEBUNGUNDRUCKFALLMECHANISMENVORBEREITEN
 prepare_environment() {
-log "HOLE ONE API KOEPFE FUER XAIGPUARC POW-BWO-BCXAI-Project-Edition"
+log "HOLE ONE API KOEPFE FUER XAIGPUARC BCXAI"
 local SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
 if [ ! -f "$SETVARS_PATH" ]; then
-error "ONEAPI KOEPFE NICHT GEFUNDEN: $SETVARS_PATH. INSTALLIERE ZU ERST ONE API BIBLIOTHEKEN"
+error "ONEAPI KOEPFE NICHT GEFUNDEN $SETVARS_PATH INSTALLIERE ZU ERST ONE API BIBLIOTHEKEN"
 exit 1
 fi
-log "SETVARS.SH SETZEN UND 🔍"
+log "SETVARS.SH SETZEN UND SUCHEN"
 source "$SETVARS_PATH" --force 2>/dev/null
 local ONEAPI_ROOT_FALLBACK="/opt/intel/oneapi"
 local COMPILER_VERSION_FALLBACK="${COMPILER_VERSION:-2025.0}"
@@ -107,17 +104,17 @@ export CPATH="${CPATH:-}:${MKL_ROOT}/include"
 local LIB_DIR="/opt/intel/oneapi/compiler/latest/lib:/opt/intel/oneapi/mkl/latest/lib"
 export LD_LIBRARY_PATH="./${BUILD_DIR}/bin:${LIB_DIR}:${LD_LIBRARY_PATH:-}"
 if ! command -v icx &>/dev/null; then
-error "ICX/IPX INTEL COMPILER INSTALLATION"
+error "ICX/IPX INTEL COMPILER INSTALLLATION"
 exit 1
 fi
-log "🔷VERBINDUNG ONEAPI GELADEN (DPCPP_ROOT=${DPCPP_ROOT} UND MKL_ROOT=${MKL_ROOT}"
+log "🔷VERBINDUNG ONEAPI GELADEN DPCPP_ROOT=${DPCPP_ROOT} UND MKL_ROOT=${MKL_ROOT}"
 }
 
-#1PROJEKT-VORBAU
+#PROJEKTVORBAU
 setup_project() {
 log "🔷BAUE VORBAU XAIGPUARC BITTE WARTEN"
 if [ ! -d "${LLAMA_CPP_DIR}" ]; then
-log "🔷KLONE GRUNDLAGEN VON LLAMA.CPP"
+log "🔷KLONE GRUNDLAGEN VON LLAMACPP"
 git clone https://github.com/ggerganov/llama.cpp "${LLAMA_CPP_DIR}"
 if [ $? -ne 0 ]; then
 error "❌KLONEN FEHLGESCHLAGEN ABBRUCH"
@@ -129,13 +126,13 @@ log "🔷AKTUALISIERE UNTERMODULE"
 git pull
 git submodule update --init --recursive
 popd > /dev/null
-success "✅LLAMA.CPP ANTWORTET UNTERGRUPPENMODULE WERDEN GELADEN"
+success "✅LLAMACPP ANTWORTET UNTERGRUPPENMODULE WERDEN GELADEN"
 else
 error "❌FEHLER HAUPTVERZEICHNIS'${LLAMA_CPP_DIR}'NICHT GEFUNDEN ABBRUCH"
 exit 1
 fi
 }
-#00PATCH6/6
+#PATCH6/6
 patch_llama_cpp() {
 log "🔷PATCH FUER GGML SYCL ANLEGEN KOPFZEILENREGESTRIERUNG"
 local DPCT_HELPER_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/dpct/helper.hpp"
@@ -195,7 +192,7 @@ fi
 else
 log "🔷PATCH 2/6 ggml_flash_attention_sycl BEREITS AKTIV UEBERSPRINGE"
 fi
-#PATCH3/6-a
+#PATCH3/6a
 if [ -f "$CMAKE_LISTS_FILE" ]; then
 log "🔷PATCH 3/6: CMAKE LISTEN FUER KOPZEILEN ZUR ICPX IMPLEMENTIERUNG VORBEREITEN"
 local MKL_INCLUDE_PATH="${MKL_ROOT}/include"
@@ -219,7 +216,7 @@ else
 error "❌PATCH 3/6 FEHLGESCHLAGEN CMAKE LISTS FÜR SYCL GGML PFADE NICHT GEFUNDEN ABHAENGIGKEITEN PRUEFEN"
 return 1
 fi
-#PATCH4/6-a
+#PATCH4/6a
 log "🔷PATCH 4/6: ggml_flash_attention_sycl.cpp INJIZIEREN"
 if [ -f "$GGML_SYCL_CPP" ]; then
 #4a/6
@@ -258,7 +255,7 @@ else
 error "❌PATCH 4/6 FEHLGESCHLAGEN FLASHATTENTION KERN NICHT GEFUNDEN"
 return 1
 fi
-#PATCH5/6-a
+#PATCH5/6a
 log "🔷PATCH 5/6 INJIZIEREN OBJEKT VARIABLEN AUS UNTERBLOCK VON SYCL BIBLIOTHEKEN"
 local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
 #5a/6
@@ -414,10 +411,10 @@ local LAYER_SIZE_MIB=128
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 N_GPU_LAYERS=$((VRAM_MIB_CALC * 99 / 100 / LAYER_SIZE_MIB))
 if [ "$N_GPU_LAYERS" -gt 99 ]; then
-N_GPU_LAYERS=0
+N_GPU_LAYERS=99
 fi
 if [ "$N_GPU_LAYERS" -lt 1 ]; then
-N_GPU_LAYERS=0
+N_GPU_LAYERS=99
 fi
 log "🔷AUTOMATISCHE NGL -n1 in  **${N_GPU_LAYERS}**SCHICHTEN"
 fi
