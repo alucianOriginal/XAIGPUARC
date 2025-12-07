@@ -4,13 +4,8 @@
 #2.) Download a gguf Modell fit in your
 #a.) Ram to /modells also in your Home Folder!
 #3.) Open Console and Type: chmod +x ./XAIGPUARC.sh
-#4.) START with ./XAIGPUARC.sh
+#4.) START with type again in new Console ./XAIGPUARC.sh
 
-#Use these F16.GGUF Modells in the list below only
-#Who fit in your iGPU/dGPU VRAM with XAIGPUARC ON
-#INTEL LAPTOP and DEDICATED GPU HARDWARE with NATIVE SYCL ZERO 0
-#ARCH LINUX GARUDA RECOMMEND TO EASY USE
-#FOLLOW INSTRUCT DOWNLOAD ONE API INTEL BASEKIT FIRST FOR YOU DEVICE
 #TESTED 16GB 12GB 11.5GB 8GB 6GB ARC iGPU/dGPU/DualGPUSystems
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf 2.1GB
 #Qwen2.5-VL-3B-Instruct-f16.gguf 5.8GB
@@ -87,10 +82,10 @@ fi
 
 #XAIUMGEBUNGUNDRUCKFALLMECHANISMENVORBEREITEN
 prepare_environment() {
-log "HOLE ONE API KOEPFE FUER XAIGPUARC BCXAI"
+log "🔷HOLE ONE API KOEPFE FUER XAIGPUARC BCXAI"
 local SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
 if [ ! -f "$SETVARS_PATH" ]; then
-error "ONEAPI KOEPFE NICHT GEFUNDEN $SETVARS_PATH INSTALLIERE ZU ERST ONE API BIBLIOTHEKEN"
+error "❌ONEAPI KOEPFE NICHT GEFUNDEN $SETVARS_PATH INSTALLIERE ZU ERST ONE API BIBLIOTHEKEN"
 exit 1
 fi
 log "SETVARS.SH SETZEN UND SUCHEN"
@@ -110,7 +105,7 @@ export CPATH="${CPATH:-}:${MKL_ROOT}/include"
 local LIB_DIR="/opt/intel/oneapi/compiler/latest/lib:/opt/intel/oneapi/mkl/latest/lib"
 export LD_LIBRARY_PATH="./${BUILD_DIR}/bin:${LIB_DIR}:${LD_LIBRARY_PATH:-}"
 if ! command -v icx &>/dev/null; then
-error "ICX/IPX INTEL COMPILER INSTALLLATION"
+error "❌ICX/IPX INTEL XAIGPUARC BAUUNTERMODUL INSTALLATION FEHLGESCHLAGEN"
 exit 1
 fi
 log "🔷VERBINDUNG ONEAPI GELADEN DPCPP_ROOT=${DPCPP_ROOT} UND MKL_ROOT=${MKL_ROOT}"
@@ -205,8 +200,8 @@ local MKL_INCLUDE_PATH="${MKL_ROOT}/include"
 local COMPILER_INCLUDE_PATH="${DPCPP_ROOT}/include"
 local DPCPP_LIB_INCLUDE_PATH="${DPCPP_ROOT}/lib/dpcpp/include"
 local ALL_INCLUDE_FLAGS="-I${MKL_INCLUDE_PATH} -I${COMPILER_INCLUDE_PATH} -I${DPCPP_LIB_INCLUDE_PATH}"
-local PATCH_LINE=" target_compile_options(ggml-sycl PUBLIC "${ALL_INCLUDE_FLAGS}")"
-local SEARCH_MARKER="# Add include directories for MKL headers"
+local PATCH_LINE="target_compile_options(ggml-sycl PUBLIC "${ALL_INCLUDE_FLAGS}")"
+local SEARCH_MARKER="#Add include directories for MKL headers"
 if ! grep -q "${COMPILER_INCLUDE_PATH}" "$CMAKE_LISTS_FILE"; then
 local SED_PATCH_LINE=$(echo "$PATCH_LINE" | sed 's/ /\ /g; s/[/&]/\&/g')
 if sed -i "/${SEARCH_MARKER}/a $SED_PATCH_LINE" "$CMAKE_LISTS_FILE"; then
@@ -223,7 +218,7 @@ error "❌PATCH 3/6 FEHLGESCHLAGEN CMAKE LISTS FÜR SYCL GGML PFADE NICHT GEFUND
 return 1
 fi
 #PATCH4/6a
-log "🔷PATCH 4/6: ggml_flash_attention_sycl.cpp INJIZIEREN"
+log "🔷PATCH 4/6 KERN ggml_flash_attention_sycl.cpp INJIZIEREN"
 if [ -f "$GGML_SYCL_CPP" ]; then
 #4a/6
 local FA_REGISTER_CODE=$'//REGESTRIERE ggml_flash_attention_sycl.cpp \nextern "C"
@@ -249,14 +244,14 @@ echo "${FA_DISPATCH_CASE}" > /tmp/fa_dispatch.patch
 awk '/case GGML_OP_MUL_MAT_Q_K:/ { system("cat /tmp/fa_dispatch.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
 if [ $? -eq 0 ]; then
-log "🔷PATCH 4/6 ERFOLGREICH UNTERBAU EINGEFUEHRT"
+log "🔷PATCH 4/6 UNTERBAU EINGEFUEHRT"
 else
 error "❌PATCH 4/6 FEHLER BEIM EINFUEGEN AKW PATCH"
 fi
 else
 log "🔷PATCH 4/6 UNTERBAU VORHANDEN FORTFAHREN"
 fi
-log "🔷PATCH 4/6 ERFOLGREICH FLASHATTENTENTION GELADEN"
+log "🔷PATCH 4/6 ERFOLGREICH FLASHATTENTION GELADEN"
 else
 error "❌PATCH 4/6 FEHLGESCHLAGEN FLASHATTENTION KERN NICHT GEFUNDEN"
 return 1
@@ -318,7 +313,7 @@ local FP_MODE="${1:-1}"
 local FP_FLAG="-DGGML_SYCL_F16=${FP_MODE}"
 if [ ! -d "${BUILD_DIR}" ]; then
 log "🔷LEGE XAIGPUARC ORDNER IM HOME VERZEICHNIS IHRES COMPUTERS AN ${BUILD_DIR}"
-mkdir -p "${BUILD_DIR}" || { err "❌KONNTE DEN ORDNER XAIGPUARC '${BUILD_DIR}' NICHT ANLEGEN"; return 1; }
+mkdir -p "${BUILD_DIR}" || { err "❌FEHLER KONNTE DEN ORDNER XAIGPUARC '${BUILD_DIR}' NICHT ANLEGEN"; return 1; }
 fi
 if pushd "${BUILD_DIR}" > /dev/null; then
 log "🔷STARTE CMAKE BAU VON XAIGPUARC ${FP_FLAG})..."
@@ -482,7 +477,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -ngl -1 \
     --split-mode layer \
     --main-gpu ${GPU_ID}
-echo "✅AI/KI ANTWORT FERTIG GLUECKWUNSCH"
+echo "KI ANTWORT FERTIG GLUECKWUNSCH"
 }
 #00DEFINITIONHAUPTMAINFUNKTION
 main() {
