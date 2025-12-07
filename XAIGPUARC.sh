@@ -4,7 +4,7 @@
 #2.) Download a gguf AI fit in your
 #a.) V/Ram to /models/ also in your Home Folder!
 #3.) Open Console and Type: chmod +x ./XAIGPUARC.sh
-#4.) START with type again in new Console ./XAIGPUARC.sh press Enter 
+#4.) START with type again in new Console ./XAIGPUARC.sh Enter
 
 #Tested on mulitble Devices with
 #16GB 12GB 11.5GB 8GB 6GB
@@ -25,7 +25,7 @@
 #NVIDIA-Nemotron-Nano-12B-v2-F16.gguf            22.9    GB
 #llama3bthinkingonly5B.f16.gguf                  6.0     GB
 #MathTutor-7B-H_v0.0.1.f16.gguf                  14.2    GB
-#NOT F16! MODE but also nice Tested:
+#NOT F16! MODE but also nice Tested:             00      00
 #Qwen3-16B-A3B-IQ4_NL.gguf                       8.5     GB
 #Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7     GB
 #gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3    GB
@@ -50,7 +50,7 @@ LOG_FILE="${BUILD_DIR}/XAIGPUARC.log"
 LLAMA_CLI_PATH="bin/llama-cli"
 LS_SYCL_DEVICE_PATH="bin/llama-ls-sycl-device"
 
-#ONEAPISYCLFUNKTIONEN
+#ONEAPIFUNKTIONEN
 export TCM_ROOT="${TCM_ROOT:-/opt/intel/oneapi/tcm/latest}"
 export SYCL_CACHE_PERSISTENT=1
 export OCL_ICD_FILENAMES=""
@@ -67,7 +67,7 @@ success() { printf "✅ %s\n" "$*"; }
 error() { printf "❌ %s\n\n" "$*"; }
 warn() { printf "⚠️ %s\n" "$*"; }
 
-#INTERNETPRUEFUNG
+#INTERNET PRUEFUNG
 check_internet() {
 log "🔷PRUEFE INTERNETVERBINDUNG"
 if timeout 5 bash -c "</dev/tcp/8.8.8.8/53" 2>/dev/null; then
@@ -79,9 +79,9 @@ return 1
 fi
 }
 
-#XAIUMGEBUNGUNDRUCKFALLMECHANISMENVORBEREITEN
+#UMGEBUNG RUECKFALLMECHANISMEN VORBEREITEN
 prepare_environment() {
-log "🔷HOLE ONE API KOEPFE FUER XAIGPUARC BCXAI ALUCIANŚ EDITION"
+log "🔷HOLE ONE API KOEPFE FUER XAIGPUARC BCXAI ALUCIAN EDITION"
 local SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
 if [ ! -f "$SETVARS_PATH" ]; then
 error "❌ONEAPI KOEPFE NICHT GEFUNDEN $SETVARS_PATH INSTALLIERE ZU ERST ONE API BIBLIOTHEKEN"
@@ -159,18 +159,18 @@ return 1
 fi
 #PATCH2/6
 log "🔷PATCH 2/6 BAUE ggml_flash_attention_sycl KERN"
-#2a
+#2a/6
 if [ ! -d "$CUSTOM_KERNEL_DIR" ]; then
 mkdir -p "$CUSTOM_KERNEL_DIR"
 log "🔷ORNDER '${CUSTOM_KERNEL_DIR}'ANGELEGT"
 fi
 if [ -f "$KERNEL_SOURCE_LOCAL" ]; then
 cp "$KERNEL_SOURCE_LOCAL" "$CUSTOM_KERNEL_SRC"
-log "🔷ggml_flash_attention_sycl.cpp KERNEL './${KERNEL_SOURCE_LOCAL}' NACH '${CUSTOM_KERNEL_SRC}' KOPIERT"
+log "🔷PATCH 2/6 ggml_flash_attention_sycl.cpp KERNEL './${KERNEL_SOURCE_LOCAL}' NACH '${CUSTOM_KERNEL_SRC}' KOPIERT"
 fi
 if [ ! -f "$CUSTOM_KERNEL_SRC" ]; then
 echo "//PLATZHALTER FUER ggml_flash_attention_sycl.cpp KERNELHOME" > "$CUSTOM_KERNEL_SRC"
-warn "⚠️KERNELDATEI '${KERNEL_SOURCE_LOCAL}"
+warn "PATCH 2/6 ⚠️KERNELDATEI '${KERNEL_SOURCE_LOCAL} FEHLGESCHLAGEN"
 fi
 echo "
 add_library(ggml_flash_attention_sycl OBJECT
@@ -179,20 +179,20 @@ add_library(ggml_flash_attention_sycl OBJECT
 target_include_directories(ggml_flash_attention_sycl PRIVATE \${GGML_SYCL_INCLUDE_DIRS})
 target_compile_options(ggml_flash_attention_sycl PUBLIC \${GGML_SYCL_COMPILE_FLAGS})
 " > "$CUSTOM_KERNEL_CMAKE"
-log "🔷CMAKE LISTEN FÜR OBJEKTE ALS KERN EINGEFUEGT"
-#2b/6-b
+log "🔷PATCH 2a/6 CMAKE LISTEN FÜR OBJEKTE ALS KERN EINGEFUEGT"
+#2b/6
 local ADD_SUBDIR_LINE="add_subdirectory(ggml_flash_attention_sycl)"
 if ! grep -Fq "${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
 if sed -i "/add_subdirectory(dpct)/a ${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
-log "🔷PATCH 2/6 ERFOLGREICH ggml_flash_attention_sycl ZU KOPFZEILEN AN CMAKE GESCHRIEBEN"
+log "🔷PATCH 2b/6 ERFOLGREICH ggml_flash_attention_sycl ZU KOPFZEILEN AN CMAKE GESCHRIEBEN"
 else
-error "❌PATCH 2/6 ggml_flash_attention_sycl EINGLIEDERUNG FEHLGESCHLAGEN"
+error "❌PATCH 2b/6 ggml_flash_attention_sycl EINGLIEDERUNG FEHLGESCHLAGEN"
 return 1
 fi
 else
-log "🔷PATCH 2/6 ggml_flash_attention_sycl BEREITS AKTIV UEBERSPRINGE"
+log "🔷PATCH 2b/6 ggml_flash_attention_sycl BEREITS AKTIV UEBERSPRINGE"
 fi
-#PATCH3/6a
+#3/6
 if [ -f "$CMAKE_LISTS_FILE" ]; then
 log "🔷PATCH 3/6: CMAKE LISTEN FUER KOPZEILEN ZUR ICPX IMPLEMENTIERUNG VORBEREITEN"
 local MKL_INCLUDE_PATH="${MKL_ROOT}/include"
@@ -210,13 +210,13 @@ error "❌PATCH 3/6 CMAKE LISTSTXT NICHT GEFUNDEN ABHAENGIKEITEN PRUEFEN"
 return 1
 fi
 else
-log "🔷PATCH 3/6 PFAD BEREITS BENUTZT UEBERSPRINGE"
+log "🔷PATCH 3a/6 PFAD BEREITS BENUTZT UEBERSPRINGE"
 fi
 else
-error "❌PATCH 3/6 FEHLGESCHLAGEN CMAKE LISTS FÜR SYCL GGML PFADE NICHT GEFUNDEN ABHAENGIGKEITEN PRUEFEN"
+error "❌PATCH 3a/6 FEHLGESCHLAGEN CMAKE LISTS FÜR SYCL GGML PFADE NICHT GEFUNDEN ABHAENGIGKEITEN PRUEFEN"
 return 1
 fi
-#PATCH4/6a
+#4/6
 log "🔷PATCH 4/6 KERN ggml_flash_attention_sycl.cpp INJIZIEREN"
 if [ -f "$GGML_SYCL_CPP" ]; then
 #4a/6
@@ -228,13 +228,13 @@ echo "${FA_REGISTER_CODE}" > /tmp/fa_decl.patch
 awk '/extern "C" void ggml_flash_attention_sycl/ { system("cat /tmp/fa_decl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
 if [ $? -eq 0 ]; then
-log "🔷PATCH 4/6 DEKLARATION ERFOLGREICH EINGEFUEGT"
+log "🔷PATCH 4a/6 DEKLARATION ERFOLGREICH EINGEFUEGT"
 else
-error "❌PATCH 4/6 FEHLER BEIM EINFUEGEN DER ggml_flash_attention_sycl.cpp DEKLARATION AWK FEHLER"
+error "❌PATCH 4a/6 FEHLER BEIM EINFUEGEN DER ggml_flash_attention_sycl.cpp DEKLARATION AWK FEHLER"
 return 1
 fi
 else
-log "🔷PATCH 4/6 DEKLARATIONEN VORHANDEN FORTFAHREN"
+log "🔷PATCH 4a/6 DEKLARATIONEN VORHANDEN FORTFAHREN"
 fi
 local FA_DISPATCH_CASE=$' case GGML_OP_FLASH_ATTN:\n ggml_flash_attention_sycl(ctx, dst, src0, src1, src2);\n break;'
 if ! grep -Fq "case GGML_OP_FLASH_ATTN:" "${GGML_SYCL_CPP}"; then
@@ -255,7 +255,7 @@ else
 error "❌PATCH 4b/6 FEHLGESCHLAGEN FLASHATTENTION KERN NICHT GEFUNDEN"
 return 1
 fi
-#PATCH5/6a
+#5/6
 log "🔷PATCH 5/6 INJIZIEREN OBJEKT VARIABLEN AUS UNTERBLOCK VON SYCL BIBLIOTHEKEN"
 local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
 #5a/6
