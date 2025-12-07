@@ -2,7 +2,7 @@
 
 #1.) Kopie XAIGPUARC.sh in your HOME FOLDER
 #2.) Download a gguf Modell fit in your
-#a.) Ram to /modells also in your Home Folder!
+#a.) V/Ram to /models/ also in your Home Folder!
 #3.) Open Console and Type: chmod +x ./XAIGPUARC.sh
 #4.) START with type again in new Console ./XAIGPUARC.sh
 
