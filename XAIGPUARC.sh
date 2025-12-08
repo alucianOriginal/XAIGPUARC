@@ -27,6 +27,7 @@
 #NVIDIA-Nemotron-Nano-12B-v2-F16.gguf            22.9    GB
 #llama3bthinkingonly5B.f16.gguf                  6.0     GB
 #MathTutor-7B-H_v0.0.1.f16.gguf                  14.2    GB
+#Orchestrator-8B-f16_q8_0.gguf                   7.8     GB
 #NOT F16! MODE but also nice Tested:             00      00
 #Qwen3-16B-A3B-IQ4_NL.gguf                       8.5     GB
 #Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7     GB
