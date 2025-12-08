@@ -172,7 +172,7 @@ log "🔷PATCH 2/6 ggml_flash_attention_sycl.cpp KERNEL './${KERNEL_SOURCE_LOCAL
 fi
 if [ ! -f "$CUSTOM_KERNEL_SRC" ]; then
 echo "//PLATZHALTER FUER ggml_flash_attention_sycl.cpp KERNELHOME" > "$CUSTOM_KERNEL_SRC"
-warn "PATCH 2/6 ⚠️KERNELDATEI '${KERNEL_SOURCE_LOCAL} FEHLGESCHLAGEN"
+warn "⚠️PATCH 2/6 KERNELDATEI '${KERNEL_SOURCE_LOCAL} FEHLGESCHLAGEN"
 fi
 echo "
 add_library(ggml_flash_attention_sycl OBJECT
@@ -290,13 +290,13 @@ else
 log "🔷PATCH 5b/6 IST BEREITS AKTIV INJECTION WIRD UEBERSPRUNGEN"
 fi
 #PATCH6/6
-log "🔷PATCH 6/6: ssm_conv.cpp WARNUNG BEHEBEN VORZEICHENVERGLEICH"
+log "🔷PATCH 6/6 SSMCONVCPP WARNUNG BEHEBEN VORZEICHENVERGLEICH"
 local SSM_CONV_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ssm_conv.cpp"
 local SEARCH_LINE='GGML_ASSERT(src0->nb[1] == src0->ne[0] * static_cast(sizeof(float)));'
 local REPLACE_LINE='GGML_ASSERT(src0->nb[1] == (size_t)(src0->ne[0] * sizeof(float)));'
 if grep -Fq "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
 if sed -i "s/${SEARCH_LINE}/${REPLACE_LINE}/g" "$SSM_CONV_FILE"; then
-log "🔷PATCH 6/6 SSMCONVCPP ERFOLGREICH"
+log "🔷PATCH 6/6 SSMCONVCPP EINGLIEDERUNG ERFOLGREICH"
 else
 error "❌PATCH 6/6 SSMCONVCPP FEHLGESCHLAGEN"
 return 1
