@@ -422,7 +422,7 @@ VRAM_GIB=$((VRAM_GIB_RAW / 1024)) #MIB-zu-GIB-
 if [ -z "${VRAM_GIB_RAW}" ]; then
 VRAM_GIB_RAW=1024
 fi
-local LAYER_SIZE_MIB=256
+local LAYER_SIZE_MIB=128
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 if [ "${VRAM_GIB}" -lt 1 ]; then
 VRAM_GIB=1
@@ -478,7 +478,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -p "${PROMPT_ARG}" \
     -n 512 \
     -ngl ${N_GPU_LAYERS} \
-    --split-mode layer \
+    --split-mode none \ #use:none,layer or row
     --main-gpu ${GPU_ID}
 echo "KI ANTWORT FERTIG GLUECKWUNSCH"
 }
