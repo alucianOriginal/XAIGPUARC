@@ -450,7 +450,7 @@ fi
 }
 #6MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/gemma-3n-E4B-it-F16.gguf"}
+MODEL_PATH=${1:-"models/Nemotron-Mini-4B-Instruct-f16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN. BITTE DORTHIN KOPIEREN **$MODEL_PATH**"
@@ -459,7 +459,7 @@ export MODEL_PATH
 }
 #7MODELLAUSFUEHREN
 run_inference() {
-local DEFAULT_MODEL_PATH="models/gemma-3n-E4B-it-F16.gguf"
+local DEFAULT_MODEL_PATH="models/Nemotron-Mini-4B-Instruct-f16.gguf"
 #Change Modells above twice like List Support with FP16 Only.
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"medi8tor create code for a simple open source design tool that lets a user build small interactive programs
