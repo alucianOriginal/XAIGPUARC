@@ -92,7 +92,7 @@ return 1
 fi
 }
 
-#00UMGEBUNG RUECKFALLMECHANISMEN VORBEREITEN
+#UMGEBUNG RUECKFALLMECHANISMEN VORBEREITEN
 prepare_environment() {
 log "🔷HOLE ONE API KOPFZEILENUEBERSCHRIFTEN FUER XAIGPUARC BCXAI ALUCIAN BLOCKWORKORANGE ORIGINAL ULTRA MADNESS EDITION"
 local SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
@@ -146,7 +146,7 @@ exit 1
 fi
 }
 
-#PATCH6/6
+#2PATCH6/6
 patch_llama_cpp() {
 log "🔷PATCH FUER GGML SYCL ANLEGEN KOPFZEILENREGESTRIERUNG"
 local DPCT_HELPER_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/dpct/helper.hpp"
@@ -330,7 +330,7 @@ fi
 success "✅ALLE EINGLIEDERUNGEN FUER DAS INTEL ARC GPU BASIERTE XAIGPUARC SPRACHMODELL ERFOLGREICH ANGEWAND"
 }
 
-#2XAIGPUARCBAUKONFIGURATION
+#3XAIGPUARCBAUKONFIGURATION
 configure_build() {
 log "🔷BEREITE XAIGPUARC KOPFZEILENBAUVORGANG VOR"
 local FP_MODE="${1:-1}"
@@ -365,7 +365,7 @@ return 1
 fi
 }
 
-#3KOMPILIEREN
+#4KOMPILIEREN
 compile_project() {
 log "🔷BAUE XAIGPUARC GRUNDGERUEST-STRUKTUR"
 local LOG_FILE="build.log"
@@ -400,7 +400,7 @@ return 1
 fi
 }
 
-#4AUTOMATISCHEGERAETEAUSWAHL
+#5AUTOMATISCHEGERAETEAUSWAHL
 auto_select_device() {
 log "🔷NACH VERFUEGBAREN SYCL GERAETEN AUF IHREM SYSTEM"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
@@ -462,7 +462,7 @@ log "🔷AUTOMATISCHE NGL BERECHNUNG IN **${N_GPU_LAYERS}**SCHICHTEN JE NACH MOD
 fi
 }
 
-#5SYCLKOMPATIBLEGERÄTEPRUEFEN
+#6SYCLKOMPATIBLEGERÄTEPRUEFEN
 list_sycl_devices() {
 log "🔷SUCHE SYCL FAEHIGES GERAET AUF IHREM SYSTEM"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
@@ -474,7 +474,7 @@ KONNTE KEIN FAEHIGES GERAET FINDEN"
 fi
 }
 
-#6MODELLPFADWAEHLEN
+#7MODELLPFADWAEHLEN
 prepare_model() {
 MODEL_PATH=${1:-"models/Qwen2.5-7B-Instruct-f16-q4_k.gguf"}
 mkdir -p models
@@ -484,13 +484,13 @@ fi
 export MODEL_PATH
 }
 
-#7MODELLAUSFUEHREN
+#8MODELLAUSFUEHREN
 run_inference() {
 local DEFAULT_MODEL_PATH="models/Qwen2.5-7B-Instruct-f16-q4_k.gguf"
 
 #Change Modells above twice like List Support with FP16 Only.
-#Small but good Qwen2.5-7B-Instruct-f16-q4_k
-#gpt-oss-20b-F16 runs on iGPU XE-LPG
+#Small Qwen2.5-7B-Instruct-f16-q4_k
+#gpt-oss-20b-F16 runs on iGPU XE-LPG 16GB
 #ON A770LE above max and best is MathTutor-7B-H_v0.0.1.f16
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"Let us build a Blake2b Zhash_144_5 Kernel for Blockchain and Network on Open Source Basic written full in C++ and
@@ -578,14 +578,14 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
 echo "KI ANTWORT FERTIG GLUECKWUNSCH"
 }
 
-#8DEFINITIONHAUPTMAINFUNKTION
+#DEFINITION HAUPTFUNKTION
 main() {
 
 local FP_MODE="${1:-1}"
 local RERUN_BUILD=1
 
 prepare_environment
-
+#0
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 
@@ -609,31 +609,30 @@ if check_internet; then
 log "🔷LADE JETZT AKTUELLE LLAMA VERSION BITTE WARTEN"
 
 setup_project
-
+#1
 patch_llama_cpp
-
+#2
 else
 warn "⚠️INTERNET NICHT VERFUEGBAR UEBERSPRINGE UPDATE VON LLAMACPP NUTZE LOKALE VERSION"
 fi
 fi
 
 configure_build "${FP_MODE}"
-
+#3
 compile_project
-
+#4
 auto_select_device
-
+#5
 list_sycl_devices
-
+#6
 prepare_model "${2:-}"
-
+#7
 run_inference "${2:-}" "${3:-}"
-
+#8
 log "🔷XAIGPUARC ANTWORT ABGESCHLOSSEN**${BUILD_DIR}/${LLAMA_CLI_PATH}**"
 }
 
-#0HAUPTSCHLEIFE
+#HAUPTSCHLEIFE
 main "${1:-1}" "${2:-}" "${3:-}"
-
 #42
 log "🔷KOMPLETTBAUVORGANG WIRD HIER GESPEICHERT**${LOG_FILE}**"
