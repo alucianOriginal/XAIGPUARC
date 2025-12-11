@@ -10,17 +10,23 @@ ENGLISH WELCOME / DEUTSCH WILLKOMMEN
 This is a AI Installation Tool specialised for Linux 
 ARCH GARUDA FAMILY ONLY FOR FREE SUPPORT XE/ARC Intel iGPUs and dGPUs
 
+##
 #9.) How to START your XAIGPUARC ONEKLICK AI-MACHINE?!
-
+##
 #0.) FIRST INTEL_ONE_API_BASEKIT MUST BE INSTALLED ON YOUR PC/LAPTOP/SYSTEM
+##
 #0.) Second is using ARCH Garuda LINUX By The Way!?! Also Good for GAMING and WINDOWS Ex Power Use!
-
+##
 #1.) Kopie XAIGPUARC.sh in your Home/PCNAME/ Folder!
+##
 #2.) Between XAIGPUARC Full INSTALLATION Download a gguf AI fit in your
+##
 #a.) V/RAM to /models/HereAINAME also in your Home/PCNAME/models/HereAINAME Folder!
+##
 #3.) Open Console and Type: chmod +x ./XAIGPUARC.sh Enter...
+##
 #4.) START with type again in new Console ./XAIGPUARC.sh Enter...
-
+##
 ----
 #Tested on mulitble Devices with 16GB 12GB 11.5GB 8GB 6GB XE/ARC/ARC2
 #Alchemist and Battlemage iGPU dGPU Dual Systems testd well
