@@ -186,8 +186,8 @@ cp "$KERNEL_SOURCE_LOCAL" "$CUSTOM_KERNEL_SRC"
 log "🔷PATCH 2/6 ggml_flash_attention_sycl.cpp KERNEL './${KERNEL_SOURCE_LOCAL}' NACH '${CUSTOM_KERNEL_SRC}' KOPIERT"
 fi
 if [ ! -f "$CUSTOM_KERNEL_SRC" ]; then
-echo "PLATZHALTER FUER ggml_flash_attention_sycl.cpp KERNELHOME" > "$CUSTOM_KERNEL_SRC"
-warn "⚠️PATCH 2/6 KERNELDATEI '${KERNEL_SOURCE_LOCAL} FEHLGESCHLAGEN"
+echo "PLATZHALTER ggml_flash_attention_sycl.cpp KERNELVERZEICHNIS" > "$CUSTOM_KERNEL_SRC"
+warn "⚠️PATCH 2/6 LADEN DER KERNELDATEI '${KERNEL_SOURCE_LOCAL} FEHLGESCHLAGEN"
 fi
 echo "
 add_library(ggml_flash_attention_sycl OBJECT
@@ -204,7 +204,7 @@ if ! grep -Fq "${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
 if sed -i "/add_subdirectory(dpct)/a ${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
 log "🔷PATCH 2b/6 ERFOLGREICH ggml_flash_attention_sycl ZU KOPFZEILEN AN CMAKE GESCHRIEBEN"
 else
-error "❌PATCH 2b/6 ggml_flash_attention_sycl EINGLIEDERUNG FEHLGESCHLAGEN"
+error "❌PATCH 2b/6 ggml_flash_attention_sycl EINGLIEDERUNG DER KOPFZEILEN AN CMAKE FEHLGESCHLAGEN"
 return 1
 fi
 else
@@ -223,9 +223,9 @@ local SEARCH_MARKER="#Add include directories for MKL headers"
 if ! grep -Fq "${COMPILER_INCLUDE_PATH}" "$CMAKE_LISTS_FILE"; then
 local SED_PATCH_LINE=$(echo "$PATCH_LINE" | sed 's/ /\ /g; s/[/&]/\&/g')
 if sed -i "/${SEARCH_MARKER}/a $SED_PATCH_LINE" "$CMAKE_LISTS_FILE"; then
-log "🔷PATCH 3/6 ERFOLGREICH ALLE KOPFZEILEN EINGEFUEGT"
+log "🔷PATCH 3/6 ERFOLGREICH ALLE ICPX KOPFZEILEN EINGEFUEGT"
 else
-error "❌PATCH 3/6 CMAKE LISTSTXT NICHT GEFUNDEN ABHAENGIKEITEN PRUEFEN"
+error "❌PATCH 3/6 ICPX CMAKE LISTSTXT NICHT GEFUNDEN ABHAENGIKEITEN PRUEFEN"
 return 1
 fi
 else
