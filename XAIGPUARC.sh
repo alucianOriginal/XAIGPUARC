@@ -27,7 +27,6 @@
 #NVIDIA-Nemotron-Nano-12B-v2-F16.gguf            22.9    GB
 #llama3bthinkingonly5B.f16.gguf                  6.0     GB
 #MathTutor-7B-H_v0.0.1.f16.gguf                  14.2    GB
-#Orchestrator-8B-f16_q8_0.gguf                   7.8     GB
 #NOT F16! MODE but also nice Tested:             00      00
 #Qwen3-16B-A3B-IQ4_NL.gguf                       8.5     GB
 #Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7     GB
@@ -77,7 +76,7 @@ if timeout 5 bash -c "</dev/tcp/8.8.8.8/53" 2>/dev/null; then
 success "✅INTERNETVERBINDUNG VORHANDEN"
 return 0
 else
-warn "⚠️KEINE INTERNETVERBINDUNG GEFUNDEN"
+warn "⚠️KEINE INTERNETVERBINDUNG GEFUNDEN BEI ERSTINSTALLATION FUR DAS LADEN VON ABHAENGIGKEITEN NOTWENDIG BITTE ANSCHLUSS PRUEFEN"
 return 1
 fi
 }
@@ -173,7 +172,7 @@ log "🔷PATCH 2/6 ggml_flash_attention_sycl.cpp KERNEL './${KERNEL_SOURCE_LOCAL
 fi
 if [ ! -f "$CUSTOM_KERNEL_SRC" ]; then
 echo "//PLATZHALTER FUER ggml_flash_attention_sycl.cpp KERNELHOME" > "$CUSTOM_KERNEL_SRC"
-warn "⚠️PATCH 2/6 KERNELDATEI '${KERNEL_SOURCE_LOCAL} FEHLGESCHLAGEN"
+warn "PATCH 2/6 ⚠️KERNELDATEI '${KERNEL_SOURCE_LOCAL} FEHLGESCHLAGEN"
 fi
 echo "
 add_library(ggml_flash_attention_sycl OBJECT
@@ -213,10 +212,10 @@ error "❌PATCH 3/6 CMAKE LISTSTXT NICHT GEFUNDEN ABHAENGIKEITEN PRUEFEN"
 return 1
 fi
 else
-log "🔷PATCH 3a/6 PFAD BEREITS BENUTZT UEBERSPRINGE"
+log "🔷PATCH 3a/6 CMAKE LISTSTXT PFAD FUER SYCL GGML BEREITS BENUTZT UEBERSPRINGE"
 fi
 else
-error "❌PATCH 3a/6 FEHLGESCHLAGEN CMAKE LISTS FÜR SYCL GGML PFADE NICHT GEFUNDEN ABHAENGIGKEITEN PRUEFEN"
+error "❌PATCH 3a/6 FEHLGESCHLAGEN CMAKE LISTSTXT FUER SYCL GGML PFADE NICHT GEFUNDEN BITTE ABHAENGIGKEITEN PRUEFEN"
 return 1
 fi
 #4/6
@@ -291,13 +290,13 @@ else
 log "🔷PATCH 5b/6 IST BEREITS AKTIV INJECTION WIRD UEBERSPRUNGEN"
 fi
 #PATCH6/6
-log "🔷PATCH 6/6 SSMCONVCPP WARNUNG BEHEBEN VORZEICHENVERGLEICH"
+log "🔷PATCH 6/6: ssm_conv.cpp WARNUNG BEHEBEN VORZEICHENVERGLEICH"
 local SSM_CONV_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ssm_conv.cpp"
 local SEARCH_LINE='GGML_ASSERT(src0->nb[1] == src0->ne[0] * static_cast(sizeof(float)));'
 local REPLACE_LINE='GGML_ASSERT(src0->nb[1] == (size_t)(src0->ne[0] * sizeof(float)));'
 if grep -Fq "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
 if sed -i "s/${SEARCH_LINE}/${REPLACE_LINE}/g" "$SSM_CONV_FILE"; then
-log "🔷PATCH 6/6 SSMCONVCPP EINGLIEDERUNG ERFOLGREICH"
+log "🔷PATCH 6/6 SSMCONVCPP ERFOLGREICH"
 else
 error "❌PATCH 6/6 SSMCONVCPP FEHLGESCHLAGEN"
 return 1
@@ -422,7 +421,7 @@ VRAM_GIB=$((VRAM_GIB_RAW / 1024)) #MIB-zu-GIB-
 if [ -z "${VRAM_GIB_RAW}" ]; then
 VRAM_GIB_RAW=1024
 fi
-local LAYER_SIZE_MIB=128
+local LAYER_SIZE_MIB=512
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 if [ "${VRAM_GIB}" -lt 1 ]; then
 VRAM_GIB=1
@@ -450,7 +449,7 @@ fi
 }
 #6MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/Nemotron-Mini-4B-Instruct-f16.gguf"}
+MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN. BITTE DORTHIN KOPIEREN **$MODEL_PATH**"
@@ -459,7 +458,7 @@ export MODEL_PATH
 }
 #7MODELLAUSFUEHREN
 run_inference() {
-local DEFAULT_MODEL_PATH="models/Nemotron-Mini-4B-Instruct-f16.gguf"
+local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
 #Change Modells above twice like List Support with FP16 Only.
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"medi8tor create code for a simple open source design tool that lets a user build small interactive programs
@@ -467,6 +466,8 @@ and tiny games by using point desktop only written in c++"}
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
+local CONTEXT_SIZE=8192  #HIER DIE NEUEN WERTE SETZEN
+local PREDICT_TOKENS=8192
 log "🔷STARTE KI ANTWORT AUF IHRER iGPU/dGPU UND CPU MIT FOLGENDEN PARAMETERN**${DEVICE} (ID: ${GPU_ID})** MIT ngl=${NGL_SET} AUF DIESEM **${FULL_LLAMA_CLI_PATH}**"
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
 error "❌FEHLER AKTUELLER LLAMA UNTERBAU NICHT GEFUNDEN NEUBAU FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
@@ -476,9 +477,10 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -no-cnv \
     -m "${MODEL_PATH_ARG}" \
     -p "${PROMPT_ARG}" \
-    -n 512 \
+    -n ${PREDICT_TOKENS} \
+    -c ${CONTEXT_SIZE} \
     -ngl ${N_GPU_LAYERS} \
-    --split-mode none \ #use:none,layer or row
+    --split-mode none \
     --main-gpu ${GPU_ID}
 echo "KI ANTWORT FERTIG GLUECKWUNSCH"
 }
@@ -504,7 +506,7 @@ log "🔷LADE JETZT AKTUELLE LLAMA VERSION BITTE WARTEN"
 setup_project
 patch_llama_cpp
 else
-warn "⚠️INTERNET NICHT VERFÜGBAR UEBERSPRINGE UPDATE VON LLAMACPP NUTZE LOKALE VERSION"
+warn "⚠️INTERNET NICHT VERFUEGBAR UEBERSPRINGE UPDATE VON LLAMACPP NUTZE LOKALE VERSION"
 fi
 fi
 configure_build "${FP_MODE}"
