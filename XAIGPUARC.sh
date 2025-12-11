@@ -3,31 +3,42 @@
 #9.) How to START your XAIGPUARC ONEKLICK AI-MACHINE?!
 
 #0.) FIRST INTEL_ONE_API_BASEKIT MUST BE INSTALLED ON YOUR PC/LAPTOP/SYSTEM
+
 #0.) Second is using ARCH Garuda LINUX By The Way!?! Also Good for GAMING and WINDOWS Ex Power Use!
 
 #1.) Kopie XAIGPUARC.sh in your Home/PCNAME/ Folder!
+
 #2.) Between XAIGPUARC Full INSTALLATION Download a gguf AI fit in your
+
 #a.) V/RAM to /models/HereAINAME also in your Home/PCNAME/models/HereAINAME Folder!
-#3.) Open Console and Type: chmod +x ./XAIGPUARC.sh Enter...
-#4.) START with type again in new Console ./XAIGPUARC.sh Enter...
+
+#3.) Change your Modell here in the Textfile twice below!
+
+#b.) Open Console and Type: chmod +x ./XAIGPUARC.sh Enter...
+
+#4.) START with type in Console ./XAIGPUARC.sh Enter...
 
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1     GB
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8     GB
 #Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7     GB
 #Qwen3-Embedding-4B-f16.gguf                     7.5     GB
 #Qwen3-4B-f16.gguf                               7.5     GB
+
 #DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5    GB
-#gemma-3n-E4B-it-F16.gguf                        12.8    GB
+
 #ggml-model-f16.gguf                             12.6    GB
 #gpt-oss-20b-F16.gguf                            12.8    GB
 #Mistral-7B-Instruct-v0.3.fp16.gguf              13.5    GB
 #Nemotron-Mini-4B-Instruct-f16.gguf              7.8     GB
 #Minitron-4B-Base.FP16-.gguf                     7.8     GB
 #Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4    GB
+
 #NVIDIA-Nemotron-Nano-12B-v2-F16.gguf            22.9    GB
 #llama3bthinkingonly5B.f16.gguf                  6.0     GB
-#MathTutor-7B-H_v0.0.1.f16.gguf                  14.2    GB
-#NOT F16! MODE but also nice Tested:             00      00
+
+#MathTutor-7B-H_v0.0.1.f16.ggufUSETHAT           14.2    GB
+
+#NOT F16! MODE but also well Tested
 #Qwen3-16B-A3B-IQ4_NL.gguf                       8.5     GB
 #Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7     GB
 #gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3    GB
@@ -81,7 +92,7 @@ return 1
 fi
 }
 
-#UMGEBUNG RUECKFALLMECHANISMEN VORBEREITEN
+#00UMGEBUNG RUECKFALLMECHANISMEN VORBEREITEN
 prepare_environment() {
 log "🔷HOLE ONE API KOEPFE FUER XAIGPUARC BCXAI ALUCIAN BLOCKWORKORANGE ORIGINAL EDITION"
 local SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
@@ -112,7 +123,7 @@ fi
 log "🔷VERBINDUNG ONEAPI GELADEN DPCPP_ROOT=${DPCPP_ROOT} UND MKL_ROOT=${MKL_ROOT}"
 }
 
-#PROJEKTVORBAU
+#1PROJEKTVORBAU
 setup_project() {
 log "🔷BAUE VORBAU XAIGPUARC BITTE WARTEN"
 if [ ! -d "${LLAMA_CPP_DIR}" ]; then
@@ -134,6 +145,7 @@ error "❌FEHLER HAUPTVERZEICHNIS'${LLAMA_CPP_DIR}'NICHT GEFUNDEN ABBRUCH"
 exit 1
 fi
 }
+
 #PATCH6/6
 patch_llama_cpp() {
 log "🔷PATCH FUER GGML SYCL ANLEGEN KOPFZEILENREGESTRIERUNG"
@@ -144,6 +156,7 @@ local CUSTOM_KERNEL_SRC="${CUSTOM_KERNEL_DIR}/ggml_flash_attention_sycl.cpp"
 local CUSTOM_KERNEL_CMAKE="${CUSTOM_KERNEL_DIR}/CMakeLists.txt"
 local GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 local KERNEL_SOURCE_LOCAL="ggml_flash_attention_sycl.cpp"
+
 #PATCH1/6
 if [ -f "$DPCT_HELPER_FILE" ]; then
 log "🔷PATCH 1/6 DOCTPHELPER FEHLGESCHLAGEN ABHAENGIGKEITSLISTE PRUEFEN"
@@ -159,8 +172,10 @@ else
 error "❌PATCH 1/6 FEHLGESCHLAGEN NICHT GEFUNDEN ABHAENIGKEITEN PRUEFEN"
 return 1
 fi
+
 #PATCH2/6
 log "🔷PATCH 2/6 BAUE ggml_flash_attention_sycl KERN"
+
 #2a/6
 if [ ! -d "$CUSTOM_KERNEL_DIR" ]; then
 mkdir -p "$CUSTOM_KERNEL_DIR"
@@ -172,7 +187,7 @@ log "🔷PATCH 2/6 ggml_flash_attention_sycl.cpp KERNEL './${KERNEL_SOURCE_LOCAL
 fi
 if [ ! -f "$CUSTOM_KERNEL_SRC" ]; then
 echo "//PLATZHALTER FUER ggml_flash_attention_sycl.cpp KERNELHOME" > "$CUSTOM_KERNEL_SRC"
-warn "PATCH 2/6 ⚠️KERNELDATEI '${KERNEL_SOURCE_LOCAL} FEHLGESCHLAGEN"
+warn "⚠️PATCH 2/6 KERNELDATEI '${KERNEL_SOURCE_LOCAL} FEHLGESCHLAGEN"
 fi
 echo "
 add_library(ggml_flash_attention_sycl OBJECT
@@ -182,6 +197,7 @@ target_include_directories(ggml_flash_attention_sycl PRIVATE \${GGML_SYCL_INCLUD
 target_compile_options(ggml_flash_attention_sycl PUBLIC \${GGML_SYCL_COMPILE_FLAGS})
 " > "$CUSTOM_KERNEL_CMAKE"
 log "🔷PATCH 2a/6 CMAKE LISTEN FUER OBJEKTE ALS KERN EINGEFUEGT"
+
 #2b/6
 local ADD_SUBDIR_LINE="add_subdirectory(ggml_flash_attention_sycl)"
 if ! grep -Fq "${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
@@ -194,6 +210,7 @@ fi
 else
 log "🔷PATCH 2b/6 ggml_flash_attention_sycl BEREITS AKTIV UEBERSPRINGE"
 fi
+
 #3/6
 if [ -f "$CMAKE_LISTS_FILE" ]; then
 log "🔷PATCH 3/6: CMAKE LISTEN FUER KOPZEILEN ZUR ICPX IMPLEMENTIERUNG VORBEREITEN"
@@ -218,9 +235,11 @@ else
 error "❌PATCH 3a/6 FEHLGESCHLAGEN CMAKE LISTSTXT FUER SYCL GGML PFADE NICHT GEFUNDEN BITTE ABHAENGIGKEITEN PRUEFEN"
 return 1
 fi
+
 #4/6
 log "🔷PATCH 4/6 KERN ggml_flash_attention_sycl.cpp INJIZIEREN"
 if [ -f "$GGML_SYCL_CPP" ]; then
+
 #4a/6
 local FA_REGISTER_CODE=$'//REGESTRIERE ggml_flash_attention_sycl.cpp \nextern "C"
 void ggml_flash_attention_sycl(ggml_flash_attention_sycl * ctx, ggml_tensor *
@@ -257,9 +276,11 @@ else
 error "❌PATCH 4b/6 FEHLGESCHLAGEN FLASHATTENTION KERN NICHT GEFUNDEN"
 return 1
 fi
+
 #5/6
 log "🔷PATCH 5/6 INJIZIEREN OBJEKT VARIABLEN AUS UNTERBLOCK VON SYCL BIBLIOTHEKEN"
 local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
+
 #5a/6
 local VAR_LINE="set(FA_OBJECT_FILES \"\$<TARGET_OBJECTS:ggml_flash_attention_sycl>\")"
 local VAR_SEARCH_MARKER="set(GGML_SYCL_SOURCES"
@@ -274,6 +295,7 @@ fi
 else
 log "🔷PATCH 5a/6 OBJEKT VARIABLEN VORHANDEN UEBERSPRINGE"
 fi
+
 #5b/6
 local TARGET_SEARCH_MARKER="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES})"
 local NEW_TARGET_SOURCES_LINE="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES} \${FA_OBJECT_FILES})"
@@ -289,6 +311,7 @@ fi
 else
 log "🔷PATCH 5b/6 IST BEREITS AKTIV INJECTION WIRD UEBERSPRUNGEN"
 fi
+
 #PATCH6/6
 log "🔷PATCH 6/6: ssm_conv.cpp WARNUNG BEHEBEN VORZEICHENVERGLEICH"
 local SSM_CONV_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ssm_conv.cpp"
@@ -307,7 +330,7 @@ fi
 success "✅ALLE EINGLIEDERUNGEN FUER DAS INTEL ARC GPU BASIERTE XAIGPUARC SPRACHMODELL ERFOLGREICH ANGEWAND"
 }
 
-#XAIGPUARCBAUKONFIGURATION
+#2XAIGPUARCBAUKONFIGURATION
 configure_build() {
 log "🔷BEREITE XAIGPUARC KOPFZEILENBAUVORGANG VOR"
 local FP_MODE="${1:-1}"
@@ -341,7 +364,8 @@ error "❌KONNTE NICHT IN XAIGPUARC WECHSELN '${BUILD_DIR}'COMPUTER NUTZER BEREC
 return 1
 fi
 }
-#KOMPILIEREN
+
+#3KOMPILIEREN
 compile_project() {
 log "🔷BAUE XAIGPUARC GRUNDGERUEST-STRUKTUR"
 local LOG_FILE="build.log"
@@ -375,7 +399,8 @@ error "❌KONNTE XAIGPUARC NICHT NEU BAUEN '${BUILD_DIR}' WEGEN FEHLERHAFTEM WEC
 return 1
 fi
 }
-#AUTOMATISCHEGERAETEAUSWAHL
+
+#4AUTOMATISCHEGERAETEAUSWAHL
 auto_select_device() {
 log "🔷NACH VERFUEGBAREN SYCL GERAETEN AUF IHREM SYSTEM"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
@@ -421,7 +446,7 @@ VRAM_GIB=$((VRAM_GIB_RAW / 1024)) #MIB-zu-GIB-
 if [ -z "${VRAM_GIB_RAW}" ]; then
 VRAM_GIB_RAW=1024
 fi
-local LAYER_SIZE_MIB=1024
+local LAYER_SIZE_MIB=1024 #Magic Key
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 if [ "${VRAM_GIB}" -lt 1 ]; then
 VRAM_GIB=1
@@ -436,6 +461,7 @@ fi
 log "🔷AUTOMATISCHE NGL BERECHNUNG IN **${N_GPU_LAYERS}**SCHICHTEN JE NACH MODELL AUF CPU UND GPU AUTOMATISCH VERTEILT"
 fi
 }
+
 #5SYCLKOMPATIBLEGERÄTEPRUEFEN
 list_sycl_devices() {
 log "🔷SUCHE SYCL FAEHIGES GERAET AUF IHREM SYSTEM"
@@ -447,6 +473,7 @@ warn "⚠️KEIN SYCL FAEHIGES SYSTEM GEFUNDEN!!! ${FULL_LS_PATH}.
 KONNTE KEIN FAEHIGES GERAET FINDEN"
 fi
 }
+
 #6MODELLPFADWAEHLEN
 prepare_model() {
 MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
@@ -456,9 +483,11 @@ warn "⚠️IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN
 fi
 export MODEL_PATH
 }
+
 #7MODELLAUSFUEHREN
 run_inference() {
 local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
+
 #Change Modells above twice like List Support with FP16 Only.
 #gpt-oss-20b-F16 runs on iGPU XE-LPG
 #ON A770LE above max and best is MathTutor-7B-H_v0.0.1.f16
@@ -529,7 +558,7 @@ break STOP build that code up and better with all the rules"}
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
-local CONTEXT_SIZE=16384 #HIER DIE NEUEN WERTE SETZEN 2048 4096 8192 16384
+local CONTEXT_SIZE=16384 #NEUEN WERTE SETZEN 2048 4096 8192 16384
 local PREDICT_TOKENS=16384
 log "🔷STARTE KI ANTWORT AUF IHRER iGPU/dGPU UND CPU MIT FOLGENDEN PARAMETERN**${DEVICE} (ID: ${GPU_ID})** MIT ngl=${NGL_SET} AUF DIESEM **${FULL_LLAMA_CLI_PATH}**"
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
@@ -543,44 +572,67 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -n ${PREDICT_TOKENS} \
     -c ${CONTEXT_SIZE} \
     -ngl ${N_GPU_LAYERS} \
-    --split-mode none \
+    --split-mode layer \
     --main-gpu ${GPU_ID}
 echo "KI ANTWORT FERTIG GLUECKWUNSCH"
 }
-#00DEFINITIONHAUPTMAINFUNKTION
+
+#8DEFINITIONHAUPTMAINFUNKTION
 main() {
+
 local FP_MODE="${1:-1}"
 local RERUN_BUILD=1
+
 prepare_environment
+
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
+
 if [[ -f "${FULL_LLAMA_CLI_PATH}" ]] && [[ -f "${FULL_LS_PATH}" ]]; then
+
 success "✅GEFUNDENE AKTUELLE XAIGPUARC VERSION NEUBAU UNNOETIG FORTFAHREN**${FULL_LLAMA_CLI_PATH}** UND **${FULL_LS_PATH}**"
+
 log "🔷UEBERSPRINGE BAUVORGANG"
+
 RERUN_BUILD=0
 else
 warn "⚠️KEINE AKTUELLES XAIGPUARC GEFUNDEN GEBAUT BITTE WARTEN"
 RERUN_BUILD=1
+
 fi
 if [[ "$RERUN_BUILD" -eq 1 ]]; then
+
 log "🔷STARTE ERSTMALIGEN BAUVORGANG VON XAIGPUARC"
 if check_internet; then
+
 log "🔷LADE JETZT AKTUELLE LLAMA VERSION BITTE WARTEN"
+
 setup_project
+
 patch_llama_cpp
+
 else
 warn "⚠️INTERNET NICHT VERFUEGBAR UEBERSPRINGE UPDATE VON LLAMACPP NUTZE LOKALE VERSION"
 fi
 fi
+
 configure_build "${FP_MODE}"
+
 compile_project
+
 auto_select_device
+
 list_sycl_devices
+
 prepare_model "${2:-}"
+
 run_inference "${2:-}" "${3:-}"
+
 log "🔷XAIGPUARC ANTWORT ABGESCHLOSSEN**${BUILD_DIR}/${LLAMA_CLI_PATH}**"
 }
-#HAUPTSCHLEIFE
+
+#0HAUPTSCHLEIFE
 main "${1:-1}" "${2:-}" "${3:-}"
+
 #42
 log "🔷KOMPLETTBAUVORGANG WIRD HIER GESPEICHERT**${LOG_FILE}**"
