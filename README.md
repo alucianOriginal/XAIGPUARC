@@ -22,8 +22,10 @@ ARCH GARUDA FAMILY ONLY FOR FREE SUPPORT XE/ARC Intel iGPUs and dGPUs
 #2.) Between XAIGPUARC Full INSTALLATION Download a gguf AI fit in your
 ##
 #a.) V/RAM to /models/HereAINAME also in your Home/PCNAME/models/HereAINAME Folder!
+#
+#3.) Change here in the ducument below the both Model Names in the Code until i make that better for you!
 ##
-#3.) Open Console and Type: chmod +x ./XAIGPUARC.sh Enter...
+#b.) Open Console and Type: chmod +x ./XAIGPUARC.sh Enter...
 ##
 #4.) START with type again in new Console ./XAIGPUARC.sh Enter...
 ##
