@@ -20,7 +20,7 @@
 
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1     GB
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8     GB
-#Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7     GB
+#Qwen2.5-7B-Instruct-f16-q4_k.ggufVery Nice      5.7     GB
 #Qwen3-Embedding-4B-f16.gguf                     7.5     GB
 #Qwen3-4B-f16.gguf                               7.5     GB
 
@@ -94,13 +94,13 @@ fi
 
 #00UMGEBUNG RUECKFALLMECHANISMEN VORBEREITEN
 prepare_environment() {
-log "🔷HOLE ONE API KOEPFE FUER XAIGPUARC BCXAI ALUCIAN BLOCKWORKORANGE ORIGINAL EDITION"
+log "🔷HOLE ONE API KOPFZEILENUEBERSCHRIFTEN FUER XAIGPUARC BCXAI ALUCIAN BLOCKWORKORANGE ORIGINAL ULTRA MADNESS EDITION"
 local SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
 if [ ! -f "$SETVARS_PATH" ]; then
 error "❌ONEAPI KOEPFE NICHT GEFUNDEN $SETVARS_PATH INSTALLIERE ZU ERST ONE API BIBLIOTHEKEN"
 exit 1
 fi
-log "SETVARS.SH SETZEN UND SUCHEN"
+log "SETVARSSH SETZEN UND SUCHEN"
 source "$SETVARS_PATH" --force 2>/dev/null
 local ONEAPI_ROOT_FALLBACK="/opt/intel/oneapi"
 local COMPILER_VERSION_FALLBACK="${COMPILER_VERSION:-2025.0}"
@@ -186,7 +186,7 @@ cp "$KERNEL_SOURCE_LOCAL" "$CUSTOM_KERNEL_SRC"
 log "🔷PATCH 2/6 ggml_flash_attention_sycl.cpp KERNEL './${KERNEL_SOURCE_LOCAL}' NACH '${CUSTOM_KERNEL_SRC}' KOPIERT"
 fi
 if [ ! -f "$CUSTOM_KERNEL_SRC" ]; then
-echo "//PLATZHALTER FUER ggml_flash_attention_sycl.cpp KERNELHOME" > "$CUSTOM_KERNEL_SRC"
+echo "PLATZHALTER FUER ggml_flash_attention_sycl.cpp KERNELHOME" > "$CUSTOM_KERNEL_SRC"
 warn "⚠️PATCH 2/6 KERNELDATEI '${KERNEL_SOURCE_LOCAL} FEHLGESCHLAGEN"
 fi
 echo "
@@ -313,7 +313,7 @@ log "🔷PATCH 5b/6 IST BEREITS AKTIV INJECTION WIRD UEBERSPRUNGEN"
 fi
 
 #PATCH6/6
-log "🔷PATCH 6/6: ssm_conv.cpp WARNUNG BEHEBEN VORZEICHENVERGLEICH"
+log "🔷PATCH 6/6: SSMCONVPP WARNUNG BEHEBEN VORZEICHENVERGLEICH"
 local SSM_CONV_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ssm_conv.cpp"
 local SEARCH_LINE='GGML_ASSERT(src0->nb[1] == src0->ne[0] * static_cast(sizeof(float)));'
 local REPLACE_LINE='GGML_ASSERT(src0->nb[1] == (size_t)(src0->ne[0] * sizeof(float)));'
@@ -462,7 +462,7 @@ log "🔷AUTOMATISCHE NGL BERECHNUNG IN **${N_GPU_LAYERS}**SCHICHTEN JE NACH MOD
 fi
 }
 
-#5SYCLKOMPATIBLEGERAETEPRUEFEN
+#5SYCLKOMPATIBLEGERÄTEPRUEFEN
 list_sycl_devices() {
 log "🔷SUCHE SYCL FAEHIGES GERAET AUF IHREM SYSTEM"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
@@ -476,7 +476,7 @@ fi
 
 #6MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
+MODEL_PATH=${1:-"models/Qwen2.5-7B-Instruct-f16-q4_k.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN. BITTE DORTHIN KOPIEREN **$MODEL_PATH**"
@@ -486,14 +486,15 @@ export MODEL_PATH
 
 #7MODELLAUSFUEHREN
 run_inference() {
-local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
+local DEFAULT_MODEL_PATH="models/Qwen2.5-7B-Instruct-f16-q4_k.gguf"
 
 #Change Modells above twice like List Support with FP16 Only.
+#Small but good Qwen2.5-7B-Instruct-f16-q4_k
 #gpt-oss-20b-F16 runs on iGPU XE-LPG
 #ON A770LE above max and best is MathTutor-7B-H_v0.0.1.f16
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
-local PROMPT_ARG=${3:-"Let us build a Blake2b Zhash_144_5 Kernel for Blockchain and Network on Open Source Basic written full in C++
-its newer Versions optimized for Vector based Calculations like that example but full running
+local PROMPT_ARG=${3:-"Let us build a Blake2b Zhash_144_5 Kernel for Blockchain and Network on Open Source Basic written full in C++ and
+its newer Versions optimized for Vector based Calculations like that example but full running code now like nothing comes more tomorrow
 #define INPUT_SIZE 512
 #define HASH_SIZE 32
 #define WORK_ITEMS 131072
@@ -503,7 +504,7 @@ __constant uint IV[8] =
 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
 inline uint rotr32(uint x, uint n)
 return (x >> n) | (x << (32 - n));
-Eine Hashrunde mit veränderbarem Startwert
+Eine Hashrunde mit veraenderbarem Startwert
 inline void hash_core(uint m, uint round_offset, __global uchar* hash_out, int offset)
 uint a = IV[0] ^ m;
 uint b = IV[1] ^ (m << 1);
@@ -530,14 +531,14 @@ hash_out[offset + 12] = d & 0xFF;
 hash_out[offset + 13] = (d >> 8) & 0xFF;
 hash_out[offset + 14] = (d >> 16) & 0xFF;
 hash_out[offset + 15] = (d >> 24) & 0xFF;
-Hauptfunktion: erzeugt zwei 16-Byte-Runden für zusammen 32 Byte
+Hauptfunktion: erzeugt zwei 16-Byte-Runden fuer zusammen 32 Byte
 inline void hash_rounds(__global const uchar* input, uint gid, __global uchar* hash_out)
 uint m = 0;
 for (int i = 0; i < 4; ++i)
 m |= ((uint)input[gid * INPUT_SIZE + i]) << (i * 8);
-Erste Hälfte: direkt aus m
+Erste Haelfte: direkt aus m
 hash_core(m, 0, hash_out, gid * HASH_SIZE);
-Zweite Hälfte: aus m XOR 0xa5a5a5a5 (Variation)
+Zweite Haelfte: aus m XOR 0xa5a5a5a5 (Variation)
 hash_core(m ^ 0xa5a5a5a5, 91, hash_out, gid * HASH_SIZE + 16);
 Kernel
 __kernel void zhash_144_5(
@@ -560,7 +561,7 @@ local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 local CONTEXT_SIZE=16384 #NEUEN WERTE SETZEN 2048 4096 8192 16384
 local PREDICT_TOKENS=16384
-log "🔷STARTE KI ANTWORT AUF IHRER iGPU/dGPU UND CPU MIT FOLGENDEN PARAMETERN**${DEVICE} (ID: ${GPU_ID})** MIT ngl=${NGL_SET} AUF DIESEM **${FULL_LLAMA_CLI_PATH}**"
+log "🔷STARTE KI ANTWORT AUF IHRER iGPU/dGPU UND CPU MIT FOLGENDEN PARAMETERN**${DEVICE} (ID: ${GPU_ID})** MIT NGL WERT IST GLEICH ${NGL_SET} AUF DIESEM **${FULL_LLAMA_CLI_PATH}**"
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
 error "❌FEHLER AKTUELLER LLAMA UNTERBAU NICHT GEFUNDEN NEUBAU FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
 return 1
@@ -590,7 +591,7 @@ local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 
 if [[ -f "${FULL_LLAMA_CLI_PATH}" ]] && [[ -f "${FULL_LS_PATH}" ]]; then
 
-success "✅GEFUNDENE AKTUELLE XAIGPUARC VERSION NEUBAU UNNOETIG FORTFAHREN**${FULL_LLAMA_CLI_PATH}** UND **${FULL_LS_PATH}**"
+success "✅GEFUNDENE AKTUELLE XAIGPUARC VERSION NEUBAU UNNOETIG FORTFAHREN**${FULL_LLAMA_CLI_PATH}** UND **${FULL_LS_PATH}** LADEN"
 
 log "🔷UEBERSPRINGE BAUVORGANG"
 
