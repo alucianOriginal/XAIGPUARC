@@ -56,6 +56,7 @@
 #DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5    GB
 #MiMo-Embodied-7B-f16_q8_0.gguf                  10.7    GB
 #KernelLLM-f16_q8_0.gguf                         11.1    GB
+#Jan-v2-VL-high-f16_q8_0.gguf                    11.4    GB
 #Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4    GB
 #Orchestrator-8B-f16_q8_0.gguf                   11.4    GB
 #MiroThinker-v1.0-8B-f16_q8_0.gguf               11.4    GB
