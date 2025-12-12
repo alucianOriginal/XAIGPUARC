@@ -24,10 +24,10 @@
 #-Example: GPT-OSS-20B-F16 does it very nice at low Wattage
 #-but needs longer than full working MathTutor F16 with 142 Watt
 #-I just use both/multible Models for a better Workflow
-#-3x Single and Dual dGPUs on AMD Ryzen 2600 2700x Intel i7 6700K on Z170 RAM 16 till 128GB
+#-3x Single and Dual dGPUs on AMD Ryzen 2600 2700x Intel i7 6700K on Z170 RAM 16GB till 128GB
 #-2x Intel iGPU XE Alder Lake Gen + CPU 12700H + 12650H + A730m 12 GB + 6GiB DDR4/5 32GB RAM
-#-1x Intel Core Ultra 7 155H + Meteor Lake 7/8 Core LPG 128EU ARC 16GiB
-#-Quad Channel High Bandwith RAM (GEAR2 with 718GB/s)
+#-1x Intel Core Ultra 7 155H + Meteor Lake 7 Core and 8 Core Xe-LPG 128EU ARC 16GiB
+#-Quad Channel High Bandwith RAM Gear2 with 718GB/s
 #-11,5 GiB VRAM shared from this RAM
 #-On 155H i7 GPT-OSS-20B-F16.gguf runs well but slow at 30 Watt allinone with mods
 
