@@ -38,6 +38,7 @@
 #6GB+ GPU A730m/A380/A310
 #phi-2.Q4_K_M.gguf                               1.7     GB
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1     GB
+#DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2     GB
 
 #8GB+ GPU A750LE
 #Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7     GB
@@ -59,6 +60,7 @@
 #Orchestrator-8B-f16_q8_0.gguf                   11.4    GB
 #MiroThinker-v1.0-8B-f16_q8_0.gguf               11.4    GB
 #Seed-Coder-8B-Reasoning-f16_q8_0.gguf           11.5    GB
+#Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf     11.7    GB
 #ggml-model-f16.gguf                             12.6    GB
 #gpt-oss-20b-F16.gguf                            12.8    GB
 #Mistral-7B-Instruct-v0.3.fp16.gguf              13.5    GB
