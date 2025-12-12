@@ -88,6 +88,7 @@
 #gpt-oss-20b-mxfp4.gguf                          11.3    GB
 
 #16GB GPU A770LE
+#flux1-kontext-dev-Q8_0.gguf                     11.8    GB
 #wizardcoder-python-13b-v1.0.Q8_0.gguf           12.9    GB
 #Deepseek-Coder-V2-Lite-13B-
 #Instruct-sft-s1K.i1-Q6_K.gguf                   13.1    GB
