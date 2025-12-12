@@ -45,6 +45,7 @@
 #llama3bthinkingonly5B.f16.gguf                  6.0     GB
 
 #10-12GB GPU-iGPU-Xe-LPG/A730m/B570/B580/PRO
+#Trinity-Nano-Preview-f16_q8_0.gguf              7.2     GB
 #Qwen3-Embedding-4B-f16.gguf                     7.5     GB
 #Qwen3-4B-f16.gguf                               7.5     GB
 #Nemotron-Mini-4B-Instruct-f16.gguf              7.8     GB
