@@ -72,7 +72,7 @@ export OverrideDefaultFP64Settings=1
 export CCACHE_DIR="$HOME/.ccache"
 export COMPILER_VERSION="2025.0"
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
-export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=100
+export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=128
 
 #HILFSFUNKTIONEN
 log() { printf "🔷 %s\n" "$*"; }
@@ -315,7 +315,7 @@ fi
 #PATCH6/6
 log "🔷PATCH 6/6: SSMCONVPP WARNUNG BEHEBEN VORZEICHENVERGLEICH"
 local SSM_CONV_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ssm_conv.cpp"
-local SEARCH_LINE='GGML_ASSERT(src0->nb[1] == src0->ne[0] * static_cast(sizeof(float)));'
+local SEARCH_LINE='GGML_ASSERT(src0->nb[1] == src0->ne[0] * static_cast<int>(sizeof(float)));'
 local REPLACE_LINE='GGML_ASSERT(src0->nb[1] == (size_t)(src0->ne[0] * sizeof(float)));'
 if grep -Fq "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
 if sed -i "s/${SEARCH_LINE}/${REPLACE_LINE}/g" "$SSM_CONV_FILE"; then
@@ -416,7 +416,7 @@ if [ -z "$DEVICES" ]; then
 warn "⚠️KEINE KOMPATIBLEN SYCL GERAETE GEFUNDEN ERRORAKTUELLE ABHAENGIGKEITEN PRUEFEN"
 export ONEAPI_DEVICE_SELECTOR="level_zero:0->❌ANBINDUNG FEHLGESCHLAGEN"
 DEVICE="ARC"
-N_GPU_LAYERS=99
+N_GPU_LAYERS=0
 return
 fi
 local ARC_ID
@@ -433,7 +433,7 @@ DEVICE="iGPU"
 else
 export ONEAPI_DEVICE_SELECTOR="opencl:cpu"
 DEVICE="CPU"
-N_GPU_LAYERS=99
+N_GPU_LAYERS=0
 error "❌KEINE GEEIGNETE GRAFIKKARTE GEFUNDEN FALLE AUF CPU ZURUECK"
 return
 fi
@@ -446,17 +446,17 @@ VRAM_GIB=$((VRAM_GIB_RAW / 1024)) #MIB-zu-GIB-
 if [ -z "${VRAM_GIB_RAW}" ]; then
 VRAM_GIB_RAW=1024
 fi
-local LAYER_SIZE_MIB=1024 #Magic Key
+local LAYER_SIZE_MIB=512 #Magic Key
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 if [ "${VRAM_GIB}" -lt 1 ]; then
 VRAM_GIB=1
 fi
-N_GPU_LAYERS=$((VRAM_MIB_CALC * 99 / 100 / LAYER_SIZE_MIB))
+N_GPU_LAYERS=$((VRAM_MIB_CALC * 95 / 100 / LAYER_SIZE_MIB))
 if [ "$N_GPU_LAYERS" -gt 99 ]; then
 N_GPU_LAYERS=99
 fi
 if [ "$N_GPU_LAYERS" -lt 1 ]; then
-N_GPU_LAYERS=99
+N_GPU_LAYERS=1
 fi
 log "🔷AUTOMATISCHE NGL BERECHNUNG IN **${N_GPU_LAYERS}**SCHICHTEN JE NACH MODELL AUF CPU UND GPU AUTOMATISCH VERTEILT"
 fi
@@ -476,7 +476,7 @@ fi
 
 #7MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/Qwen2.5-7B-Instruct-f16-q4_k.gguf"}
+MODEL_PATH=${1:-"models/Nemotron-Mini-4B-Instruct-f16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN. BITTE DORTHIN KOPIEREN **$MODEL_PATH**"
@@ -486,7 +486,7 @@ export MODEL_PATH
 
 #8MODELLAUSFUEHREN
 run_inference() {
-local DEFAULT_MODEL_PATH="models/Qwen2.5-7B-Instruct-f16-q4_k.gguf"
+local DEFAULT_MODEL_PATH="models/Nemotron-Mini-4B-Instruct-f16.gguf"
 
 #Change Modells above twice like List Support with FP16 Only.
 #Small Qwen2.5-7B-Instruct-f16-q4_k
