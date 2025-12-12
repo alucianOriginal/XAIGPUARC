@@ -446,12 +446,12 @@ VRAM_GIB=$((VRAM_GIB_RAW / 1024)) #MIB-zu-GIB-
 if [ -z "${VRAM_GIB_RAW}" ]; then
 VRAM_GIB_RAW=1024
 fi
-local LAYER_SIZE_MIB=512 #Magic Key
+local LAYER_SIZE_MIB=256 #Magic Key
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 if [ "${VRAM_GIB}" -lt 1 ]; then
 VRAM_GIB=1
 fi
-N_GPU_LAYERS=$((VRAM_MIB_CALC * 95 / 100 / LAYER_SIZE_MIB))
+N_GPU_LAYERS=$((VRAM_MIB_CALC * 99 / 100 / LAYER_SIZE_MIB))
 if [ "$N_GPU_LAYERS" -gt 99 ]; then
 N_GPU_LAYERS=99
 fi
@@ -476,7 +476,7 @@ fi
 
 #7MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/Nemotron-Mini-4B-Instruct-f16.gguf"}
+MODEL_PATH=${1:-"models/gpt-oss-20B-F16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN. BITTE DORTHIN KOPIEREN **$MODEL_PATH**"
@@ -486,7 +486,7 @@ export MODEL_PATH
 
 #8MODELLAUSFUEHREN
 run_inference() {
-local DEFAULT_MODEL_PATH="models/Nemotron-Mini-4B-Instruct-f16.gguf"
+local DEFAULT_MODEL_PATH="models/gpt-oss-20B-F16.gguf"
 
 #Change Modells above twice like List Support with FP16 Only.
 #Small Qwen2.5-7B-Instruct-f16-q4_k
@@ -559,8 +559,8 @@ break STOP build that code up and better with all the rules"}
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
-local CONTEXT_SIZE=16384 #NEUEN WERTE SETZEN 2048 4096 8192 16384
-local PREDICT_TOKENS=16384
+local CONTEXT_SIZE=8192 #NEUEN WERTE SETZEN 2048 4096 8192 16384
+local PREDICT_TOKENS=8192
 log "🔷STARTE KI ANTWORT AUF IHRER iGPU/dGPU UND CPU MIT FOLGENDEN PARAMETERN**${DEVICE} (ID: ${GPU_ID})** MIT NGL WERT IST GLEICH ${NGL_SET} AUF DIESEM **${FULL_LLAMA_CLI_PATH}**"
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
 error "❌FEHLER AKTUELLER LLAMA UNTERBAU NICHT GEFUNDEN NEUBAU FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
@@ -573,7 +573,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -n ${PREDICT_TOKENS} \
     -c ${CONTEXT_SIZE} \
     -ngl ${N_GPU_LAYERS} \
-    --split-mode layer \
+    --split-mode none \
     --main-gpu ${GPU_ID}
 echo "KI ANTWORT FERTIG GLUECKWUNSCH"
 }
