@@ -64,6 +64,8 @@
 #MathTutor-7B-H_v0.0.1.f16.gguf                  14.2    GB
 
 #16+8GB Dual GPU A770LE/A750LE
+#LFM2-8B-A1B-F16.gguf                            15.5    GB
+#NVIDIA-Nemotron-Nano-9B-v2-FP16.gguf            16.6    GB
 #NVIDIA-Nemotron-Nano-12B-v2-F16.gguf            22.9    GB
 
 #Q8-Q4-IQ4-2 NOT F16! MODE
@@ -89,6 +91,7 @@
 #wizardcoder-python-13b-v1.0.Q8_0.gguf           12.9    GB
 #Deepseek-Coder-V2-Lite-13B-
 #Instruct-sft-s1K.i1-Q6_K.gguf                   13.1    GB
+#mixtral-8x7b-instruct-v0.1.Q4_K_M.gguf          24.6    GB
 
 set -euo pipefail
 IFS=$'\n\t'
