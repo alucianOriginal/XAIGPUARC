@@ -33,24 +33,20 @@
 #-BF16 Models not recommend for Alechmist
 
 #F16 Mode Only:
-
 #6GB+ GPU A730m/A380/A310
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1     GB
 #DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2     GB
 #gemma-2-2b-it.F16.gguf                          4.9     GB
-
 #8GB+ GPU A750LE
 #Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7     GB
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8     GB
 #llama3bthinkingonly5B.f16.gguf                  6.0     GB
-
 #10-12GB+ GPU-iGPU-Xe-LPG/A730m/B570/B580/PRO
 #Trinity-Nano-Preview-f16_q8_0.gguf              7.2     GB
 #Qwen3-Embedding-4B-f16.gguf                     7.5     GB
 #Qwen3-4B-f16.gguf                               7.5     GB
 #Nemotron-Mini-4B-Instruct-f16.gguf              7.8     GB
 #Minitron-4B-Base.FP16.gguf                      7.8     GB
-
 #16GB+ GPU A770LE
 #DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5    GB
 #MiMo-Embodied-7B-f16_q8_0.gguf                  10.7    GB
@@ -67,7 +63,6 @@
 #Mistral-7B-Instruct-v0.3.fp16.gguf              13.5    GB
 #OpenReasoning-Nemotron-7B-F16.gguf              14.1    GB
 #MathTutor-7B-H_v0.0.1.f16.gguf                  14.2    GB
-
 #16+8GB+ Dual GPU A770LE/A750LE
 #GigaChat3-10B-A1.8B-f16_q8_0.gguf               14.2    GB
 #Qwen3-VL-8B-Instruct.F16.gguf                   15.3    GB
@@ -77,18 +72,15 @@
 
 #END F16 MODEL LIST
 #START Q8-Q4-IQ4-2 MODEL LIST NOT F16!
-
 #6GB+ GPU A730m/A380/A310
 #phi-2.Q4_K_M.gguf                               1.7     GB
 #openhermes-2.5-mistral-7b.Q4_K_M.gguf           4.1     GB 
 #mistral-7b-instruct-v0.2.Q4_K_M.gguf            4.1     GB
-
 #8GB+ GPU A750LE
 #OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf           5.5     GB
 #NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.6     GB
 #wizardcoder-python-7b-v1.0.Q8_0.gguf            6.7     GB
 #sauerkrautlm-7b-v1.Q8_0.gguf                    6.7     GB
-
 #10-12GB+ GPU-iGPU-Xe-LPG/A730m/B570/B580/PRO
 #Qwen3-16B-A3B-IQ4_NL.gguf                       8.5     GB
 #Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7     GB
@@ -96,7 +88,6 @@
 #gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3    GB
 #gpt-oss-20b-mxfp4.gguf                          11.3    GB
 #velara-11b-v2.Q8_0.gguf                         11.3    GB
-
 #16+8GB+ Dual GPU A770LE/A750LE
 #flux1-kontext-dev-Q8_0.gguf                     11.8    GB
 #wizardcoder-python-13b-v1.0.Q8_0.gguf           12.9    GB
@@ -153,7 +144,7 @@ fi
 
 #UMGEBUNGRUECKFALLMECHANISMENVORBEREITEN
 prepare_environment() {
-log "🔷HOLE ONE API KOPFZEILENUEBERSCHRIFTEN FUER XAIGPUARC BCXAI ALUCIAN BLOCKWORKORANGE ORIGINAL ULTRA MADNESS EDITION"
+log "🔷HOLE ONE API KOPFZEILEN UEBERSCHRIFTEN FUER XAIGPUARC BCXAI ALUCIAN BLOCKWORKORANGE ORIGINAL ULTRA MADNESS EDITION"
 local SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
 if [ ! -f "$SETVARS_PATH" ]; then
 error "❌ONEAPI KOEPFE NICHT GEFUNDEN $SETVARS_PATH INSTALLIERE ZU ERST ONE API BIBLIOTHEKEN"
@@ -224,7 +215,7 @@ log "🔷PATCH 1/6 MATHEMATIKBIBLIOTHEK LADEN ERFOLGREICH SCHREIBE KOPZEILEN"
 elif sed -i 's|#if !defined(DPCT_USM_LEVEL_NONE) && defined(DPCT_ENABLE_MKL_MATH).#endif|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
 log "🔷PATCH 1/6 MATHEMATIKBLIOTHEKENKOPFE ERFOLGREICH EINGELADEN SPEICHERE IN AUSGABE"
 else
-error "❌PATCH 1/6 MATHEMATIKBIBLIOTHEKEN EINLADEN IST FEHLGESCHLAGEN"
+error "❌PATCH 1/6 MKL MATHEMATIKBIBLIOTHEKEN EINLADEN IST FEHLGESCHLAGEN"
 return 1
 fi
 else
@@ -255,7 +246,7 @@ add_library(ggml_flash_attention_sycl OBJECT
 target_include_directories(ggml_flash_attention_sycl PRIVATE \${GGML_SYCL_INCLUDE_DIRS})
 target_compile_options(ggml_flash_attention_sycl PUBLIC \${GGML_SYCL_COMPILE_FLAGS})
 " > "$CUSTOM_KERNEL_CMAKE"
-log "🔷PATCH 2a/6 CMAKE LISTEN FUER OBJEKTE ALS KOPFKERN EINGEFUEGT"
+log "🔷PATCH 2a/6 CMAKE LISTEN FUER OBJEKTE ALS KOPFZEILE EINGEFUEGT"
 
 #2b/6
 local ADD_SUBDIR_LINE="add_subdirectory(ggml_flash_attention_sycl)"
@@ -325,12 +316,12 @@ awk '/case GGML_OP_MUL_MAT_Q_K:/ { system("cat /tmp/fa_dispatch.patch"); } { pri
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
 
 if [ $? -eq 0 ]; then
-log "🔷PATCH 4a/6 AKW UNTERBAU EINGEFUEHRT"
+log "🔷PATCH 4a/6 AWK UNTERBAU IN KOPFZEILEN EINGEFUEHRT"
 else
-error "❌PATCH 4a/6 FEHLER BEIM EINFUEGEN AKW KOPFZEILEN"
+error "❌PATCH 4a/6 FEHLER BEIM EINFUEGEN DER AWK KOPFZEILEN"
 fi
 else
-log "🔷PATCH 4a/6 AKW UNTERBAU VORHANDEN FORTFAHREN"
+log "🔷PATCH 4a/6 AWK UNTERBAU VORHANDEN FORTFAHREN"
 fi
 log "🔷PATCH 4b/6 ERFOLGREICH FLASHATTENTION GELADEN"
 else
@@ -339,7 +330,7 @@ return 1
 fi
 
 #5/6
-log "🔷PATCH 5/6 INJIZIEREN OBJEKT VARIABLEN AUS UNTERBLOCK VON SYCL BIBLIOTHEKEN"
+log "🔷PATCH 5/6 INJIZIERE FLASH ATTENTION OBJEKT VARIABLEN AUS UNTERBLOCK DER SYCL BIBLIOTHEKEN"
 local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
 
 #5a/6
@@ -348,13 +339,13 @@ local VAR_SEARCH_MARKER="set(GGML_SYCL_SOURCES"
 if ! grep -Fq "FA_OBJECT_FILES" "$CMAKE_LISTS_FILE"; then
 local SED_VAR_LINE=$(echo "$VAR_LINE" | sed 's/[\/&]/\\&/g')
 if sed -i "/${VAR_SEARCH_MARKER}/a ${SED_VAR_LINE}" "$CMAKE_LISTS_FILE"; then
-log "🔷PATCH 5a/6 OBJEKT VARIABLEN ERFOLGREICH DEFINIERT WEITER"
+log "🔷PATCH 5a/6 FLASH ATTENTION OBJEKT VARIABLEN ERFOLGREICH DEFINIERT WEITER"
 else
-error "❌PATCH 5a/6 OBJEKT VARIABLEN BAU FEHLGESCHLAGEN STOPP"
+error "❌PATCH 5a/6 FLASH ATTENTION OBJEKT VARIABLEN BAU FEHLGESCHLAGEN STOPP"
 return 1
 fi
 else
-log "🔷PATCH 5a/6 OBJEKT VARIABLEN VORHANDEN UEBERSPRINGE"
+log "🔷PATCH 5a/6 FLASH ATTENTION OBJEKT VARIABLEN VORHANDEN UEBERSPRINGE"
 fi
 
 #5b/6
@@ -364,13 +355,13 @@ if grep -Fq "${TARGET_SEARCH_MARKER}" "$CMAKE_LISTS_FILE" && ! grep -Fq "\${FA_O
 local SED_NEW_LINE=$(echo "$NEW_TARGET_SOURCES_LINE" | sed 's/[\/&]/\\&/g')
 local SED_SEARCH_MARKER=$(echo "$TARGET_SEARCH_MARKER" | sed 's/[\/&]/\\&/g')
 if sed -i "s/${SED_SEARCH_MARKER}/${SED_NEW_LINE}/" "$CMAKE_LISTS_FILE"; then
-log "🔷PATCH 5b/6 ERFOLGREICHE INJEKTIONEN IN BAUVORGANG"
+log "🔷PATCH 5b/6 ERFOLGREICHE GGML SYCL INJEKTIONEN IN BAUVORGANG"
 else
-error "❌PATCH 5b/6 INJEKTION FEHLGESCHLAGEN"
+error "❌PATCH 5b/6 GGML SYCL INJEKTION FEHLGESCHLAGEN"
 return 1
 fi
 else
-log "🔷PATCH 5b/6 IST BEREITS AKTIV INJECTION WIRD UEBERSPRUNGEN"
+log "🔷PATCH 5b/6 GGML SYCL IST BEREITS AKTIV INJECTION WIRD UEBERSPRUNGEN"
 fi
 
 #6/6
