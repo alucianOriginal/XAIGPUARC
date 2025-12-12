@@ -37,6 +37,7 @@
 #6GB+ GPU A730m/A380/A310
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1     GB
 #DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2     GB
+#gemma-2-2b-it.F16.gguf                          4.9     GB
 
 #8GB+ GPU A750LE
 #Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7     GB
@@ -94,6 +95,7 @@
 #solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf  10.6    GB
 #gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3    GB
 #gpt-oss-20b-mxfp4.gguf                          11.3    GB
+#velara-11b-v2.Q8_0.gguf                         11.3    GB
 
 #16+8GB+ Dual GPU A770LE/A750LE
 #flux1-kontext-dev-Q8_0.gguf                     11.8    GB
