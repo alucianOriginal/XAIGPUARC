@@ -112,7 +112,7 @@ if timeout 5 bash -c "</dev/tcp/8.8.8.8/53" 2>/dev/null; then
 success "✅INTERNETVERBINDUNG VORHANDEN"
 return 0
 else
-warn "⚠️KEINE INTERNETVERBINDUNG GEFUNDEN BEI ERSTINSTALLATION FUR DAS LADEN VON ABHAENGIGKEITEN NOTWENDIG BITTE ANSCHLUSS PRUEFEN"
+warn "⚠️KEINE INTERNETVERBINDUNG GEFUNDEN BEI ERSTINSTALLATION FUER DAS LADEN VON ABHAENGIGKEITEN NOTWENDIG BITTE ANSCHLUSS PRUEFEN"
 return 1
 fi
 }
@@ -125,7 +125,7 @@ if [ ! -f "$SETVARS_PATH" ]; then
 error "❌ONEAPI KOEPFE NICHT GEFUNDEN $SETVARS_PATH INSTALLIERE ZU ERST ONE API BIBLIOTHEKEN"
 exit 1
 fi
-log "🔷SETVARSSH SETZEN UND SUCHEN"
+log "🔷SETVARS SETZEN UND SUCHEN"
 source "$SETVARS_PATH" --force 2>/dev/null
 local ONEAPI_ROOT_FALLBACK="/opt/intel/oneapi"
 local COMPILER_VERSION_FALLBACK="${COMPILER_VERSION:-2025.0}"
@@ -142,7 +142,7 @@ export CPATH="${CPATH:-}:${MKL_ROOT}/include"
 local LIB_DIR="/opt/intel/oneapi/compiler/latest/lib:/opt/intel/oneapi/mkl/latest/lib"
 export LD_LIBRARY_PATH="./${BUILD_DIR}/bin:${LIB_DIR}:${LD_LIBRARY_PATH:-}"
 if ! command -v icx &>/dev/null; then
-error "❌ICX/IPX ONEAPI INTEL XAIGPUARC BAUUNTERMODUL INSTALLATION FEHLGESCHLAGEN"
+error "❌ICX UND IPX ONEAPI INTEL XAIGPUARC BAUUNTERMODUL INSTALLATION FEHLGESCHLAGEN"
 exit 1
 fi
 log "🔷VERBINDUNG ONEAPI GELADEN DPCPP_ROOT=${DPCPP_ROOT} UND MKL_ROOT=${MKL_ROOT}"
@@ -199,7 +199,7 @@ return 1
 fi
 
 #2/6
-log "🔷PATCH 2/6 BAUE ggml_flash_attention_sycl KERN"
+log "🔷PATCH 2/6 BAUE FLASH ATTENTION KERN"
 
 #2a/6
 if [ ! -d "$CUSTOM_KERNEL_DIR" ]; then
@@ -273,6 +273,7 @@ if ! grep -Fq "ggml_flash_attention_sycl" "${GGML_SYCL_CPP}"; then
 echo "${FA_REGISTER_CODE}" > /tmp/fa_decl.patch
 awk '/extern "C" void ggml_flash_attention_sycl/ { system("cat /tmp/fa_decl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
+
 if [ $? -eq 0 ]; then
 log "🔷PATCH 4a/6 DEKLARATION ERFOLGREICH EINGEFUEGT"
 else
@@ -288,6 +289,7 @@ log "🔷PATCH 4a/6 FUEGE DEN ZWISCHENSPEICHER PER AWK KOPFZEILE EIN"
 echo "${FA_DISPATCH_CASE}" > /tmp/fa_dispatch.patch
 awk '/case GGML_OP_MUL_MAT_Q_K:/ { system("cat /tmp/fa_dispatch.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
+
 if [ $? -eq 0 ]; then
 log "🔷PATCH 4a/6 AKW UNTERBAU EINGEFUEHRT"
 else
@@ -392,7 +394,7 @@ fi
 
 #4KOMPILIEREN
 compile_project() {
-log "🔷BAUE XAIGPUARC GRUNDGERUEST-STRUKTUR"
+log "🔷BAUE XAIGPUARC GRUNDGERUEST STRUKTUR"
 local LOG_FILE="build.log"
 log "🔷KOPFZEILEN AUSGABE IN UNTERORNDER GESPEICHERT"
 log "🔷BAUVORGANG LAEUFT XAIGPUARC KOPFZEILEN ERFOLGREICH ABGESCHLOSSEN"
