@@ -30,7 +30,7 @@
 #-Quad Channel High Bandwith RAM Gear2 with 718GB/s
 #-11,5 GiB VRAM shared from this RAM
 #-On 155H i7 GPT-OSS-20B-F16.gguf runs well but slow at 30 Watt allinone with mods
-#-BF16 Models not recommed for Alechmist
+#-BF16 Models not recommend for Alechmist
 
 
 #Orchestrator-8B-f16_q8_0.gguf                   11.4    GB
@@ -480,7 +480,7 @@ VRAM_GIB=$((VRAM_GIB_RAW / 1024)) #MIB-zu-GIB-
 if [ -z "${VRAM_GIB_RAW}" ]; then
 VRAM_GIB_RAW=1024
 fi
-local LAYER_SIZE_MIB=256 #Magic Key
+local LAYER_SIZE_MIB=512 #Magic Key
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 if [ "${VRAM_GIB}" -lt 1 ]; then
 VRAM_GIB=1
@@ -510,7 +510,7 @@ fi
 
 #7MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/gpt-oss-20b-F16.gguf"}
+MODEL_PATH=${1:-"models/KernelLLM-f16_q8_0.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN. BITTE DORTHIN KOPIEREN **$MODEL_PATH**"
@@ -520,12 +520,9 @@ export MODEL_PATH
 
 #8MODELLAUSFUEHREN
 run_inference() {
-local DEFAULT_MODEL_PATH="models/gpt-oss-20b-F16.gguf"
+local DEFAULT_MODEL_PATH="models/KernelLLM-f16_q8_0.gguf"
 
-#CHANGE MODEL HERE ABOVE TWICE!
-#Small Qwen2.5-7B-Instruct-f16-q4_k works Everytime, Everywhere i Tested it, It Is Small Enought to Fit in older Systems.
-#Bigger gpt-oss-20b-F16 runs on iGPU XE-LPG 16GB Low Power for Long High Quality Answer Long Time Needed
-#A770LE best from all is and will be MathTutor-7B-H_v0.0.1.f16 High Quality Instand Answer in Math Code better than ChatGPT
+#CHANGE MODEL HERE ABOVE TWICE! MODELL HIER DRUEBER DOPPELT AENDERN!
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"HELLO FROM SYCL ARC INTEL XAIGPUARC AI INFERENCE TOOL 
 YOU ARE A INSANE LOW END HARDWARE AI MASTER WHO HELP OUT EVERY USER WITH HIS 
