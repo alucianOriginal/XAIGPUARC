@@ -19,16 +19,17 @@
 #4.) START with type in Console ./XAIGPUARC.sh Enter...
 
 #-XAIGPUARC Hardware used to Build and Test
-#-6x Intel ARC 2xA770LE 16GB + 4x750LE 8GB 90-142 Watt each Card at different LLMs.
-#-GPT-OSS-20B-F16 does it very nice at low Wattage 
-#-but needs longer than full working MathTutor F16 with 142 Watt.
-#-Just use multible Models for a better Workflow
-#-3x Single and Dual dGPUs auf AMD Ryzen 2600 2700x Intel i7 6700K on Z170 RAM 16 till 128GB
+#-6x Intel ARC 2xA770LE 16GB + 4x750LE 8GB 
+#-90-142 Watt each Card at different LLMs
+#-Example: GPT-OSS-20B-F16 does it very nice at low Wattage
+#-but needs longer than full working MathTutor F16 with 142 Watt
+#-I just use both/multible Models for a better Workflow
+#-3x Single and Dual dGPUs on AMD Ryzen 2600 2700x Intel i7 6700K on Z170 RAM 16 till 128GB
 #-2x Intel iGPU XE Alder Lake Gen + CPU 12700H + 12650H + A730m 12 GB + 6GiB DDR4/5 32GB RAM
-#-1x Intel Core Ultra 7 155H + Meteor Lake 7/8 Core LPG 128EU ARC iGPU 16GiB 
-#-Quad Channel High Bandwith RAM (GEAR2 with 718GB/s) 
-#-11,5 GiB VRAM shared from this RAM. 
-#-On my Device with 155H i7 GPT-OSS-20B-F16.gguf runs well but slow at 30Watt allinone
+#-1x Intel Core Ultra 7 155H + Meteor Lake 7/8 Core LPG 128EU ARC 16GiB
+#-Quad Channel High Bandwith RAM (GEAR2 with 718GB/s)
+#-11,5 GiB VRAM shared from this RAM
+#-On 155H i7 GPT-OSS-20B-F16.gguf runs well but slow at 30 Watt allinone with mods
 
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1     GB
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8     GB
@@ -92,7 +93,7 @@ success() { printf "✅ %s\n" "$*"; }
 error() { printf "❌ %s\n\n" "$*"; }
 warn() { printf "⚠️ %s\n" "$*"; }
 
-#INTERNET PRUEFUNG
+#INTERNETPRUEFUNG
 check_internet() {
 log "🔷PRUEFE INTERNETVERBINDUNG"
 if timeout 5 bash -c "</dev/tcp/8.8.8.8/53" 2>/dev/null; then
@@ -104,7 +105,7 @@ return 1
 fi
 }
 
-#UMGEBUNG RUECKFALLMECHANISMEN VORBEREITEN
+#UMGEBUNGRUECKFALLMECHANISMENVORBEREITEN
 prepare_environment() {
 log "🔷HOLE ONE API KOPFZEILENUEBERSCHRIFTEN FUER XAIGPUARC BCXAI ALUCIAN BLOCKWORKORANGE ORIGINAL ULTRA MADNESS EDITION"
 local SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
@@ -158,7 +159,7 @@ exit 1
 fi
 }
 
-#2PATCH6/6
+#2PATCH LOGIK 6/6
 patch_llama_cpp() {
 log "🔷PATCH FUER GGML SYCL ANLEGEN KOPFZEILENREGESTRIERUNG"
 local DPCT_HELPER_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/dpct/helper.hpp"
@@ -169,7 +170,7 @@ local CUSTOM_KERNEL_CMAKE="${CUSTOM_KERNEL_DIR}/CMakeLists.txt"
 local GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 local KERNEL_SOURCE_LOCAL="ggml_flash_attention_sycl.cpp"
 
-#PATCH1/6
+#1/6
 if [ -f "$DPCT_HELPER_FILE" ]; then
 log "🔷PATCH 1/6 DOCTPHELPER FEHLGESCHLAGEN ABHAENGIGKEITSLISTE PRUEFEN"
 if sed -i 's|#include <sycl/ext/oneapi/math.hpp>|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
@@ -185,7 +186,7 @@ error "❌PATCH 1/6 FEHLGESCHLAGEN NICHT GEFUNDEN ABHAENIGKEITEN PRUEFEN"
 return 1
 fi
 
-#PATCH2/6
+#2/6
 log "🔷PATCH 2/6 BAUE ggml_flash_attention_sycl KERN"
 
 #2a/6
@@ -324,7 +325,7 @@ else
 log "🔷PATCH 5b/6 IST BEREITS AKTIV INJECTION WIRD UEBERSPRUNGEN"
 fi
 
-#PATCH6/6
+#6/6
 log "🔷PATCH 6/6: SSMCONVPP WARNUNG BEHEBEN VORZEICHENVERGLEICH"
 local SSM_CONV_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ssm_conv.cpp"
 local SEARCH_LINE='GGML_ASSERT(src0->nb[1] == src0->ne[0] * static_cast<int>(sizeof(float)));'
@@ -474,7 +475,7 @@ log "🔷AUTOMATISCHE NGL BERECHNUNG IN **${N_GPU_LAYERS}**SCHICHTEN JE NACH MOD
 fi
 }
 
-#6SYCLKOMPATIBLEGERÄTEPRUEFEN
+#6SYCLKOMPATIBLEGERAETEPRUEFEN
 list_sycl_devices() {
 log "🔷SUCHE SYCL FAEHIGES GERAET AUF IHREM SYSTEM"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
@@ -590,7 +591,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
 echo "KI ANTWORT FERTIG GLUECKWUNSCH"
 }
 
-#DEFINITION HAUPTFUNKTION
+#DEFINITIONHAUPTFUNKTION
 main() {
 
 local FP_MODE="${1:-1}"
