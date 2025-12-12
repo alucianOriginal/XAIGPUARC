@@ -18,6 +18,12 @@
 
 #4.) START with type in Console ./XAIGPUARC.sh Enter...
 
+#-XAIGPUARC Hardware used to Build and Test
+#-Intel ARC A770 (16GiB)/ 750 (8GiB)/ Dual
+#-Single + Dual GPU auf AMD Ryzen 2600/ 2700x/ Intel 6700K @Z170
+#-Intel 12700h/12650h + A730m 12 GiB + 6GiB
+#-Intel Core 155H + ARC 8 Core 128EU iGPU 16GiB RAM/ 11,5 GiB VRAM shared from RAM
+
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1     GB
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8     GB
 #Qwen2.5-7B-Instruct-f16-q4_k.ggufVery Nice      5.7     GB
