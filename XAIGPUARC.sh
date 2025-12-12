@@ -350,7 +350,7 @@ local FP_MODE="${1:-1}"
 local FP_FLAG="-DGGML_SYCL_F16=${FP_MODE}"
 if [ ! -d "${BUILD_DIR}" ]; then
 log "🔷LEGE XAIGPUARC ORDNER IM HOME VERZEICHNIS IHRES COMPUTERS AN ${BUILD_DIR}"
-mkdir -p "${BUILD_DIR}" || { err "❌FEHLER KONNTE DEN ORDNER XAIGPUARC '${BUILD_DIR}' NICHT ANLEGEN"; return 1; }
+mkdir -p "${BUILD_DIR}" || { error "❌FEHLER KONNTE DEN ORDNER XAIGPUARC '${BUILD_DIR}' NICHT ANLEGEN"; return 1; }
 fi
 if pushd "${BUILD_DIR}" > /dev/null; then
 log "🔷STARTE CMAKE BAU VON XAIGPUARC ${FP_FLAG})..."
