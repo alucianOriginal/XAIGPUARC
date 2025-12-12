@@ -36,10 +36,11 @@
 #F16 Mode Only:
 
 #6GB GPU A730m/A380/A310
+#phi-2.Q4_K_M.gguf                               1.7     GB
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1     GB
 
 #8GB GPU A750LE
-#Qwen2.5-7B-Instruct-f16-q4_k.ggu                5.7     GB
+#Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7     GB
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8     GB
 #llama3bthinkingonly5B.f16.gguf                  6.0     GB
 
@@ -47,7 +48,7 @@
 #Qwen3-Embedding-4B-f16.gguf                     7.5     GB
 #Qwen3-4B-f16.gguf                               7.5     GB
 #Nemotron-Mini-4B-Instruct-f16.gguf              7.8     GB
-#Minitron-4B-Base.FP16-.gguf                     7.8     GB
+#Minitron-4B-Base.FP16.gguf                      7.8     GB
 #DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5    GB
 
 
