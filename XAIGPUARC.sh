@@ -32,9 +32,11 @@
 #-On 155H i7 GPT-OSS-20B-F16.gguf runs well but slow at 30 Watt allinone with mods
 #-BF16 Models not recommed for Alechmist
 
+
+#Orchestrator-8B-f16_q8_0.gguf                   11.4    GB
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1     GB
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8     GB
-#Qwen2.5-7B-Instruct-f16-q4_k.ggufVery Nice      5.7     GB
+#Qwen2.5-7B-Instruct-f16-q4_k.ggu                5.7     GB
 #Qwen3-Embedding-4B-f16.gguf                     7.5     GB
 #Qwen3-4B-f16.gguf                               7.5     GB
 
@@ -46,13 +48,25 @@
 #Nemotron-Mini-4B-Instruct-f16.gguf              7.8     GB
 #Minitron-4B-Base.FP16-.gguf                     7.8     GB
 #Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4    GB
+#OpenReasoning-Nemotron-7B-F16.gguf              14.1    GB
+
+#KernelLLM-f16_q8_0.gguf                         11.1    GB
 
 #NVIDIA-Nemotron-Nano-12B-v2-F16.gguf            22.9    GB
 #llama3bthinkingonly5B.f16.gguf                  6.0     GB
 
-#MathTutor-7B-H_v0.0.1.f16.ggufUSETHAT           14.2    GB
+#MathTutor-7B-H_v0.0.1.f16.gguf                  14.2    GB
 
-#NOT F16! MODE but also well Tested
+#NOT F16! MODE but also well Tested:
+
+#OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf           5.5     GB
+#wizardcoder-python-13b-v1.0.Q8_0.gguf           12.9    GB
+#wizardcoder-python-7b-v1.0.Q8_0.gguf            6.7     GB
+#Deepseek-Coder-V2-Lite-13B-Instruct-sft-s1K.i1-Q6_K 13.1GB
+#sauerkrautlm-7b-v1.Q8_0.gguf                    6.7     GB
+#openhermes-2.5-mistral-7b.Q4_K_M.gguf           4.1     GB 
+#solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf  10.6    GB
+#mistral-7b-instruct-v0.2.Q4_K_M.gguf            4.1     GB
 #Qwen3-16B-A3B-IQ4_NL.gguf                       8.5     GB
 #Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7     GB
 #gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3    GB
