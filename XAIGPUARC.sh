@@ -68,7 +68,8 @@
 #NVIDIA-Nemotron-Nano-9B-v2-FP16.gguf            16.6    GB
 #NVIDIA-Nemotron-Nano-12B-v2-F16.gguf            22.9    GB
 
-#Q8-Q4-IQ4-2 NOT F16! MODE
+#END F16 MODEL LIST
+#START Q8-Q4-IQ4-2 MODEL LIST NOT F16!
 
 #6GB GPU A730m/A380/A310
 #openhermes-2.5-mistral-7b.Q4_K_M.gguf           4.1     GB 
@@ -87,7 +88,7 @@
 #gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3    GB
 #gpt-oss-20b-mxfp4.gguf                          11.3    GB
 
-#16GB GPU A770LE
+#16+8GB Dual GPU A770LE/A750LE
 #flux1-kontext-dev-Q8_0.gguf                     11.8    GB
 #wizardcoder-python-13b-v1.0.Q8_0.gguf           12.9    GB
 #Deepseek-Coder-V2-Lite-13B-
