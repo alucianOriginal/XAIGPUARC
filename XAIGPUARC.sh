@@ -19,12 +19,16 @@
 #4.) START with type in Console ./XAIGPUARC.sh Enter...
 
 #-XAIGPUARC Hardware used to Build and Test
-#-6x Intel ARC 2xA770LE 16GB + 4x750LE 8GB
+#-6x Intel ARC 2xA770LE 16GB + 4x750LE 8GB 90-142 Watt each Card at different LLMs.
+#-GPT-OSS-20B-F16 does it very nice at low Wattage 
+#-but needs longer than full working MathTutor F16 with 142 Watt.
+#-Just use multible Models for a better Workflow
 #-3x Single and Dual dGPUs auf AMD Ryzen 2600 2700x Intel i7 6700K on Z170 RAM 16 till 128GB
 #-2x Intel iGPU XE Alder Lake Gen + CPU 12700H + 12650H + A730m 12 GB + 6GiB DDR4/5 32GB RAM
 #-1x Intel Core Ultra 7 155H + Meteor Lake 7/8 Core LPG 128EU ARC iGPU 16GiB 
 #-Quad Channel High Bandwith RAM (GEAR2 with 718GB/s) 
-#-11,5 GiB VRAM shared from this RAM. On my Device with 155H i7 GPT-OSS-20B-F16.gguf runs well but slow.
+#-11,5 GiB VRAM shared from this RAM. 
+#-On my Device with 155H i7 GPT-OSS-20B-F16.gguf runs well but slow at 30Watt allinone
 
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1     GB
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8     GB
