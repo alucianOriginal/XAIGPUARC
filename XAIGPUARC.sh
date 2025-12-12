@@ -30,7 +30,7 @@
 #-Quad Channel High Bandwith RAM Gear2 with 718GB/s
 #-11,5 GiB VRAM shared from this RAM
 #-On 155H i7 GPT-OSS-20B-F16.gguf runs well but slow at 30 Watt allinone with mods
-#-BF16 Models not recommed for Alechmist but maybe for Xe-LPG and Battlemage above
+#-BF16 Models not recommed for Alechmist
 
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1     GB
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8     GB
