@@ -507,10 +507,10 @@ export MODEL_PATH
 run_inference() {
 local DEFAULT_MODEL_PATH="models/gpt-oss-20b-F16.gguf"
 
-#Change Modells above twice like List Support with FP16 Only.
-#Small Qwen2.5-7B-Instruct-f16-q4_k
-#gpt-oss-20b-F16 runs on iGPU XE-LPG 16GB
-#ON A770LE above max and best is MathTutor-7B-H_v0.0.1.f16
+#CHANGE MODEL HERE ABOVE TWICE!
+#Small Qwen2.5-7B-Instruct-f16-q4_k works Everytime, Everywhere i Tested it, It Is Small Enought to Fit in older Systems.
+#Bigger gpt-oss-20b-F16 runs on iGPU XE-LPG 16GB Low Power for Long High Quality Answer Long Time Needed
+#A770LE best from all is and will be MathTutor-7B-H_v0.0.1.f16 High Quality Instand Answer in Math Code better than ChatGPT
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"Let us build a Blake2b Zhash_144_5 Kernel for Blockchain and Network on Open Source Basic written full in C++ and
 its newer Versions optimized for Vector based Calculations like that example but full running code now like nothing comes more tomorrow
