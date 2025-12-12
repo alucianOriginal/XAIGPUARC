@@ -32,11 +32,9 @@
 #-On 155H i7 GPT-OSS-20B-F16.gguf runs well but slow at 30 Watt allinone with mods
 #-BF16 Models not recommend for Alechmist
 
-
 #F16 Mode Only:
 
 #6GB+ GPU A730m/A380/A310
-#phi-2.Q4_K_M.gguf                               1.7     GB
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1     GB
 #DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2     GB
 
@@ -71,6 +69,7 @@
 
 #16+8GB+ Dual GPU A770LE/A750LE
 #GigaChat3-10B-A1.8B-f16_q8_0.gguf               14.2    GB
+#Qwen3-VL-8B-Instruct.F16.gguf                   15.3    GB
 #LFM2-8B-A1B-F16.gguf                            15.5    GB
 #NVIDIA-Nemotron-Nano-9B-v2-FP16.gguf            16.6    GB
 #NVIDIA-Nemotron-Nano-12B-v2-F16.gguf            22.9    GB
@@ -79,11 +78,12 @@
 #START Q8-Q4-IQ4-2 MODEL LIST NOT F16!
 
 #6GB+ GPU A730m/A380/A310
+#phi-2.Q4_K_M.gguf                               1.7     GB
 #openhermes-2.5-mistral-7b.Q4_K_M.gguf           4.1     GB 
 #mistral-7b-instruct-v0.2.Q4_K_M.gguf            4.1     GB
-#OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf           5.5     GB
 
 #8GB+ GPU A750LE
+#OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf           5.5     GB
 #NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.6     GB
 #wizardcoder-python-7b-v1.0.Q8_0.gguf            6.7     GB
 #sauerkrautlm-7b-v1.Q8_0.gguf                    6.7     GB
