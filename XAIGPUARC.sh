@@ -36,6 +36,7 @@
 #6GB+ GPU A730m/A380/A310
 #MedScholar-1.5B-f16_q8_0.gguf                   2.1     GB
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1     GB
+#yasserrmd.DentaInstruct-1.2B.f16.gguf           2.2     GB
 #DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2     GB
 #ibm-granite.granite-4.0-1b.f16.gguf             3       GB
 #granite-4.0-micro-f16_q8_0.gguf                 4.6     GB
