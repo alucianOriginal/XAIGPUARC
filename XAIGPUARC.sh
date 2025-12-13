@@ -48,7 +48,8 @@
 #yasserrmd.DentaInstruct-1.2B.f16.gguf           2.2  GB 
 #DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2  GB FAST CTX-NPG 8k A770LE: 513.2 Pt/s 23.3 Gt/s 112w 2.3Ghz + CPU Mid TK 3+
 #ibm-granite.granite-4.0-1b.f16.gguf             3    GB SLOW CTX-NPG 8k A770LE: 569.4 Pt/s 18.2 Gt/s 120w 2.3Ghz - CPU 5+
-#Lucy-1.7B-F16.gguf                              3.2  GB FAST CTX-NPG 16k A770LE: 572.7 Pt/s 23.2 Gt/s 108w 2.4Ghz - CPU 1++
+#Lucy-1.7B-F16.gguf                              3.2  GB FAST CTX-NPG 16k A770LE: 572.7 Pt/s 23.2 Gt/s 108w 2.4Ghz - CPU TK 1++
+#                                                        FAST CTX-NPG 16k iGPU8XE: 2384.5 Pt/s 9.0 Gt/s 30w 2.25Ghz -CPU TK 1++
 #granite-4.0-micro-f16_q8_0.gguf                 4.6  GB 5+
 #gemma-2-2b-it.F16.gguf                          4.9  GB FAST 2+
 
@@ -57,6 +58,7 @@
 #Fathom-Search-4B-f16_q8_0.gguf                  5.5  GB FAST CTX-NPG 8k A770LE: 569.4 Pt/s 18.2 Gt/s 118w 2.4Ghz - CPU TK 2+
 #Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7  GB FAST CTX-NPG 8k A770LE: 511.5 Pt/s 19.7 Gt/s 142w 2.4Ghz - CPU 1+
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8  GB FAST 1+
+#MiniCPM-V-4-f16.gguf                            6.7  GB FAST CTX-NPG 16k iGPU8XE: 914.7 Pt/s 7.2 Gt/s 30w 2.25Ghz -CPU 1+++
 #llama3bthinkingonly5B.f16.gguf                  6.0  GB SLOW 3+
 
 #10-12GB+ iGPU Xe-LPG/A730m/A580/B570/B580/PROA60/B50
@@ -74,7 +76,7 @@
 
 #DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5 GB FAST 2++
 #MiMo-Embodied-7B-f16_q8_0.gguf                  10.7 GB
-#MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST CTX-NPG 8k A770LE: 842.9 Pt/s 11.0 Gt/s 142w 2.4Ghz + CPU Mid TK 2+++
+#MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST CTX-NPG 8k A770LE: 842.9 Pt/s 11.0 Gt/s 142w 2.4Ghz + CPU Mid TK 1+
 #KernelLLM-f16_q8_0.gguf                         11.1 GB FAST CTX-NPG 8k A770LE: 688.5 Pt/s 11.2 Gt/s 137w 2.4Ghz - CPU 1+
 #Jan-v2-VL-high-f16_q8_0.gguf                    11.4 GB FAST CTX-NPG 8k A770LE: 639.6 Pt/s 10.2 Gt/s 135w 2.4Ghz - CPU TK 2+
 #Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4 GB 2+
