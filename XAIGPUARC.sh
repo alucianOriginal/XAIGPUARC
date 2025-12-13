@@ -61,7 +61,7 @@
 #16GB+ GPU A770LE + iGPU Meteor Lake
 #DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5 GB
 #MiMo-Embodied-7B-f16_q8_0.gguf                  10.7 GB
-#MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST
+#MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST A770LE: 842,9 Pt/s 11.0 Gt/s 142W 2.4Ghz - CPU Mid then LOW GOOD Reasoning
 #KernelLLM-f16_q8_0.gguf                         11.1 GB FAST A770LE: 688,5 Pt/s 11,2 Gt/s 137w 2.4Ghz - CPU Low Load GOOD CODE MATH KERNEL
 #Jan-v2-VL-high-f16_q8_0.gguf                    11.4 GB FAST
 #Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4 GB
