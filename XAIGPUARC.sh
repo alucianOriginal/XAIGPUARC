@@ -110,7 +110,7 @@
 #8GB+ GPU A750LE
 
 #OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf           5.5  GB FAST CTX-NPG 8k A770LE: 1233.9 Pt/s 14.4 Gt/s 145w 2.4Ghz - CPU 1+
-#NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.6  GB SLOW 1+
+#NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.6  GB SLOW CTX-NPG 16k iGPU8XE: 28.6 Pt/s 2.3 Gt/s 30w 2.15Ghz -CPU 2++
 #wizardcoder-python-7b-v1.0.Q8_0.gguf            6.7  GB SLOW 2+
 #sauerkrautlm-7b-v1.Q8_0.gguf                    6.7  GB FAST CTX-NPG 8k A770LE: 1364.6 Pt/s 12.1 Gt/s 142w 2.4Ghz - CPU 2+
 
