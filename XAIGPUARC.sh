@@ -20,10 +20,11 @@
 
 #-XAIGPUARC Hardware used to Build and Test
 #-6x Intel ARC 2xA770LE 16GB + 4x750LE 8GB 
-#-90-142 Watt each Card at different LLMs
+#-90-142 Watt Chip Power Draw alone each Card at different LLMs
 #-Example: GPT-OSS-20B-F16 does it very nice at low Wattage
 #-but needs longer than full working MathTutor F16 with 142 Watt
 #-I just use both/multible Models for a better Workflow
+#-All the Hardware is Modded and not Stock Compareable PLS watch your good Cooling and Dust Free System
 #-3x Single and Dual dGPUs on AMD Ryzen 2600 2700x Intel i7 6700K on Z170 RAM 16GB till 128GB
 #-2x Intel iGPU XE Alder Lake Gen + CPU 12700H + 12650H + A730m 12 GB + 6GiB DDR4/5 32GB RAM
 #-1x Intel Core Ultra 7 155H + Meteor Lake 7 Core and 8 Core Xe-LPG 128EU ARC 16GiB
@@ -69,7 +70,7 @@
 #MiroThinker-v1.0-8B-f16_q8_0.gguf               11.4 GB
 #Seed-Coder-8B-Reasoning-f16_q8_0.gguf           11.5 GB
 #Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf     11.7 GB
-#ggml-model-f16.gguf                             12.6 GB SLOW
+#ggml-model-f16.gguf                             12.6 GB FAST LOW CTX/NBATCH 4k/4k A770LE: 1012.7 Pt/s 13.5 Gt/s 
 #gpt-oss-20b-F16.gguf                            12.8 GB SLOW A770LE: 35.5 Pt/s 8.8 Gt/s 90W 2.3Ghz + FULL CPU LOAD GOOD ANSWER
 #Mistral-7B-Instruct-v0.3.fp16.gguf              13.5 GB
 #allenai.Olmo-3-7B-Think.f16.gguf                13.6 GB
@@ -588,8 +589,8 @@ Section 4: Possible Alternatives (if any)"}
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
-local CONTEXT_SIZE=8192 #NEUE WERTE SETZEN 2048 4096 8192 16384
-local PREDICT_TOKENS=8192 #VERRINGERN UM SCHNELLERE ANTWORTEN ZU ERHALTEN
+local CONTEXT_SIZE=4096 #NEUE WERTE SETZEN 2048 4096 8192 16384
+local PREDICT_TOKENS=4096 #VERRINGERN UM SCHNELLERE ANTWORTEN ZU ERHALTEN
 log "🔷STARTE KI ANTWORT AUF IHRER iGPU/dGPU UND CPU MIT FOLGENDEN PARAMETERN**${DEVICE} (ID: ${GPU_ID})** MIT NGL WERT IST GLEICH ${NGL_SET} AUF DIESEM **${FULL_LLAMA_CLI_PATH}**"
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
 error "❌FEHLER AKTUELLER LLAMA UNTERBAU NICHT GEFUNDEN NEUBAU FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
