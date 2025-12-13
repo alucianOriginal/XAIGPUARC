@@ -36,8 +36,8 @@
 #F16 Mode Only:
 #6GB+ GPU A730m/A380/A310
 
-#kani-tts-400m-en-f16_q8_0                       0.53 GB FAST CTX-NPG 8K A770LE: 588.6 Pt/s 62.4 Gt/s 100w 2.4Ghz - CPU LOW VOLTAGE FIRESTARTER
-#baidu.ERNIE-4.5-0.3B-Base-PT.f16.gguf           0.69 GB FAST CTX-NPG 8K A770LE: 469.7 Pt/s 52.5 Gt/s 97w 2.4Ghz + CPU Mid Very Fast and Nice for Low Chat
+#kani-tts-400m-en-f16_q8_0                       0.53 GB FAST CTX-NPG 8K A770LE: 588.6 Pt/s 62.4 Gt/s 100w 2.4Ghz - CPU LOW FIRESTARTER
+#baidu.ERNIE-4.5-0.3B-Base-PT.f16.gguf           0.69 GB FAST CTX-NPG 8K A770LE: 469.7 Pt/s 52.5 Gt/s 97w 2.4Ghz + CPU Mid Low Chat
 #MedScholar-1.5B-f16_q8_0.gguf                   2.1  GB FAST CTX-NPG 8k A770LE: 528.2 Pt/s 25.2 Gt/s 109w 2.4Ghz - CPU Good
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1  GB FAST CTX-NPG 8k A770LE:  Pt/s  Gt/s w 2.4Ghz - CPU Low Load EXT STABLE
 #yasserrmd.DentaInstruct-1.2B.f16.gguf           2.2  GB
@@ -60,7 +60,7 @@
 #granite-4.0-h-tiny-f16_q8_0.gguf                7    GB SLOW
 #Trinity-Nano-Preview-f16_q8_0.gguf              7.2  GB SLOW
 #Qwen3-Embedding-4B-f16.gguf                     7.5  GB SLOW
-#Qwen3-4B-f16.gguf                               7.5  GB FAST CTX-NPG 8k A770LE: 613.4 Pt/s 14.5 Gt/s 120w 2.4Ghz - CPU Very Long Thinking
+#Qwen3-4B-f16.gguf                               7.5  GB FAST CTX-NPG 8k A770LE: 613.4 Pt/s 14.5 Gt/s 120w 2.4Ghz - CPU Very Long Think
 #Nemotron-Mini-4B-Instruct-f16.gguf              7.8  GB FAST CTX-NPG 8k A770LE: 717.8 Pt/s 17.8 Gt/s 118w 2.4Ghz - CPU LOW
 #Minitron-4B-Base.FP16.gguf                      7.8  GB FAST CTX-NPG 4k A770LE: 764.3 Pt/s 16.3 Gt/s 131w 2.4Ghz + CPU Mid Long Run Low Q
 #t5-v1_1-xxl-encoder-f16.gguf                    8.9  GB FAST CTX-NPG 8k A770LE: 361,8 Pt/s 6 Gt/s 101w 2.4Ghz - CPU LOW NICE
@@ -69,11 +69,11 @@
 
 #DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5 GB
 #MiMo-Embodied-7B-f16_q8_0.gguf                  10.7 GB
-#MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST CTX-NPG 8k A770LE: 842.9 Pt/s 11.0 Gt/s 142w 2.4Ghz + CPU Mid then LOW GOOD Reasoning
-#KernelLLM-f16_q8_0.gguf                         11.1 GB FAST CTX-NPG 8k A770LE: 688.5 Pt/s 11.2 Gt/s 137w 2.4Ghz - CPU Low Load GOOD CODE MATH KERNEL
-#Jan-v2-VL-high-f16_q8_0.gguf                    11.4 GB FAST CTX-NPG 8k A770LE: 639.6 Pt/s 10.2 Gt/s 135w 2.4Ghz - CPU Low Load LONG Thinking
+#MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST CTX-NPG 8k A770LE: 842.9 Pt/s 11.0 Gt/s 142w 2.4Ghz + CPU Mid then Low good Think
+#KernelLLM-f16_q8_0.gguf                         11.1 GB FAST CTX-NPG 8k A770LE: 688.5 Pt/s 11.2 Gt/s 137w 2.4Ghz - CPU Low Load Good CODE MATH KERNEL
+#Jan-v2-VL-high-f16_q8_0.gguf                    11.4 GB FAST CTX-NPG 8k A770LE: 639.6 Pt/s 10.2 Gt/s 135w 2.4Ghz - CPU Low Load LONG Think
 #Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4 GB
-#Orchestrator-8B-f16_q8_0.gguf                   11.4 GB FAST CTX-NPG 8k A770LE: 640.4 Pt/s 10.2 Gt/s 134w 2.4Ghz - CPU Low Load LONG Thinking
+#Orchestrator-8B-f16_q8_0.gguf                   11.4 GB FAST CTX-NPG 8k A770LE: 640.4 Pt/s 10.2 Gt/s 134w 2.4Ghz - CPU Low Load LONG Think
 #MiroThinker-v1.0-8B-f16_q8_0.gguf               11.4 GB
 #Seed-Coder-8B-Reasoning-f16_q8_0.gguf           11.5 GB
 #Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf     11.7 GB
@@ -83,7 +83,7 @@
 #Mistral-7B-Instruct-v0.3.fp16.gguf              13.5 GB
 #allenai.Olmo-3-7B-Think.f16.gguf                13.6 GB
 #Mamba-Codestral-7B-v0.1-F16.gguf                13.6 GB SLOW CTX-NPG 8k A770LE: 110.1 Pt/s 3.2  Gt/s 97w 2.4Ghz + CPU FULL LOAD EXT GOOD ANSWER
-#MathTutor-7B-H_v0.0.1.f16.gguf                  14.2 GB FAST CTX-NPG 8k A770LE: 529.7 Pt/s 13.7 Gt/s 142w 2.4Ghz - CPU BEST CASE CODE/MATH/KERNEL
+#MathTutor-7B-H_v0.0.1.f16.gguf                  14.2 GB FAST CTX-NPG 8k A770LE: 529.7 Pt/s 13.7 Gt/s 142w 2.4Ghz - CPU BEST CASE CODE MATH KERNEL
 
 #16+8GB+ Dual GPU A770LE/A750LE
 
