@@ -47,6 +47,7 @@
 #llama3bthinkingonly5B.f16.gguf                  6.0     GB
 
 #10-12GB+ GPU-iGPU-Xe-LPG/A730m/B570/B580/PROA60/B50
+#UIGEN-X-4B-0729-f16_q8_0.gguf                   6.2     GB
 #granite-4.0-h-tiny-f16_q8_0.gguf                7       GB
 #Trinity-Nano-Preview-f16_q8_0.gguf              7.2     GB
 #Qwen3-Embedding-4B-f16.gguf                     7.5     GB
