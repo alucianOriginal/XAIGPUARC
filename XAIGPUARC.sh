@@ -80,7 +80,7 @@
 #Seed-Coder-8B-Reasoning-f16_q8_0.gguf           11.5 GB
 #Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf     11.7 GB
 #ggml-model-f16.gguf                             12.6 GB FAST CTX-NPG 4k A770LE: 1012.7 Pt/s 13.5 Gt/s 142w 2.4Ghz - CPU Not Stable
-#gpt-oss-20b-F16.gguf                            12.8 GB SLOW CTX-NPG 8k A770LE: 35.5 Pt/s 8.8 Gt/s 90W 2.3Ghz + FULL CPU HQ
+#gpt-oss-20b-F16.gguf                            12.8 GB SLOW CTX-NPG 16k A770LE: 34.5 Pt/s 7.7 Gt/s 90W 2.3Ghz + FULL CPU HQ
 #Navid-AI.Yehia-7B-preview.f16.gguf              13   GB FAST CTX-NPG 4k A770LE: 1273.4 Pt/s 13.4 Gt/s 142w 2.4Ghz - CPU HQ
 #Mistral-7B-Instruct-v0.3.fp16.gguf              13.5 GB
 #allenai.Olmo-3-7B-Think.f16.gguf                13.6 GB
