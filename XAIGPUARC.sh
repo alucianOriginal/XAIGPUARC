@@ -61,16 +61,16 @@
 #16GB+ GPU A770LE + iGPU Meteor Lake
 #DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5 GB
 #MiMo-Embodied-7B-f16_q8_0.gguf                  10.7 GB
-#MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST A770LE: 842,9 Pt/s 11.0 Gt/s 142W 2.4Ghz - CPU Mid then LOW GOOD Reasoning
+#MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST A770LE: 842,9 Pt/s 11.0 Gt/s 142W 2.4Ghz + CPU Mid then LOW GOOD Reasoning
 #KernelLLM-f16_q8_0.gguf                         11.1 GB FAST A770LE: 688,5 Pt/s 11,2 Gt/s 137w 2.4Ghz - CPU Low Load GOOD CODE MATH KERNEL
-#Jan-v2-VL-high-f16_q8_0.gguf                    11.4 GB FAST
+#Jan-v2-VL-high-f16_q8_0.gguf                    11.4 GB FAST A770LE: 639,6 Pt/s 10,2 Gt/s 135w 2.4Ghz - CPU Low Load LONG Thinking
 #Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4 GB
 #Orchestrator-8B-f16_q8_0.gguf                   11.4 GB FAST
 #MiroThinker-v1.0-8B-f16_q8_0.gguf               11.4 GB
 #Seed-Coder-8B-Reasoning-f16_q8_0.gguf           11.5 GB
 #Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf     11.7 GB
 #ggml-model-f16.gguf                             12.6 GB SLOW
-#gpt-oss-20b-F16.gguf                            12.8 GB SLOW
+#gpt-oss-20b-F16.gguf                            12.8 GB SLOW A770LE: 35,5 Pt/s 8,8 Gt/s 90W 2.3Ghz + FULL CPU LOAD GOOD ANSWER
 #Mistral-7B-Instruct-v0.3.fp16.gguf              13.5 GB
 #allenai.Olmo-3-7B-Think.f16.gguf                13.6 GB
 #Mamba-Codestral-7B-v0.1-F16.gguf                13.6 GB SLOW A770LE: 110.1 Pt/s 3.2  Gt/s 97w 2.4Ghz + CPU FULL LOAD EXT GOOD ANSWER
@@ -102,7 +102,7 @@
 #Qwen3-16B-A3B-IQ4_NL.gguf                       8.5  GB FAST
 #Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7  GB FAST
 #solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf  10.6 GB FAST
-#gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3 GB SLOW
+#gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3 GB SLOW A770LE: 35,4 Pt/s 8,7 Gt/s 92W 2.2Ghz + FULL CPU LOAD GOOD ANSWER
 #gpt-oss-20b-mxfp4.gguf                          11.3 GB SLOW
 #velara-11b-v2.Q8_0.gguf                         11.3 GB FAST
 
