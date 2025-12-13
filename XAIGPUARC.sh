@@ -116,7 +116,7 @@
 #10-12GB+ iGPU Xe-LPG/A730m/A580/B570/B580/PRO60/B50
 
 #Qwen3-16B-A3B-IQ4_NL.gguf                       8.5  GB FAST 2++
-#Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7  GB SLOW CTX-NPG 16k iGPU8XE: 9.6 Pt/s 4.6 Gt/s 30w 2.25Ghz -CPU TK 2+
+#Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7  GB SLOW CTX-NPG 16k iGPU8XE: 16.3 Pt/s 4.0 Gt/s 30w 2.25Ghz -CPU TK 2+
 #solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf  10.6 GB FAST CTX-NPG 16k A770LE: 985.6 Pt/s 7.5 Gt/s 135w 2.4Ghz - CPU 1++
 #gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3 GB SLOW CTX-NPG 8k A770LE: 35.4 Pt/s 8.7 Gt/s 92W 2.2Ghz + FULL CPU 3++
 #gpt-oss-20b-mxfp4.gguf                          11.3 GB SLOW 3++
