@@ -35,10 +35,11 @@
 
 #F16 Mode Only:
 #6GB+ GPU A730m/A380/A310
+#baidu.ERNIE-4.5-0.3B-Base-PT.f16.gguf           0.69 GB FAST CTX-NPG 8K A770LE: 469.7 Pt/s 52.5 Gt/s 97w 2.4Ghz + CPU Mid Very Fast and Nice for Low Chat
 #MedScholar-1.5B-f16_q8_0.gguf                   2.1  GB
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1  GB FAST CTX-NPG 8k A770LE:  Pt/s  Gt/s w 2.4Ghz - CPU Low Load EXT STABLE
 #yasserrmd.DentaInstruct-1.2B.f16.gguf           2.2  GB
-#DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2  GB
+#DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2  GB FAST CTX-NPG 8k A770LE: 513.2 Pt/s 23.3 Gt/s 112w 2.3Ghz - CPU Mid Think only EZ Task
 #ibm-granite.granite-4.0-1b.f16.gguf             3    GB SLOW CTX-NPG 8k A770LE: 569.4 Pt/s 18.2 Gt/s 120w 2.3Ghz - CPU Low Load GPU INF not Stable
 #Lucy-1.7B-F16.gguf                              3.2  GB FAST CTX-NPG 8k A770LE: 572.7 Pt/s 23.2 Gt/s 108w 2.4Ghz - CPU Low Load EXT STABLE
 #granite-4.0-micro-f16_q8_0.gguf                 4.6  GB
@@ -58,6 +59,7 @@
 #Qwen3-4B-f16.gguf                               7.5  GB SLOW
 #Nemotron-Mini-4B-Instruct-f16.gguf              7.8  GB FAST CTX-NPG 8k A770LE: 717.8 Pt/s 17.8 Gt/s 118w 2.4Ghz - CPU EXT LOW AND FAST
 #Minitron-4B-Base.FP16.gguf                      7.8  GB SLOW
+#t5-v1_1-xxl-encoder-f16.gguf                    8.9  GB FAST CTX-NPG 8k A770LE: 361,8 Pt/s 6 Gt/s 101w 2.4Ghz - CPU LOW NICE FAST
 
 #16GB+ GPU A770LE + iGPU Meteor Lake
 #DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5 GB
@@ -66,7 +68,7 @@
 #KernelLLM-f16_q8_0.gguf                         11.1 GB FAST CTX-NPG 8k A770LE: 688.5 Pt/s 11.2 Gt/s 137w 2.4Ghz - CPU Low Load GOOD CODE MATH KERNEL
 #Jan-v2-VL-high-f16_q8_0.gguf                    11.4 GB FAST CTX-NPG 8k A770LE: 639.6 Pt/s 10.2 Gt/s 135w 2.4Ghz - CPU Low Load LONG Thinking
 #Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4 GB
-#Orchestrator-8B-f16_q8_0.gguf                   11.4 GB FAST
+#Orchestrator-8B-f16_q8_0.gguf                   11.4 GB FAST CTX-NPG 8k A770LE: 640.4 Pt/s 10.2 Gt/s 134w 2.4Ghz - CPU Low Load LONG Thinking
 #MiroThinker-v1.0-8B-f16_q8_0.gguf               11.4 GB
 #Seed-Coder-8B-Reasoning-f16_q8_0.gguf           11.5 GB
 #Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf     11.7 GB
