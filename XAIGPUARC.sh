@@ -72,6 +72,7 @@
 #Qwen3-Embedding-4B-f16.gguf                     7.5  GB SLOW 5+
 #Qwen3-4B-f16.gguf                               7.5  GB FAST CTX-NPG 8k A770LE: 613.4 Pt/s 14.5 Gt/s 120w 2.4Ghz - CPU TK 1+
 #Nemotron-Mini-4B-Instruct-f16.gguf              7.8  GB FAST CTX-NPG 8k A770LE: 717.8 Pt/s 17.8 Gt/s 118w 2.4Ghz - CPU 2+
+#                                                        SLOW CTX-NPG 16k iGPU8XE: 534.8 Pt/s 6.5 Gt/s 30w 2.25Ghz -CPU 1++
 #Minitron-4B-Base.FP16.gguf                      7.8  GB FAST CTX-NPG 4k A770LE: 764.3 Pt/s 16.3 Gt/s 131w 2.4Ghz + CPU Mid 4+
 #t5-v1_1-xxl-encoder-f16.gguf                    8.9  GB FAST CTX-NPG 8k A770LE: 361,8 Pt/s 6 Gt/s 101w 2.4Ghz - CPU 2++
 
