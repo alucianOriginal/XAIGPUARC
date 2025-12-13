@@ -52,7 +52,7 @@
 #                                                        FAST CTX-NPG 16k A730m: 382.2 Pt/s 14.7 Gt/s 65w 2.2Ghz -CPU TK 1++
 #                                                        FAST CTX-NPG 16k iGPU8XE: 2384.5 Pt/s 9.0 Gt/s 30w 2.25Ghz -CPU TK 1++
 #granite-4.0-micro-f16_q8_0.gguf                 4.6  GB 5+
-#gemma-2-2b-it.F16.gguf                          4.9  GB FAST 2+
+#gemma-2-2b-it.F16.gguf                          4.9  GB FAST CTX-NPG 16k A730m: 305.8 Pt/s 14.4 Gt/s 65w 2.2Ghz -CPU 2+
 
 #8GB+ GPU A750LE
 
