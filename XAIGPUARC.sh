@@ -35,17 +35,17 @@
 #F16 Mode Only:
 #6GB+ GPU A730m/A380/A310
 #MedScholar-1.5B-f16_q8_0.gguf                   2.1  GB
-#Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1  GB FAST
+#Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1  GB FAST A770LE:  Pt/s  Gt/s w 2.4Ghz - CPU Low Load EXT STABLE
 #yasserrmd.DentaInstruct-1.2B.f16.gguf           2.2  GB
 #DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2  GB
-#ibm-granite.granite-4.0-1b.f16.gguf             3    GB SLOW A770LE: 569,4 Pt/s 18.2 Gt/s 120w 2.3Ghz - CPU Low Load GPU INF not Stable
+#ibm-granite.granite-4.0-1b.f16.gguf             3    GB SLOW A770LE: 569.4 Pt/s 18.2 Gt/s 120w 2.3Ghz - CPU Low Load GPU INF not Stable
 #Lucy-1.7B-F16.gguf                              3.2  GB FAST A770LE: 572.7 Pt/s 23.2 Gt/s 108w 2.4Ghz - CPU Low Load EXT STABLE
 #granite-4.0-micro-f16_q8_0.gguf                 4.6  GB
 #gemma-2-2b-it.F16.gguf                          4.9  GB FAST
 
 #8GB+ GPU A750LE
-#Fathom-Search-4B-f16_q8_0.gguf                  5.5  GB FAST A770LE: 569,4 Pt/s 18.2 Gt/s 118w 2.4Ghz - CPU Low Load
-#Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7  GB FAST
+#Fathom-Search-4B-f16_q8_0.gguf                  5.5  GB FAST A770LE: 569.4 Pt/s 18.2 Gt/s 118w 2.4Ghz - CPU Low Load
+#Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7  GB FAST A770LE: 511.5 Pt/s 19.7 Gt/s 142w 2.4Ghz - CPU Low Load EXT FAST
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8  GB FAST
 #llama3bthinkingonly5B.f16.gguf                  6.0  GB SLOW
 
@@ -55,26 +55,26 @@
 #Trinity-Nano-Preview-f16_q8_0.gguf              7.2  GB SLOW
 #Qwen3-Embedding-4B-f16.gguf                     7.5  GB SLOW
 #Qwen3-4B-f16.gguf                               7.5  GB SLOW
-#Nemotron-Mini-4B-Instruct-f16.gguf              7.8  GB FAST A770LE: 717,8 Pt/s 17,8 Gt/s 118w 2.4Ghz - CPU EXT LOW AND FAST
+#Nemotron-Mini-4B-Instruct-f16.gguf              7.8  GB FAST A770LE: 717.8 Pt/s 17.8 Gt/s 118w 2.4Ghz - CPU EXT LOW AND FAST
 #Minitron-4B-Base.FP16.gguf                      7.8  GB SLOW
 
 #16GB+ GPU A770LE + iGPU Meteor Lake
 #DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5 GB
 #MiMo-Embodied-7B-f16_q8_0.gguf                  10.7 GB
-#MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST A770LE: 842,9 Pt/s 11.0 Gt/s 142W 2.4Ghz + CPU Mid then LOW GOOD Reasoning
-#KernelLLM-f16_q8_0.gguf                         11.1 GB FAST A770LE: 688,5 Pt/s 11,2 Gt/s 137w 2.4Ghz - CPU Low Load GOOD CODE MATH KERNEL
-#Jan-v2-VL-high-f16_q8_0.gguf                    11.4 GB FAST A770LE: 639,6 Pt/s 10,2 Gt/s 135w 2.4Ghz - CPU Low Load LONG Thinking
+#MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST A770LE: 842.9 Pt/s 11.0 Gt/s 142w 2.4Ghz + CPU Mid then LOW GOOD Reasoning
+#KernelLLM-f16_q8_0.gguf                         11.1 GB FAST A770LE: 688.5 Pt/s 11.2 Gt/s 137w 2.4Ghz - CPU Low Load GOOD CODE MATH KERNEL
+#Jan-v2-VL-high-f16_q8_0.gguf                    11.4 GB FAST A770LE: 639.6 Pt/s 10.2 Gt/s 135w 2.4Ghz - CPU Low Load LONG Thinking
 #Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4 GB
 #Orchestrator-8B-f16_q8_0.gguf                   11.4 GB FAST
 #MiroThinker-v1.0-8B-f16_q8_0.gguf               11.4 GB
 #Seed-Coder-8B-Reasoning-f16_q8_0.gguf           11.5 GB
 #Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf     11.7 GB
 #ggml-model-f16.gguf                             12.6 GB SLOW
-#gpt-oss-20b-F16.gguf                            12.8 GB SLOW A770LE: 35,5 Pt/s 8,8 Gt/s 90W 2.3Ghz + FULL CPU LOAD GOOD ANSWER
+#gpt-oss-20b-F16.gguf                            12.8 GB SLOW A770LE: 35.5 Pt/s 8.8 Gt/s 90W 2.3Ghz + FULL CPU LOAD GOOD ANSWER
 #Mistral-7B-Instruct-v0.3.fp16.gguf              13.5 GB
 #allenai.Olmo-3-7B-Think.f16.gguf                13.6 GB
 #Mamba-Codestral-7B-v0.1-F16.gguf                13.6 GB SLOW A770LE: 110.1 Pt/s 3.2  Gt/s 97w 2.4Ghz + CPU FULL LOAD EXT GOOD ANSWER
-#MathTutor-7B-H_v0.0.1.f16.gguf                  14.2 GB FAST A770LE: 529,7 Pt/s 13.7 Gt/s 142w 2.4Ghz - CPU Low Load BEST CASE CODE/MATH/KERNEL
+#MathTutor-7B-H_v0.0.1.f16.gguf                  14.2 GB FAST A770LE: 529.7 Pt/s 13.7 Gt/s 142w 2.4Ghz - CPU Low Load BEST CASE CODE/MATH/KERNEL
 
 #16+8GB+ Dual GPU A770LE/A750LE
 #OpenReasoning-Nemotron-7B-F16.gguf              14.1 GB
@@ -102,7 +102,7 @@
 #Qwen3-16B-A3B-IQ4_NL.gguf                       8.5  GB FAST
 #Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7  GB FAST
 #solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf  10.6 GB FAST
-#gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3 GB SLOW A770LE: 35,4 Pt/s 8,7 Gt/s 92W 2.2Ghz + FULL CPU LOAD GOOD ANSWER
+#gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3 GB SLOW A770LE: 35.4 Pt/s 8.7 Gt/s 92W 2.2Ghz + FULL CPU LOAD GOOD ANSWER
 #gpt-oss-20b-mxfp4.gguf                          11.3 GB SLOW
 #velara-11b-v2.Q8_0.gguf                         11.3 GB FAST
 
