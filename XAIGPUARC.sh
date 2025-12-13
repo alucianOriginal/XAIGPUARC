@@ -94,7 +94,6 @@
 #END F16 MODEL LIST
 
 #START Q8-Q4-IQ4-2 MODEL LIST NOT F16!
-
 #6GB+ GPU A730m/A380/A310
 
 #phi-2.Q4_K_M.gguf                               1.7  GB FAST CTX-NPG 8k A770LE: 888.6 Pt/s 25.4 Gt/s 128w 2.4Ghz - CPU 1++
