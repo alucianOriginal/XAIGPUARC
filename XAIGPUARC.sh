@@ -93,7 +93,7 @@
 #START Q8-Q4-IQ4-2 MODEL LIST NOT F16!
 
 #6GB+ GPU A730m/A380/A310
-#phi-2.Q4_K_M.gguf                               1.7  GB FAST
+#phi-2.Q4_K_M.gguf                               1.7  GB FAST CTX-NPG 8k A770LE: 888.6 Pt/s 25.4 Gt/s 128w 2.4Ghz - CPU EXTREME NICE
 #openhermes-2.5-mistral-7b.Q4_K_M.gguf           4.1  GB FAST
 #mistral-7b-instruct-v0.2.Q4_K_M.gguf            4.1  GB SLOW
 
@@ -112,7 +112,7 @@
 #velara-11b-v2.Q8_0.gguf                         11.3 GB FAST
 
 #16+8GB+ Dual GPU A770LE/A750LE
-#flux1-kontext-dev-Q8_0.gguf                     11.8 GB
+#flux1-kontext-dev-Q8_0.gguf                     11.8 GB NO SUPPORT FOR FLUX IN THE MOMENT
 #wizardcoder-python-13b-v1.0.Q8_0.gguf           12.9 GB
 #Deepseek-Coder-V2-Lite-13B-
 #Instruct-sft-s1K.i1-Q6_K.gguf                   13.1 GB
