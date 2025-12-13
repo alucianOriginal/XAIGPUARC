@@ -62,9 +62,9 @@
 #10-12GB+ iGPU Xe-LPG/A730m/A580/B570/B580/PROA60/B50
 
 #UIGEN-X-4B-0729-f16_q8_0.gguf                   6.2  GB
-#granite-4.0-h-tiny-f16_q8_0.gguf                7    GB SLOW
-#Trinity-Nano-Preview-f16_q8_0.gguf              7.2  GB SLOW
-#Qwen3-Embedding-4B-f16.gguf                     7.5  GB SLOW
+#granite-4.0-h-tiny-f16_q8_0.gguf                7    GB SLOW 4+
+#Trinity-Nano-Preview-f16_q8_0.gguf              7.2  GB SLOW 3+
+#Qwen3-Embedding-4B-f16.gguf                     7.5  GB SLOW 5+
 #Qwen3-4B-f16.gguf                               7.5  GB FAST CTX-NPG 8k A770LE: 613.4 Pt/s 14.5 Gt/s 120w 2.4Ghz - CPU TK 1+
 #Nemotron-Mini-4B-Instruct-f16.gguf              7.8  GB FAST CTX-NPG 8k A770LE: 717.8 Pt/s 17.8 Gt/s 118w 2.4Ghz - CPU 2+
 #Minitron-4B-Base.FP16.gguf                      7.8  GB FAST CTX-NPG 4k A770LE: 764.3 Pt/s 16.3 Gt/s 131w 2.4Ghz + CPU Mid 4+
@@ -72,20 +72,20 @@
 
 #16GB+ GPU A770LE + iGPU Meteor Lake
 
-#DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5 GB
+#DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5 GB FAST 2++
 #MiMo-Embodied-7B-f16_q8_0.gguf                  10.7 GB
 #MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST CTX-NPG 8k A770LE: 842.9 Pt/s 11.0 Gt/s 142w 2.4Ghz + CPU Mid TK 2+++
 #KernelLLM-f16_q8_0.gguf                         11.1 GB FAST CTX-NPG 8k A770LE: 688.5 Pt/s 11.2 Gt/s 137w 2.4Ghz - CPU 1+
 #Jan-v2-VL-high-f16_q8_0.gguf                    11.4 GB FAST CTX-NPG 8k A770LE: 639.6 Pt/s 10.2 Gt/s 135w 2.4Ghz - CPU TK 2+
-#Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4 GB
+#Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4 GB 2+
 #Orchestrator-8B-f16_q8_0.gguf                   11.4 GB FAST CTX-NPG 16k A770LE: 643.3 Pt/s 10.1 Gt/s 134w 2.4Ghz - CPU TK 2+
-#MiroThinker-v1.0-8B-f16_q8_0.gguf               11.4 GB
-#Seed-Coder-8B-Reasoning-f16_q8_0.gguf           11.5 GB
-#Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf     11.7 GB
+#MiroThinker-v1.0-8B-f16_q8_0.gguf               11.4 GB 2+
+#Seed-Coder-8B-Reasoning-f16_q8_0.gguf           11.5 GB 2+
+#Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf     11.7 GB 2+
 #ggml-model-f16.gguf                             12.6 GB FAST CTX-NPG 4k A770LE: 1012.7 Pt/s 13.5 Gt/s 142w 2.4Ghz - CPU 4+
 #gpt-oss-20b-F16.gguf                            12.8 GB SLOW CTX-NPG 16k A770LE: 34.5 Pt/s 7.7 Gt/s 90W 2.3Ghz + FULL CPU 1+
 #Navid-AI.Yehia-7B-preview.f16.gguf              13   GB FAST CTX-NPG 4k A770LE: 1273.4 Pt/s 13.4 Gt/s 142w 2.4Ghz - CPU 1++
-#Mistral-7B-Instruct-v0.3.fp16.gguf              13.5 GB
+#Mistral-7B-Instruct-v0.3.fp16.gguf              13.5 GB 2+
 #allenai.Olmo-3-7B-Think.f16.gguf                13.6 GB
 #Mamba-Codestral-7B-v0.1-F16.gguf                13.6 GB SLOW CTX-NPG 16k A770LE: 110.1 Pt/s 3.2 Gt/s 97w 2.4Ghz + CPU FULL 2+
 #MathTutor-7B-H_v0.0.1.f16.gguf                  14.2 GB FAST CTX-NPG 16k A770LE: 525.0 Pt/s 13.8 Gt/s 142w 2.4Ghz - CPU 1+++
@@ -96,20 +96,20 @@
 #6GB+ GPU A730m/A380/A310
 
 #phi-2.Q4_K_M.gguf                               1.7  GB FAST CTX-NPG 8k A770LE: 888.6 Pt/s 25.4 Gt/s 128w 2.4Ghz - CPU 1++
-#openhermes-2.5-mistral-7b.Q4_K_M.gguf           4.1  GB FAST
-#mistral-7b-instruct-v0.2.Q4_K_M.gguf            4.1  GB SLOW
+#openhermes-2.5-mistral-7b.Q4_K_M.gguf           4.1  GB FAST 2++
+#mistral-7b-instruct-v0.2.Q4_K_M.gguf            4.1  GB SLOW 2+
 
 #8GB+ GPU A750LE
 
 #OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf           5.5  GB FAST CTX-NPG 8k A770LE: 1233.9 Pt/s 14.4 Gt/s 145w 2.4Ghz - CPU 1+
-#NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.6  GB SLOW
-#wizardcoder-python-7b-v1.0.Q8_0.gguf            6.7  GB SLOW
+#NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.6  GB SLOW 1+
+#wizardcoder-python-7b-v1.0.Q8_0.gguf            6.7  GB SLOW 2+
 #sauerkrautlm-7b-v1.Q8_0.gguf                    6.7  GB FAST CTX-NPG 8k A770LE: 1364.6 Pt/s 12.1 Gt/s 142w 2.4Ghz - CPU 2+
 
 #10-12GB+ iGPU Xe-LPG/A730m/A580/B570/B580/PRO60/B50
 
-#Qwen3-16B-A3B-IQ4_NL.gguf                       8.5  GB FAST
-#Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7  GB FAST 
+#Qwen3-16B-A3B-IQ4_NL.gguf                       8.5  GB FAST 2++
+#Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7  GB FAST 3+
 #solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf  10.6 GB FAST CTX-NPG 16k A770LE: 985.6 Pt/s 7.5 Gt/s 135w 2.4Ghz - CPU 1++
 #gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3 GB SLOW CTX-NPG 8k A770LE: 35.4 Pt/s 8.7 Gt/s 92W 2.2Ghz + FULL CPU 3++
 #gpt-oss-20b-mxfp4.gguf                          11.3 GB SLOW 3++
