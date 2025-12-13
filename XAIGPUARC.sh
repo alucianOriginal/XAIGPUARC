@@ -36,7 +36,7 @@
 #F16 Mode Only:
 #6GB+ GPU A730m/A380/A310
 
-#kani-tts-400m-en-f16_q8_0                       0.53 GB FAST CTX-NPG 8K A770LE: 588.6 Pt/s 62.4 Gt/s 100w 2.4Ghz - CPU LOW FIRESTARTER
+#kani-tts-400m-en-f16_q8_0.gguf                       0.53 GB FAST CTX-NPG 8K A770LE: 588.6 Pt/s 62.4 Gt/s 100w 2.4Ghz - CPU LOW FIRESTARTER
 #baidu.ERNIE-4.5-0.3B-Base-PT.f16.gguf           0.69 GB FAST CTX-NPG 8K A770LE: 469.7 Pt/s 52.5 Gt/s 97w 2.4Ghz + CPU Mid Low Chat
 #MedScholar-1.5B-f16_q8_0.gguf                   2.1  GB FAST CTX-NPG 8k A770LE: 528.2 Pt/s 25.2 Gt/s 109w 2.4Ghz - CPU Good
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1  GB FAST
@@ -54,7 +54,7 @@
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8  GB FAST
 #llama3bthinkingonly5B.f16.gguf                  6.0  GB SLOW
 
-#10-12GB+ GPU-iGPU-Xe-LPG/A730m/B570/B580/PROA60/B50
+#10-12GB+ iGPU Xe-LPG/A730m/B570/B580/PROA60/B50
 
 #UIGEN-X-4B-0729-f16_q8_0.gguf                   6.2  GB
 #granite-4.0-h-tiny-f16_q8_0.gguf                7    GB SLOW
@@ -85,7 +85,7 @@
 #Mamba-Codestral-7B-v0.1-F16.gguf                13.6 GB SLOW CTX-NPG 8k A770LE: 110.1 Pt/s 3.2  Gt/s 97w 2.4Ghz + CPU FULL LOAD EXT GOOD ANSWER
 #MathTutor-7B-H_v0.0.1.f16.gguf                  14.2 GB FAST CTX-NPG 8k A770LE: 529.7 Pt/s 13.7 Gt/s 142w 2.4Ghz - CPU BEST CASE CODE MATH KERNEL
 
-#16+8GB+ Dual GPU A770LE/A750LE
+#16+8GB Dual GPU A770LE/A750LE
 
 #ByteDance-Seed.Seed-X-RM-7B.f16.gguf            13.5 GB
 #OpenReasoning-Nemotron-7B-F16.gguf              14.1 GB
@@ -110,7 +110,7 @@
 #wizardcoder-python-7b-v1.0.Q8_0.gguf            6.7  GB SLOW
 #sauerkrautlm-7b-v1.Q8_0.gguf                    6.7  GB FAST CTX-NPG 8k A770LE: 1364.6 Pt/s 12.1 Gt/s 142w 2.4Ghz - CPU Low Oldscool
 
-#10-12GB+ GPU-iGPU-Xe-LPG/A730m/B570/B580/PRO
+#10-12GB+ iGPU Xe-LPG/A730m/B570/B580/PRO60/B50
 
 #Qwen3-16B-A3B-IQ4_NL.gguf                       8.5  GB FAST
 #Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7  GB FAST
@@ -119,7 +119,7 @@
 #gpt-oss-20b-mxfp4.gguf                          11.3 GB SLOW
 #velara-11b-v2.Q8_0.gguf                         11.3 GB FAST
 
-#16+8GB+ Dual GPU A770LE/A750LE
+#16+8GB Dual GPU A770LE/A750LE
 
 #flux1-kontext-dev-Q8_0.gguf                     11.8 GB NO SUPPORT FOR FLUX IN THE MOMENT
 #wizardcoder-python-13b-v1.0.Q8_0.gguf           12.9 GB
