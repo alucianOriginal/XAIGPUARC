@@ -73,10 +73,10 @@
 #gpt-oss-20b-F16.gguf                            12.8    GB
 #Mistral-7B-Instruct-v0.3.fp16.gguf              13.5    GB
 #allenai.Olmo-3-7B-Think.f16.gguf                13.6    GB
-#OpenReasoning-Nemotron-7B-F16.gguf              14.1    GB
 #MathTutor-7B-H_v0.0.1.f16.gguf                  14.2    GB
 
 #16+8GB+ Dual GPU A770LE/A750LE
+#OpenReasoning-Nemotron-7B-F16.gguf              14.1    GB
 #GigaChat3-10B-A1.8B-f16_q8_0.gguf               14.2    GB
 #Qwen3-VL-8B-Instruct.F16.gguf                   15.3    GB
 #LFM2-8B-A1B-F16.gguf                            15.5    GB
