@@ -41,7 +41,8 @@
 #Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7     GB
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8     GB
 #llama3bthinkingonly5B.f16.gguf                  6.0     GB
-#10-12GB+ GPU-iGPU-Xe-LPG/A730m/B570/B580/PRO
+#10-12GB+ GPU-iGPU-Xe-LPG/A730m/B570/B580/PROA60/B50
+#granite-4.0-h-tiny-f16_q8_0.gguf                7       GB
 #Trinity-Nano-Preview-f16_q8_0.gguf              7.2     GB
 #Qwen3-Embedding-4B-f16.gguf                     7.5     GB
 #Qwen3-4B-f16.gguf                               7.5     GB
