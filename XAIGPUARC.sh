@@ -45,7 +45,7 @@
 #yasserrmd.DentaInstruct-1.2B.f16.gguf           2.2  GB
 #DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2  GB FAST CTX-NPG 8k A770LE: 513.2 Pt/s 23.3 Gt/s 112w 2.3Ghz + CPU Mid Think EZ Task
 #ibm-granite.granite-4.0-1b.f16.gguf             3    GB SLOW CTX-NPG 8k A770LE: 569.4 Pt/s 18.2 Gt/s 120w 2.3Ghz - CPU GPU INF NOT STABLE
-#Lucy-1.7B-F16.gguf                              3.2  GB FAST CTX-NPG 8k A770LE: 572.7 Pt/s 23.2 Gt/s 108w 2.4Ghz - CPU EXT STABLE
+#Lucy-1.7B-F16.gguf                              3.2  GB FAST CTX-NPG 16k A770LE: 572.7 Pt/s 23.2 Gt/s 108w 2.4Ghz - CPU EXT STABLE
 #granite-4.0-micro-f16_q8_0.gguf                 4.6  GB
 #gemma-2-2b-it.F16.gguf                          4.9  GB FAST
 
