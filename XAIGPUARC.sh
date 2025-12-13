@@ -37,6 +37,7 @@
 #MedScholar-1.5B-f16_q8_0.gguf                   2.1     GB
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1     GB
 #DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2     GB
+#ibm-granite.granite-4.0-1b.f16.gguf             3       GB
 #granite-4.0-micro-f16_q8_0.gguf                 4.6     GB
 #gemma-2-2b-it.F16.gguf                          4.9     GB
 
