@@ -39,6 +39,7 @@
 #yasserrmd.DentaInstruct-1.2B.f16.gguf           2.2     GB
 #DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2     GB
 #ibm-granite.granite-4.0-1b.f16.gguf             3       GB
+#Lucy-1.7B-F16.gguf                              3.2     GB
 #granite-4.0-micro-f16_q8_0.gguf                 4.6     GB
 #gemma-2-2b-it.F16.gguf                          4.9     GB
 
