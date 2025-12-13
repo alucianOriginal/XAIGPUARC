@@ -36,11 +36,14 @@
 #6GB+ GPU A730m/A380/A310
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1     GB
 #DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2     GB
+#granite-4.0-micro-f16_q8_0.gguf                 4.6     GB
 #gemma-2-2b-it.F16.gguf                          4.9     GB
+
 #8GB+ GPU A750LE
 #Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7     GB
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8     GB
 #llama3bthinkingonly5B.f16.gguf                  6.0     GB
+
 #10-12GB+ GPU-iGPU-Xe-LPG/A730m/B570/B580/PROA60/B50
 #granite-4.0-h-tiny-f16_q8_0.gguf                7       GB
 #Trinity-Nano-Preview-f16_q8_0.gguf              7.2     GB
@@ -48,6 +51,7 @@
 #Qwen3-4B-f16.gguf                               7.5     GB
 #Nemotron-Mini-4B-Instruct-f16.gguf              7.8     GB
 #Minitron-4B-Base.FP16.gguf                      7.8     GB
+
 #16GB+ GPU A770LE
 #DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5    GB
 #MiMo-Embodied-7B-f16_q8_0.gguf                  10.7    GB
@@ -64,24 +68,28 @@
 #Mistral-7B-Instruct-v0.3.fp16.gguf              13.5    GB
 #OpenReasoning-Nemotron-7B-F16.gguf              14.1    GB
 #MathTutor-7B-H_v0.0.1.f16.gguf                  14.2    GB
+
 #16+8GB+ Dual GPU A770LE/A750LE
 #GigaChat3-10B-A1.8B-f16_q8_0.gguf               14.2    GB
 #Qwen3-VL-8B-Instruct.F16.gguf                   15.3    GB
 #LFM2-8B-A1B-F16.gguf                            15.5    GB
 #NVIDIA-Nemotron-Nano-9B-v2-FP16.gguf            16.6    GB
 #NVIDIA-Nemotron-Nano-12B-v2-F16.gguf            22.9    GB
-
 #END F16 MODEL LIST
+
 #START Q8-Q4-IQ4-2 MODEL LIST NOT F16!
+
 #6GB+ GPU A730m/A380/A310
 #phi-2.Q4_K_M.gguf                               1.7     GB
 #openhermes-2.5-mistral-7b.Q4_K_M.gguf           4.1     GB 
 #mistral-7b-instruct-v0.2.Q4_K_M.gguf            4.1     GB
+
 #8GB+ GPU A750LE
 #OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf           5.5     GB
 #NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.6     GB
 #wizardcoder-python-7b-v1.0.Q8_0.gguf            6.7     GB
 #sauerkrautlm-7b-v1.Q8_0.gguf                    6.7     GB
+
 #10-12GB+ GPU-iGPU-Xe-LPG/A730m/B570/B580/PRO
 #Qwen3-16B-A3B-IQ4_NL.gguf                       8.5     GB
 #Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7     GB
@@ -89,6 +97,7 @@
 #gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3    GB
 #gpt-oss-20b-mxfp4.gguf                          11.3    GB
 #velara-11b-v2.Q8_0.gguf                         11.3    GB
+
 #16+8GB+ Dual GPU A770LE/A750LE
 #flux1-kontext-dev-Q8_0.gguf                     11.8    GB
 #wizardcoder-python-13b-v1.0.Q8_0.gguf           12.9    GB
