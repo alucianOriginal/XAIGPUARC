@@ -39,7 +39,7 @@
 #kani-tts-400m-en-f16_q8_0                       0.53 GB FAST CTX-NPG 8K A770LE: 588.6 Pt/s 62.4 Gt/s 100w 2.4Ghz - CPU LOW FIRESTARTER
 #baidu.ERNIE-4.5-0.3B-Base-PT.f16.gguf           0.69 GB FAST CTX-NPG 8K A770LE: 469.7 Pt/s 52.5 Gt/s 97w 2.4Ghz + CPU Mid Low Chat
 #MedScholar-1.5B-f16_q8_0.gguf                   2.1  GB FAST CTX-NPG 8k A770LE: 528.2 Pt/s 25.2 Gt/s 109w 2.4Ghz - CPU Good
-#Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1  GB FAST CTX-NPG 8k A770LE:  Pt/s  Gt/s w 2.4Ghz - CPU Low Load EXT STABLE
+#Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1  GB FAST
 #yasserrmd.DentaInstruct-1.2B.f16.gguf           2.2  GB
 #DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2  GB FAST CTX-NPG 8k A770LE: 513.2 Pt/s 23.3 Gt/s 112w 2.3Ghz + CPU Mid Think only EZ Task
 #ibm-granite.granite-4.0-1b.f16.gguf             3    GB SLOW CTX-NPG 8k A770LE: 569.4 Pt/s 18.2 Gt/s 120w 2.3Ghz - CPU Low Load GPU INF not Stable
