@@ -62,14 +62,9 @@
 #MiniCPM-V-4-f16.gguf                            6.7  GB FAST CTX-NPG 16k A770LE: 619.8 Pt/s 19.8 Gt/s 142w 2.4Ghz - CPU 
 #                                                        FAST CTX-NPG 16k A730m: 382.2 Pt/s 14.7 Gt/s 65w 2.05Ghz - CPU 1++
 #                                                        FAST CTX-NPG 16k iGPU8XE: 880.5 Pt/s 7.2 Gt/s 30w 2.25Ghz - CPU 1++
-#llama3bthinkingonly5B.f16.gguf                  6.0  GB SLOW 3+
 
 #10-12GB+ iGPU Xe-LPG/A730m/A580/B570/B580/PROA60/B50
 
-#UIGEN-X-4B-0729-f16_q8_0.gguf                   6.2  GB
-#granite-4.0-h-tiny-f16_q8_0.gguf                7    GB SLOW 4+
-#Trinity-Nano-Preview-f16_q8_0.gguf              7.2  GB SLOW 3+
-#Qwen3-Embedding-4B-f16.gguf                     7.5  GB SLOW 5+
 #Qwen3-4B-f16.gguf                               7.5  GB FAST CTX-NPG 8k A770LE: 613.4 Pt/s 14.5 Gt/s 120w 2.4Ghz - CPU TK 1+
 #Nemotron-Mini-4B-Instruct-f16.gguf              7.8  GB FAST CTX-NPG 8k A770LE: 717.8 Pt/s 17.8 Gt/s 118w 2.4Ghz - CPU 2+
 #                                                        SLOW CTX-NPG 16k iGPU8XE: 534.8 Pt/s 6.5 Gt/s 30w 2.25Ghz - CPU 1++
@@ -78,7 +73,6 @@
 
 #16GB+ GPU A770LE + iGPU Meteor Lake
 
-#DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5 GB FAST 2++
 #MiMo-Embodied-7B-f16_q8_0.gguf                  10.7 GB
 #MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST CTX-NPG 8k A770LE: 842.9 Pt/s 11.0 Gt/s 142w 2.4Ghz + CPU 1+
 #KernelLLM-f16_q8_0.gguf                         11.1 GB FAST CTX-NPG 8k A770LE: 688.5 Pt/s 11.2 Gt/s 137w 2.4Ghz - CPU 1+
@@ -121,11 +115,10 @@
 #solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf  10.6 GB FAST CTX-NPG 16k A770LE: 985.6 Pt/s 7.5 Gt/s 135w 2.4Ghz - CPU 1++
 #gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3 GB SLOW CTX-NPG 8k A770LE: 35.4 Pt/s 8.7 Gt/s 92W 2.2Ghz + FULL CPU 3+
 #                                                        SLOW CTX-NPG 16k A730m: 14.9 Pt/s 4.5 Gt/s 40w 1.3Ghz + FULL CPU 3+
-#gpt-oss-20b-mxfp4.gguf                          11.3 GB SLOW 3+
-#velara-11b-v2.Q8_0.gguf                         11.3 GB FAST 2+++
 
 #16GB+ A770LE
-#flux1-kontext-dev-Q8_0.gguf                     11.8 GB NO SUPPORT FOR FLUX IN THE MOMENT 6+
+
+#velara-11b-v2.Q8_0.gguf                         11.3 GB FAST 2+++
 #Deepseek-Coder-V2-Lite-13B-
 #Instruct-sft-s1K.i1-Q6_K.gguf                   13.1 GB FAST CTX-NPG 8k A770LE: 22.7 Pt/s 7.9 Gt/s 98W 2.4Ghz - CPU 3+
 
