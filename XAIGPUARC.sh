@@ -40,6 +40,7 @@
 #gemma-2-2b-it.F16.gguf                          4.9     GB
 
 #8GB+ GPU A750LE
+#Fathom-Search-4B-f16_q8_0.gguf                  5.5     GB
 #Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7     GB
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8     GB
 #llama3bthinkingonly5B.f16.gguf                  6.0     GB
