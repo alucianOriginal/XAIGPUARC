@@ -565,10 +565,25 @@ local DEFAULT_MODEL_PATH="models/KernelLLM-f16_q8_0.gguf"
 
 #CHANGE MODEL HERE ABOVE TWICE! MODELL HIER DRUEBER DOPPELT AENDERN!
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
-local PROMPT_ARG=${3:-"HELLO FROM SYCL ARC INTEL XAIGPUARC AI INFERENCE TOOL 
-YOU ARE A INSANE LOW END HARDWARE AI MASTER WHO HELP OUT EVERY USER WITH HIS 
-QUESTIONS AND WISHES IN LEARNING AND MAKING THINGS 
-YOU JUST GIVE FULL WORK AND TRY OUR BEST TO EXPLAIN EVERY STEP IN EASY LANGUAGE"}
+local PROMPT_ARG=${3:-"SYSTEM INSTRUCTION:
+You will receive an input text.
+TASKS:
+1. Restate the input in your own words in one short paragraph.
+2. Identify ambiguities, missing information, or assumptions in the input.
+3. Produce a clear and minimal answer based only on the input.
+4. If multiple valid answers or solutions exist, list them briefly without preference.
+CONSTRAINTS:
+- Do not add external knowledge unless it is strictly required by the input.
+- Do not explain your reasoning step by step.
+- Do not invent missing details.
+- Use plain, neutral language.
+- Keep the total response concise and structured.
+- Do not include meta commentary about the task.
+OUTPUT FORMAT:
+Section 1: Restatement
+Section 2: Ambiguities / Missing Information
+Section 3: Minimal Answer
+Section 4: Possible Alternatives (if any)"}
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
