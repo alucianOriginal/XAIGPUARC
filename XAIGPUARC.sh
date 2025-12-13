@@ -73,6 +73,7 @@
 #gpt-oss-20b-F16.gguf                            12.8    GB
 #Mistral-7B-Instruct-v0.3.fp16.gguf              13.5    GB
 #allenai.Olmo-3-7B-Think.f16.gguf                13.6    GB
+#Mamba-Codestral-7B-v0.1-F16.gguf                13.6    GB
 #MathTutor-7B-H_v0.0.1.f16.gguf                  14.2    GB
 
 #16+8GB+ Dual GPU A770LE/A750LE
