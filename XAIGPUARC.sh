@@ -34,8 +34,8 @@
 #-On 155H i7 GPT-OSS-20B-F16.gguf runs well but slow at 30 Watt allinone with mods
 #-BF16 Models not recommend for Alechmist 
 #-1+ till 6+ means 1+ is best double ++ is Better +++ is Insane Wonderfull AI Magic
-#-CTX-NPG is the Context Size and N-Predigt Size. 
-#-Lower them if your Modell not fit! You see this do not care about the GPU alone below.
+#-CTX-NPG is the Context Size and N-Predigt Size 
+#-Lower them if your Modell not fit! You see this do not care about the GPU alone below
 
 #F16 Mode Only
 
@@ -78,7 +78,6 @@
 #KernelLLM-f16_q8_0.gguf                         11.1 GB FAST CTX-NPG 8k A770LE: 688.5 Pt/s 11.2 Gt/s 137w 2.4Ghz - CPU 1+
 #                                                        SLOW CTX-NPG 16k iGPU8XE: 29.6 Pt/s 3.0 Gt/s 30w 2.25Ghz - CPU 1+
 #Jan-v2-VL-high-f16_q8_0.gguf                    11.4 GB FAST CTX-NPG 8k A770LE: 639.6 Pt/s 10.2 Gt/s 135w 2.4Ghz - CPU TK 2+
-#Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4 GB 2+
 #Orchestrator-8B-f16_q8_0.gguf                   11.4 GB FAST CTX-NPG 16k A770LE: 643.3 Pt/s 10.1 Gt/s 134w 2.4Ghz - CPU TK 2+
 #MiroThinker-v1.0-8B-f16_q8_0.gguf               11.4 GB 2+
 #Seed-Coder-8B-Reasoning-f16_q8_0.gguf           11.5 GB 2+
@@ -88,7 +87,6 @@
 #                                                        SLOW CTX-NPG 16k iGPU8XE: 9.6 Pt/s 4.6 Gt/s 30w 2.25Ghz - CPU 1+++
 #Navid-AI.Yehia-7B-preview.f16.gguf              13   GB FAST CTX-NPG 4k A770LE: 1273.4 Pt/s 13.4 Gt/s 142w 2.4Ghz - CPU 1++
 #Mistral-7B-Instruct-v0.3.fp16.gguf              13.5 GB 2+
-#allenai.Olmo-3-7B-Think.f16.gguf                13.6 GB
 #Mamba-Codestral-7B-v0.1-F16.gguf                13.6 GB SLOW CTX-NPG 16k A770LE: 110.1 Pt/s 3.2 Gt/s 97w 2.4Ghz + CPU FULL 2+
 #MathTutor-7B-H_v0.0.1.f16.gguf                  14.2 GB FAST CTX-NPG 16k A770LE: 525.0 Pt/s 13.8 Gt/s 142w 2.4Ghz - CPU 1+++
 #END F16 MODEL LIST
