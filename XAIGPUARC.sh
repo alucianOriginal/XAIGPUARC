@@ -23,13 +23,11 @@
 #-90-142 Watt Chip Power Draw alone each Card at different LLMs
 #-Example: GPT-OSS-20B-F16 does it very nice at low Wattage
 #-but needs longer than full working MathTutor F16 with 142 Watt
-#-I just use both/multible Models for a better Workflow
+#-Use multible Models for a better Workflow
 #-All the Hardware is Modded and not Stock Compareable
 #-PLS watch your good Cooling and Dust Free System
-#-3x Single and Dual dGPUs on AMD Ryzen 2600 2700x
-#-Intel i7 6700K on Z170 RAM 16GB till 128GB
-#-2x Intel iGPU XE Alder Lake Gen 12700H +
-#-I7 12650H + A730m 12 GB + 6GiB DDR4/5 32GB RAM
+#-3x Single and Dual dGPUs on AMD Ryzen 2600 2700x / Intel i7 6700K on Z170 RAM 16GB till 128GB
+#-2x Intel iGPU XE Alder Lake Gen (12700H + 12650H) + A730m 12 GB + 32GB DDR4/5 RAM
 #-1x Intel Core Ultra 7 155H Meteor Lake 8 Core Xe-LPG 128EU ARC 16GiB
 #-Quad Channel High Bandwith RAM Gear2 with 718GB/s
 #-11,5 GiB VRAM shared from this RAM
