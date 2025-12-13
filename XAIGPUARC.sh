@@ -98,7 +98,7 @@
 #mistral-7b-instruct-v0.2.Q4_K_M.gguf            4.1  GB SLOW
 
 #8GB+ GPU A750LE
-#OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf           5.5  GB FAST
+#OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf           5.5  GB FAST CTX-NPG 8k A770LE: 1233.9 Pt/s 14.4 Gt/s 145w 2.4Ghz - CPU Low Oldscool
 #NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.6  GB SLOW
 #wizardcoder-python-7b-v1.0.Q8_0.gguf            6.7  GB SLOW
 #sauerkrautlm-7b-v1.Q8_0.gguf                    6.7  GB FAST
