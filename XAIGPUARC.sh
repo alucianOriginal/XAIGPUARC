@@ -38,8 +38,8 @@
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1  GB
 #yasserrmd.DentaInstruct-1.2B.f16.gguf           2.2  GB
 #DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2  GB
-#ibm-granite.granite-4.0-1b.f16.gguf             3    GB
-#Lucy-1.7B-F16.gguf                              3.2  GB
+#ibm-granite.granite-4.0-1b.f16.gguf             3    GB  A770LE: 569,4 Pt/s 18.2 Gt/s 120w 2.3Ghz - CPU Low Load
+#Lucy-1.7B-F16.gguf                              3.2  GB  A770LE: 572.7 Pt/s 23.2 Gt/s 108w 2.4Ghz - CPU Low Load
 #granite-4.0-micro-f16_q8_0.gguf                 4.6  GB
 #gemma-2-2b-it.F16.gguf                          4.9  GB
 
@@ -58,7 +58,7 @@
 #Nemotron-Mini-4B-Instruct-f16.gguf              7.8  GB
 #Minitron-4B-Base.FP16.gguf                      7.8  GB
 
-#16GB+ GPU A770LE
+#16GB+ GPU A770LE + iGPU Meteor Lake
 #DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5 GB
 #MiMo-Embodied-7B-f16_q8_0.gguf                  10.7 GB
 #MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB
@@ -70,7 +70,7 @@
 #Seed-Coder-8B-Reasoning-f16_q8_0.gguf           11.5 GB
 #Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf     11.7 GB
 #ggml-model-f16.gguf                             12.6 GB
-#gpt-oss-20b-F16.gguf                            12.8 GB
+#gpt-oss-20b-F16.gguf                            12.8 GB 
 #Mistral-7B-Instruct-v0.3.fp16.gguf              13.5 GB
 #allenai.Olmo-3-7B-Think.f16.gguf                13.6 GB
 #Mamba-Codestral-7B-v0.1-F16.gguf                13.6 GB  110.1 Pt/s 3.2  Gt/s 100w 2.4Ghz + CPU Full Load
