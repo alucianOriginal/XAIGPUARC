@@ -59,7 +59,8 @@
 #Fathom-Search-4B-f16_q8_0.gguf                  5.5  GB FAST CTX-NPG 8k A770LE: 569.4 Pt/s 18.2 Gt/s 118w 2.4Ghz - CPU TK 2+
 #Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7  GB FAST CTX-NPG 8k A770LE: 511.5 Pt/s 19.7 Gt/s 142w 2.4Ghz - CPU 1+
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8  GB FAST 1+
-#MiniCPM-V-4-f16.gguf                            6.7  GB FAST CTX-NPG 16k A770LE: 619.8 Pt/s 19.8 Gt/s 142w 2.4Ghz - CPU 
+#SmolLM3-3B-f16.gguf                             5.8  GB FAST CTX-NPG 16k A770LE: 2137.2 Pt/s 19.1 Gt/s 119w 2.4Ghz - CPU TK 1+++
+#MiniCPM-V-4-f16.gguf                            6.7  GB FAST CTX-NPG 16k A770LE: 619.8 Pt/s 19.8 Gt/s 142w 2.4Ghz - CPU
 #                                                        FAST CTX-NPG 16k A730m: 382.2 Pt/s 14.7 Gt/s 65w 2.05Ghz - CPU 1++
 #                                                        FAST CTX-NPG 16k iGPU8XE: 880.5 Pt/s 7.2 Gt/s 30w 2.25Ghz - CPU 1++
 
@@ -94,8 +95,8 @@
 #START Q8-Q4-IQ4-2 MODEL LIST NOT F16!
 #6GB+ GPU A730m/A380/A310
 
-#phi-2.Q4_K_M.gguf                               1.7  GB FAST CTX-NPG 8k A770LE: 888.6 Pt/s 25.4 Gt/s 128w 2.4Ghz - CPU 1++
-#openhermes-2.5-mistral-7b.Q4_K_M.gguf           4.1  GB FAST 2++
+#phi-2.Q4_K_M.gguf                               1.7  GB FAST CTX-NPG 8k A770LE: 888.6 Pt/s 25.4 Gt/s 128w 2.4Ghz - CPU 1+++
+#openhermes-2.5-mistral-7b.Q4_K_M.gguf           4.1  GB FAST 2+
 #mistral-7b-instruct-v0.2.Q4_K_M.gguf            4.1  GB SLOW 2+
 
 #8GB+ GPU A750LE
