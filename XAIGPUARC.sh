@@ -35,46 +35,46 @@
 #F16 Mode Only:
 #6GB+ GPU A730m/A380/A310
 #MedScholar-1.5B-f16_q8_0.gguf                   2.1  GB
-#Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1  GB
+#Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1  GB FAST
 #yasserrmd.DentaInstruct-1.2B.f16.gguf           2.2  GB
 #DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2  GB
-#ibm-granite.granite-4.0-1b.f16.gguf             3    GB  A770LE: 569,4 Pt/s 18.2 Gt/s 120w 2.3Ghz - CPU Low Load
-#Lucy-1.7B-F16.gguf                              3.2  GB  A770LE: 572.7 Pt/s 23.2 Gt/s 108w 2.4Ghz - CPU Low Load
+#ibm-granite.granite-4.0-1b.f16.gguf             3    GB SLOW A770LE: 569,4 Pt/s 18.2 Gt/s 120w 2.3Ghz - CPU Low Load GPU INF not Stable
+#Lucy-1.7B-F16.gguf                              3.2  GB FAST A770LE: 572.7 Pt/s 23.2 Gt/s 108w 2.4Ghz - CPU Low Load EXTREM STABLE
 #granite-4.0-micro-f16_q8_0.gguf                 4.6  GB
-#gemma-2-2b-it.F16.gguf                          4.9  GB
+#gemma-2-2b-it.F16.gguf                          4.9  GB FAST
 
 #8GB+ GPU A750LE
-#Fathom-Search-4B-f16_q8_0.gguf                  5.5  GB
-#Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7  GB
-#Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8  GB
-#llama3bthinkingonly5B.f16.gguf                  6.0  GB
+#Fathom-Search-4B-f16_q8_0.gguf                  5.5  GB FAST A770LE: 569,4 Pt/s 18.2 Gt/s 118w 2.4Ghz - CPU Low Load
+#Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7  GB FAST
+#Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8  GB FAST
+#llama3bthinkingonly5B.f16.gguf                  6.0  GB SLOW
 
 #10-12GB+ GPU-iGPU-Xe-LPG/A730m/B570/B580/PROA60/B50
 #UIGEN-X-4B-0729-f16_q8_0.gguf                   6.2  GB
-#granite-4.0-h-tiny-f16_q8_0.gguf                7    GB
-#Trinity-Nano-Preview-f16_q8_0.gguf              7.2  GB
-#Qwen3-Embedding-4B-f16.gguf                     7.5  GB
-#Qwen3-4B-f16.gguf                               7.5  GB
-#Nemotron-Mini-4B-Instruct-f16.gguf              7.8  GB
-#Minitron-4B-Base.FP16.gguf                      7.8  GB
+#granite-4.0-h-tiny-f16_q8_0.gguf                7    GB SLOW
+#Trinity-Nano-Preview-f16_q8_0.gguf              7.2  GB SLOW
+#Qwen3-Embedding-4B-f16.gguf                     7.5  GB SLOW
+#Qwen3-4B-f16.gguf                               7.5  GB SLOW
+#Nemotron-Mini-4B-Instruct-f16.gguf              7.8  GB SLOW
+#Minitron-4B-Base.FP16.gguf                      7.8  GB SLOW
 
 #16GB+ GPU A770LE + iGPU Meteor Lake
 #DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5 GB
 #MiMo-Embodied-7B-f16_q8_0.gguf                  10.7 GB
-#MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB
-#KernelLLM-f16_q8_0.gguf                         11.1 GB
-#Jan-v2-VL-high-f16_q8_0.gguf                    11.4 GB
+#MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST
+#KernelLLM-f16_q8_0.gguf                         11.1 GB FAST
+#Jan-v2-VL-high-f16_q8_0.gguf                    11.4 GB FAST
 #Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4 GB
-#Orchestrator-8B-f16_q8_0.gguf                   11.4 GB
+#Orchestrator-8B-f16_q8_0.gguf                   11.4 GB FAST
 #MiroThinker-v1.0-8B-f16_q8_0.gguf               11.4 GB
 #Seed-Coder-8B-Reasoning-f16_q8_0.gguf           11.5 GB
 #Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf     11.7 GB
-#ggml-model-f16.gguf                             12.6 GB
-#gpt-oss-20b-F16.gguf                            12.8 GB 
+#ggml-model-f16.gguf                             12.6 GB SLOW
+#gpt-oss-20b-F16.gguf                            12.8 GB SLOW
 #Mistral-7B-Instruct-v0.3.fp16.gguf              13.5 GB
 #allenai.Olmo-3-7B-Think.f16.gguf                13.6 GB
-#Mamba-Codestral-7B-v0.1-F16.gguf                13.6 GB  110.1 Pt/s 3.2  Gt/s 100w 2.4Ghz + CPU Full Load
-#MathTutor-7B-H_v0.0.1.f16.gguf                  14.2 GB  529,7 Pt/s 13.7 Gt/s 142w 2.4Ghz - CPU Low Load
+#Mamba-Codestral-7B-v0.1-F16.gguf                13.6 GB SLOW A770LE: 110.1 Pt/s 3.2  Gt/s 100w 2.4Ghz + CPU Full Load EXTREME GOOD ANSWER
+#MathTutor-7B-H_v0.0.1.f16.gguf                  14.2 GB FAST A770LE: 529,7 Pt/s 13.7 Gt/s 142w 2.4Ghz - CPU Low Load BEST CASE CODE/MATH/KERNEL
 
 #16+8GB+ Dual GPU A770LE/A750LE
 #OpenReasoning-Nemotron-7B-F16.gguf              14.1 GB
@@ -88,23 +88,23 @@
 #START Q8-Q4-IQ4-2 MODEL LIST NOT F16!
 
 #6GB+ GPU A730m/A380/A310
-#phi-2.Q4_K_M.gguf                               1.7  GB
-#openhermes-2.5-mistral-7b.Q4_K_M.gguf           4.1  GB 
-#mistral-7b-instruct-v0.2.Q4_K_M.gguf            4.1  GB
+#phi-2.Q4_K_M.gguf                               1.7  GB FAST
+#openhermes-2.5-mistral-7b.Q4_K_M.gguf           4.1  GB FAST
+#mistral-7b-instruct-v0.2.Q4_K_M.gguf            4.1  GB SLOW
 
 #8GB+ GPU A750LE
-#OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf           5.5  GB
-#NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.6  GB
-#wizardcoder-python-7b-v1.0.Q8_0.gguf            6.7  GB
-#sauerkrautlm-7b-v1.Q8_0.gguf                    6.7  GB
+#OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf           5.5  GB FAST
+#NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.6  GB SLOW
+#wizardcoder-python-7b-v1.0.Q8_0.gguf            6.7  GB SLOW
+#sauerkrautlm-7b-v1.Q8_0.gguf                    6.7  GB FAST
 
 #10-12GB+ GPU-iGPU-Xe-LPG/A730m/B570/B580/PRO
-#Qwen3-16B-A3B-IQ4_NL.gguf                       8.5  GB
-#Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7  GB
-#solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf  10.6 GB
-#gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3 GB
-#gpt-oss-20b-mxfp4.gguf                          11.3 GB
-#velara-11b-v2.Q8_0.gguf                         11.3 GB
+#Qwen3-16B-A3B-IQ4_NL.gguf                       8.5  GB FAST
+#Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7  GB FAST
+#solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf  10.6 GB FAST
+#gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3 GB SLOW
+#gpt-oss-20b-mxfp4.gguf                          11.3 GB SLOW
+#velara-11b-v2.Q8_0.gguf                         11.3 GB FAST
 
 #16+8GB+ Dual GPU A770LE/A750LE
 #flux1-kontext-dev-Q8_0.gguf                     11.8 GB
