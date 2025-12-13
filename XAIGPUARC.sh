@@ -75,7 +75,7 @@
 #KernelLLM-f16_q8_0.gguf                         11.1 GB FAST CTX-NPG 8k A770LE: 688.5 Pt/s 11.2 Gt/s 137w 2.4Ghz - CPU MATH KERNEL
 #Jan-v2-VL-high-f16_q8_0.gguf                    11.4 GB FAST CTX-NPG 8k A770LE: 639.6 Pt/s 10.2 Gt/s 135w 2.4Ghz - CPU Long Think
 #Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4 GB
-#Orchestrator-8B-f16_q8_0.gguf                   11.4 GB FAST CTX-NPG 8k A770LE: 640.4 Pt/s 10.2 Gt/s 134w 2.4Ghz - CPU Long Think
+#Orchestrator-8B-f16_q8_0.gguf                   11.4 GB FAST CTX-NPG 16k A770LE: 643.3 Pt/s 10.1 Gt/s 134w 2.4Ghz - CPU Long Think
 #MiroThinker-v1.0-8B-f16_q8_0.gguf               11.4 GB
 #Seed-Coder-8B-Reasoning-f16_q8_0.gguf           11.5 GB
 #Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf     11.7 GB
