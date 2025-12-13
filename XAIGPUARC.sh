@@ -85,7 +85,7 @@
 #Mistral-7B-Instruct-v0.3.fp16.gguf              13.5 GB
 #allenai.Olmo-3-7B-Think.f16.gguf                13.6 GB
 #Mamba-Codestral-7B-v0.1-F16.gguf                13.6 GB SLOW CTX-NPG 8k A770LE: 110.1 Pt/s 3.2  Gt/s 97w 2.4Ghz + CPU FULL GOOD
-#MathTutor-7B-H_v0.0.1.f16.gguf                  14.2 GB FAST CTX-NPG 8k A770LE: 529.7 Pt/s 13.7 Gt/s 142w 2.4Ghz - CPU BEST
+#MathTutor-7B-H_v0.0.1.f16.gguf                  14.2 GB FAST CTX-NPG 16k A770LE: 525.0 Pt/s 13.8 Gt/s 142w 2.4Ghz - CPU BEST
 #END F16 MODEL LIST
 
 #START Q8-Q4-IQ4-2 MODEL LIST NOT F16!
