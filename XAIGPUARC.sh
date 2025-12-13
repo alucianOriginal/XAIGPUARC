@@ -107,7 +107,7 @@
 
 #Qwen3-16B-A3B-IQ4_NL.gguf                       8.5  GB FAST
 #Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7  GB FAST
-#solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf  10.6 GB FAST CTX-NPG 8k A770LE: 985.6 Pt/s 7.5 Gt/s 135w 2.4Ghz - CPU VIP
+#solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf  10.6 GB FAST CTX-NPG 16k A770LE: 985.6 Pt/s 7.5 Gt/s 135w 2.4Ghz - CPU VIP
 #gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3 GB SLOW CTX-NPG 8k A770LE: 35.4 Pt/s 8.7 Gt/s 92W 2.2Ghz + FULL CPU
 #gpt-oss-20b-mxfp4.gguf                          11.3 GB SLOW
 #velara-11b-v2.Q8_0.gguf                         11.3 GB FAST
