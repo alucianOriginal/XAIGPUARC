@@ -39,7 +39,7 @@
 #yasserrmd.DentaInstruct-1.2B.f16.gguf           2.2  GB
 #DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2  GB
 #ibm-granite.granite-4.0-1b.f16.gguf             3    GB SLOW A770LE: 569,4 Pt/s 18.2 Gt/s 120w 2.3Ghz - CPU Low Load GPU INF not Stable
-#Lucy-1.7B-F16.gguf                              3.2  GB FAST A770LE: 572.7 Pt/s 23.2 Gt/s 108w 2.4Ghz - CPU Low Load EXTREM STABLE
+#Lucy-1.7B-F16.gguf                              3.2  GB FAST A770LE: 572.7 Pt/s 23.2 Gt/s 108w 2.4Ghz - CPU Low Load EXT STABLE
 #granite-4.0-micro-f16_q8_0.gguf                 4.6  GB
 #gemma-2-2b-it.F16.gguf                          4.9  GB FAST
 
@@ -55,14 +55,14 @@
 #Trinity-Nano-Preview-f16_q8_0.gguf              7.2  GB SLOW
 #Qwen3-Embedding-4B-f16.gguf                     7.5  GB SLOW
 #Qwen3-4B-f16.gguf                               7.5  GB SLOW
-#Nemotron-Mini-4B-Instruct-f16.gguf              7.8  GB SLOW
+#Nemotron-Mini-4B-Instruct-f16.gguf              7.8  GB FAST A770LE: 717,8 Pt/s 17,8 Gt/s 118w 2.4Ghz - CPU EXT LOW AND FAST
 #Minitron-4B-Base.FP16.gguf                      7.8  GB SLOW
 
 #16GB+ GPU A770LE + iGPU Meteor Lake
 #DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5 GB
 #MiMo-Embodied-7B-f16_q8_0.gguf                  10.7 GB
 #MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST
-#KernelLLM-f16_q8_0.gguf                         11.1 GB FAST
+#KernelLLM-f16_q8_0.gguf                         11.1 GB FAST A770LE: 688,5 Pt/s 11,2 Gt/s 137w 2.4Ghz - CPU Low Load GOOD CODE MATH KERNEL
 #Jan-v2-VL-high-f16_q8_0.gguf                    11.4 GB FAST
 #Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4 GB
 #Orchestrator-8B-f16_q8_0.gguf                   11.4 GB FAST
@@ -73,7 +73,7 @@
 #gpt-oss-20b-F16.gguf                            12.8 GB SLOW
 #Mistral-7B-Instruct-v0.3.fp16.gguf              13.5 GB
 #allenai.Olmo-3-7B-Think.f16.gguf                13.6 GB
-#Mamba-Codestral-7B-v0.1-F16.gguf                13.6 GB SLOW A770LE: 110.1 Pt/s 3.2  Gt/s 100w 2.4Ghz + CPU Full Load EXTREME GOOD ANSWER
+#Mamba-Codestral-7B-v0.1-F16.gguf                13.6 GB SLOW A770LE: 110.1 Pt/s 3.2  Gt/s 97w 2.4Ghz + CPU FULL LOAD EXT GOOD ANSWER
 #MathTutor-7B-H_v0.0.1.f16.gguf                  14.2 GB FAST A770LE: 529,7 Pt/s 13.7 Gt/s 142w 2.4Ghz - CPU Low Load BEST CASE CODE/MATH/KERNEL
 
 #16+8GB+ Dual GPU A770LE/A750LE
@@ -552,7 +552,7 @@ fi
 
 #7MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/KernelLLM-f16_q8_0.gguf"}
+MODEL_PATH=${1:-"models/Lucy-1.7B-F16.gguf.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN. BITTE DORTHIN KOPIEREN **$MODEL_PATH**"
@@ -562,7 +562,7 @@ export MODEL_PATH
 
 #8MODELLAUSFUEHREN
 run_inference() {
-local DEFAULT_MODEL_PATH="models/KernelLLM-f16_q8_0.gguf"
+local DEFAULT_MODEL_PATH="models/Lucy-1.7B-F16.gguf.gguf"
 
 #CHANGE MODEL HERE ABOVE TWICE! MODELL HIER DRUEBER DOPPELT AENDERN!
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
