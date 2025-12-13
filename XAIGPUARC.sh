@@ -19,15 +19,18 @@
 #4.) START with type in Console ./XAIGPUARC.sh Enter...
 
 #-XAIGPUARC Hardware used to Build and Test
-#-6x Intel ARC 2xA770LE 16GB + 4x750LE 8GB 
+#-6x Intel ARC 2xA770LE 16GB + 4x750LE 8GB
 #-90-142 Watt Chip Power Draw alone each Card at different LLMs
 #-Example: GPT-OSS-20B-F16 does it very nice at low Wattage
 #-but needs longer than full working MathTutor F16 with 142 Watt
 #-I just use both/multible Models for a better Workflow
-#-All the Hardware is Modded and not Stock Compareable PLS watch your good Cooling and Dust Free System
-#-3x Single and Dual dGPUs on AMD Ryzen 2600 2700x Intel i7 6700K on Z170 RAM 16GB till 128GB
-#-2x Intel iGPU XE Alder Lake Gen + CPU 12700H + 12650H + A730m 12 GB + 6GiB DDR4/5 32GB RAM
-#-1x Intel Core Ultra 7 155H + Meteor Lake 7 Core and 8 Core Xe-LPG 128EU ARC 16GiB
+#-All the Hardware is Modded and not Stock Compareable
+#-PLS watch your good Cooling and Dust Free System
+#-3x Single and Dual dGPUs on AMD Ryzen 2600 2700x
+#-Intel i7 6700K on Z170 RAM 16GB till 128GB
+#-2x Intel iGPU XE Alder Lake Gen 12700H +
+#-I7 12650H + A730m 12 GB + 6GiB DDR4/5 32GB RAM
+#-1x Intel Core Ultra 7 155H Meteor Lake 8 Core Xe-LPG 128EU ARC 16GiB
 #-Quad Channel High Bandwith RAM Gear2 with 718GB/s
 #-11,5 GiB VRAM shared from this RAM
 #-On 155H i7 GPT-OSS-20B-F16.gguf runs well but slow at 30 Watt allinone with mods
@@ -36,7 +39,7 @@
 #F16 Mode Only:
 #6GB+ GPU A730m/A380/A310
 
-#kani-tts-400m-en-f16_q8_0.gguf                       0.53 GB FAST CTX-NPG 8K A770LE: 588.6 Pt/s 62.4 Gt/s 100w 2.4Ghz - CPU LOW FIRESTARTER
+#kani-tts-400m-en-f16_q8_0.gguf                  0.53 GB FAST CTX-NPG 8K A770LE: 588.6 Pt/s 62.4 Gt/s 100w 2.4Ghz - CPU LOW FIRESTARTER
 #baidu.ERNIE-4.5-0.3B-Base-PT.f16.gguf           0.69 GB FAST CTX-NPG 8K A770LE: 469.7 Pt/s 52.5 Gt/s 97w 2.4Ghz + CPU Mid Low Chat
 #MedScholar-1.5B-f16_q8_0.gguf                   2.1  GB FAST CTX-NPG 8k A770LE: 528.2 Pt/s 25.2 Gt/s 109w 2.4Ghz - CPU Good
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1  GB FAST
