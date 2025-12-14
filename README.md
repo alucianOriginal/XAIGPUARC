@@ -25,22 +25,39 @@ ENGLISH WELCOME / DEUTSCH WILLKOMMEN
 #4.) START with type in Console ./XAIGPUARC.sh Enter...
 
 #-XAIGPUARC Hardware used to Build and Test
+
 #-6x Intel ARC 2xA770LE 16GB + 4x750LE 8GB
+
 #-90-142 Watt Chip Power Draw alone each Card at different LLMs
+
 #-Example: GPT-OSS-20B-F16 does it very nice at low Wattage
+
 #-but needs longer than full working MathTutor F16 with 142 Watt
+
 #-Use multible Models for a better Workflow
+
 #-All the Hardware is Modded and not Stock Compareable
+
 #-PLS watch your good Cooling and Dust Free System
+
 #-3x Single and Dual dGPUs on AMD Ryzen 2600 2700x / Intel i7 6700K on Z170 RAM 16GB till 128GB
+
 #-2x Intel iGPU XE Alder Lake Gen (12700H + 12650H) + A730m 12 GB + 32GB DDR4/5 RAM
+
 #-1x Intel Core Ultra 7 155H Meteor Lake 8 Core Xe-LPG 128EU ARC 16GiB
+
 #-Quad Channel High Bandwith RAM Gear2 with 718GB/s
+
 #-11,5 GiB VRAM shared from this RAM
+
 #-On 155H i7 GPT-OSS-20B-F16.gguf runs well but slow at 30 Watt allinone with mods
-#-BF16 Models not recommend for Alechmist 
+
+#-BF16 Models not recommend for Alechmist
+
 #-1+ till 6+ means 1+ is best double ++ is Better +++ is Insane Wonderfull AI Magic
-#-CTX-NPG is the Context Size and N-Predigt Size 
+
+#-CTX-NPG is the Context Size and N-Predigt Size
+
 #-Lower them if your Modell not fit! You see this do not care about the GPU alone below
 
 #F16 Mode Only
