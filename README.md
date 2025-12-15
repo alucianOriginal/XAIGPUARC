@@ -278,6 +278,6 @@ ENGLISH WELCOME / DEUTSCH WILLKOMMEN
 #16GB+ A770LE
 #velara-11b-v2.Q8_0.gguf
 #11.3 GB FAST 2+++
-#Deepseek-Coder-V2-Lite-13B-
-#Instruct-sft-s1K.i1-Q6_K.gguf
+#Deepseek-Coder-V2-Lite-13B-Instruct-sft-s1K.i1-Q6_K.gguf
+
 #13.1 GB FAST CTX-NPG 8k A770LE: 22.7 Pt/s 7.9 Gt/s 98W 2.4Ghz - CPU 3+
