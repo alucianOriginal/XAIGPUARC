@@ -20,6 +20,7 @@
 
 #-XAIGPUARC Hardware used to Build and Test
 #-6x Intel ARC 2xA770LE 16GB + 4x750LE 8GB
+#-Support for Iris XE 96EU iGPUs
 #-90-142 Watt Chip Power Draw alone each Card at different LLMs
 #-Example: GPT-OSS-20B-F16 does it very nice at low Wattage
 #-but needs longer than full working MathTutor F16 with 142 Watt
@@ -51,6 +52,7 @@
 #Lucy-1.7B-F16.gguf                              3.2  GB FAST CTX-NPG 16k A770LE: 572.7 Pt/s 23.2 Gt/s 108w 2.4Ghz - CPU TK 1++
 #                                                        FAST CTX-NPG 16k A730m: 382.2 Pt/s 14.7 Gt/s 65w 2.05Ghz - CPU TK 1++
 #                                                        FAST CTX-NPG 16k iGPU8XE: 2384.5 Pt/s 9.0 Gt/s 30w 2.25Ghz - CPU TK 1++
+#                                                        FAST CTX-NPG 16k iGPUIrisXE96Eu: 361.6 Pt/s 8.4 Gt/s 10w 1.4Ghz - CPU TK 1++
 #granite-4.0-micro-f16_q8_0.gguf                 4.6  GB 5+
 #gemma-2-2b-it.F16.gguf                          4.9  GB FAST CTX-NPG 16k A730m: 305.8 Pt/s 14.4 Gt/s 65w 2.2Ghz - CPU 2+
 
