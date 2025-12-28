@@ -26,6 +26,12 @@ ENGLISH WELCOME / DEUTSCH WILLKOMMEN
 
 #4.) START with type in Console ./XAIGPUARC.sh Enter...
 
+
+---------------------------------
+HARDWARE: CPU/iGPU/dGPU from INTEL
+---------------------------------
+
+
 #-XAIGPUARC Hardware used to Build and Test
 
 #-6x Intel ARC 2xA770LE 16GB + 4x750LE 8GB
