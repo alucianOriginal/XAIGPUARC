@@ -10,7 +10,7 @@ ENGLISH WELCOME / DEUTSCH WILLKOMMEN
 
 #0.) FIRST INTEL_ONE_API_BASEKIT MUST BE INSTALLED ON YOUR PC/LAPTOP/SYSTEM USE ---PREXAIGPUARC--- for HELP!!!
 
-#0.) Second is using ARCH Garuda LINUX By The Way!?! Also Good for GAMING and WINDOWS Ex Power Use!
+#0.) Second. Use the MKL/LEVELZERO Script to proof everything goes right for your System!
 
 #1.) Kopie XAIGPUARC.sh in your Home/PCNAME/ Folder!
 
