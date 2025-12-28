@@ -18,7 +18,7 @@ ENGLISH WELCOME / DEUTSCH WILLKOMMEN
 
 #a.) V/RAM to /models/HereAINAME also in your Home/PCNAME/models/HereAINAME Folder!
 
-#3.) Change your Modell here in the Textfile twice below!
+#3.) Change your Modell manual in the XAIGPUARC.sh!
 
 #b.) Open Console and Type: chmod +x ./XAIGPUARC.sh Enter...
 
