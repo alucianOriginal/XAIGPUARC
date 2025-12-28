@@ -6,6 +6,8 @@
 ENGLISH WELCOME / DEUTSCH WILLKOMMEN
 ----
 
+
+
 #9.) How to START your XAIGPUARC ONEKLICK AI-MACHINE?!
 
 #0.) FIRST INTEL_ONE_API_BASEKIT MUST BE INSTALLED ON YOUR PC/LAPTOP/SYSTEM USE ---PREXAIGPUARC--- for HELP!!!
@@ -36,7 +38,7 @@ ENGLISH WELCOME / DEUTSCH WILLKOMMEN
 
 #-Use multible Models for a better Workflow
 
-#-All the Hardware is Modded and not Stock Compareable
+#-All the Hardware is Modded and not Stock Compareable!
 
 #-PLS watch your good Cooling and Dust Free System
 
