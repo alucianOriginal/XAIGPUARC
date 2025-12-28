@@ -1,0 +1,68 @@
+#!/bin/bash
+#=============================================================================
+# XAIGPUARC_check.sh - Universal-Diagnose für alle Linux-Distros
+# Prüft: GPU-Treiber (Level Zero), Mathe-Bibliotheken (MKL) & Compiler
+#=============================================================================
+
+# Farben für bessere Lesbarkeit
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+echo -e "${BLUE}=== XAIGPUARC Hardware- & Software-Check ===${NC}\n"
+
+# --- 1. TREIBER CHECK (Level Zero) ---
+echo -e "${YELLOW}[1/4] Prüfe GPU-Hardware-Schnittstelle (Level Zero)...${NC}"
+ZE_LIB=$(find /usr/lib64 /usr/lib/x86_64-linux-gnu -name "libze_intel_gpu.so*" 2>/dev/null | head -n 1)
+
+if [ -n "$ZE_LIB" ]; then
+    echo -e "${GREEN}✅ Level Zero GPU-Treiber gefunden:${NC} $ZE_LIB"
+else
+    echo -e "${RED}❌ KRITISCH: libze_intel_gpu.so fehlt!${NC}"
+    echo "   -> Die GPU wird für KI-Aufgaben unsichtbar sein."
+fi
+
+# --- 2. ONEAPI UMGEBUNG CHECK ---
+echo -e "\n${YELLOW}[2/4] Prüfe OneAPI-Umgebung (setvars.sh)...${NC}"
+if [ -f "/opt/intel/oneapi/setvars.sh" ]; then
+    echo -e "${GREEN}✅ OneAPI Pfad gefunden:${NC} /opt/intel/oneapi/setvars.sh"
+    # Teste ob Umgebung geladen ist
+    if command -v icx &> /dev/null; then
+        echo -e "${GREEN}✅ Umgebung ist AKTIV (Compiler icx gefunden).${NC}"
+    else
+        echo -e "${YELLOW}⚠️  Umgebung gefunden, aber nicht geladen.${NC}"
+        echo "   -> Nutze: 'source /opt/intel/oneapi/setvars.sh'"
+    fi
+else
+    echo -e "${RED}❌ OneAPI Basis-Verzeichnis fehlt!${NC}"
+fi
+
+# --- 3. MATHE-BIBLIOTHEKEN CHECK (MKL) ---
+echo -e "\n${YELLOW}[3/4] Prüfe Mathe-Bibliotheken (MKL / Pralinen)...${NC}"
+MKL_LIB=$(find /opt/intel/oneapi/mkl -name "libmkl_sycl.so*" 2>/dev/null | head -n 1)
+
+if [ -n "$MKL_LIB" ]; then
+    echo -e "${GREEN}✅ MKL SYCL-Bibliotheken gefunden.${NC}"
+else
+    echo -e "${RED}❌ MKL (Math Kernel Library) fehlt oder unvollständig!${NC}"
+    echo "   -> KI-Berechnungen werden sehr langsam oder gar nicht laufen."
+fi
+
+# --- 4. HARDWARE-SICHTBARKEIT (SYCL) ---
+echo -e "\n${YELLOW}[4/4] Prüfe Hardware-Sichtbarkeit für SYCL...${NC}"
+if command -v sycl-ls &> /dev/null; then
+    SYCL_OUT=$(sycl-ls)
+    if echo "$SYCL_OUT" | grep -q "gpu"; then
+        echo -e "${GREEN}✅ GPU ERKANNT:${NC}"
+        echo "$SYCL_OUT" | grep "gpu"
+    else
+        echo -e "${RED}❌ SYCL findet KEINE GPU.${NC}"
+        echo "   -> Ausgabe: $SYCL_OUT"
+    fi
+else
+    echo -e "${YELLOW}⚠️  'sycl-ls' nicht im Pfad. Konnte Hardware-Scan nicht ausführen.${NC}"
+fi
+
+echo -e "\n${BLUE}=== Diagnose beendet ===${NC}"
