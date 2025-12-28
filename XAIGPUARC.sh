@@ -2,9 +2,9 @@
 
 #9.) How to START your XAIGPUARC ONEKLICK AI-MACHINE?!
 
-#0.) FIRST INTEL_ONE_API_BASEKIT MUST BE INSTALLED ON YOUR PC/LAPTOP/SYSTEM
+#0.) FIRST: INTEL_ONE_API_BASEKIT MUST BE INSTALLED ON YOUR PC/LAPTOP/SYSTEM USE PREXAIGPUARC... for HELP!!!
 
-#0.) Second is using ARCH Garuda LINUX By The Way!?! Also Good for GAMING and WINDOWS Ex Power Use!
+#0.) Second: Use the MKL/LEVELZERO Script to proof everything goes right for your System!
 
 #1.) Kopie XAIGPUARC.sh in your Home/PCNAME/ Folder!
 
@@ -17,6 +17,8 @@
 #b.) Open Console and Type: chmod +x ./XAIGPUARC.sh Enter...
 
 #4.) START with type in Console ./XAIGPUARC.sh Enter...
+
+#---------------------------------------------------------------------------
 
 #-XAIGPUARC Hardware used to Build and Test
 #-6x Intel ARC 2xA770LE 16GB + 4x750LE 8GB
