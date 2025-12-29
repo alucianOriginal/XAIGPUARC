@@ -1,10 +1,12 @@
 #!/bin/bash
-# XAIGPUARC: openSUSE Setup für Intel ARC & iGPU
-# Fokus: Ausfallsicherheit, Vendor-Transparenz und saubere Repo-Verwaltung
+# XAIGPUARC v1.1 | 2025-12-29
+# Fokus: openSUSE Tumbleweed/Leap Intel Compute Setup
+# Änderungen: Paketnamen-Mapping für openSUSE korrigiert, GPG-Handling verbessert.
 
 set -e
 
-echo "--- XAIGPUARC: openSUSE Ultra-Fix für Intel ARC & iGPU ---"
+echo "--- XAIGPUARC v1.1: openSUSE Ultra-Fix [Intel ARC & iGPU] ---"
+echo "Datum: 29.12.2025 | Version: 1.1 (Tumbleweed-Optimiert)"
 
 # 1. System-Check
 . /etc/os-release
@@ -13,86 +15,52 @@ if [[ "$ID" != "opensuse-leap" && "$ID" != "opensuse-tumbleweed" ]]; then
   exit 1
 fi
 
-IS_TW=false
+# ------------------------------------------------------------
+# 2. Repo-Logik & Intel-Fix
+# ------------------------------------------------------------
+echo "🧹 Bereinige alte Intel-Reste..."
+sudo zypper rr intel-graphics 2>/dev/null || true
+
+# Bestimme Pfad (Leap vs Tumbleweed)
 REPO_PATH="leap/15.6"
-if [[ "$ID" == "opensuse-tumbleweed" ]]; then
-  IS_TW=true
-  REPO_PATH="tumbleweed"
-  echo "🚀 Erkannt: openSUSE Tumbleweed"
-else
-  echo "🌲 Erkannt: openSUSE Leap"
-fi
+[[ "$ID" == "opensuse-tumbleweed" ]] && REPO_PATH="tumbleweed"
 
-# ------------------------------------------------------------
-# 2. Repo-Cleanup (Für "vermurkste" Systeme)
-# ------------------------------------------------------------
-echo "🧹 Bereinige alte Repository-Einträge..."
-# Sucht nach "intel" (case-insensitive) in der Liste und entfernt das spezifische Repo
-sudo zypper lr | grep -qi intel && sudo zypper rr intel-graphics 2>/dev/null || true
-
-# ------------------------------------------------------------
-# 3. Intel Repo Logik mit Deep-Check
-# ------------------------------------------------------------
 INTEL_REPO_BASE="https://repositories.intel.com/graphics/rpm/opensuse/$REPO_PATH/"
-INTEL_REPO_TEST="${INTEL_REPO_BASE}repodata/repomd.xml"
 INTEL_KEY_URL="https://repositories.intel.com/intel-graphics-keys/GPG-PUB-KEY-INTEL-GRAPHICS"
 
-echo "ℹ️ Prüfe Intel Graphics Repo Integrität..."
-# Wir prüfen direkt auf die repomd.xml und speichern den HTTP Status
-HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" -H "User-Agent: Mozilla/5.0" "$INTEL_REPO_TEST")
+# Versuch das Repo einzubinden, aber mit Ignorieren von Fehlern falls 403
+echo "ℹ️ Versuche Intel Repo einzubinden..."
+sudo zypper ar -f "$INTEL_REPO_BASE" intel-graphics 2>/dev/null || echo "⚠️ Direktes Intel-Repo nicht erreichbar (403), nutze Standard-Quellen."
 
-if [[ "$HTTP_CODE" == "200" ]]; then
-  echo "✅ Intel Repo (HTTP 200) ist online und valide – aktiviere es."
-  sudo zypper ar -f "$INTEL_REPO_BASE" intel-graphics
-else
-  echo "⚠️ Intel Repo Test fehlgeschlagen (Status: $HTTP_CODE)."
-  echo "➡️ Nutze Fallback auf openSUSE Standard-Graphics-Quellen."
-fi
-
-# ------------------------------------------------------------
-# 4. GPG-Key & Refresh
-# ------------------------------------------------------------
-echo "🔑 Importiere GPG-Keys (Gatekeeper-Bypass)..."
-curl -H "User-Agent: Mozilla/5.0" -L "$INTEL_KEY_URL" -o /tmp/intel-key.pub 2>/dev/null || true
-if [ -f /tmp/intel-key.pub ]; then
-  sudo rpm --import /tmp/intel-key.pub 2>/dev/null || true
-fi
-
+# GPG-Key Import
+curl -sL "$INTEL_KEY_URL" | sudo rpm --import - 2>/dev/null || true
 sudo zypper --gpg-auto-import-keys ref
 
 # ------------------------------------------------------------
-# 5. Installation mit Vendor-Log
+# 3. Installation mit korrigierten Paketnamen (openSUSE Style)
 # ------------------------------------------------------------
-echo "ℹ️ Erlaube Vendor-Wechsel zwischen openSUSE und Intel Repos (gewollt)."
-echo "📦 Installiere Treiber und Compute-Komponenten..."
+echo "📦 Installiere Compute-Stack (openSUSE Namensschema)..."
 
+# Wir nutzen hier die Namen, die openSUSE tatsächlich in den OSS/Update Repos führt
 sudo zypper --non-interactive install -y --no-recommends --allow-vendor-change \
-  intel-level-zero-gpu \
-  intel-compute-runtime \
   intel-opencl \
-  intel-oneapi-compiler-dpcpp-cpp \
-  intel-oneapi-mkl-devel \
-  intel-oneapi-runtime-mkl \
-  intel-oneapi-runtime-dpcpp-cpp \
+  level-zero-gpu \
+  libigdgmm12 \
   gmmlib-devel \
-  libigdgmm12
+  intel-oneapi-runtime-dpcpp-cpp \
+  intel-oneapi-compiler-dpcpp-cpp \
+  intel-oneapi-runtime-mkl \
+  intel-oneapi-mkl-devel
 
 # ------------------------------------------------------------
-# 6. Berechtigungen & Shell-Integration
+# 4. Finalisierung & Gruppen
 # ------------------------------------------------------------
-echo "👥 Setze Berechtigungen für $USER..."
-sudo usermod -aG video $USER 2>/dev/null || true
-sudo usermod -aG render $USER 2>/dev/null || true
-
-SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
-if [ -f "$SETVARS_PATH" ]; then
-    if ! grep -q "oneapi/setvars.sh" ~/.bashrc; then
-      echo "📝 Trage OneAPI Pfade in ~/.bashrc ein..."
-      echo "source $SETVARS_PATH > /dev/null 2>&1" >> ~/.bashrc
-    fi
-fi
+echo "👥 Berechtigungen verifizieren..."
+sudo usermod -aG video $USER
+sudo usermod -aG render $USER
 
 echo ""
-echo "--- ✅ SETUP ABGESCHLOSSEN ---"
-echo "🌟 Das System wurde erfolgreich konfiguriert."
-echo "🔄 BITTE JETZT DEN COMPUTER NEUSTARTEN."
+echo "--- ✅ SETUP V1.1 ABGESCHLOSSEN ---"
+echo "Versionshinweis: Falls 'intel-opencl' und 'level-zero-gpu' bereits installiert sind,"
+echo "und clinfo/sycl-ls die Karte trotzdem nicht sehen, prüfen Sie das Kernel-Modul 'i915' oder 'xe'."
+echo "🔄 BITTE SYSTEM NEUSTARTEN."
