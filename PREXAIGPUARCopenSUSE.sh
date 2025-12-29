@@ -1,39 +1,72 @@
 #!/bin/bash
-# Verhindert den Abbruch bei Fehlern, außer wir wollen es
+# XAIGPUARC: Das ultimative openSUSE-Setup für Intel ARC & iGPU
+# Kombiniert maximale Kompatibilität mit robuster Fehlerbehandlung
+
 set -e
 
 echo "--- XAIGPUARC: openSUSE Ultra-Fix für Intel ARC & iGPU ---"
 
-# 1. System-Check
+# ------------------------------------------------------------
+# 1. System-Check & Variablen-Definition
+# ------------------------------------------------------------
 . /etc/os-release
 if [[ "$ID" != "opensuse-leap" && "$ID" != "opensuse-tumbleweed" ]]; then
   echo "❌ Dieses Skript ist nur für openSUSE gedacht."
   exit 1
 fi
 
+IS_TW=false
+REPO_PATH="leap/15.6"
 if [[ "$ID" == "opensuse-tumbleweed" ]]; then
+  IS_TW=true
   REPO_PATH="tumbleweed"
   echo "🚀 Erkannt: openSUSE Tumbleweed"
 else
-  REPO_PATH="leap/15.6"
   echo "🌲 Erkannt: openSUSE Leap"
 fi
 
-# 2. Intel Repo & Key-Management
-echo "🔗 Richte Intel Repository ein..."
+# ------------------------------------------------------------
+# 2. Intel Repo Logik (Politisch offen & Technisch geprüft)
+# ------------------------------------------------------------
+INTEL_REPO_BASE="https://repositories.intel.com/graphics/rpm/opensuse/$REPO_PATH/"
+INTEL_KEY_URL="https://repositories.intel.com/intel-graphics-keys/GPG-PUB-KEY-INTEL-GRAPHICS"
+
+# Vorheriges Repo entfernen, um Konflikte zu vermeiden
 sudo zypper rr intel-graphics 2>/dev/null || true
-sudo zypper ar -f "https://repositories.intel.com/graphics/rpm/opensuse/$REPO_PATH/" intel-graphics
 
-# Falls der automatische Import scheitert, erzwingen wir es hier mit User-Agent
-echo "🔑 Importiere GPG-Key (Gatekeeper-Bypass)..."
-curl -H "User-Agent: Mozilla/5.0" -L "https://repositories.intel.com/intel-graphics-keys/GPG-PUB-KEY-INTEL-GRAPHICS" -o /tmp/intel-key.pub || echo "⚠️ Download fehlgeschlagen, versuche Zypper-Standard..."
-sudo rpm --import /tmp/intel-key.pub 2>/dev/null || true
+if $IS_TW; then
+  echo "ℹ️ Prüfe Erreichbarkeit des Intel Graphics Repos für Tumbleweed..."
+  # Wir prüfen nur den Header (403/404 Check)
+  if curl -fsI "$INTEL_REPO_BASE" >/dev/null; then
+    echo "✅ Intel Repo erreichbar – richte es ein."
+    sudo zypper ar -f "$INTEL_REPO_BASE" intel-graphics
+  else
+    echo "⚠️ Intel Graphics Repo für Tumbleweed derzeit nicht erreichbar (403 bekannt)."
+    echo "➡️ Das Skript wird versuchen, Standard-openSUSE Quellen zu nutzen."
+  fi
+else
+  echo "🔗 Richte Intel Graphics Repo für Leap ein..."
+  sudo zypper ar -f "$INTEL_REPO_BASE" intel-graphics
+fi
 
-# Jetzt alles aktualisieren
+# ------------------------------------------------------------
+# 3. GPG-Key Management (Der Gatekeeper-Bypass)
+# ------------------------------------------------------------
+echo "🔑 Importiere GPG-Keys..."
+# Versuche den Key sicher via curl zu laden, falls Zypper blockt
+curl -H "User-Agent: Mozilla/5.0" -L "$INTEL_KEY_URL" -o /tmp/intel-key.pub 2>/dev/null || echo "⚠️ Key-Download via curl fehlgeschlagen."
+if [ -f /tmp/intel-key.pub ]; then
+  sudo rpm --import /tmp/intel-key.pub 2>/dev/null || true
+fi
+
+# Repositories aktualisieren
 sudo zypper --gpg-auto-import-keys ref
 
-# 3. Installation
-echo "📦 Installiere Treiber und KI-Komponenten..."
+# ------------------------------------------------------------
+# 4. Installation (Repo-agnostisch & Vollständig)
+# ------------------------------------------------------------
+echo "📦 Installiere Treiber und Compute-Komponenten..."
+# Wir nutzen --allow-vendor-change, damit er zwischen Intel-Repo und SUSE-Repo springen kann
 sudo zypper --non-interactive install -y --no-recommends --allow-vendor-change \
   intel-level-zero-gpu \
   intel-compute-runtime \
@@ -45,25 +78,25 @@ sudo zypper --non-interactive install -y --no-recommends --allow-vendor-change \
   gmmlib-devel \
   libigdgmm12
 
-# 4. Gruppenrechte
-echo "👥 Setze Berechtigungen für $USER..."
-sudo usermod -aG video $USER
-sudo usermod -aG render $USER
+# ------------------------------------------------------------
+# 5. Berechtigungen & System-Integration
+# ------------------------------------------------------------
+echo "👥 Setze Berechtigungen für User: $USER..."
+sudo usermod -aG video $USER 2>/dev/null || true
+sudo usermod -aG render $USER 2>/dev/null || true
 
-# 5. OneAPI Integration
+# OneAPI Pfade in die Shell integrieren
 SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
-# Wir warten kurz, falls das Dateisystem langsam ist
-sleep 2 
 if [ -f "$SETVARS_PATH" ]; then
     if ! grep -q "oneapi/setvars.sh" ~/.bashrc; then
       echo "📝 Trage OneAPI Pfade in ~/.bashrc ein..."
       echo "source $SETVARS_PATH > /dev/null 2>&1" >> ~/.bashrc
     fi
 else
-    echo "⚠️ Hinweis: $SETVARS_PATH wird erst nach einem Neustart oder Source-Befehl voll aktiv."
+    echo "💡 Info: oneAPI Umgebung wird nach dem nächsten Login/Neustart geladen."
 fi
 
 echo ""
 echo "--- ✅ VORBEREITUNG ABGESCHLOSSEN ---"
-echo "🌟 System bereit für XAIGPUARC."
-echo "🔄 BITTE JETZT DEN COMPUTER NEUSTARTEN."
+echo "🌟 Dein openSUSE System ist nun für Intel ARC/iGPU optimiert."
+echo "🔄 BITTE JETZT DEN COMPUTER NEUSTARTEN, um alle Änderungen zu aktivieren."
