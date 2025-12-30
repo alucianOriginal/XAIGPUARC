@@ -1,10 +1,10 @@
 #!/bin/bash
 
-#9.) How to START your XAIGPUARC ONEKLICK AI-MACHINE?!
+#9.) How to START your XAIGPUARC
 
-#0.) FIRST: INTEL_ONE_API_BASEKIT MUST BE INSTALLED ON YOUR PC/LAPTOP/SYSTEM USE PREXAIGPUARC... for HELP!!!
+#0.) FIRST INTEL_ONE_API_BASEKIT MUST BE INSTALLED ON YOUR PC/LAPTOP/SYSTEM
 
-#0.) Second: Use the MKL/LEVELZERO Script to proof everything goes right for your System!
+#0.) Second is using ARCH Garuda LINUX By The Way!?! Also Good for GAMING and WINDOWS Ex Power Use!
 
 #1.) Kopie XAIGPUARC.sh in your Home/PCNAME/ Folder!
 
@@ -18,11 +18,8 @@
 
 #4.) START with type in Console ./XAIGPUARC.sh Enter...
 
-#---------------------------------------------------------------------------
-
 #-XAIGPUARC Hardware used to Build and Test
 #-6x Intel ARC 2xA770LE 16GB + 4x750LE 8GB
-#-Support for Iris XE 96EU iGPUs
 #-90-142 Watt Chip Power Draw alone each Card at different LLMs
 #-Example: GPT-OSS-20B-F16 does it very nice at low Wattage
 #-but needs longer than full working MathTutor F16 with 142 Watt
@@ -35,96 +32,90 @@
 #-Quad Channel High Bandwith RAM Gear2 with 718GB/s
 #-11,5 GiB VRAM shared from this RAM
 #-On 155H i7 GPT-OSS-20B-F16.gguf runs well but slow at 30 Watt allinone with mods
-#-BF16 Models not recommend for Alechmist 
-#-1+ till 6+ means 1+ is best double ++ is Better +++ is Insane Wonderfull AI Magic
-#-CTX-NPG is the Context Size and N-Predigt Size 
-#-Lower them if your Modell not fit! You see this do not care about the GPU alone below
+#-BF16 Models not recommend for Alechmist
 
 #F16 Mode Only
 
 #6GB+ GPU A730m/A380/A310
 
-#kani-tts-400m-en-f16_q8_0.gguf                  0.53 GB FAST CTX-NPG 8K A770LE: 588.6 Pt/s 62.4 Gt/s 100w 2.4Ghz - CPU FIRESTARTER 1++
-#baidu.ERNIE-4.5-0.3B-Base-PT.f16.gguf           0.69 GB FAST CTX-NPG 8K A770LE: 469.7 Pt/s 52.5 Gt/s 97w 2.4Ghz + CPU Mid 3+
-#MedScholar-1.5B-f16_q8_0.gguf                   2.1  GB FAST CTX-NPG 8k A770LE: 528.2 Pt/s 25.2 Gt/s 109w 2.4Ghz - CPU 2+
-#Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1  GB FAST CTX-NPG 16k A730m: 511.2 Pt/s 12.5 Gt/s 65w 2.05Ghz - CPU 1+++
-#yasserrmd.DentaInstruct-1.2B.f16.gguf           2.2  GB 
-#DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2  GB FAST CTX-NPG 8k A770LE: 513.2 Pt/s 23.3 Gt/s 112w 2.3Ghz + CPU Mid TK 3+
-#ibm-granite.granite-4.0-1b.f16.gguf             3    GB SLOW CTX-NPG 8k A770LE: 569.4 Pt/s 18.2 Gt/s 120w 2.3Ghz - CPU 5+
-#Lucy-1.7B-F16.gguf                              3.2  GB FAST CTX-NPG 16k A770LE: 572.7 Pt/s 23.2 Gt/s 108w 2.4Ghz - CPU TK 1++
-#                                                        FAST CTX-NPG 16k A730m: 382.2 Pt/s 14.7 Gt/s 65w 2.05Ghz - CPU TK 1++
-#                                                        FAST CTX-NPG 16k iGPU8XE: 2384.5 Pt/s 9.0 Gt/s 30w 2.25Ghz - CPU TK 1++
-#                                                        FAST CTX-NPG 16k iGPUIrisXE96Eu: 361.6 Pt/s 8.4 Gt/s 10w 1.4Ghz - CPU TK 1++
-#granite-4.0-micro-f16_q8_0.gguf                 4.6  GB 5+
-#gemma-2-2b-it.F16.gguf                          4.9  GB FAST CTX-NPG 16k A730m: 305.8 Pt/s 14.4 Gt/s 65w 2.2Ghz - CPU 2+
+#kani-tts-400m-en-f16_q8_0.gguf                  0.53 GB FAST CTX-NPG 8K A770LE: 588.6 Pt/s 62.4 Gt/s 100w 2.4Ghz - CPU FIRESTARTER
+#baidu.ERNIE-4.5-0.3B-Base-PT.f16.gguf           0.69 GB FAST CTX-NPG 8K A770LE: 469.7 Pt/s 52.5 Gt/s 97w 2.4Ghz + CPU Mid Low Chat
+#MedScholar-1.5B-f16_q8_0.gguf                   2.1  GB FAST CTX-NPG 8k A770LE: 528.2 Pt/s 25.2 Gt/s 109w 2.4Ghz - CPU Good
+#Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1  GB FAST
+#yasserrmd.DentaInstruct-1.2B.f16.gguf           2.2  GB
+#DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2  GB FAST CTX-NPG 8k A770LE: 513.2 Pt/s 23.3 Gt/s 112w 2.3Ghz + CPU Mid Think EZ Task
+#ibm-granite.granite-4.0-1b.f16.gguf             3    GB SLOW CTX-NPG 8k A770LE: 569.4 Pt/s 18.2 Gt/s 120w 2.3Ghz - CPU GPU INF NOT STABLE
+#Lucy-1.7B-F16.gguf                              3.2  GB FAST CTX-NPG 8k A770LE: 572.7 Pt/s 23.2 Gt/s 108w 2.4Ghz - CPU EXT STABLE
+#granite-4.0-micro-f16_q8_0.gguf                 4.6  GB
+#gemma-2-2b-it.F16.gguf                          4.9  GB FAST
 
 #8GB+ GPU A750LE
 
-#Fathom-Search-4B-f16_q8_0.gguf                  5.5  GB FAST CTX-NPG 8k A770LE: 569.4 Pt/s 18.2 Gt/s 118w 2.4Ghz - CPU TK 2+
-#Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7  GB FAST CTX-NPG 8k A770LE: 511.5 Pt/s 19.7 Gt/s 142w 2.4Ghz - CPU 1+
-#Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8  GB FAST 1+
-#SmolLM3-3B-f16.gguf                             5.8  GB FAST CTX-NPG 16k A770LE: 2137.2 Pt/s 19.1 Gt/s 119w 2.4Ghz - CPU TK 1+++
-#                                                        FAST CTX-NPG 16k iGPU8XE: 4640.1 Pt/s 6.9 Gt/s 30w 2.25Ghz - CPU TK 1+++
-#                                                        FAST CTX-NPG 16k A730m: 965 Pt/s 13.3 Gt/s 65w 2.05Ghz - CPU TK 1++
-#MiniCPM-V-4-f16.gguf                            6.7  GB FAST CTX-NPG 16k A770LE: 619.8 Pt/s 19.8 Gt/s 142w 2.4Ghz - CPU
-#                                                        FAST CTX-NPG 16k A730m: 382.2 Pt/s 14.7 Gt/s 65w 2.05Ghz - CPU 1++
-#                                                        FAST CTX-NPG 16k iGPU8XE: 880.5 Pt/s 7.2 Gt/s 30w 2.25Ghz - CPU 1++
+#Fathom-Search-4B-f16_q8_0.gguf                  5.5  GB FAST CTX-NPG 8k A770LE: 569.4 Pt/s 18.2 Gt/s 118w 2.4Ghz - CPU Think
+#Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7  GB FAST CTX-NPG 8k A770LE: 511.5 Pt/s 19.7 Gt/s 142w 2.4Ghz - CPU
+#Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8  GB FAST
+#llama3bthinkingonly5B.f16.gguf                  6.0  GB SLOW
 
 #10-12GB+ iGPU Xe-LPG/A730m/A580/B570/B580/PROA60/B50
 
-#Qwen3-4B-f16.gguf                               7.5  GB FAST CTX-NPG 8k A770LE: 613.4 Pt/s 14.5 Gt/s 120w 2.4Ghz - CPU TK 1+
-#Nemotron-Mini-4B-Instruct-f16.gguf              7.8  GB FAST CTX-NPG 8k A770LE: 717.8 Pt/s 17.8 Gt/s 118w 2.4Ghz - CPU 2+
-#                                                        SLOW CTX-NPG 16k iGPU8XE: 534.8 Pt/s 6.5 Gt/s 30w 2.25Ghz - CPU 1++
-#Minitron-4B-Base.FP16.gguf                      7.8  GB FAST CTX-NPG 4k A770LE: 764.3 Pt/s 16.3 Gt/s 131w 2.4Ghz + CPU Mid 4+
-#t5-v1_1-xxl-encoder-f16.gguf                    8.9  GB FAST CTX-NPG 8k A770LE: 361,8 Pt/s 6 Gt/s 101w 2.4Ghz - CPU 2++
+#UIGEN-X-4B-0729-f16_q8_0.gguf                   6.2  GB
+#granite-4.0-h-tiny-f16_q8_0.gguf                7    GB SLOW
+#Trinity-Nano-Preview-f16_q8_0.gguf              7.2  GB SLOW
+#Qwen3-Embedding-4B-f16.gguf                     7.5  GB SLOW
+#Qwen3-4B-f16.gguf                               7.5  GB FAST CTX-NPG 8k A770LE: 613.4 Pt/s 14.5 Gt/s 120w 2.4Ghz - CPU Very Long Think
+#Nemotron-Mini-4B-Instruct-f16.gguf              7.8  GB FAST CTX-NPG 8k A770LE: 717.8 Pt/s 17.8 Gt/s 118w 2.4Ghz - CPU
+#Minitron-4B-Base.FP16.gguf                      7.8  GB FAST CTX-NPG 4k A770LE: 764.3 Pt/s 16.3 Gt/s 131w 2.4Ghz + CPU Mid Low Q
+#t5-v1_1-xxl-encoder-f16.gguf                    8.9  GB FAST CTX-NPG 8k A770LE: 361,8 Pt/s 6 Gt/s 101w 2.4Ghz - CPU NICE
 
 #16GB+ GPU A770LE + iGPU Meteor Lake
 
+#DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5 GB
 #MiMo-Embodied-7B-f16_q8_0.gguf                  10.7 GB
-#MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST CTX-NPG 8k A770LE: 842.9 Pt/s 11.0 Gt/s 142w 2.4Ghz + CPU 1+
-#KernelLLM-f16_q8_0.gguf                         11.1 GB FAST CTX-NPG 8k A770LE: 688.5 Pt/s 11.2 Gt/s 137w 2.4Ghz - CPU 1+
-#                                                        SLOW CTX-NPG 16k iGPU8XE: 29.6 Pt/s 3.0 Gt/s 30w 2.25Ghz - CPU 1+
-#Jan-v2-VL-high-f16_q8_0.gguf                    11.4 GB FAST CTX-NPG 16k A770LE: 621.9 Pt/s 10.0 Gt/s 135w 2.4Ghz - CPU TK 2+
-#Orchestrator-8B-f16_q8_0.gguf                   11.4 GB FAST CTX-NPG 16k A770LE: 643.3 Pt/s 10.1 Gt/s 134w 2.4Ghz - CPU TK 2+
-#MiroThinker-v1.0-8B-f16_q8_0.gguf               11.4 GB 2+
-#Seed-Coder-8B-Reasoning-f16_q8_0.gguf           11.5 GB 2+
-#Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf     11.7 GB 2+
-#ggml-model-f16.gguf                             12.6 GB FAST CTX-NPG 4k A770LE: 1012.7 Pt/s 13.5 Gt/s 142w 2.4Ghz - CPU 4+
-#gpt-oss-20b-F16.gguf                            12.8 GB SLOW CTX-NPG 16k A770LE: 34.5 Pt/s 7.7 Gt/s 90W 2.3Ghz + FULL CPU 1+
-#                                                        SLOW CTX-NPG 16k iGPU8XE: 9.6 Pt/s 4.6 Gt/s 30w 2.25Ghz - CPU 1+++
-#Navid-AI.Yehia-7B-preview.f16.gguf              13   GB FAST CTX-NPG 4k A770LE: 1273.4 Pt/s 13.4 Gt/s 142w 2.4Ghz - CPU 1++
-#Mistral-7B-Instruct-v0.3.fp16.gguf              13.5 GB 2+
-#Mamba-Codestral-7B-v0.1-F16.gguf                13.6 GB SLOW CTX-NPG 16k A770LE: 110.1 Pt/s 3.2 Gt/s 97w 2.4Ghz + CPU FULL 2+
-#MathTutor-7B-H_v0.0.1.f16.gguf                  14.2 GB FAST CTX-NPG 16k A770LE: 525.0 Pt/s 13.8 Gt/s 142w 2.4Ghz - CPU 1+++
+#MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST CTX-NPG 8k A770LE: 842.9 Pt/s 11.0 Gt/s 142w 2.4Ghz + CPU Mid Long Think
+#KernelLLM-f16_q8_0.gguf                         11.1 GB FAST CTX-NPG 8k A770LE: 688.5 Pt/s 11.2 Gt/s 137w 2.4Ghz - CPU MATH KERNEL
+#Jan-v2-VL-high-f16_q8_0.gguf                    11.4 GB FAST CTX-NPG 8k A770LE: 639.6 Pt/s 10.2 Gt/s 135w 2.4Ghz - CPU Long Think
+#Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4 GB
+#Orchestrator-8B-f16_q8_0.gguf                   11.4 GB FAST CTX-NPG 8k A770LE: 640.4 Pt/s 10.2 Gt/s 134w 2.4Ghz - CPU Long Think
+#MiroThinker-v1.0-8B-f16_q8_0.gguf               11.4 GB
+#Seed-Coder-8B-Reasoning-f16_q8_0.gguf           11.5 GB
+#Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf     11.7 GB
+#ggml-model-f16.gguf                             12.6 GB FAST CTX-NPG 4k A770LE: 1012.7 Pt/s 13.5 Gt/s 142w 2.4Ghz - CPU Not Stable
+#gpt-oss-20b-F16.gguf                            12.8 GB SLOW CTX-NPG 8k A770LE: 35.5 Pt/s 8.8 Gt/s 90W 2.3Ghz + FULL CPU HQ
+#Navid-AI.Yehia-7B-preview.f16.gguf              13   GB FAST CTX-NPG 4k A770LE: 1273.4 Pt/s 13.4 Gt/s 142w 2.4Ghz - CPU HQ
+#Mistral-7B-Instruct-v0.3.fp16.gguf              13.5 GB
+#allenai.Olmo-3-7B-Think.f16.gguf                13.6 GB
+#Mamba-Codestral-7B-v0.1-F16.gguf                13.6 GB SLOW CTX-NPG 8k A770LE: 110.1 Pt/s 3.2  Gt/s 97w 2.4Ghz + CPU FULL GOOD
+#MathTutor-7B-H_v0.0.1.f16.gguf                  14.2 GB FAST CTX-NPG 8k A770LE: 529.7 Pt/s 13.7 Gt/s 142w 2.4Ghz - CPU BEST
 #END F16 MODEL LIST
 
 #START Q8-Q4-IQ4-2 MODEL LIST NOT F16!
+
 #6GB+ GPU A730m/A380/A310
 
-#phi-2.Q4_K_M.gguf                               1.7  GB FAST CTX-NPG 8k A770LE: 888.6 Pt/s 25.4 Gt/s 128w 2.4Ghz - CPU 1+++
-#openhermes-2.5-mistral-7b.Q4_K_M.gguf           4.1  GB FAST 2+
-#mistral-7b-instruct-v0.2.Q4_K_M.gguf            4.1  GB SLOW 2+
+#phi-2.Q4_K_M.gguf                               1.7  GB FAST CTX-NPG 8k A770LE: 888.6 Pt/s 25.4 Gt/s 128w 2.4Ghz - CPU EXT NICE
+#openhermes-2.5-mistral-7b.Q4_K_M.gguf           4.1  GB FAST
+#mistral-7b-instruct-v0.2.Q4_K_M.gguf            4.1  GB SLOW
 
 #8GB+ GPU A750LE
 
-#OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf           5.5  GB FAST CTX-NPG 8k A770LE: 1233.9 Pt/s 14.4 Gt/s 145w 2.4Ghz - CPU 1+
-#NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.6  GB SLOW CTX-NPG 16k iGPU8XE: 28.6 Pt/s 2.3 Gt/s 30w 2.15Ghz - CPU 2++
-#wizardcoder-python-7b-v1.0.Q8_0.gguf            6.7  GB SLOW 2+
-#sauerkrautlm-7b-v1.Q8_0.gguf                    6.7  GB FAST CTX-NPG 8k A770LE: 1364.6 Pt/s 12.1 Gt/s 142w 2.4Ghz - CPU 2+
+#OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf           5.5  GB FAST CTX-NPG 8k A770LE: 1233.9 Pt/s 14.4 Gt/s 145w 2.4Ghz - CPU OLDSC
+#NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.6  GB SLOW
+#wizardcoder-python-7b-v1.0.Q8_0.gguf            6.7  GB SLOW
+#sauerkrautlm-7b-v1.Q8_0.gguf                    6.7  GB FAST CTX-NPG 8k A770LE: 1364.6 Pt/s 12.1 Gt/s 142w 2.4Ghz - CPU OLDSC
 
 #10-12GB+ iGPU Xe-LPG/A730m/A580/B570/B580/PRO60/B50
 
-#Qwen3-16B-A3B-IQ4_NL.gguf                       8.5  GB FAST 2++
-#Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7  GB SLOW CTX-NPG 16k iGPU8XE: 16.3 Pt/s 4.0 Gt/s 30w 2.25Ghz - CPU TK 2+
-#solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf  10.6 GB FAST CTX-NPG 16k A770LE: 985.6 Pt/s 7.5 Gt/s 135w 2.4Ghz - CPU 1++
-#gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3 GB SLOW CTX-NPG 8k A770LE: 35.4 Pt/s 8.7 Gt/s 92W 2.2Ghz + FULL CPU 3+
-#                                                        SLOW CTX-NPG 16k A730m: 14.9 Pt/s 4.5 Gt/s 40w 1.3Ghz + FULL CPU 3+
+#Qwen3-16B-A3B-IQ4_NL.gguf                       8.5  GB FAST
+#Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7  GB FAST
+#solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf  10.6 GB FAST CTX-NPG 8k A770LE: 985.6 Pt/s 7.5 Gt/s 135w 2.4Ghz - CPU VIP
+#gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3 GB SLOW CTX-NPG 8k A770LE: 35.4 Pt/s 8.7 Gt/s 92W 2.2Ghz + FULL CPU
+#gpt-oss-20b-mxfp4.gguf                          11.3 GB SLOW
+#velara-11b-v2.Q8_0.gguf                         11.3 GB FAST
 
 #16GB+ A770LE
-
-#velara-11b-v2.Q8_0.gguf                         11.3 GB FAST 2+++
+#flux1-kontext-dev-Q8_0.gguf                     11.8 GB NO SUPPORT FOR FLUX IN THE MOMENT
 #Deepseek-Coder-V2-Lite-13B-
-#Instruct-sft-s1K.i1-Q6_K.gguf                   13.1 GB FAST CTX-NPG 8k A770LE: 22.7 Pt/s 7.9 Gt/s 98W 2.4Ghz - CPU 3+
+#Instruct-sft-s1K.i1-Q6_K.gguf                   13.1 GB FAST CTX-NPG 8k A770LE: 22.7 Pt/s 7.9 Gt/s 98W 2.4Ghz - CPU OK
 
 
 set -euo pipefail
@@ -228,7 +219,7 @@ exit 1
 fi
 }
 
-#2PATCH LOGIK 6/6
+#2PATCH LOGIK 6/7
 patch_llama_cpp() {
 log "🔷PATCH FUER GGML SYCL ANLEGEN KOPFZEILENREGESTRIERUNG"
 local DPCT_HELPER_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/dpct/helper.hpp"
@@ -239,37 +230,37 @@ local CUSTOM_KERNEL_CMAKE="${CUSTOM_KERNEL_DIR}/CMakeLists.txt"
 local GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 local KERNEL_SOURCE_LOCAL="ggml_flash_attention_sycl.cpp"
 
-#1/6
+#1/7
 if [ -f "$DPCT_HELPER_FILE" ]; then
-log "🔷PATCH 1/6 MATHEMATIKBIBLIOTHEK WIRD GELADEN"
+log "🔷PATCH 1/7 MATHEMATIKBIBLIOTHEK WIRD GELADEN"
 if sed -i 's|#include <sycl/ext/oneapi/math.hpp>|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
-log "🔷PATCH 1/6 MATHEMATIKBIBLIOTHEK LADEN ERFOLGREICH SCHREIBE KOPZEILEN"
+log "🔷PATCH 1/7 MATHEMATIKBIBLIOTHEK LADEN ERFOLGREICH SCHREIBE KOPZEILEN"
 elif sed -i 's|#if !defined(DPCT_USM_LEVEL_NONE) && defined(DPCT_ENABLE_MKL_MATH).#endif|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
-log "🔷PATCH 1/6 MATHEMATIKBLIOTHEKENKOPFE ERFOLGREICH EINGELADEN SPEICHERE IN AUSGABE"
+log "🔷PATCH 1/7 MATHEMATIKBLIOTHEKENKOPFE ERFOLGREICH EINGELADEN SPEICHERE IN AUSGABE"
 else
-error "❌PATCH 1/6 MKL MATHEMATIKBIBLIOTHEKEN EINLADEN IST FEHLGESCHLAGEN"
+error "❌PATCH 1/7 MKL MATHEMATIKBIBLIOTHEKEN EINLADEN IST FEHLGESCHLAGEN"
 return 1
 fi
 else
-error "❌PATCH 1/6 MATHEMATIKBIBLIOTHEKEN MKL FEHLGESCHLAGEN NICHT GEFUNDEN ABHAENIGKEITEN PRUEFEN"
+error "❌PATCH 1/7 MATHEMATIKBIBLIOTHEKEN MKL FEHLGESCHLAGEN NICHT GEFUNDEN ABHAENIGKEITEN PRUEFEN"
 return 1
 fi
 
-#2/6
-log "🔷PATCH 2/6 BAUE FLASH ATTENTION KERN"
+#2/7
+log "🔷PATCH 2/7 BAUE FLASH ATTENTION KERN"
 
-#2a/6
+#2a/7
 if [ ! -d "$CUSTOM_KERNEL_DIR" ]; then
 mkdir -p "$CUSTOM_KERNEL_DIR"
 log "🔷ORNDER '${CUSTOM_KERNEL_DIR}'ANGELEGT"
 fi
 if [ -f "$KERNEL_SOURCE_LOCAL" ]; then
 cp "$KERNEL_SOURCE_LOCAL" "$CUSTOM_KERNEL_SRC"
-log "🔷PATCH 2/6 ggml_flash_attention_sycl.cpp KERNEL './${KERNEL_SOURCE_LOCAL}' NACH '${CUSTOM_KERNEL_SRC}' KOPIERT"
+log "🔷PATCH 2/7 ggml_flash_attention_sycl.cpp KERNEL './${KERNEL_SOURCE_LOCAL}' NACH '${CUSTOM_KERNEL_SRC}' KOPIERT"
 fi
 if [ ! -f "$CUSTOM_KERNEL_SRC" ]; then
 echo "PLATZHALTER ggml_flash_attention_sycl.cpp KERNELVERZEICHNIS" > "$CUSTOM_KERNEL_SRC"
-warn "⚠️PATCH 2/6 LADEN DER KERNELDATEI '${KERNEL_SOURCE_LOCAL} FEHLGESCHLAGEN"
+warn "⚠️PATCH 2/7 LADEN DER KERNELDATEI '${KERNEL_SOURCE_LOCAL} FEHLGESCHLAGEN"
 fi
 echo "
 add_library(ggml_flash_attention_sycl OBJECT
@@ -278,24 +269,24 @@ add_library(ggml_flash_attention_sycl OBJECT
 target_include_directories(ggml_flash_attention_sycl PRIVATE \${GGML_SYCL_INCLUDE_DIRS})
 target_compile_options(ggml_flash_attention_sycl PUBLIC \${GGML_SYCL_COMPILE_FLAGS})
 " > "$CUSTOM_KERNEL_CMAKE"
-log "🔷PATCH 2a/6 CMAKE LISTEN FUER OBJEKTE ALS KOPFZEILE EINGEFUEGT"
+log "🔷PATCH 2a/7 CMAKE LISTEN FUER OBJEKTE ALS KOPFZEILE EINGEFUEGT"
 
-#2b/6
+#2b/7
 local ADD_SUBDIR_LINE="add_subdirectory(ggml_flash_attention_sycl)"
 if ! grep -Fq "${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
 if sed -i "/add_subdirectory(dpct)/a ${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
-log "🔷PATCH 2b/6 ERFOLGREICH FLASH ATTENTION ZU KOPFZEILEN AN CMAKE GESCHRIEBEN"
+log "🔷PATCH 2b/7 ERFOLGREICH FLASH ATTENTION ZU KOPFZEILEN AN CMAKE GESCHRIEBEN"
 else
-error "❌PATCH 2b/6 FLASH ATTENTION EINGLIEDERUNG DER KOPFZEILEN AN CMAKE FEHLGESCHLAGEN"
+error "❌PATCH 2b/7 FLASH ATTENTION EINGLIEDERUNG DER KOPFZEILEN AN CMAKE FEHLGESCHLAGEN"
 return 1
 fi
 else
-log "🔷PATCH 2b/6 FLASH ATTENTION BEREITS AKTIV UEBERSPRINGE"
+log "🔷PATCH 2b/7 FLASH ATTENTION BEREITS AKTIV UEBERSPRINGE"
 fi
 
-#3/6
+#3/7
 if [ -f "$CMAKE_LISTS_FILE" ]; then
-log "🔷PATCH 3/6: CMAKE LISTEN FUER KOPZEILEN ZUR ICPX IMPLEMENTIERUNG VORBEREITEN"
+log "🔷PATCH 3/7: CMAKE LISTEN FUER KOPZEILEN ZUR ICPX IMPLEMENTIERUNG VORBEREITEN"
 local MKL_INCLUDE_PATH="${MKL_ROOT}/include"
 local COMPILER_INCLUDE_PATH="${DPCPP_ROOT}/include"
 local DPCPP_LIB_INCLUDE_PATH="${DPCPP_ROOT}/lib/dpcpp/include"
@@ -305,24 +296,24 @@ local SEARCH_MARKER="#Add include directories for MKL headers"
 if ! grep -Fq "${COMPILER_INCLUDE_PATH}" "$CMAKE_LISTS_FILE"; then
 local SED_PATCH_LINE=$(echo "$PATCH_LINE" | sed 's/ /\ /g; s/[/&]/\&/g')
 if sed -i "/${SEARCH_MARKER}/a $SED_PATCH_LINE" "$CMAKE_LISTS_FILE"; then
-log "🔷PATCH 3/6 ERFOLGREICH ALLE ICPX KOPFZEILEN EINGEFUEGT"
+log "🔷PATCH 3/7 ERFOLGREICH ALLE ICPX KOPFZEILEN EINGEFUEGT"
 else
-error "❌PATCH 3/6 ICPX CMAKE LISTSTXT NICHT GEFUNDEN ABHAENGIKEITEN PRUEFEN"
+error "❌PATCH 3/7 ICPX CMAKE LISTSTXT NICHT GEFUNDEN ABHAENGIKEITEN PRUEFEN"
 return 1
 fi
 else
-log "🔷PATCH 3a/6 CMAKE LISTSTXT PFAD FUER SYCL GGML BEREITS BENUTZT UEBERSPRINGE"
+log "🔷PATCH 3a/7 CMAKE LISTSTXT PFAD FUER SYCL GGML BEREITS BENUTZT UEBERSPRINGE"
 fi
 else
-error "❌PATCH 3a/6 FEHLGESCHLAGEN CMAKE LISTSTXT FUER SYCL GGML PFADE NICHT GEFUNDEN BITTE ABHAENGIGKEITEN PRUEFEN"
+error "❌PATCH 3a/7 FEHLGESCHLAGEN CMAKE LISTSTXT FUER SYCL GGML PFADE NICHT GEFUNDEN BITTE ABHAENGIGKEITEN PRUEFEN"
 return 1
 fi
 
-#4/6
-log "🔷PATCH 4/6 FLASH ATTENTION KERN INJIZIEREN"
+#4/7
+log "🔷PATCH 4/7 FLASH ATTENTION KERN INJIZIEREN"
 if [ -f "$GGML_SYCL_CPP" ]; then
 
-#4a/6
+#4a/7
 local FA_REGISTER_CODE=$'//REGESTRIERE ggml_flash_attention_sycl.cpp \nextern "C"
 void ggml_flash_attention_sycl(ggml_flash_attention_sycl * ctx, ggml_tensor *
 dst, const ggml_tensor * Q, const ggml_tensor * K, const ggml_tensor * V);\n'
@@ -332,86 +323,97 @@ awk '/extern "C" void ggml_flash_attention_sycl/ { system("cat /tmp/fa_decl.patc
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
 
 if [ $? -eq 0 ]; then
-log "🔷PATCH 4a/6 DEKLARATION ERFOLGREICH EINGEFUEGT"
+log "🔷PATCH 4a/7 DEKLARATION ERFOLGREICH EINGEFUEGT"
 else
-error "❌PATCH 4a/6 FEHLER BEIM EINFUEGEN DER FLASH ATTENTION DEKLARATION AWK FEHLER"
+error "❌PATCH 4a/7 FEHLER BEIM EINFUEGEN DER FLASH ATTENTION DEKLARATION AWK FEHLER"
 return 1
 fi
 else
-log "🔷PATCH 4a/6 FLASH ATTENTION DEKLARATIONEN BEREITS VORHANDEN FORTFAHREN"
+log "🔷PATCH 4a/7 FLASH ATTENTION DEKLARATIONEN BEREITS VORHANDEN FORTFAHREN"
 fi
 local FA_DISPATCH_CASE=$' case GGML_OP_FLASH_ATTN:\n ggml_flash_attention_sycl(ctx, dst, src0, src1, src2);\n break;'
 if ! grep -Fq "case GGML_OP_FLASH_ATTN:" "${GGML_SYCL_CPP}"; then
-log "🔷PATCH 4a/6 FUEGE DEN ZWISCHENSPEICHER PER AWK KOPFZEILE EIN"
+log "🔷PATCH 4a/7 FUEGE DEN ZWISCHENSPEICHER PER AWK KOPFZEILE EIN"
 echo "${FA_DISPATCH_CASE}" > /tmp/fa_dispatch.patch
 awk '/case GGML_OP_MUL_MAT_Q_K:/ { system("cat /tmp/fa_dispatch.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
 
 if [ $? -eq 0 ]; then
-log "🔷PATCH 4a/6 AWK UNTERBAU IN KOPFZEILEN EINGEFUEHRT"
+log "🔷PATCH 4a/7 AWK UNTERBAU IN KOPFZEILEN EINGEFUEHRT"
 else
-error "❌PATCH 4a/6 FEHLER BEIM EINFUEGEN DER AWK KOPFZEILEN"
+error "❌PATCH 4a/7 FEHLER BEIM EINFUEGEN DER AWK KOPFZEILEN"
 fi
 else
-log "🔷PATCH 4a/6 AWK UNTERBAU VORHANDEN FORTFAHREN"
+log "🔷PATCH 4a/7 AWK UNTERBAU VORHANDEN FORTFAHREN"
 fi
-log "🔷PATCH 4b/6 ERFOLGREICH FLASHATTENTION GELADEN"
+log "🔷PATCH 4b/7 ERFOLGREICH FLASHATTENTION GELADEN"
 else
-error "❌PATCH 4b/6 FEHLGESCHLAGEN FLASHATTENTION KERN NICHT GEFUNDEN"
+error "❌PATCH 4b/7 FEHLGESCHLAGEN FLASHATTENTION KERN NICHT GEFUNDEN"
 return 1
 fi
 
-#5/6
-log "🔷PATCH 5/6 INJIZIERE FLASH ATTENTION OBJEKT VARIABLEN AUS UNTERBLOCK DER SYCL BIBLIOTHEKEN"
+#5/7
+log "🔷PATCH 5/7 INJIZIERE FLASH ATTENTION OBJEKT VARIABLEN AUS UNTERBLOCK DER SYCL BIBLIOTHEKEN"
 local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
 
-#5a/6
+#5a/7
 local VAR_LINE="set(FA_OBJECT_FILES \"\$<TARGET_OBJECTS:ggml_flash_attention_sycl>\")"
 local VAR_SEARCH_MARKER="set(GGML_SYCL_SOURCES"
 if ! grep -Fq "FA_OBJECT_FILES" "$CMAKE_LISTS_FILE"; then
 local SED_VAR_LINE=$(echo "$VAR_LINE" | sed 's/[\/&]/\\&/g')
 if sed -i "/${VAR_SEARCH_MARKER}/a ${SED_VAR_LINE}" "$CMAKE_LISTS_FILE"; then
-log "🔷PATCH 5a/6 FLASH ATTENTION OBJEKT VARIABLEN ERFOLGREICH DEFINIERT WEITER"
+log "🔷PATCH 5a/7 FLASH ATTENTION OBJEKT VARIABLEN ERFOLGREICH DEFINIERT WEITER"
 else
-error "❌PATCH 5a/6 FLASH ATTENTION OBJEKT VARIABLEN BAU FEHLGESCHLAGEN STOPP"
+error "❌PATCH 5a/7 FLASH ATTENTION OBJEKT VARIABLEN BAU FEHLGESCHLAGEN STOPP"
 return 1
 fi
 else
-log "🔷PATCH 5a/6 FLASH ATTENTION OBJEKT VARIABLEN VORHANDEN UEBERSPRINGE"
+log "🔷PATCH 5a/7 FLASH ATTENTION OBJEKT VARIABLEN VORHANDEN UEBERSPRINGE"
 fi
 
-#5b/6
+#5b/7
 local TARGET_SEARCH_MARKER="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES})"
 local NEW_TARGET_SOURCES_LINE="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES} \${FA_OBJECT_FILES})"
 if grep -Fq "${TARGET_SEARCH_MARKER}" "$CMAKE_LISTS_FILE" && ! grep -Fq "\${FA_OBJECT_FILES}" "$CMAKE_LISTS_FILE"; then
 local SED_NEW_LINE=$(echo "$NEW_TARGET_SOURCES_LINE" | sed 's/[\/&]/\\&/g')
 local SED_SEARCH_MARKER=$(echo "$TARGET_SEARCH_MARKER" | sed 's/[\/&]/\\&/g')
 if sed -i "s/${SED_SEARCH_MARKER}/${SED_NEW_LINE}/" "$CMAKE_LISTS_FILE"; then
-log "🔷PATCH 5b/6 ERFOLGREICHE GGML SYCL INJEKTIONEN IN BAUVORGANG"
+log "🔷PATCH 5b/7 ERFOLGREICHE GGML SYCL INJEKTIONEN IN BAUVORGANG"
 else
-error "❌PATCH 5b/6 GGML SYCL INJEKTION FEHLGESCHLAGEN"
+error "❌PATCH 5b/7 GGML SYCL INJEKTION FEHLGESCHLAGEN"
 return 1
 fi
 else
-log "🔷PATCH 5b/6 GGML SYCL IST BEREITS AKTIV INJECTION WIRD UEBERSPRUNGEN"
+log "🔷PATCH 5b/7 GGML SYCL IST BEREITS AKTIV INJECTION WIRD UEBERSPRUNGEN"
 fi
 
-#6/6
-log "🔷PATCH 6/6: SSMCONVPP WARNUNG BEHEBEN VORZEICHENVERGLEICH"
+#6/7
+log "🔷PATCH 6/7: SSMCONVPP WARNUNG BEHEBEN VORZEICHENVERGLEICH"
 local SSM_CONV_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ssm_conv.cpp"
-local SEARCH_LINE='GGML_ASSERT(src0->nb[1] == src0->ne[0] * static_cast<int>(sizeof(float)));'
-local REPLACE_LINE='GGML_ASSERT(src0->nb[1] == (size_t)(src0->ne[0] * sizeof(float)));'
+local SEARCH_LINE='GGML_ASSERT(src0->nb[1] = src0->ne[0] * (size_t)<int64_t>(sizeof(double)));'
+local REPLACE_LINE='GGML_ASSERT(src0->nb[1] = (size_t)(src0->ne[0] * sizeof(double)));'
 if grep -Fq "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
 if sed -i "s/${SEARCH_LINE}/${REPLACE_LINE}/g" "$SSM_CONV_FILE"; then
-log "🔷PATCH 6/6 SSMCONVCPP ERFOLGREICH"
+log "🔷PATCH 6/7 SSMCONVCPP ERFOLGREICH"
 else
-error "❌PATCH 6/6 SSMCONVCPP FEHLGESCHLAGEN"
+error "❌PATCH 6/7 SSMCONVCPP FEHLGESCHLAGEN"
 return 1
 fi
 else
-log "🔷PATCH 6/6 SSMCONVCPP ZEILE NICHT GEFUNDEN UEBERSPRINGE"
+log "🔷PATCH 6/7 SSMCONVCPP ZEILE NICHT GEFUNDEN UEBERSPRINGE"
 fi
-success "✅ALLE EINGLIEDERUNGEN FUER DAS INTEL ARC GPU BASIERTE XAIGPUARC SPRACHMODELL ERFOLGREICH ANGEWAND"
+
+#7/7
+log "🔷PATCH 7/7: ERZWINGE MAX BLOCK SIZE 1024 FUER ARC"
+if [ -f "$GGML_SYCL_CPP" ]; then
+if ! grep -q "GGML_SYCL_MAX_BLOCK_SIZE 1024" "$GGML_SYCL_CPP"; then
+sed -i '1i #define GGML_SYCL_MAX_BLOCK_SIZE 1024' "$GGML_SYCL_CPP"
+log "🔷PATCH 7/7 BLOCK SIZE 1024 ERFOLGREICH INJIZIERT"
+else
+log "🔷PATCH 7/7 BLOCK SIZE BEREITS DEFINIERT"
+fi
+success "✅ALLE EINGLIEDERUNGEN FUER DAS INTEL ARC GPU BASIERTE XAIGPUARC ERFOLGREICH ANGEWANDT"
+fi
 }
 
 #3XAIGPUARCBAUKONFIGURATION
@@ -602,8 +604,8 @@ Section 4: Possible Alternatives (if any)"}
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
-local CONTEXT_SIZE=8192 #NEUE WERTE SETZEN 2048 4096 8192 16384
-local PREDICT_TOKENS=8192 #VERRINGERN UM SCHNELLERE ANTWORTEN ZU ERHALTEN
+local CONTEXT_SIZE=16384 #NEUE WERTE SETZEN 2048 4096 8192 16384
+local PREDICT_TOKENS=16384 #VERRINGERN UM SCHNELLERE ANTWORTEN ZU ERHALTEN
 log "🔷STARTE KI ANTWORT AUF IHRER iGPU/dGPU UND CPU MIT FOLGENDEN PARAMETERN**${DEVICE} (ID: ${GPU_ID})** MIT NGL WERT IST GLEICH ${NGL_SET} AUF DIESEM **${FULL_LLAMA_CLI_PATH}**"
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
 error "❌FEHLER AKTUELLER LLAMA UNTERBAU NICHT GEFUNDEN NEUBAU FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
