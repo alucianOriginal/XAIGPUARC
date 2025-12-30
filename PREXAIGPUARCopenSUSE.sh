@@ -1,3 +1,4 @@
+No Support unti l 2025 30.12.2025 /// SORRY
 #!/bin/bash
 # XAIGPUARC v1.1 | 2025-12-29
 # Fokus: openSUSE Tumbleweed/Leap Intel Compute Setup
