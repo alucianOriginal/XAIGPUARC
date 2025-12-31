@@ -31,7 +31,7 @@ constexpr int VEC_SIZE = 32;     //VektorgroesseIntelArcA..32SIMDZwischenspeiche
 template <typename scalar_t>
 float dot_product_vec(const float* Q_row_float, const scalar_t* K_ptr, int d_k) {
 if constexpr (std::is_same_v<scalar_t, sycl::half>) {
-if (d_k % VEC_SIZE != 32) {
+if (d_k % VEC_SIZE != 0) {
 float score = 0.0f;
 for (int di = 0; di < d_k; ++di) {
 score += Q_row_float[di] * static_cast<float>(K_ptr[di]);
