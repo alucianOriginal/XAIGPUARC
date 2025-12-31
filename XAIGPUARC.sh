@@ -1,49 +1,42 @@
 #!/bin/bash
 
-#INTERPRATOR
-#XAIGPUARC
+#||XAIGPUARC||
+
+#|IMPERATOR|INTEPRATOR|EDITION|AUTOMATOR|
+
 #SYCL
-#31.12.2025 11:18
-#Goldenbug#ImperatorInterpratorXaiGPUARCAUTOMATOR#
+#31|12|2025|13:37|
+#Goldenbug#Imperator|Interprator|X|ai|GPUARC|AUTOMATOR#
 
-#9.) How to START your XAIGPUARC Interprator Happy New Year Edition 2026
+#9.)How START your XAIGPUARC IperatorInterprator|HappyNewYear|Edition|2026
+#0.)FIRST INTELONEAPIBASEKIT PC|LAPTOP|SYSTEM
+#0.)Second ARCH|Garuda|LINUX
+#1.)Kopie XAIGPUARC.sh your Home/PCNAME|Folder
+#2.)Between XAIGPUARC Full INSTALLATION Download a gguf AI fit in your
+#a.)V|RAM /models/HereAINAME also in your Home/PCNAME/models/HereAINAME|Folder
+#3.)Change your Modell here in the Textfile twice below
+#b.)Open Console and Type: chmod +x ./XAIGPUARC.sh Enter...
+#4.)START with type in Console ./XAIGPUARC.sh Enter..
 
-#0.) FIRST INTEL_ONE_API_BASEKIT MUST BE INSTALLED ON YOUR PC|LAPTOP|SYSTEM
-
-#0.) Second ARCH Garuda LINUX
-
-#1.) Kopie XAIGPUARC.sh in your Home/PCNAME| Folder
-
-#2.) Between XAIGPUARC Full INSTALLATION Download a gguf AI fit in your
-
-#a.) V|RAM to /models/HereAINAME also in your Home/PCNAME/models/HereAINAME| Folder
-
-#3.) Change your Modell here in the Textfile twice below
-
-#b.) Open Console and Type: chmod +x ./XAIGPUARC.sh Enter...
-
-#4.) START with type in Console ./XAIGPUARC.sh Enter...
-
-#-XAIGPUARC Hardware used to Build and Test
-#-6x Intel ARC 2xA770LE 16GB 4x750LE 8GB
-#-90 142 Watt Chip Power Draw alone each Card different LLMs
-#-Example GPT-OSS-20B-F16 very nice low Wattage
-#-needs longer full working MathTutor F16 with 142 Watt
-#-Use multible Models better Workflow
-#-All Hardware Modded not Stock Compareable
-#-PLS watch Cooling Dust Free System
-#-3 Single Dual dGPUs AMD Ryzen 2600 2700x Intel i7 6700K Z170 RAM 16GB 128GB
-#-2 Intel iGPU XE Alder Lake Gen 12700H 12650H A730m 12 GB 32GB DDR4|5 RAM
-#-1 Intel Core Ultra 7 155H Meteor Lake 8 Core Xe-LPG 128EU ARC 16GiB
-#-Quad Channel High Bandwith RAM Gear2 with 718GB|s
-#-11,5 GiB VRAM shared RAM
-#-On 155H i7 GPT-OSS-20B-F16.gguf well but slow at 30 Watt allinone with mods
-#-BF16 Models not recommend for Alechmist
+#XAIGPUARC Hardware|Build|Test
+#Intel|ARC|Alchemist|Battlemage|Calestial|Druid|A770LE|16GB|750LE|8GB
+#90|142|Watt Chip Power Draw alone each Card different LLMs
+#Example GPT-OSS-20B-F16 very nice low Wattage
+#needlonger fullworking|MathTutorF16|142 Watt
+#Use multible Models better Workflow
+#All Hardware Modded not Stock Compareable
+#PLS watch Cooling Dust Free System
+#Single Dual dGPUs AMD Ryzen 2600 2700x Intel i7 6700K Z170 RAM 16GB 128GB
+#Intel iGPU XE Alder Lake Gen 12700H 12650H A730m 12 GB 32GB DDR4|5 RAM
+#Intel Core Ultra 7 155H Meteor Lake 8 Core Xe-LPG 128EU ARC 16GiB
+#QuadChannelHigh Bandwith RAM Gear2 with 718GB|s
+#11,5 GiB VRAM shared RAM
+#155H i7 GPT|OSS|20B|F16.gguf well but slow at 30 Watt allinone with mods
+#BF16 Models not recommend for Alechmist
 
 #F16 Mode Only
 
 #6GB+ GPU A730m/A380/A310
-
 #kani-tts-400m-en-f16_q8_0.gguf                  0.53 GB FAST CTX-NPG 8K A770LE: 588.6 Pt/s 62.4 Gt/s 100w 2.4Ghz - CPU FIRESTARTER
 #baidu.ERNIE-4.5-0.3B-Base-PT.f16.gguf           0.69 GB FAST CTX-NPG 8K A770LE: 469.7 Pt/s 52.5 Gt/s 97w 2.4Ghz + CPU Mid Low Chat
 #MedScholar-1.5B-f16_q8_0.gguf                   2.1  GB FAST CTX-NPG 8k A770LE: 528.2 Pt/s 25.2 Gt/s 109w 2.4Ghz - CPU Good
@@ -56,14 +49,12 @@
 #gemma-2-2b-it.F16.gguf                          4.9  GB FAST
 
 #8GB+ GPU A750LE
-
 #Fathom-Search-4B-f16_q8_0.gguf                  5.5  GB FAST CTX-NPG 8k A770LE: 569.4 Pt/s 18.2 Gt/s 118w 2.4Ghz - CPU Think
 #Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7  GB FAST CTX-NPG 8k A770LE: 511.5 Pt/s 19.7 Gt/s 142w 2.4Ghz - CPU
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8  GB FAST
 #llama3bthinkingonly5B.f16.gguf                  6.0  GB SLOW
 
 #10-12GB+ iGPU Xe-LPG/A730m/A580/B570/B580/PROA60/B50
-
 #UIGEN-X-4B-0729-f16_q8_0.gguf                   6.2  GB
 #granite-4.0-h-tiny-f16_q8_0.gguf                7    GB SLOW
 #Trinity-Nano-Preview-f16_q8_0.gguf              7.2  GB SLOW
@@ -74,7 +65,6 @@
 #t5-v1_1-xxl-encoder-f16.gguf                    8.9  GB FAST CTX-NPG 8k A770LE: 361,8 Pt/s 6 Gt/s 101w 2.4Ghz - CPU NICE
 
 #16GB+ GPU A770LE + iGPU Meteor Lake
-
 #DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5 GB
 #MiMo-Embodied-7B-f16_q8_0.gguf                  10.7 GB
 #MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST CTX-NPG 8k A770LE: 842.9 Pt/s 11.0 Gts 142w 2.4Ghz + CPU Mid Long Think
@@ -95,22 +85,18 @@
 #END F16 MODEL LIST
 
 #START Q8-Q4-IQ4-2 MODEL LIST NOT F16!
-
 #6GB+ GPU A730m/A380/A310
-
 #phi-2.Q4_K_M.gguf                               1.7  GB FAST CTX-NPG 8k A770LE: 888.6 Pt/s 25.4 Gt/s 128w 2.4Ghz - CPU EXT NICE
 #openhermes-2.5-mistral-7b.Q4_K_M.gguf           4.1  GB FAST
 #mistral-7b-instruct-v0.2.Q4_K_M.gguf            4.1  GB SLOW
 
 #8GB+ GPU A750LE
-
 #OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf           5.5  GB FAST CTX-NPG 8k A770LE: 1233.9 Pt/s 14.4 Gt/s 145w 2.4Ghz - CPU OLDSC
 #NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.6  GB SLOW
 #wizardcoder-python-7b-v1.0.Q8_0.gguf            6.7  GB SLOW
 #sauerkrautlm-7b-v1.Q8_0.gguf                    6.7  GB FAST CTX-NPG 8k A770LE: 1364.6 Pt/s 12.1 Gt/s 142w 2.4Ghz - CPU OLDSC
 
 #10-12GB+ iGPU Xe-LPG/A730m/A580/B570/B580/PRO60/B50
-
 #Qwen3-16B-A3B-IQ4_NL.gguf                       8.5  GB FAST
 #Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7  GB FAST
 #solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf  10.6 GB FAST CTX-NPG 8k A770LE: 985.6 Pt/s 7.5 Gt/s 135w 2.4Ghz - CPU VIP
@@ -123,17 +109,13 @@
 #Deepseek-Coder-V2-Lite-13B-
 #Instruct-sft-s1K.i1-Q6_K.gguf                   13.1 GB FAST CTX-NPG 8k A770LE: 22.7 Pt/s 7.9 Gt/s 98W 2.4Ghz - CPU OK
 
-
 set -euo pipefail
 IFS=$'\n\t'
-
 PRECISION="FP16"
 DEVICE="ARC"
-
 LLAMA_CPP_DIR="llama.cpp"
 BUILD_DIR="${BUILD_DIR:-XAIGPUARC}"
 BUILD_DIR="${BUILD_DIR%/}"
-
 #XAIGPUARC
 GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"
@@ -142,7 +124,6 @@ LOG_FILE="${BUILD_DIR}/XAIGPUARC.log"
 LLAMA_CLI_PATH="bin/llama-cli"
 LS_SYCL_DEVICE_PATH="bin/llama-ls-sycl-device"
 ADD_SUBDIR_LINE="add_subdirectory(ggml-sycl)"
-
 #ONEAPIFUNKTIONEN
 export TCM_ROOT="${TCM_ROOT:-/opt/intel/oneapi/tcm/latest}"
 export SYCL_CACHE_PERSISTENT=1
@@ -153,13 +134,11 @@ export CCACHE_DIR="$HOME/.ccache"
 export COMPILER_VERSION="2025.0"
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
 export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=128
-
 #HILFSFUNKTIONEN
 log() { printf "🔷 %s\n" "$*"; }
 success() { printf "✅ %s\n" "$*"; }
 error() { printf "❌ %s\n\n" "$*"; }
 warn() { printf "⚠️ %s\n" "$*"; }
-
 #INTERNETPRUEFUNG
 check_internet() {
 log "🔷PRUEFE INTERNETVERBINDUNG"
@@ -171,7 +150,6 @@ warn "⚠️KEINE INTERNETVERBINDUNG GEFUNDEN BEI ERSTINSTALLATION FUER DAS LADE
 return 1
 fi
 }
-
 #UMGEBUNGRUECKFALLMECHANISMENVORBEREITEN
 prepare_environment() {
 log "🔷HOLE ONE API KOPFZEILEN UEBERSCHRIFTEN FUER XAIGPUARC BCXAI ALUCIAN BLOCKWORKORANGE ORIGINAL ULTRA MADNESS EDITION"
@@ -202,7 +180,6 @@ exit 1
 fi
 log "🔷VERBINDUNG ONEAPI GELADEN DPCPP_ROOT=${DPCPP_ROOT} UND MKL_ROOT=${MKL_ROOT}"
 }
-
 #1PROJEKTVORBAU
 setup_project() {
 log "🔷BAUE VORBAU XAIGPUARC BITTE WARTEN"
@@ -225,8 +202,7 @@ error "❌FEHLER HAUPTVERZEICHNIS'${LLAMA_CPP_DIR}'NICHT GEFUNDEN ABBRUCH"
 exit 1
 fi
 }
-
-#2PATCH LOGIK 1|8a,b,c
+#PATCH|LOGIK|1|8|a|b|c
 patch_llama_cpp() {
 log "🔷PATCH FUER GGML SYCL ANLEGEN KOPFZEILENREGESTRIERUNG"
 local DPCT_HELPER_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/dpct/helper.hpp"
@@ -236,7 +212,6 @@ local CUSTOM_KERNEL_SRC="${CUSTOM_KERNEL_DIR}/ggml_flash_attention_sycl.cpp"
 local CUSTOM_KERNEL_CMAKE="${CUSTOM_KERNEL_DIR}/CMakeLists.txt"
 local GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 local KERNEL_SOURCE_LOCAL="ggml_flash_attention_sycl.cpp"
-
 #1|8
 if [ -f "$DPCT_HELPER_FILE" ]; then
 log "🔷PATCH 1|8 MATHEMATIKBIBLIOTHEK WIRD GELADEN"
@@ -252,10 +227,8 @@ else
 error "❌PATCH 1|8 MATHEMATIKBIBLIOTHEKEN MKL FEHLGESCHLAGEN NICHT GEFUNDEN ABHAENIGKEITEN PRUEFEN"
 return 1
 fi
-
 #2|8
 log "🔷PATCH 2|8 BAUE FLASH ATTENTION KERN"
-
 #2a|8
 if [ ! -d "$CUSTOM_KERNEL_DIR" ]; then
 mkdir -p "$CUSTOM_KERNEL_DIR"
@@ -277,7 +250,6 @@ target_include_directories(ggml_flash_attention_sycl PRIVATE \${GGML_SYCL_INCLUD
 target_compile_options(ggml_flash_attention_sycl PUBLIC \${GGML_SYCL_COMPILE_FLAGS})
 " > "$CUSTOM_KERNEL_CMAKE"
 log "🔷PATCH 2a|8 CMAKE LISTEN FUER OBJEKTE ALS KOPFZEILE EINGEFUEGT"
-
 #2b|8
 local ADD_SUBDIR_LINE="add_subdirectory(ggml_flash_attention_sycl)"
 if ! grep -Fq "${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
@@ -290,7 +262,6 @@ fi
 else
 log "🔷PATCH 2b|8 FLASH ATTENTION BEREITS AKTIV UEBERSPRINGE"
 fi
-
 #3|8
 if [ -f "$CMAKE_LISTS_FILE" ]; then
 log "🔷PATCH 3|8: CMAKE LISTEN FUER KOPZEILEN ZUR ICPX IMPLEMENTIERUNG VORBEREITEN"
@@ -315,11 +286,9 @@ else
 error "❌PATCH 3a|8 FEHLGESCHLAGEN CMAKE LISTSTXT FUER SYCL GGML PFADE NICHT GEFUNDEN BITTE ABHAENGIGKEITEN PRUEFEN"
 return 1
 fi
-
 #4|8
 log "🔷PATCH 4|8 FLASH ATTENTION KERN INJIZIEREN"
 if [ -f "$GGML_SYCL_CPP" ]; then
-
 #4a|8
 local FA_REGISTER_CODE=$'//REGESTRIERE ggml_flash_attention_sycl.cpp \nextern "C"
 void ggml_flash_attention_sycl(ggml_flash_attention_sycl * ctx, ggml_tensor *
@@ -328,7 +297,6 @@ if ! grep -Fq "ggml_flash_attention_sycl" "${GGML_SYCL_CPP}"; then
 echo "${FA_REGISTER_CODE}" > /tmp/fa_decl.patch
 awk '/extern "C" void ggml_flash_attention_sycl/ { system("cat /tmp/fa_decl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
-
 if [ $? -eq 0 ]; then
 log "🔷PATCH 4a|8 DEKLARATION ERFOLGREICH EINGEFUEGT"
 else
@@ -344,25 +312,22 @@ log "🔷PATCH 4a|8 FUEGE DEN ZWISCHENSPEICHER PER AWK KOPFZEILE EIN"
 echo "${FA_DISPATCH_CASE}" > /tmp/fa_dispatch.patch
 awk '/case GGML_OP_MUL_MAT_Q_K:/ { system("cat /tmp/fa_dispatch.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
-
 if [ $? -eq 0 ]; then
 log "🔷PATCH 4a|8 AWK UNTERBAU IN KOPFZEILEN EINGEFUEHRT"
 else
 error "❌PATCH 4a|8 FEHLER BEIM EINFUEGEN DER AWK KOPFZEILEN"
 fi
 else
-log "🔷PATCH 4a|8 AWK UNTERBAU VORHANDEN FORTFAHREN"
+log "✅PATCH 4a|8 AWK UNTERBAU VORHANDEN FORTFAHREN"
 fi
 log "🔷PATCH 4b|8 ERFOLGREICH FLASHATTENTION GELADEN"
 else
 error "❌PATCH 4b|8 FEHLGESCHLAGEN FLASHATTENTION KERN NICHT GEFUNDEN"
 return 1
 fi
-
 #5|8
 log "🔷PATCH 5/8 INJIZIERE FLASH ATTENTION OBJEKT VARIABLEN AUS UNTERBLOCK DER SYCL BIBLIOTHEKEN"
 local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
-
 #5a|8
 local VAR_LINE="set(FA_OBJECT_FILES \"\$<TARGET_OBJECTS:ggml_flash_attention_sycl>\")"
 local VAR_SEARCH_MARKER="set(GGML_SYCL_SOURCES"
@@ -377,7 +342,6 @@ fi
 else
 log "🔷PATCH 5a|8 FLASH ATTENTION OBJEKT VARIABLEN VORHANDEN UEBERSPRINGE"
 fi
-
 #5b|8
 local TARGET_SEARCH_MARKER="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES})"
 local NEW_TARGET_SOURCES_LINE="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES} \${FA_OBJECT_FILES})"
@@ -393,7 +357,6 @@ fi
 else
 log "🔷PATCH 5b|8 GGML SYCL IST BEREITS AKTIV INJECTION WIRD UEBERSPRUNGEN"
 fi
-
 #6|8
 log "🔷PATCH 6|8: SSMCONVPP WARNUNG BEHEBEN VORZEICHENVERGLEICH"
 local SSM_CONV_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ssm_conv.cpp"
@@ -401,7 +364,7 @@ local SEARCH_LINE='GGML_ASSERT(src0->nb[1] = src0->ne[0] * (size_t)<int64_t>(siz
 local REPLACE_LINE='GGML_ASSERT(src0->nb[1] = (size_t)(src0->ne[0] * sizeof(double)));'
 if grep -Fq "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
 if sed -i "\|${SEARCH_LINE}|${REPLACE_LINE}|g" "$SSM_CONV_FILE"; then
-log "🔷PATCH 6|8 SSMCONVCPP ERFOLGREICH"
+log "✅PATCH 6|8 SSMCONVCPP ERFOLGREICH"
 else
 error "❌PATCH 6|8 SSMCONVCPP FEHLGESCHLAGEN"
 return 1
@@ -409,45 +372,42 @@ fi
 else
 log "🔷PATCH 6|8 SSMCONVCPP ZEILE NICHT GEFUNDEN UEBERSPRINGE"
 fi
-
 #7|8
 log "🔷PATCH 7|8: ERZWINGE MAX BLOCK SIZE 1024 FUER ARC"
 if [ -f "$GGML_SYCL_CPP" ]; then
 if ! grep -q "GGML_SYCL_MAX_BLOCK_SIZE 1024" "$GGML_SYCL_CPP"; then
 sed -i '#define GGML_SYCL_MAX_BLOCK_SIZE 1024' "$GGML_SYCL_CPP"
-log "🔷PATCH 7|8 BLOCK SIZE 1024 ERFOLGREICH INJIZIERT"
+success "✅PATCH 7|8 ERZWINGE MAX BLOCK SIZE 1024 FUER ARC AKTIVIERT"
+log "✅PATCH 7|8 BLOCK SIZE 1024 ERFOLGREICH INJIZIERT"
 else
 log "🔷PATCH 7|8 BLOCK SIZE BEREITS DEFINIERT"
 fi
 fi
-
 #8|8
-#log "🔷PATCH 8|8: AKTIVIERE SYCL QUEUE"
-#local SYCL_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
-#if [ ! -f "$SYCL_FILE" ]; then
-#error "❌PATCH 8|8: DATEI SYCL QUEUE $SYCL_FILE NICHT GEFUNDEN"
-#return 1
-#fi
-#if sed -i '#include <sycl|ext|oneapi|sycl::queue|d' "$SYCL_FILE"; then
-#sed -i '#sycl::property_list prop_list{.*in_order::disabled|d' "$SYCL_FILE"
-#if ! grep -q "sycl::queue" "$SYCL_FILE"; then
-#return 1
-#sed -i '|#include <sycl/ext/oneapi/sycl::queue/d'> "$SYCL_FILE"; then q{|sycl::queue q{sycl::property_list{sycl::property::queue::enable_profiling{}}, |g' "$SYCL_FILE"
-#echo "PATCH 8|8 SYCL QUEUE ERFOLGREICH EINGEFUEGT" >> "$SYCL_FILE"
-#log "🔷PATCH 8|8: SYCL QUEUE NICHT GEFUNDEN UEBERSPRINGE"
-#fi
-#sed -i '\|#sycl::queue|(.*{|)|sycl::queue|1prop_list, |g' "$SYCL_FILE"
-#if grep -q "prop_list" "$SYCL_FILE" && grep -q "in_order::disabled" "$SYCL_FILE"; then
-#log "🔷PATCH 8|8 ERFOLGREICH ANGEWANDT"
-#else
-#error "❌PATCH 8|8: FEHLGESCHLAGEN"
-#fi
-#else
-#log "⚠️PATCH 8|8: WARNUNG PATCH 8|8 SYCL SED INJEKTION FEHLGESCHLAGEN"
-#fi
-success "✅ALLE 7|8 EINGLIEDERUNGEN FUER DAS INTEL ARC GPU BASIERTE XAIGPUARC ERFOLGREICH ANGEWANDT"
+log "🔷PATCH 8|8 OPTIMIERE SYCL QUEUE IN ORDNER XAIGPUARC"
+local SYCL_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
+if [ ! -f "$SYCL_FILE" ]; then
+error "❌PATCH 8|8 DATEI SYCL QUEUE $SYCL_FILE"
+return 1
+fi
+if grep -q "sycl::property_list" "$SYCL_FILE"; then
+sed -i 's/sycl::property_list prop_list{.*}/sycl::property_list prop_list{sycl::property::queue::in_order{}}/' "$SYCL_FILE"
+else
+sed -i '/sycl::queue q{/i \    sycl::property_list prop_list{sycl::property::queue::in_order{}};' "$SYCL_FILE"
+fi
+if grep -q "sycl::queue q{" "$SYCL_FILE"; then
+sed -i 's/sycl::queue q{.*}/sycl::queue q{dev, ctx, prop_list}/g' "$SYCL_FILE"
+if grep -q "in_order" "$SYCL_FILE"; then
+success "✅PATCH 8|8 SYCL QUEUE ERFOLGREICH OPTIMIERT"
+else
+error "❌PATCH 8|8 AENDERUNGEN KONNTEN NICHT FERTIG GESTELLT WERDEN"
+return 1
+fi
+else
+warn "⚠️PATCH 8|8 sycl::queue KONSTRUKTOR NICHT GEFUNDEN UEBERSPRINGE"
+fi
+success "✅ALLE 8|8 EINGLIEDERUNGEN FUER DAS INTEL ARC GPU BASIERTE XAIGPUARC ERFOLGREICH ANGEWANDT"
 }
-
 #3XAIGPUARCBAUKONFIGURATION
 configure_build() {
 log "🔷BEREITE XAIGPUARC KOPFZEILENBAUVORGANG VOR"
@@ -482,7 +442,6 @@ error "❌KONNTE NICHT IN XAIGPUARC WECHSELN '${BUILD_DIR}'COMPUTER NUTZER BEREC
 return 1
 fi
 }
-
 #4KOMPILIEREN
 compile_project() {
 log "🔷BAUE XAIGPUARC GRUNDGERUEST STRUKTUR"
@@ -523,7 +482,6 @@ error "❌KONNTE XAIGPUARC NICHT NEU BAUEN '${BUILD_DIR}' WEGEN FEHLERHAFTEM WEC
 return 1
 fi
 }
-
 #5AUTOMATISCHEGERAETEAUSWAHL
 auto_select_device() {
 log "🔷NACH VERFUEGBAREN SYCL GERAETEN AUF IHREM SYSTEM"
@@ -585,7 +543,6 @@ fi
 log "🔷AUTOMATISCHE NGL BERECHNUNG IN **${N_GPU_LAYERS}**SCHICHTEN WERDEN JE NACH KI MODELL AUF CPU UND GPU AUTOMATISCH VERTEILT"
 fi
 }
-
 #6SYCLKOMPATIBLEGERAETEPRUEFEN
 list_sycl_devices() {
 log "🔷SUCHE SYCL FAEHIGES GERAET AUF IHREM SYSTEM"
@@ -597,7 +554,6 @@ warn "⚠️KEIN SYCL FAEHIGES SYSTEM GEFUNDEN!!! ${FULL_LS_PATH}.
 KONNTE KEIN FAEHIGES GERAET FINDEN"
 fi
 }
-
 #7MODELLPFADWAEHLEN
 prepare_model() {
 MODEL_PATH=${1:-"models/Lucy-1.7B-F16.gguf"}
@@ -607,11 +563,9 @@ warn "⚠️IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN
 fi
 export MODEL_PATH
 }
-
 #8MODELLAUSFUEHREN
 run_inference() {
 local DEFAULT_MODEL_PATH="models/Lucy-1.7B-F16.gguf"
-
 #CHANGE MODEL HERE ABOVE TWICE! MODELL HIER DRUEBER DOPPELT AENDERN!
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"SYSTEM INSTRUCTION:
@@ -654,7 +608,6 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     --main-gpu ${GPU_ID}
 echo "✅KI ANTWORT FERTIG GLUECKWUNSCH"
 }
-
 #DEFINITIONHAUPTFUNKTION
 main() {
 local FP_MODE="${1:-1}"
@@ -668,7 +621,7 @@ success "✅GEFUNDENE AKTUELLE XAIGPUARC VERSION NEUBAU UNNOETIG FORTFAHREN**${F
 log "🔷UEBERSPRINGE BAUVORGANG"
 RERUN_BUILD=0
 else
-warn "⚠️KEINE AKTUELLES XAIGPUARC GEFUNDEN WIRD NEU GEBAUT... BITTE WARTEN"
+warn "⚠️KEINE AKTUELLES XAIGPUARC GEFUNDEN WIRD NEU GEBAUT.. BITTE WARTEN"
 RERUN_BUILD=1
 fi
 if [[ "$RERUN_BUILD" -eq 1 ]]; then
@@ -684,7 +637,6 @@ else
 warn "⚠️INTERNET NICHT VERFUEGBAR UEBERSPRINGE UPDATE VON LLAMACPP NUTZE LOKALE VERSION"
 fi
 fi
-
 configure_build "${FP_MODE}"
 #3
 compile_project
@@ -699,7 +651,6 @@ run_inference "${2:-}" "${3:-}"
 #8
 log "🔷XAIGPUARC ANTWORT ABGESCHLOSSEN**${BUILD_DIR}/${LLAMA_CLI_PATH}**"
 }
-
 #HAUPTSCHLEIFE
 main "${1:-1}" "${2:-}" "${3:-}"
 #42
