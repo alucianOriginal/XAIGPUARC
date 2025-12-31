@@ -1,46 +1,43 @@
 #!/bin/bash
 
-
-
-###INTERPRATOR
-###XAIGPUARC
-###SYCL
-###31.12.2025 08:57
-###Goldenbug
-
+#INTERPRATOR
+#XAIGPUARC
+#SYCL
+#31.12.2025 11:18
+#Goldenbug#ImperatorInterpratorXaiGPUARCAUTOMATOR#
 
 #9.) How to START your XAIGPUARC Interprator Happy New Year Edition 2026
 
-#0.) FIRST INTEL_ONE_API_BASEKIT MUST BE INSTALLED ON YOUR PC/LAPTOP/SYSTEM
+#0.) FIRST INTEL_ONE_API_BASEKIT MUST BE INSTALLED ON YOUR PC|LAPTOP|SYSTEM
 
-#0.) Second is using ARCH Garuda LINUX By The Way!?! Also Good for GAMING and WINDOWS Ex Power Use!
+#0.) Second ARCH Garuda LINUX
 
-#1.) Kopie XAIGPUARC.sh in your Home/PCNAME/ Folder!
+#1.) Kopie XAIGPUARC.sh in your Home/PCNAME| Folder
 
 #2.) Between XAIGPUARC Full INSTALLATION Download a gguf AI fit in your
 
-#a.) V/RAM to /models/HereAINAME also in your Home/PCNAME/models/HereAINAME Folder!
+#a.) V|RAM to /models/HereAINAME also in your Home/PCNAME/models/HereAINAME| Folder
 
-#3.) Change your Modell here in the Textfile twice below!
+#3.) Change your Modell here in the Textfile twice below
 
 #b.) Open Console and Type: chmod +x ./XAIGPUARC.sh Enter...
 
 #4.) START with type in Console ./XAIGPUARC.sh Enter...
 
 #-XAIGPUARC Hardware used to Build and Test
-#-6x Intel ARC 2xA770LE 16GB + 4x750LE 8GB
-#-90-142 Watt Chip Power Draw alone each Card at different LLMs
-#-Example: GPT-OSS-20B-F16 does it very nice at low Wattage
-#-but needs longer than full working MathTutor F16 with 142 Watt
-#-Use multible Models for a better Workflow
-#-All the Hardware is Modded and not Stock Compareable
-#-PLS watch your good Cooling and Dust Free System
-#-3x Single and Dual dGPUs on AMD Ryzen 2600 2700x / Intel i7 6700K on Z170 RAM 16GB till 128GB
-#-2x Intel iGPU XE Alder Lake Gen (12700H + 12650H) + A730m 12 GB + 32GB DDR4/5 RAM
-#-1x Intel Core Ultra 7 155H Meteor Lake 8 Core Xe-LPG 128EU ARC 16GiB
-#-Quad Channel High Bandwith RAM Gear2 with 718GB/s
-#-11,5 GiB VRAM shared from this RAM
-#-On 155H i7 GPT-OSS-20B-F16.gguf runs well but slow at 30 Watt allinone with mods
+#-6x Intel ARC 2xA770LE 16GB 4x750LE 8GB
+#-90 142 Watt Chip Power Draw alone each Card different LLMs
+#-Example GPT-OSS-20B-F16 very nice low Wattage
+#-needs longer full working MathTutor F16 with 142 Watt
+#-Use multible Models better Workflow
+#-All Hardware Modded not Stock Compareable
+#-PLS watch Cooling Dust Free System
+#-3 Single Dual dGPUs AMD Ryzen 2600 2700x Intel i7 6700K Z170 RAM 16GB 128GB
+#-2 Intel iGPU XE Alder Lake Gen 12700H 12650H A730m 12 GB 32GB DDR4|5 RAM
+#-1 Intel Core Ultra 7 155H Meteor Lake 8 Core Xe-LPG 128EU ARC 16GiB
+#-Quad Channel High Bandwith RAM Gear2 with 718GB|s
+#-11,5 GiB VRAM shared RAM
+#-On 155H i7 GPT-OSS-20B-F16.gguf well but slow at 30 Watt allinone with mods
 #-BF16 Models not recommend for Alechmist
 
 #F16 Mode Only
@@ -448,7 +445,7 @@ fi
 #else
 #log "⚠️PATCH 8|8: WARNUNG PATCH 8|8 SYCL SED INJEKTION FEHLGESCHLAGEN"
 #fi
-success "✅ALLE 8|8 EINGLIEDERUNGEN FUER DAS INTEL ARC GPU BASIERTE XAIGPUARC ERFOLGREICH ANGEWANDT"
+success "✅ALLE 7|8 EINGLIEDERUNGEN FUER DAS INTEL ARC GPU BASIERTE XAIGPUARC ERFOLGREICH ANGEWANDT"
 }
 
 #3XAIGPUARCBAUKONFIGURATION
@@ -639,8 +636,8 @@ Section 4: Possible Alternatives (if any)"}
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
-local CONTEXT_SIZE=16384 #NEUE WERTE SETZEN 2048 4096 8192 16384
-local PREDICT_TOKENS=16384 #VERRINGERN UM SCHNELLERE ANTWORTEN ZU ERHALTEN
+local CONTEXT_SIZE=32768 #NEUE WERTE SETZEN 512 1024 2048 4096 8192 16384 32768 65556 USW
+local PREDICT_TOKENS=32768 #VERRINGERN UM SCHNELLERE ANTWORTEN ZU ERHALTEN
 log "🔷STARTE KI ANTWORT AUF IHRER iGPU/dGPU UND CPU MIT FOLGENDEN PARAMETERN**${DEVICE} (ID: ${GPU_ID})** MIT NGL WERT IST GLEICH ${NGL_SET} AUF DIESEM **${FULL_LLAMA_CLI_PATH}**"
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
 error "❌FEHLER AKTUELLER LLAMA UNTERBAU NICHT GEFUNDEN NEUBAU FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
@@ -660,34 +657,25 @@ echo "✅KI ANTWORT FERTIG GLUECKWUNSCH"
 
 #DEFINITIONHAUPTFUNKTION
 main() {
-
 local FP_MODE="${1:-1}"
 local RERUN_BUILD=1
-
 prepare_environment
-#0
+#01
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
-
 if [[ -f "${FULL_LLAMA_CLI_PATH}" ]] && [[ -f "${FULL_LS_PATH}" ]]; then
-
 success "✅GEFUNDENE AKTUELLE XAIGPUARC VERSION NEUBAU UNNOETIG FORTFAHREN**${FULL_LLAMA_CLI_PATH}** UND **${FULL_LS_PATH}** LADEN"
-
 log "🔷UEBERSPRINGE BAUVORGANG"
-
 RERUN_BUILD=0
 else
 warn "⚠️KEINE AKTUELLES XAIGPUARC GEFUNDEN WIRD NEU GEBAUT... BITTE WARTEN"
 RERUN_BUILD=1
-
 fi
 if [[ "$RERUN_BUILD" -eq 1 ]]; then
-
 log "🔷STARTE ERSTMALIGEN BAUVORGANG VON XAIGPUARC"
 if check_internet; then
-
 log "🔷LADE JETZT AKTUELLE LLAMA VERSION BITTE WARTEN"
-
+#0
 setup_project
 #1
 patch_llama_cpp
