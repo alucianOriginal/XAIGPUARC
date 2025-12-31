@@ -385,3 +385,235 @@ extern "C" void ggml_sycl_op_flash_attn(
     });
 }
 
+
+// ============================================================================
+// XAIGPUARC SYCL Scheduler mit Command Graph API
+// ============================================================================
+
+#include <sycl/sycl.hpp>
+#include <sycl/ext/oneapi/experimental/graph.hpp>
+#include <iostream>
+#include <vector>
+#include <memory>
+
+namespace sycl_exp = sycl::ext::oneapi::experimental;
+
+class XAIGPUARC_Scheduler {
+private:
+    sycl::queue m_queue;
+    sycl::context m_context;
+    sycl::device m_device;
+    
+    // Command Graph für optimierte Ausführung
+    std::unique_ptr<sycl_exp::command_graph<sycl_exp::graph_state::executable>> m_exec_graph;
+    std::unique_ptr<sycl_exp::command_graph<sycl_exp::graph_state::uninitialized>> m_unfinalized_graph;
+
+public:
+    /**
+     * @brief Initialisiert SYCL Queue mit Multi-GPU-Support
+     */
+    XAIGPUARC_Scheduler() {
+        try {
+            // Versuche GPU-Selector, fallback auf default
+            try {
+                sycl::ext::oneapi::filter_selector selector("gpu");
+                m_device = sycl::device(selector);
+            } catch (...) {
+                m_device = sycl::device(sycl::default_selector_v);
+            }
+            
+            // Queue mit in-order Eigenschaft für Graph-Konsistenz
+            m_queue = sycl::queue(m_device, 
+                sycl::property_list{
+                    sycl::property::queue::in_order(),
+                    sycl::property::queue::enable_profiling()
+                }
+            );
+            
+            m_context = m_queue.get_context();
+            
+            // Graph initialisieren
+            m_unfinalized_graph = std::make_unique<sycl_exp::command_graph<sycl_exp::graph_state::uninitialized>>(
+                sycl_exp::create_graph(m_context, m_device)
+            );
+            
+            std::cout << "✅ XAIGPUARC Scheduler initialisiert auf: "
+                      << m_device.get_info<sycl::info::device::name>() 
+                      << " (Compute Units: " 
+                      << m_device.get_info<sycl::info::device::max_compute_units>()
+                      << ")" << std::endl;
+                      
+        } catch (const sycl::exception& e) {
+            std::cerr << "❌ SYCL Initialisierungsfehler: " << e.what() << std::endl;
+            throw;
+        }
+    }
+    
+    ~XAIGPUARC_Scheduler() {
+        wait_all();
+    }
+    
+    /**
+     * @brief Allokiert Host-Pinned Memory für schnelle Transfers
+     */
+    template<typename T>
+    T* allocate_host(size_t count) {
+        return sycl::malloc_host<T>(count, m_queue);
+    }
+    
+    /**
+     * @brief Allokiert Device Memory
+     */
+    template<typename T>
+    T* allocate_device(size_t count) {
+        return sycl::malloc_device<T>(count, m_queue);
+    }
+    
+    /**
+     * @brief Allokiert Shared USM Memory
+     */
+    template<typename T>
+    T* allocate_shared(size_t count) {
+        return sycl::malloc_shared<T>(count, m_queue);
+    }
+    
+    /**
+     * @brief Gibt allokierten Speicher frei
+     */
+    template<typename T>
+    void free(T* ptr) {
+        sycl::free(ptr, m_queue);
+    }
+    
+    /**
+     * @brief Erstellt einen Memory-Copy-Knoten im Graph
+     */
+    sycl_exp::node_handle_t add_memcpy(void* dst, const void* src, size_t bytes,
+                                       const std::vector<sycl_exp::node_handle_t>& deps = {}) {
+        auto builder = sycl_exp::get_graph_builder(*m_unfinalized_graph);
+        return builder.add_memcpy(dst, src, bytes, deps);
+    }
+    
+    /**
+     * @brief Erstellt einen Kernel-Knoten im Graph
+     */
+    template<typename KernelName, typename KernelFunc>
+    sycl_exp::node_handle_t add_kernel(KernelFunc&& func,
+                                       const std::vector<sycl_exp::node_handle_t>& deps = {}) {
+        auto builder = sycl_exp::get_graph_builder(*m_unfinalized_graph);
+        
+        return builder.add_kernel([=](sycl::handler& h) {
+            // Abhängigkeiten setzen
+            for (const auto& dep : deps) {
+                h.depends_on(dep);
+            }
+            func(h);
+        });
+    }
+    
+    /**
+     * @brief Finalisiert den Command Graph
+     */
+    void finalize_graph() {
+        try {
+            m_exec_graph = std::make_unique<sycl_exp::command_graph<sycl_exp::graph_state::executable>>(
+                sycl_exp::finalize(*m_unfinalized_graph)
+            );
+            std::cout << "✅ Command Graph erfolgreich finalisiert" << std::endl;
+        } catch (const sycl::exception& e) {
+            std::cerr << "❌ Graph-Finalisierungsfehler: " << e.what() << std::endl;
+            throw;
+        }
+    }
+    
+    /**
+     * @brief Führt den finalisierten Graph aus
+     */
+    sycl::event execute_graph() {
+        if (!m_exec_graph) {
+            throw std::runtime_error("Graph nicht finalisiert!");
+        }
+        return m_queue.submit([&](sycl::handler& h) {
+            h.ext_oneapi_graph(*m_exec_graph);
+        });
+    }
+    
+    /**
+     * @brief Optimierter Flash-Attention Workflow
+     */
+    void schedule_flash_attention(
+        sycl::half* d_Q, sycl::half* d_K, sycl::half* d_V, sycl::half* d_Out,
+        int num_q, int num_k, int d_k, int d_v,
+        int q_stride, int k_stride, int v_stride, int out_stride
+    ) {
+        auto builder = sycl_exp::get_graph_builder(*m_unfinalized_graph);
+        
+        // Kernel-Knoten erstellen
+        auto kernel_node = builder.add_kernel([=](sycl::handler& h) {
+            h.parallel_for<class scheduled_flash_attention>(
+                sycl::range<1>(num_q),
+                [=](sycl::nd_item<1> item) {
+                    const int head_row = item.get_global_id(0);
+                    if (head_row >= num_q) return;
+                    
+                    // Kernel-Logik hier (vereinfacht)
+                    for (int vi = 0; vi < d_v; ++vi) {
+                        float accum = 0.0f;
+                        for (int ki = 0; ki < num_k; ++ki) {
+                            // Attention-Berechnung
+                            float score = 0.0f;
+                            for (int di = 0; di < d_k; ++di) {
+                                score += static_cast<float>(d_Q[head_row * q_stride + di]) *
+                                         static_cast<float>(d_K[ki * k_stride + di]);
+                            }
+                            score /= sycl::sqrt(static_cast<float>(d_k));
+                            accum += sycl::exp(score) * static_cast<float>(d_V[ki * v_stride + vi]);
+                        }
+                        d_Out[head_row * out_stride + vi] = static_cast<sycl::half>(accum);
+                    }
+                }
+            );
+        });
+        
+        // Weitere Optimierungen können hier hinzugefügt werden:
+        // - Memory prefetching
+        // - Kernel fusion
+        // - Automatic workload balancing
+    }
+    
+    /**
+     * @brief Wartet auf alle ausstehenden Operationen
+     */
+    void wait_all() {
+        m_queue.wait_and_throw();
+    }
+    
+    /**
+     * @brief Gibt Queue für direkte Operationen zurück
+     */
+    sycl::queue& get_queue() { return m_queue; }
+    
+    /**
+     * @brief Gibt Device-Info zurück
+     */
+    void print_device_info() const {
+        std::cout << "\n=== XAIGPUARC Device Information ===" << std::endl;
+        std::cout << "Device: " << m_device.get_info<sycl::info::device::name>() << std::endl;
+        std::cout << "Vendor: " << m_device.get_info<sycl::info::device::vendor>() << std::endl;
+        std::cout << "Driver: " << m_device.get_info<sycl::info::device::driver_version>() << std::endl;
+        std::cout << "Compute Units: " << m_device.get_info<sycl::info::device::max_compute_units>() << std::endl;
+        std::cout << "Global Memory: " 
+                  << m_device.get_info<sycl::info::device::global_mem_size>() / (1024*1024*1024) 
+                  << " GB" << std::endl;
+        std::cout << "Local Memory: " 
+                  << m_device.get_info<sycl::info::device::local_mem_size>() / 1024 
+                  << " KB" << std::endl;
+        std::cout << "Max Work Group: " 
+                  << m_device.get_info<sycl::info::device::max_work_group_size>() 
+                  << std::endl;
+        std::cout << "=====================================\n" << std::endl;
+    }
+};
+
+
+Possibilitys
