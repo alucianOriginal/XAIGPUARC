@@ -1,11 +1,11 @@
 #!/bin/bash
 
 #||XAIGPUARC||
-
+size_t
 #|IMPERATOR|INTEPRATOR|EDITION|AUTOMATOR|
 
 #SYCL
-#31|12|2025|13:37|
+#31|12|2025|15:18|
 #Goldenbug|Imperator|Interprator|X|ai|GPUARC|AUTOMATOR|
 
 #9.)How|START|your|XAIGPUARC|IperatorInterprator|HappyNewYear|Edition|2026
@@ -37,77 +37,77 @@
 #F16 Mode Only
 
 #6GB+ GPU A730m/A380/A310
-#kani-tts-400m-en-f16_q8_0.gguf                  0.53 GB FAST|CTX|NPG|8K A770LE: 588.6 Pt/s 62.4 Gt/s 100w 2.4Ghz- CPU|FIRESTARTER
-#baidu.ERNIE-4.5-0.3B-Base-PT.f16.gguf           0.69 GB FAST|CTX|NPG|8K A770LE: 469.7 Pt/s 52.5 Gt/s 97w 2.4Ghz+ CPU|Mid|Low|Chat
-#MedScholar-1.5B-f16_q8_0.gguf                   2.1  GB FAST|CTX|NPG|8k A770LE: 528.2 Pt/s 25.2 Gt/s 109w 2.4Ghz- CPU|Good
-#Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.1  GB FAST|
-#yasserrmd.DentaInstruct-1.2B.f16.gguf           2.2  GB
-#DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.2  GB FAST|CTX|NPG|8k A770LE: 513.2 Pt/s 23.3 Gt/s 112w 2.3Ghz+ CPU|Mid|Think|EZ|Task
-#ibm-granite.granite-4.0-1b.f16.gguf             3    GB SLOW|CTX|NPG|8k A770LE: 569.4 Pt/s 18.2 Gt/s 120w 2.3Ghz- CPU|GPU|INF|NOT|STABLE
-#Lucy-1.7B-F16.gguf                              3.2  GB FAST|CTX|NPG|32k A770LE: 572.7 Pt/s 23.2 Gt/s 108w 2.4Ghz- CPU|EXT|STABLE
-#granite-4.0-micro-f16_q8_0.gguf                 4.6  GB
-#gemma-2-2b-it.F16.gguf                          4.9  GB FAST|
+#kani-tts-400m-en-f16_q8_0.gguf                  0.53|GB FAST|CTX|NPG|8K|A770LE:|588.6 Pt|s 62.4 Gt|s 100w 2.4Ghz-|CPU|FIRESTARTER
+#baidu.ERNIE-4.5-0.3B-Base-PT.f16.gguf           0.69|GB FAST|CTX|NPG|8K|A770LE:|469.7 Pt|s 52.5 Gt|s 97w 2.4Ghz+|CPU|Mid|Low|Chat
+#MedScholar-1.5B-f16_q8_0.gguf                   2.10|GB FAST|CTX|NPG|8k|A770LE:|528.2 Pt|s 25.2 Gt|s 109w 2.4Ghz-|CPU|Good
+#Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.10|GB FAST|
+#yasserrmd.DentaInstruct-1.2B.f16.gguf           2.20|GB
+#DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.20|GB FAST|CTX|NPG|8k|A770LE:|513.2 Pt|s 23.3 Gt|s 112w 2.3Ghz+|CPU|Mid|Think|EZ|Task
+#ibm-granite.granite-4.0-1b.f16.gguf             3.00|GB SLOW|CTX|NPG|8k|A770LE:|569.4 Pt|s 18.2 Gt|s 120w 2.3Ghz-|CPU|GPU|INF|NOT|STABLE
+#Lucy-1.7B-F16.gguf                              3.20|GB FAST|CTX|NPG|32k|A770LE:|572.7 Pt|s 23.2 Gt|s 108w 2.4Ghz-|CPU|EXT|STABLE
+#granite-4.0-micro-f16_q8_0.gguf                 4.60|GB
+#gemma-2-2b-it.F16.gguf                          4.90|GB FAST|
 
 #8GB+ GPU A750LE
-#Fathom-Search-4B-f16_q8_0.gguf                  5.5  GB FAST|CTX|NPG|8k A770LE: 569.4 Pt/s 18.2 Gt/s 118w 2.4Ghz- CPU|Think
-#Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.7  GB FAST|CTX|NPG|8k A770LE: 511.5 Pt/s 19.7 Gt/s 142w 2.4Ghz- CPU
-#Qwen2.5-VL-3B-Instruct-f16.gguf                 5.8  GB FAST|
-#llama3bthinkingonly5B.f16.gguf                  6.0  GB SLOW|
+#Fathom-Search-4B-f16_q8_0.gguf                  5.50|GB FAST|CTX|NPG|8k|A770LE:|569.4 Pt|s 18.2 Gt|s 118w 2.4Ghz-|CPU|Think
+#Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.70|GB FAST|CTX|NPG|8k|A770LE:|511.5 Pt|s 19.7 Gt|s 142w 2.4Ghz-|CPU
+#Qwen2.5-VL-3B-Instruct-f16.gguf                 5.80|GB FAST|
+#llama3bthinkingonly5B.f16.gguf                  6.00|GB SLOW|
 
 #10-12GB+ iGPU Xe-LPG/A730m/A580/B570/B580/PROA60/B50
-#UIGEN-X-4B-0729-f16_q8_0.gguf                   6.2  GB
-#granite-4.0-h-tiny-f16_q8_0.gguf                7    GB SLOW|
-#Trinity-Nano-Preview-f16_q8_0.gguf              7.2  GB SLOW|
-#Qwen3-Embedding-4B-f16.gguf                     7.5  GB SLOW|
-#Qwen3-4B-f16.gguf                               7.5  GB FAST|CTX|NPG|8k A770LE: 613.4 Pt/s 14.5 Gt/s 120w 2.4Ghz- CPU|Very|Long|Think
-#Nemotron-Mini-4B-Instruct-f16.gguf              7.8  GB FAST|CTX|NPG|8k A770LE: 717.8 Pt/s 17.8 Gt/s 118w 2.4Ghz- CPU
-#Minitron-4B-Base.FP16.gguf                      7.8  GB FAST|CTX|NPG|4k A770LE: 764.3 Pt/s 16.3 Gt/s 131w 2.4Ghz+ CPU|MidLow|Q
-#t5-v1_1-xxl-encoder-f16.gguf                    8.9  GB FAST|CTX|NPG|8k A770LE: 361,8 Pt/s 6 Gt/s 101w 2.4Ghz- CPU|NICE
+#UIGEN-X-4B-0729-f16_q8_0.gguf                   6.20|GB
+#granite-4.0-h-tiny-f16_q8_0.gguf                7.00|GB SLOW|
+#Trinity-Nano-Preview-f16_q8_0.gguf              7.20|GB SLOW|
+#Qwen3-Embedding-4B-f16.gguf                     7.50|GB SLOW|
+#Qwen3-4B-f16.gguf                               7.50|GB FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU|Very|Long|Think
+#Nemotron-Mini-4B-Instruct-f16.gguf              7.80|GB FAST|CTX|NPG|8k|A770LE:|717.8 Pt|s 17.8 Gt|s 118w 2.4Ghz-|CPU
+#Minitron-4B-Base.FP16.gguf                      7.80|GB FAST|CTX|NPG|4k|A770LE:|764.3 Pt|s 16.3 Gt|s 131w 2.4Ghz+|CPU|MidLow|Q
+#t5-v1_1-xxl-encoder-f16.gguf                    8.90|GB FAST|CTX|NPG|8k|A770LE:|361,8 Pt|s 6 Gt|s 101w 2.4Ghz-|CPU|NICE
 
 #16GB+ GPU A770LE + iGPU Meteor Lake
-#DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5 GB
-#MiMo-Embodied-7B-f16_q8_0.gguf                  10.7 GB
-#MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST|CTX|NPG|8k A770LE: 842.9 Pt/s 11.0 Gts 142w 2.4Ghz+ CPU|Mid|Long|Think
-#KernelLLM-f16_q8_0.gguf                         11.1 GB FAST|CTX|NPG|8k A770LE: 688.5 Pt/s 11.2 Gt/s 137w 2.4Ghz- CPU|MATH|KERNEL
-#Jan-v2-VL-high-f16_q8_0.gguf                    11.4 GB FAST|CTX|NPG|8k A770LE: 639.6 Pt/s 10.2 Gt/s 135w 2.4Ghz- CPU|Long|Think
-#Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4 GB
-#Orchestrator-8B-f16_q8_0.gguf                   11.4 GB FAST|CTX|NPG|8k A770LE: 640.4 Pt/s 10.2 Gt/s 134w 2.4Ghz- CPU|Long|Think
-#MiroThinker-v1.0-8B-f16_q8_0.gguf               11.4 GB
-#Seed-Coder-8B-Reasoning-f16_q8_0.gguf           11.5 GB
-#Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf     11.7 GB
-#ggml-model-f16.gguf                             12.6 GB FAST|CTX|NPG|4k A770LE: 1012.7 Pt/s 13.5 Gt/s 142w 2.4Ghz- CPU|Not|Stable
-#gpt-oss-20b-F16.gguf                            12.8 GB SLOW|CTX|NPG|8k A770LE: 35.5 Pt/s 8.8 Gt/s 90W 2.3Ghz+ |FULL|CPU|HQ|
-#Navid-AI.Yehia-7B-preview.f16.gguf              13   GB FAST|CTX|NPG|4k A770LE: 1273.4 Pt/s 13.4 Gt/s 142w 2.4Ghz- |CPU|HQ|
-#Mistral-7B-Instruct-v0.3.fp16.gguf              13.5 GB
-#allenai.Olmo-3-7B-Think.f16.gguf                13.6 GB
-#Mamba-Codestral-7B-v0.1-F16.gguf                13.6 GB SLOW|CTX|NPG|8k A770LE: 110.1 Pt/s 3.2  Gt/s 97w 2.4Ghz+ CPU|FULL|GOOD
-#MathTutor-7B-H_v0.0.1.f16.gguf                  14.2 GB FAST|CTX|NPG|16k A770LE: 529.7 Pt/s 13.7 Gt/s 142w 2.4Ghz- |CPU|BESTEVER|HQ|
+#DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.50|GB
+#MiMo-Embodied-7B-f16_q8_0.gguf                  10.70|GB
+#MiniCPM4.1-8B-f16_q8_0.gguf                     11.00|GB FAST|CTX|NPG|8k|A770LE:|842.9 Pt|s 11.0 Gt|s 142w 2.4Ghz+|CPU|Mid|Long|Think
+#KernelLLM-f16_q8_0.gguf                         11.10|GB FAST|CTX|NPG|8k|A770LE:|688.5 Pt|s 11.2 Gt|s 137w 2.4Ghz-|CPU|MATH|KERNEL
+#Jan-v2-VL-high-f16_q8_0.gguf                    11.40|GB FAST|CTX|NPG|8k|A770LE:|639.6 Pt|s 10.2 Gt|s 135w 2.4Ghz-|CPU|Long|Think
+#Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.40|GB
+#Orchestrator-8B-f16_q8_0.gguf                   11.40|GB FAST|CTX|NPG|8k|A770LE:|640.4 Pt|s 10.2 Gt|s 134w 2.4Ghz-|CPU|Long|Think
+#MiroThinker-v1.0-8B-f16_q8_0.gguf               11.40|GB
+#Seed-Coder-8B-Reasoning-f16_q8_0.gguf           11.50|GB
+#Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf     11.70|GB
+#ggml-model-f16.gguf                             12.60|GB FAST|CTX|NPG|4k|A770LE:|1012.7 Pt|s 13.5 Gt|s 142w 2.4Ghz-|CPU|Not|Stable
+#gpt-oss-20b-F16.gguf                            12.80|GB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
+#Navid-AI.Yehia-7B-preview.f16.gguf              13.00|GB FAST|CTX|NPG|4k|A770LE:|1273.4 Pt|s 13.4 Gt|s 142w 2.4Ghz-|CPU|HQ|
+#Mistral-7B-Instruct-v0.3.fp16.gguf              13.50|GB
+#allenai.Olmo-3-7B-Think.f16.gguf                13.60|GB
+#Mamba-Codestral-7B-v0.1-F16.gguf                13.60|GB SLOW|CTX|NPG|8k|A770LE:|110.1 Pt|s 3.2  Gt|s 97w 2.4Ghz+|CPU|FULL|GOOD
+#MathTutor-7B-H_v0.0.1.f16.gguf                  14.20|GB FAST|CTX|NPG|16k|A770LE:|529.7 Pt|s 13.7 Gt|s 142w 2.4Ghz-|CPU|BESTEVER|HQ|
 
 #END F16 MODEL LIST
 
 #START Q8-Q4-IQ4-2 MODEL LIST NOT F16!
 #6GB+ GPU A730m/A380/A310
-#phi-2.Q4_K_M.gguf                               1.7  GB FAST|CTX|NPG|8k A770LE: 888.6 Pt/s 25.4 Gt/s 128w 2.4Ghz- CPU|EXT|NICE
-#openhermes-2.5-mistral-7b.Q4_K_M.gguf           4.1  GB FAST|
-#mistral-7b-instruct-v0.2.Q4_K_M.gguf            4.1  GB SLOW|
+#phi-2.Q4_K_M.gguf                               1.70|GB FAST|CTX|NPG|8k|A770LE:|888.6 Pt|s 25.4 Gt|s 128w 2.4Ghz-|CPU|EXT|NICE
+#openhermes-2.5-mistral-7b.Q4_K_M.gguf           4.10|GB FAST|
+#mistral-7b-instruct-v0.2.Q4_K_M.gguf            4.10|GB SLOW|
 
 #8GB+ GPU A750LE
-#OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf           5.5  GB FAST|CTX|NPG|8k A770LE: 1233.9 Pt/s 14.4 Gt/s 145w 2.4Ghz- CPU|OLDSC
-#NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.6  GB SLOW|
-#wizardcoder-python-7b-v1.0.Q8_0.gguf            6.7  GB SLOW|
-#sauerkrautlm-7b-v1.Q8_0.gguf                    6.7  GB FAST|CTX|NPG|8k A770LE: 1364.6 Pt/s 12.1 Gt/s 142w 2.4Ghz- CPU|OLDSC
+#OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf           5.50|GB FAST|CTX|NPG|8k|A770LE:|1233.9 Pt|s 14.4 Gt|s 145w 2.4Ghz-|CPU|OLDSC
+#NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.60|GB SLOW|
+#wizardcoder-python-7b-v1.0.Q8_0.gguf            6.70|GB SLOW|
+#sauerkrautlm-7b-v1.Q8_0.gguf                    6.70|GB FAST|CTX|NPG|8k|A770LE:|1364.6 Pt|s 12.1 Gt|s 142w 2.4Ghz-|CPU|OLDSC
 
 #10-12GB+ iGPU Xe-LPG/A730m/A580/B570/B580/PRO60/B50
-#Qwen3-16B-A3B-IQ4_NL.gguf                       8.5  GB FAST|
-#Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.7  GB FAST|
-#solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf  10.6 GB FAST|CTX|NPG|8k A770LE: 985.6 Pt/s 7.5 Gt/s 135w 2.4Ghz- CPU|VIP|
-#gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3 GB SLOW|CTX|NPG|8k A770LE: 35.4 Pt/s 8.7 Gt/s 92W 2.2Ghz+ FULL|CPU|
-#gpt-oss-20b-mxfp4.gguf                          11.3 GB SLOW|
-#velara-11b-v2.Q8_0.gguf                         11.3 GB FAST|
+#Qwen3-16B-A3B-IQ4_NL.gguf                       8.50|GB FAST|
+#Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.70|GB FAST|
+#solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf  10.6|GB FAST|CTX|NPG|8k|A770LE:|985.6 Pt|s 7.5 Gt|s 135w 2.4Ghz-|CPU|VIP|
+#gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3|GB SLOW|CTX|NPG|8k|A770LE:|35.4 Pt|s 8.7 Gt|s 92W 2.2Ghz+|FULL|CPU|
+#gpt-oss-20b-mxfp4.gguf                          11.3|GB SLOW|
+#velara-11b-v2.Q8_0.gguf                         11.3|GB FAST|
 #16GB+ A770LE
-#flux1-kontext-dev-Q8_0.gguf                     11.8 GB NO|SUPPORT
+#flux1-kontext-dev-Q8_0.gguf                     11.8|GB NO|SUPPORT
 #Deepseek-Coder-V2-Lite-13B-
-#Instruct-sft-s1K.i1-Q6_K.gguf                   13.1 GB FAST|CTX|NPG|8k A770LE: 22.7 Pt/s 7.9 Gt/s 98W 2.4Ghz- CPU|OK|
+#Instruct-sft-s1K.i1-Q6_K.gguf                   13.1|GB FAST|CTX|NPG|8k|A770LE:|22.7 Pt|s 7.9 Gt|s 98W 2.4Ghz-|CPU|OK|
 
 set -euo pipefail
 IFS=$'\n\t'
@@ -174,7 +174,7 @@ export ONEAPI_ROOT
 export CPATH="${CPATH:-}:${MKL_ROOT}/include"
 local LIB_DIR="/opt/intel/oneapi/compiler/latest/lib:/opt/intel/oneapi/mkl/latest/lib"
 export LD_LIBRARY_PATH="./${BUILD_DIR}/bin:${LIB_DIR}:${LD_LIBRARY_PATH:-}"
-if ! command -v icx &>/dev/null; then
+if [! command -v icx &>/dev/null || ! command -v icpx &>/dev/null; then
 error "❌ICX UND IPX ONEAPI INTEL XAIGPUARC BAUUNTERMODUL INSTALLATION FEHLGESCHLAGEN"
 exit 1
 fi
@@ -215,7 +215,7 @@ local KERNEL_SOURCE_LOCAL="ggml_flash_attention_sycl.cpp"
 #1|8
 if [ -f "$DPCT_HELPER_FILE" ]; then
 log "🔷PATCH 1|8 MATHEMATIKBIBLIOTHEK WIRD GELADEN"
-if sed -i '#include <sycl/ext/oneapi/math.hpp>|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
+if sed -i 's|#include <sycl/ext/oneapi/math.hpp>|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
 log "🔷PATCH 1|8 MATHEMATIKBIBLIOTHEK LADEN ERFOLGREICH SCHREIBE KOPZEILEN"
 elif sed -i '#if !defined(DPCT_USM_LEVEL_NONE) && defined(DPCT_ENABLE_MKL_MATH).#endif|#include <sycl|ext|intel|math.hpp>|g' "$DPCT_HELPER_FILE"; then
 log "🔷PATCH 1|8 MATHEMATIKBLIOTHEKENKOPFE ERFOLGREICH EINGELADEN SPEICHERE IN AUSGABE"
@@ -269,7 +269,7 @@ local MKL_INCLUDE_PATH="${MKL_ROOT}/include"
 local COMPILER_INCLUDE_PATH="${DPCPP_ROOT}/include"
 local DPCPP_LIB_INCLUDE_PATH="${DPCPP_ROOT}/lib/dpcpp/include"
 local ALL_INCLUDE_FLAGS="-I${MKL_INCLUDE_PATH} -I${COMPILER_INCLUDE_PATH} -I${DPCPP_LIB_INCLUDE_PATH}"
-local PATCH_LINE="target_compile_options(ggml-sycl PUBLIC "${ALL_INCLUDE_FLAGS}")"
+local PATCH_LINE="target_compile_options (ggml-sycl PUBLIC ${ALL_INCLUDE_FLAGS})"
 local SEARCH_MARKER="#Add include directories for MKL headers"
 if ! grep -Fq "${COMPILER_INCLUDE_PATH}" "$CMAKE_LISTS_FILE"; then
 local SED_PATCH_LINE=$(echo "$PATCH_LINE" | sed 's| |\ |g; s|[|&]|\&|g')
@@ -297,6 +297,7 @@ if ! grep -Fq "ggml_flash_attention_sycl" "${GGML_SYCL_CPP}"; then
 echo "${FA_REGISTER_CODE}" > /tmp/fa_decl.patch
 awk '/extern "C" void ggml_flash_attention_sycl/ { system("cat /tmp/fa_decl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
+cp "$GGML_SYCL_CPP" "$GGML_SYCL_CPP.bak"
 if [ $? -eq 0 ]; then
 log "🔷PATCH 4a|8 DEKLARATION ERFOLGREICH EINGEFUEGT"
 else
@@ -360,8 +361,8 @@ fi
 #6|8
 log "🔷PATCH 6|8: SSMCONVPP WARNUNG BEHEBEN VORZEICHENVERGLEICH"
 local SSM_CONV_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ssm_conv.cpp"
-local SEARCH_LINE='GGML_ASSERT(src0->nb[1] = src0->ne[0] * (size_t)<int64_t>(sizeof(double)));'
-local REPLACE_LINE='GGML_ASSERT(src0->nb[1] = (size_t)(src0->ne[0] * sizeof(double)));'
+local SEARCH_LINE='GGML_ASSERT(src0->nb[1] == src0->ne[0] * (size_t)<int64_t>(sizeof(double)));'
+local REPLACE_LINE='GGML_ASSERT(src0->nb[1] == (size_t)(src0->ne[0] * sizeof(double)));'
 if grep -Fq "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
 if sed -i "\|${SEARCH_LINE}|${REPLACE_LINE}|g" "$SSM_CONV_FILE"; then
 log "✅PATCH 6|8 SSMCONVCPP ERFOLGREICH"
@@ -384,10 +385,10 @@ log "🔷PATCH 7|8 BLOCK SIZE BEREITS DEFINIERT"
 fi
 fi
 #8|8
-log "🔷PATCH 8|8 OPTIMIERE SYCL QUEUE IN ORDNER XAIGPUARC"
+log "🔷PATCH 8|8 OPTIMIERE sycl::queue IN ORDNER XAIGPUARC"
 local SYCL_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 if [ ! -f "$SYCL_FILE" ]; then
-error "❌PATCH 8|8 DATEI SYCL QUEUE $SYCL_FILE"
+error "❌PATCH 8|8 DATEI sycl::queue $SYCL_FILE"
 return 1
 fi
 if grep -q "sycl::property_list" "$SYCL_FILE"; then
@@ -398,7 +399,7 @@ fi
 if grep -q "sycl::queue q{" "$SYCL_FILE"; then
 sed -i 's/sycl::queue q{.*}/sycl::queue q{dev, ctx, prop_list}/g' "$SYCL_FILE"
 if grep -q "in_order" "$SYCL_FILE"; then
-success "✅PATCH 8|8 SYCL QUEUE ERFOLGREICH OPTIMIERT"
+success "✅PATCH 8|8 sycl::queue ERFOLGREICH OPTIMIERT"
 else
 error "❌PATCH 8|8 AENDERUNGEN KONNTEN NICHT FERTIG GESTELLT WERDEN"
 return 1
@@ -488,7 +489,7 @@ log "🔷NACH VERFUEGBAREN SYCL GERAETEN AUF IHREM SYSTEM"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 if [ ! -x "${FULL_LS_PATH}" ]; then
 warn "⚠️LLAMA UNTERBAU NICHT GEFUNDEN ${FULL_LS_PATH} RUECKFALL AUF ARC dGPU"
-export ONEAPI_DEVICE_SELECTOR="level_zero ERFOLGREICH"
+export ONEAPI_DEVICE_SELECTOR="level_zero:${TARGET_ID}"
 DEVICE="ARC"
 return
 fi
@@ -566,7 +567,7 @@ export MODEL_PATH
 #8MODELLAUSFUEHREN
 run_inference() {
 local DEFAULT_MODEL_PATH="models/Lucy-1.7B-F16.gguf"
-#CHANGE MODEL HERE ABOVE TWICE! MODELL HIER DRUEBER DOPPELT AENDERN!
+#CHANGE|MODEL|HERE|ABOVE|TWICE|!|MODELL|HIER|DRUEBER|DOPPELT|AENDERN!
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"SYSTEM INSTRUCTION:
 You will receive an input text.
@@ -592,9 +593,9 @@ local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 local CONTEXT_SIZE=16384 #NEUE WERTE SETZEN 512 1024 2048 4096 8192 16384 32768 65556 USW
 local PREDICT_TOKENS=16384 #VERRINGERN UM SCHNELLERE ANTWORTEN ZU ERHALTEN
-log "🔷STARTE KI ANTWORT AUF IHRER iGPU/dGPU UND CPU MIT FOLGENDEN PARAMETERN**${DEVICE} (ID: ${GPU_ID})** MIT NGL WERT IST GLEICH ${NGL_SET} AUF DIESEM **${FULL_LLAMA_CLI_PATH}**"
+log "🔷STARTE|KI|ANTWORT|iGPU|dGPU|CPU|PARAMETERN**${DEVICE} (ID: ${GPU_ID})**|NGL|WERT|GLEICH ${NGL_SET} |**${FULL_LLAMA_CLI_PATH}**"
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
-error "❌FEHLER AKTUELLER LLAMA UNTERBAU NICHT GEFUNDEN NEUBAU FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
+error "❌FEHLER|AKTUELLER|LLAMA|UNTERBAU|NEUBAU|FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
 return 1
 fi
 ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
@@ -606,7 +607,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -ngl ${N_GPU_LAYERS} \
     --split-mode none \
     --main-gpu ${GPU_ID}
-echo "✅KI ANTWORT FERTIG GLUECKWUNSCH"
+echo "✅KI|ANTWORT|FERTIG|GLUECKWUNSCH"
 }
 #DEFINITIONHAUPTFUNKTION
 main() {
@@ -617,24 +618,24 @@ prepare_environment
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 if [[ -f "${FULL_LLAMA_CLI_PATH}" ]] && [[ -f "${FULL_LS_PATH}" ]]; then
-success "✅GEFUNDENE AKTUELLE XAIGPUARC VERSION NEUBAU UNNOETIG FORTFAHREN**${FULL_LLAMA_CLI_PATH}** UND **${FULL_LS_PATH}** LADEN"
-log "🔷UEBERSPRINGE BAUVORGANG"
+success "✅GEFUNDENE|XAIGPUARC|NEUBAU|UNNOETIG|**${FULL_LLAMA_CLI_PATH}**|**${FULL_LS_PATH}**|LADEN"
+log "🔷UEBERSPRINGE|BAUVORGANG"
 RERUN_BUILD=0
 else
-warn "⚠️KEINE AKTUELLES XAIGPUARC GEFUNDEN WIRD NEU GEBAUT.. BITTE WARTEN"
+warn "⚠️KEINE|AKTUELLES|XAIGPUARC|GEFUNDEN|NEU|GEBAUT..|BITTE|WARTEN"
 RERUN_BUILD=1
 fi
 if [[ "$RERUN_BUILD" -eq 1 ]]; then
-log "🔷STARTE ERSTMALIGEN BAUVORGANG VON XAIGPUARC"
+log "🔷STARTE|ERSTMALIGEN|BAUVORGANG|XAIGPUARC"
 if check_internet; then
-log "🔷LADE JETZT AKTUELLE LLAMA VERSION BITTE WARTEN"
+log "🔷LADE|LLAMA|BITTE WARTEN"
 #0
 setup_project
 #1
 patch_llama_cpp
 #2
 else
-warn "⚠️INTERNET NICHT VERFUEGBAR UEBERSPRINGE UPDATE VON LLAMACPP NUTZE LOKALE VERSION"
+warn "⚠️INTERNET|NICHT|VERFUEGBAR|UEBERSPRINGE|UPDATE|LLAMACPP|LOKALE|VERSION"
 fi
 fi
 configure_build "${FP_MODE}"
