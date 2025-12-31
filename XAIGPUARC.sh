@@ -1,7 +1,6 @@
 #!/bin/bash
 
 #||XAIGPUARC||
-size_t
 #|IMPERATOR|INTEPRATOR|EDITION|AUTOMATOR|
 
 #SYCL
