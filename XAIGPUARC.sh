@@ -603,7 +603,7 @@ fi
 
 #7MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
+MODEL_PATH=${1:-"models/Lucy-1.7B-F16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN. BITTE DORTHIN KOPIEREN **$MODEL_PATH**"
@@ -613,7 +613,7 @@ export MODEL_PATH
 
 #8MODELLAUSFUEHREN
 run_inference() {
-local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
+local DEFAULT_MODEL_PATH="models/Lucy-1.7B-F16.gguf"
 
 #CHANGE MODEL HERE ABOVE TWICE! MODELL HIER DRUEBER DOPPELT AENDERN!
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
