@@ -1,6 +1,15 @@
 #!/bin/bash
 
-#9.) How to START your XAIGPUARC
+
+
+###INTERPRATOR
+###XAIGPUARC
+###SYCL
+###31.12.2025 08:57
+###Goldenbug
+
+
+#9.) How to START your XAIGPUARC Interprator Happy New Year Edition 2026
 
 #0.) FIRST INTEL_ONE_API_BASEKIT MUST BE INSTALLED ON YOUR PC/LAPTOP/SYSTEM
 
@@ -71,7 +80,7 @@
 
 #DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.5 GB
 #MiMo-Embodied-7B-f16_q8_0.gguf                  10.7 GB
-#MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST CTX-NPG 8k A770LE: 842.9 Pt/s 11.0 Gt/s 142w 2.4Ghz + CPU Mid Long Think
+#MiniCPM4.1-8B-f16_q8_0.gguf                     11   GB FAST CTX-NPG 8k A770LE: 842.9 Pt/s 11.0 Gts 142w 2.4Ghz + CPU Mid Long Think
 #KernelLLM-f16_q8_0.gguf                         11.1 GB FAST CTX-NPG 8k A770LE: 688.5 Pt/s 11.2 Gt/s 137w 2.4Ghz - CPU MATH KERNEL
 #Jan-v2-VL-high-f16_q8_0.gguf                    11.4 GB FAST CTX-NPG 8k A770LE: 639.6 Pt/s 10.2 Gt/s 135w 2.4Ghz - CPU Long Think
 #Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.4 GB
@@ -135,6 +144,7 @@ NPROC="${NPROC:-$(nproc)}"
 LOG_FILE="${BUILD_DIR}/XAIGPUARC.log"
 LLAMA_CLI_PATH="bin/llama-cli"
 LS_SYCL_DEVICE_PATH="bin/llama-ls-sycl-device"
+ADD_SUBDIR_LINE="add_subdirectory(ggml-sycl)"
 
 #ONEAPIFUNKTIONEN
 export TCM_ROOT="${TCM_ROOT:-/opt/intel/oneapi/tcm/latest}"
@@ -219,7 +229,7 @@ exit 1
 fi
 }
 
-#2PATCH LOGIK 6/7
+#2PATCH LOGIK 1|8a,b,c
 patch_llama_cpp() {
 log "🔷PATCH FUER GGML SYCL ANLEGEN KOPFZEILENREGESTRIERUNG"
 local DPCT_HELPER_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/dpct/helper.hpp"
@@ -230,37 +240,37 @@ local CUSTOM_KERNEL_CMAKE="${CUSTOM_KERNEL_DIR}/CMakeLists.txt"
 local GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 local KERNEL_SOURCE_LOCAL="ggml_flash_attention_sycl.cpp"
 
-#1/7
+#1|8
 if [ -f "$DPCT_HELPER_FILE" ]; then
-log "🔷PATCH 1/7 MATHEMATIKBIBLIOTHEK WIRD GELADEN"
-if sed -i 's|#include <sycl/ext/oneapi/math.hpp>|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
-log "🔷PATCH 1/7 MATHEMATIKBIBLIOTHEK LADEN ERFOLGREICH SCHREIBE KOPZEILEN"
-elif sed -i 's|#if !defined(DPCT_USM_LEVEL_NONE) && defined(DPCT_ENABLE_MKL_MATH).#endif|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
-log "🔷PATCH 1/7 MATHEMATIKBLIOTHEKENKOPFE ERFOLGREICH EINGELADEN SPEICHERE IN AUSGABE"
+log "🔷PATCH 1|8 MATHEMATIKBIBLIOTHEK WIRD GELADEN"
+if sed -i '#include <sycl/ext/oneapi/math.hpp>|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
+log "🔷PATCH 1|8 MATHEMATIKBIBLIOTHEK LADEN ERFOLGREICH SCHREIBE KOPZEILEN"
+elif sed -i '#if !defined(DPCT_USM_LEVEL_NONE) && defined(DPCT_ENABLE_MKL_MATH).#endif|#include <sycl|ext|intel|math.hpp>|g' "$DPCT_HELPER_FILE"; then
+log "🔷PATCH 1|8 MATHEMATIKBLIOTHEKENKOPFE ERFOLGREICH EINGELADEN SPEICHERE IN AUSGABE"
 else
-error "❌PATCH 1/7 MKL MATHEMATIKBIBLIOTHEKEN EINLADEN IST FEHLGESCHLAGEN"
+error "❌PATCH 1|8 MKL MATHEMATIKBIBLIOTHEKEN EINLADEN IST FEHLGESCHLAGEN"
 return 1
 fi
 else
-error "❌PATCH 1/7 MATHEMATIKBIBLIOTHEKEN MKL FEHLGESCHLAGEN NICHT GEFUNDEN ABHAENIGKEITEN PRUEFEN"
+error "❌PATCH 1|8 MATHEMATIKBIBLIOTHEKEN MKL FEHLGESCHLAGEN NICHT GEFUNDEN ABHAENIGKEITEN PRUEFEN"
 return 1
 fi
 
-#2/7
-log "🔷PATCH 2/7 BAUE FLASH ATTENTION KERN"
+#2|8
+log "🔷PATCH 2|8 BAUE FLASH ATTENTION KERN"
 
-#2a/7
+#2a|8
 if [ ! -d "$CUSTOM_KERNEL_DIR" ]; then
 mkdir -p "$CUSTOM_KERNEL_DIR"
-log "🔷ORNDER '${CUSTOM_KERNEL_DIR}'ANGELEGT"
+log "🔷ORNDER FUER FLASH ATTENTION '${CUSTOM_KERNEL_DIR}'ANGELEGT"
 fi
 if [ -f "$KERNEL_SOURCE_LOCAL" ]; then
 cp "$KERNEL_SOURCE_LOCAL" "$CUSTOM_KERNEL_SRC"
-log "🔷PATCH 2/7 ggml_flash_attention_sycl.cpp KERNEL './${KERNEL_SOURCE_LOCAL}' NACH '${CUSTOM_KERNEL_SRC}' KOPIERT"
+log "🔷PATCH 2|8 ggml_flash_attention_sycl.cpp KERNEL '.|${KERNEL_SOURCE_LOCAL}' NACH '${CUSTOM_KERNEL_SRC}' KOPIERT"
 fi
 if [ ! -f "$CUSTOM_KERNEL_SRC" ]; then
-echo "PLATZHALTER ggml_flash_attention_sycl.cpp KERNELVERZEICHNIS" > "$CUSTOM_KERNEL_SRC"
-warn "⚠️PATCH 2/7 LADEN DER KERNELDATEI '${KERNEL_SOURCE_LOCAL} FEHLGESCHLAGEN"
+echo "ggml_flash_attention_sycl.cpp KERNEL VERZEICHNIS" > "$CUSTOM_KERNEL_SRC"
+warn "⚠️PATCH 2|8 LADEN DER KERNELDATEI '${KERNEL_SOURCE_LOCAL} FEHLGESCHLAGEN"
 fi
 echo "
 add_library(ggml_flash_attention_sycl OBJECT
@@ -269,24 +279,24 @@ add_library(ggml_flash_attention_sycl OBJECT
 target_include_directories(ggml_flash_attention_sycl PRIVATE \${GGML_SYCL_INCLUDE_DIRS})
 target_compile_options(ggml_flash_attention_sycl PUBLIC \${GGML_SYCL_COMPILE_FLAGS})
 " > "$CUSTOM_KERNEL_CMAKE"
-log "🔷PATCH 2a/7 CMAKE LISTEN FUER OBJEKTE ALS KOPFZEILE EINGEFUEGT"
+log "🔷PATCH 2a|8 CMAKE LISTEN FUER OBJEKTE ALS KOPFZEILE EINGEFUEGT"
 
-#2b/7
+#2b|8
 local ADD_SUBDIR_LINE="add_subdirectory(ggml_flash_attention_sycl)"
 if ! grep -Fq "${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
-if sed -i "/add_subdirectory(dpct)/a ${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
-log "🔷PATCH 2b/7 ERFOLGREICH FLASH ATTENTION ZU KOPFZEILEN AN CMAKE GESCHRIEBEN"
+if sed -i "\|#add_subdirectory(dpct)|a ${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
+log "🔷PATCH 2b|8 ERFOLGREICH FLASH ATTENTION ZU KOPFZEILEN AN CMAKE GESCHRIEBEN"
 else
-error "❌PATCH 2b/7 FLASH ATTENTION EINGLIEDERUNG DER KOPFZEILEN AN CMAKE FEHLGESCHLAGEN"
+error "❌PATCH 2b|8 FLASH ATTENTION EINGLIEDERUNG DER KOPFZEILEN AN CMAKE FEHLGESCHLAGEN"
 return 1
 fi
 else
-log "🔷PATCH 2b/7 FLASH ATTENTION BEREITS AKTIV UEBERSPRINGE"
+log "🔷PATCH 2b|8 FLASH ATTENTION BEREITS AKTIV UEBERSPRINGE"
 fi
 
-#3/7
+#3|8
 if [ -f "$CMAKE_LISTS_FILE" ]; then
-log "🔷PATCH 3/7: CMAKE LISTEN FUER KOPZEILEN ZUR ICPX IMPLEMENTIERUNG VORBEREITEN"
+log "🔷PATCH 3|8: CMAKE LISTEN FUER KOPZEILEN ZUR ICPX IMPLEMENTIERUNG VORBEREITEN"
 local MKL_INCLUDE_PATH="${MKL_ROOT}/include"
 local COMPILER_INCLUDE_PATH="${DPCPP_ROOT}/include"
 local DPCPP_LIB_INCLUDE_PATH="${DPCPP_ROOT}/lib/dpcpp/include"
@@ -294,26 +304,26 @@ local ALL_INCLUDE_FLAGS="-I${MKL_INCLUDE_PATH} -I${COMPILER_INCLUDE_PATH} -I${DP
 local PATCH_LINE="target_compile_options(ggml-sycl PUBLIC "${ALL_INCLUDE_FLAGS}")"
 local SEARCH_MARKER="#Add include directories for MKL headers"
 if ! grep -Fq "${COMPILER_INCLUDE_PATH}" "$CMAKE_LISTS_FILE"; then
-local SED_PATCH_LINE=$(echo "$PATCH_LINE" | sed 's/ /\ /g; s/[/&]/\&/g')
-if sed -i "/${SEARCH_MARKER}/a $SED_PATCH_LINE" "$CMAKE_LISTS_FILE"; then
-log "🔷PATCH 3/7 ERFOLGREICH ALLE ICPX KOPFZEILEN EINGEFUEGT"
+local SED_PATCH_LINE=$(echo "$PATCH_LINE" | sed 's| |\ |g; s|[|&]|\&|g')
+if sed -i "\|${SEARCH_MARKER}|a $SED_PATCH_LINE" "$CMAKE_LISTS_FILE"; then
+log "🔷PATCH 3|8 ERFOLGREICH ALLE ICPX KOPFZEILEN EINGEFUEGT"
 else
-error "❌PATCH 3/7 ICPX CMAKE LISTSTXT NICHT GEFUNDEN ABHAENGIKEITEN PRUEFEN"
+error "❌PATCH 3|8 ICPX CMAKE LISTSTXT NICHT GEFUNDEN ABHAENGIKEITEN PRUEFEN"
 return 1
 fi
 else
-log "🔷PATCH 3a/7 CMAKE LISTSTXT PFAD FUER SYCL GGML BEREITS BENUTZT UEBERSPRINGE"
+log "🔷PATCH 3a|8 CMAKE LISTSTXT PFAD FUER SYCL GGML BEREITS BENUTZT UEBERSPRINGE"
 fi
 else
-error "❌PATCH 3a/7 FEHLGESCHLAGEN CMAKE LISTSTXT FUER SYCL GGML PFADE NICHT GEFUNDEN BITTE ABHAENGIGKEITEN PRUEFEN"
+error "❌PATCH 3a|8 FEHLGESCHLAGEN CMAKE LISTSTXT FUER SYCL GGML PFADE NICHT GEFUNDEN BITTE ABHAENGIGKEITEN PRUEFEN"
 return 1
 fi
 
-#4/7
-log "🔷PATCH 4/7 FLASH ATTENTION KERN INJIZIEREN"
+#4|8
+log "🔷PATCH 4|8 FLASH ATTENTION KERN INJIZIEREN"
 if [ -f "$GGML_SYCL_CPP" ]; then
 
-#4a/7
+#4a|8
 local FA_REGISTER_CODE=$'//REGESTRIERE ggml_flash_attention_sycl.cpp \nextern "C"
 void ggml_flash_attention_sycl(ggml_flash_attention_sycl * ctx, ggml_tensor *
 dst, const ggml_tensor * Q, const ggml_tensor * K, const ggml_tensor * V);\n'
@@ -323,97 +333,122 @@ awk '/extern "C" void ggml_flash_attention_sycl/ { system("cat /tmp/fa_decl.patc
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
 
 if [ $? -eq 0 ]; then
-log "🔷PATCH 4a/7 DEKLARATION ERFOLGREICH EINGEFUEGT"
+log "🔷PATCH 4a|8 DEKLARATION ERFOLGREICH EINGEFUEGT"
 else
-error "❌PATCH 4a/7 FEHLER BEIM EINFUEGEN DER FLASH ATTENTION DEKLARATION AWK FEHLER"
+error "❌PATCH 4a|8 FEHLER BEIM EINFUEGEN DER FLASH ATTENTION DEKLARATION AWK FEHLER"
 return 1
 fi
 else
-log "🔷PATCH 4a/7 FLASH ATTENTION DEKLARATIONEN BEREITS VORHANDEN FORTFAHREN"
+log "🔷PATCH 4a|8 FLASH ATTENTION DEKLARATIONEN BEREITS VORHANDEN FORTFAHREN"
 fi
 local FA_DISPATCH_CASE=$' case GGML_OP_FLASH_ATTN:\n ggml_flash_attention_sycl(ctx, dst, src0, src1, src2);\n break;'
 if ! grep -Fq "case GGML_OP_FLASH_ATTN:" "${GGML_SYCL_CPP}"; then
-log "🔷PATCH 4a/7 FUEGE DEN ZWISCHENSPEICHER PER AWK KOPFZEILE EIN"
+log "🔷PATCH 4a|8 FUEGE DEN ZWISCHENSPEICHER PER AWK KOPFZEILE EIN"
 echo "${FA_DISPATCH_CASE}" > /tmp/fa_dispatch.patch
 awk '/case GGML_OP_MUL_MAT_Q_K:/ { system("cat /tmp/fa_dispatch.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
 
 if [ $? -eq 0 ]; then
-log "🔷PATCH 4a/7 AWK UNTERBAU IN KOPFZEILEN EINGEFUEHRT"
+log "🔷PATCH 4a|8 AWK UNTERBAU IN KOPFZEILEN EINGEFUEHRT"
 else
-error "❌PATCH 4a/7 FEHLER BEIM EINFUEGEN DER AWK KOPFZEILEN"
+error "❌PATCH 4a|8 FEHLER BEIM EINFUEGEN DER AWK KOPFZEILEN"
 fi
 else
-log "🔷PATCH 4a/7 AWK UNTERBAU VORHANDEN FORTFAHREN"
+log "🔷PATCH 4a|8 AWK UNTERBAU VORHANDEN FORTFAHREN"
 fi
-log "🔷PATCH 4b/7 ERFOLGREICH FLASHATTENTION GELADEN"
+log "🔷PATCH 4b|8 ERFOLGREICH FLASHATTENTION GELADEN"
 else
-error "❌PATCH 4b/7 FEHLGESCHLAGEN FLASHATTENTION KERN NICHT GEFUNDEN"
+error "❌PATCH 4b|8 FEHLGESCHLAGEN FLASHATTENTION KERN NICHT GEFUNDEN"
 return 1
 fi
 
-#5/7
-log "🔷PATCH 5/7 INJIZIERE FLASH ATTENTION OBJEKT VARIABLEN AUS UNTERBLOCK DER SYCL BIBLIOTHEKEN"
+#5|8
+log "🔷PATCH 5/8 INJIZIERE FLASH ATTENTION OBJEKT VARIABLEN AUS UNTERBLOCK DER SYCL BIBLIOTHEKEN"
 local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
 
-#5a/7
+#5a|8
 local VAR_LINE="set(FA_OBJECT_FILES \"\$<TARGET_OBJECTS:ggml_flash_attention_sycl>\")"
 local VAR_SEARCH_MARKER="set(GGML_SYCL_SOURCES"
 if ! grep -Fq "FA_OBJECT_FILES" "$CMAKE_LISTS_FILE"; then
-local SED_VAR_LINE=$(echo "$VAR_LINE" | sed 's/[\/&]/\\&/g')
-if sed -i "/${VAR_SEARCH_MARKER}/a ${SED_VAR_LINE}" "$CMAKE_LISTS_FILE"; then
-log "🔷PATCH 5a/7 FLASH ATTENTION OBJEKT VARIABLEN ERFOLGREICH DEFINIERT WEITER"
+local SED_VAR_LINE=$(echo "$VAR_LINE" | sed 's|[\|&]|\\&|g')
+if sed -i "\|${VAR_SEARCH_MARKER}|a ${SED_VAR_LINE}" "$CMAKE_LISTS_FILE"; then
+log "🔷PATCH 5a|8 FLASH ATTENTION OBJEKT VARIABLEN ERFOLGREICH DEFINIERT WEITER"
 else
-error "❌PATCH 5a/7 FLASH ATTENTION OBJEKT VARIABLEN BAU FEHLGESCHLAGEN STOPP"
+error "❌PATCH 5a|8 FLASH ATTENTION OBJEKT VARIABLEN BAU FEHLGESCHLAGEN STOPP"
 return 1
 fi
 else
-log "🔷PATCH 5a/7 FLASH ATTENTION OBJEKT VARIABLEN VORHANDEN UEBERSPRINGE"
+log "🔷PATCH 5a|8 FLASH ATTENTION OBJEKT VARIABLEN VORHANDEN UEBERSPRINGE"
 fi
 
-#5b/7
+#5b|8
 local TARGET_SEARCH_MARKER="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES})"
 local NEW_TARGET_SOURCES_LINE="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES} \${FA_OBJECT_FILES})"
 if grep -Fq "${TARGET_SEARCH_MARKER}" "$CMAKE_LISTS_FILE" && ! grep -Fq "\${FA_OBJECT_FILES}" "$CMAKE_LISTS_FILE"; then
 local SED_NEW_LINE=$(echo "$NEW_TARGET_SOURCES_LINE" | sed 's/[\/&]/\\&/g')
 local SED_SEARCH_MARKER=$(echo "$TARGET_SEARCH_MARKER" | sed 's/[\/&]/\\&/g')
-if sed -i "s/${SED_SEARCH_MARKER}/${SED_NEW_LINE}/" "$CMAKE_LISTS_FILE"; then
-log "🔷PATCH 5b/7 ERFOLGREICHE GGML SYCL INJEKTIONEN IN BAUVORGANG"
+if sed -i "\|${SED_SEARCH_MARKER}|${SED_NEW_LINE}|" "$CMAKE_LISTS_FILE"; then
+log "🔷PATCH 5b|8 ERFOLGREICHE GGML SYCL INJEKTIONEN IN BAUVORGANG"
 else
-error "❌PATCH 5b/7 GGML SYCL INJEKTION FEHLGESCHLAGEN"
+error "❌PATCH 5b|8 GGML SYCL INJEKTION FEHLGESCHLAGEN"
 return 1
 fi
 else
-log "🔷PATCH 5b/7 GGML SYCL IST BEREITS AKTIV INJECTION WIRD UEBERSPRUNGEN"
+log "🔷PATCH 5b|8 GGML SYCL IST BEREITS AKTIV INJECTION WIRD UEBERSPRUNGEN"
 fi
 
-#6/7
-log "🔷PATCH 6/7: SSMCONVPP WARNUNG BEHEBEN VORZEICHENVERGLEICH"
+#6|8
+log "🔷PATCH 6|8: SSMCONVPP WARNUNG BEHEBEN VORZEICHENVERGLEICH"
 local SSM_CONV_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ssm_conv.cpp"
 local SEARCH_LINE='GGML_ASSERT(src0->nb[1] = src0->ne[0] * (size_t)<int64_t>(sizeof(double)));'
 local REPLACE_LINE='GGML_ASSERT(src0->nb[1] = (size_t)(src0->ne[0] * sizeof(double)));'
 if grep -Fq "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
-if sed -i "s/${SEARCH_LINE}/${REPLACE_LINE}/g" "$SSM_CONV_FILE"; then
-log "🔷PATCH 6/7 SSMCONVCPP ERFOLGREICH"
+if sed -i "\|${SEARCH_LINE}|${REPLACE_LINE}|g" "$SSM_CONV_FILE"; then
+log "🔷PATCH 6|8 SSMCONVCPP ERFOLGREICH"
 else
-error "❌PATCH 6/7 SSMCONVCPP FEHLGESCHLAGEN"
+error "❌PATCH 6|8 SSMCONVCPP FEHLGESCHLAGEN"
 return 1
 fi
 else
-log "🔷PATCH 6/7 SSMCONVCPP ZEILE NICHT GEFUNDEN UEBERSPRINGE"
+log "🔷PATCH 6|8 SSMCONVCPP ZEILE NICHT GEFUNDEN UEBERSPRINGE"
 fi
 
-#7/7
-log "🔷PATCH 7/7: ERZWINGE MAX BLOCK SIZE 1024 FUER ARC"
+#7|8
+log "🔷PATCH 7|8: ERZWINGE MAX BLOCK SIZE 1024 FUER ARC"
 if [ -f "$GGML_SYCL_CPP" ]; then
 if ! grep -q "GGML_SYCL_MAX_BLOCK_SIZE 1024" "$GGML_SYCL_CPP"; then
-sed -i '1i #define GGML_SYCL_MAX_BLOCK_SIZE 1024' "$GGML_SYCL_CPP"
-log "🔷PATCH 7/7 BLOCK SIZE 1024 ERFOLGREICH INJIZIERT"
+sed -i '#define GGML_SYCL_MAX_BLOCK_SIZE 1024' "$GGML_SYCL_CPP"
+log "🔷PATCH 7|8 BLOCK SIZE 1024 ERFOLGREICH INJIZIERT"
 else
-log "🔷PATCH 7/7 BLOCK SIZE BEREITS DEFINIERT"
+log "🔷PATCH 7|8 BLOCK SIZE BEREITS DEFINIERT"
 fi
-success "✅ALLE EINGLIEDERUNGEN FUER DAS INTEL ARC GPU BASIERTE XAIGPUARC ERFOLGREICH ANGEWANDT"
 fi
+
+#8|8
+#log "🔷PATCH 8|8: AKTIVIERE SYCL QUEUE"
+#local SYCL_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
+#if [ ! -f "$SYCL_FILE" ]; then
+#error "❌PATCH 8|8: DATEI SYCL QUEUE $SYCL_FILE NICHT GEFUNDEN"
+#return 1
+#fi
+#if sed -i '#include <sycl|ext|oneapi|sycl::queue|d' "$SYCL_FILE"; then
+#sed -i '#sycl::property_list prop_list{.*in_order::disabled|d' "$SYCL_FILE"
+#if ! grep -q "sycl::queue" "$SYCL_FILE"; then
+#return 1
+#sed -i '|#include <sycl/ext/oneapi/sycl::queue/d'> "$SYCL_FILE"; then q{|sycl::queue q{sycl::property_list{sycl::property::queue::enable_profiling{}}, |g' "$SYCL_FILE"
+#echo "PATCH 8|8 SYCL QUEUE ERFOLGREICH EINGEFUEGT" >> "$SYCL_FILE"
+#log "🔷PATCH 8|8: SYCL QUEUE NICHT GEFUNDEN UEBERSPRINGE"
+#fi
+#sed -i '\|#sycl::queue|(.*{|)|sycl::queue|1prop_list, |g' "$SYCL_FILE"
+#if grep -q "prop_list" "$SYCL_FILE" && grep -q "in_order::disabled" "$SYCL_FILE"; then
+#log "🔷PATCH 8|8 ERFOLGREICH ANGEWANDT"
+#else
+#error "❌PATCH 8|8: FEHLGESCHLAGEN"
+#fi
+#else
+#log "⚠️PATCH 8|8: WARNUNG PATCH 8|8 SYCL SED INJEKTION FEHLGESCHLAGEN"
+#fi
+success "✅ALLE 8|8 EINGLIEDERUNGEN FUER DAS INTEL ARC GPU BASIERTE XAIGPUARC ERFOLGREICH ANGEWANDT"
 }
 
 #3XAIGPUARCBAUKONFIGURATION
@@ -538,7 +573,7 @@ VRAM_GIB=$((VRAM_GIB_RAW / 1024)) #MIB-zu-GIB-
 if [ -z "${VRAM_GIB_RAW}" ]; then
 VRAM_GIB_RAW=1024
 fi
-local LAYER_SIZE_MIB=256 #Magic Key
+local LAYER_SIZE_MIB=1024 #Magic Key
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 if [ "${VRAM_GIB}" -lt 1 ]; then
 VRAM_GIB=1
@@ -568,7 +603,7 @@ fi
 
 #7MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/Lucy-1.7B-F16.gguf"}
+MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR KI MODELL KONNTE NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN WERDEN. BITTE DORTHIN KOPIEREN **$MODEL_PATH**"
@@ -578,7 +613,7 @@ export MODEL_PATH
 
 #8MODELLAUSFUEHREN
 run_inference() {
-local DEFAULT_MODEL_PATH="models/Lucy-1.7B-F16.gguf"
+local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
 
 #CHANGE MODEL HERE ABOVE TWICE! MODELL HIER DRUEBER DOPPELT AENDERN!
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
