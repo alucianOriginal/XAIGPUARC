@@ -54,6 +54,8 @@
 #|6-16GiB+|F16|Model|START-END|
 
 #|6GiB+|F16|GPU|A730m|A380|A570m|
+#1.5B_Math_Tutor-GGUF-F16 3.09GiB
+#math-professor-3B-GGUF-F16 6.18GiB
 #kani-tts-400m-en-f16_q8_0.gguf                  00.53|GiB|FAST|CTX|NPG|8K|A770LE:|588.6 Pt|s 62.4 Gt|s 100w 2.4Ghz-|CPU|FIRESTARTER|
 #baidu.ERNIE-4.5-0.3B-Base-PT.f16.gguf           00.69|GiB|FAST|CTX|NPG|8K|A770LE:|469.7 Pt|s 52.5 Gt|s 97w 2.4Ghz+|CPU|Mid|Low|Chat
 #MedScholar-1.5B-f16_q8_0.gguf                   02.10|GiB|FAST|CTX|NPG|8k|A770LE:|528.2 Pt|s 25.2 Gt|s 109w 2.4Ghz-|CPU|Good
