@@ -1,28 +1,27 @@
 #!/bin/bash
 
-#|31.12.25|TIME|19:23|PM|ABEND|NEW|
-#|YEAR|NEU|JAHR|WINTER|SONN|WEND|FEIER|
+#|XAIGPUARC|
+#|DUNKLER-MATHEMATIK-LEHRER-EDITION|
+#|02.01|26|TIME|01:58|
 #|GEHIRN|O|MAT|
-#|FINAL|VANILLA|XAIGPUARC|31|12|2025|ENDE|#
 
 #|AUTOMATOR|
-#|INTERPRATOR|#
-#|IMPRESSOR|#
-#|IMPERATOR|#
-#|INTERPREDATOR|#
-#|IMPETRATOR|#
-#|IMPRESSATOR|#
-#|INTERPREDATOR|#
-#|EDIT|I|ON|#
-#|AU|TO|MA|TOR|IT|#
-#|GE|H|IRN|O|MAT|#
-#|EI|WEISS|COM|PUTER|#
-#|USE|WISE|AND|CARE|FULL|PLS|#
-#|PROOF|OF|ANSWERS|#
-#|MAYBE|EZ|WITH|OTHER|AI|KI|#
+#|INTERPRATOR|
+#|IMPRESSOR|
+#|IMPERATOR|
+#|INTERPREDATOR|
+#|IMPETRATOR|
+#|IMPRESSATOR|
+#|INTERPREDATOR|
+#|EDIT|I|ON|
+#|AU|TO|MA|TOR|IT|
+#|GE|H|IRN|O|MAT|
+#|EI|WEISS|COM|PUTER|
+#|USE|WISE|AND|CARE|FULL|PLS|
+#|PROOF|OF|ANSWERS|
+#|MAYBE|EZ|WITH|OTHER|AI|KI|
 
-#|SYCL|#
-#9.)How|START|your|XAIGPUARC|IperatorInterprator|HappyNewYear|Edition|2026
+#9.)How|START|your|XAIGPUARC|
 #0.)FIRST|INTELONEAPIBASEKIT|PC|LAPTOP|SYSTEM
 #0.)Second ARCH|Garuda|LINUX
 #1.)Kopie|XAIGPUARC.sh|your|Home/PCNAME|Folder
@@ -32,96 +31,96 @@
 #b.)Open|Console|Type: chmod +x ./XAIGPUARC.sh Enter...
 #4.)START|with|type|Console ./XAIGPUARC.sh Enter..
 
-#XAIGPUARC Hardware|Build|Test
+#XAIGPUARC|Hardware|Build|Test
 #Intel|ARC|Alchemist|Battlemage|Calestial|Druid|A770LE|16GB|750LE|8GB
 #90|142|Watt Chip Power Draw alone each Card different LLMs
-#Example GPT-OSS-20B-F16 very nice low Wattage
+#Example|GPT-OSS-20B-F16 very nice low Wattage
 #needlonger fullworking|MathTutorF16|142 Watt
-#Use multible Models better Workflow
-#All Hardware Modded not Stock Compareable
-#PLS watch Cooling Dust Free System
-#Single Dual dGPUs AMD Ryzen 2600 2700x Intel i7 6700K Z170 RAM 16GB 128GB
-#Intel iGPU XE Alder Lake Gen 12700H 12650H A730m 12 GB 32GB DDR4|5 RAM
-#Intel Core Ultra 7 155H Meteor Lake 8 Core Xe-LPG 128EU ARC 16GiB
-#QuadChannelHigh BandwithRAM Gear2with718GB|s
-#11.5 GiBVRAMsharedDDR5xLPRAM
-#155H i7 GPT|OSS|20B|F16.gguf|wellslow|30Watt|allinone|withmods
-#BF16 Models not recommend for Alechmist
+#Use|multible Models better Workflow
+#All|Hardware Modded not Stock Compareable
+#PLS|watch Cooling Dust Free System
+#Single|Dual dGPUs AMD Ryzen 2600 2700x i7 6700K Z170 RAM 16GiB 128GiB
+#Intel|iGPU XE Alder Lake Gen 12700H 12650H A730m 12GiB 32GB DDR4|5 RAM
+#Core|Ultra|7|155H|MeteorLake|8|Core|Xe-LPG|128EU|1024Alu|ARC|11.5GiBVram|
+#Quad|Channel|Bandwith|RAM|Gear2|718GB|s
+#11.5|GiBVRAMsharedDDR5xLPRAM
+#155H|i7|GPT|OSS|20B|F16.gguf|wellslow|30|Watt|allinone|with|mod
+#|BF16|Models|NOT|recommend|FOR|Alechmist|
 
-#F16 Mode Only
+#F16|ModelOnly|START-END|
 
 #6GB+ GPU A730m/A380/A310
-#kani-tts-400m-en-f16_q8_0.gguf                  0.53|GB FAST|CTX|NPG|8K|A770LE:|588.6 Pt|s 62.4 Gt|s 100w 2.4Ghz-|CPU|FIRESTARTER
-#baidu.ERNIE-4.5-0.3B-Base-PT.f16.gguf           0.69|GB FAST|CTX|NPG|8K|A770LE:|469.7 Pt|s 52.5 Gt|s 97w 2.4Ghz+|CPU|Mid|Low|Chat
-#MedScholar-1.5B-f16_q8_0.gguf                   2.10|GB FAST|CTX|NPG|8k|A770LE:|528.2 Pt|s 25.2 Gt|s 109w 2.4Ghz-|CPU|Good
-#Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.10|GB FAST|
-#yasserrmd.DentaInstruct-1.2B.f16.gguf           2.20|GB
-#DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.20|GB FAST|CTX|NPG|8k|A770LE:|513.2 Pt|s 23.3 Gt|s 112w 2.3Ghz+|CPU|Mid|Think|EZ|Task
-#ibm-granite.granite-4.0-1b.f16.gguf             3.00|GB SLOW|CTX|NPG|8k|A770LE:|569.4 Pt|s 18.2 Gt|s 120w 2.3Ghz-|CPU|GPU|INF|NOT|STABLE
-#Lucy-1.7B-F16.gguf                              3.20|GB FAST|CTX|NPG|32k|A770LE:|572.7 Pt|s 23.2 Gt|s 108w 2.4Ghz-|CPU|EXT|STABLE
-#granite-4.0-micro-f16_q8_0.gguf                 4.60|GB
-#gemma-2-2b-it.F16.gguf                          4.90|GB FAST|
+#kani-tts-400m-en-f16_q8_0.gguf                  0.53|GiB FAST|CTX|NPG|8K|A770LE:|588.6 Pt|s 62.4 Gt|s 100w 2.4Ghz-|CPU|FIRESTARTER
+#baidu.ERNIE-4.5-0.3B-Base-PT.f16.gguf           0.69|GiB FAST|CTX|NPG|8K|A770LE:|469.7 Pt|s 52.5 Gt|s 97w 2.4Ghz+|CPU|Mid|Low|Chat
+#MedScholar-1.5B-f16_q8_0.gguf                   2.10|GiB FAST|CTX|NPG|8k|A770LE:|528.2 Pt|s 25.2 Gt|s 109w 2.4Ghz-|CPU|Good
+#Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf            2.10|GiB FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU|
+#yasserrmd.DentaInstruct-1.2B.f16.gguf           2.20|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
+#DeepCoder-1.5B-Preview-f16_q8_0.gguf            2.20|GiB FAST|CTX|NPG|8k|A770LE:|513.2 Pt|s 23.3 Gt|s 112w 2.3Ghz+|CPU|Mid|Think|EZ|Task
+#ibm-granite.granite-4.0-1b.f16.gguf             3.00|GiB SLOW|CTX|NPG|8k|A770LE:|569.4 Pt|s 18.2 Gt|s 120w 2.3Ghz-|CPU|GPU|INF|NOT|STABLE
+#Lucy-1.7B-F16.gguf                              3.20|GiB FAST|CTX|NPG|32k|A770LE:|572.7 Pt|s 23.2 Gt|s 108w 2.4Ghz-|CPU|EXT|STABLE
+#granite-4.0-micro-f16_q8_0.gguf                 4.60|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
+#gemma-2-2b-it.F16.gguf                          4.90|GiB FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU|
 
 #8GB+ GPU A750LE
-#Fathom-Search-4B-f16_q8_0.gguf                  5.50|GB FAST|CTX|NPG|8k|A770LE:|569.4 Pt|s 18.2 Gt|s 118w 2.4Ghz-|CPU|Think
-#Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.70|GB FAST|CTX|NPG|8k|A770LE:|511.5 Pt|s 19.7 Gt|s 142w 2.4Ghz-|CPU
-#Qwen2.5-VL-3B-Instruct-f16.gguf                 5.80|GB FAST|
-#llama3bthinkingonly5B.f16.gguf                  6.00|GB SLOW|
+#Fathom-Search-4B-f16_q8_0.gguf                  5.50|GiB FAST|CTX|NPG|8k|A770LE:|569.4 Pt|s 18.2 Gt|s 118w 2.4Ghz-|CPU|Think
+#Qwen2.5-7B-Instruct-f16-q4_k.gguf               5.70|GiB FAST|CTX|NPG|8k|A770LE:|511.5 Pt|s 19.7 Gt|s 142w 2.4Ghz-|CPU
+#Qwen2.5-VL-3B-Instruct-f16.gguf                 5.80|GiB FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU|
+#llama3bthinkingonly5B.f16.gguf                  6.00|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
 
 #10-12GB+ iGPU Xe-LPG/A730m/A580/B570/B580/PROA60/B50
-#UIGEN-X-4B-0729-f16_q8_0.gguf                   6.20|GB
-#granite-4.0-h-tiny-f16_q8_0.gguf                7.00|GB SLOW|
-#Trinity-Nano-Preview-f16_q8_0.gguf              7.20|GB SLOW|
-#Qwen3-Embedding-4B-f16.gguf                     7.50|GB SLOW|
-#Qwen3-4B-f16.gguf                               7.50|GB FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU|Very|Long|Think
-#Nemotron-Mini-4B-Instruct-f16.gguf              7.80|GB FAST|CTX|NPG|8k|A770LE:|717.8 Pt|s 17.8 Gt|s 118w 2.4Ghz-|CPU
-#Minitron-4B-Base.FP16.gguf                      7.80|GB FAST|CTX|NPG|4k|A770LE:|764.3 Pt|s 16.3 Gt|s 131w 2.4Ghz+|CPU|MidLow|Q
-#t5-v1_1-xxl-encoder-f16.gguf                    8.90|GB FAST|CTX|NPG|8k|A770LE:|361,8 Pt|s 6 Gt|s 101w 2.4Ghz-|CPU|NICE
+#UIGEN-X-4B-0729-f16_q8_0.gguf                   6.20|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
+#granite-4.0-h-tiny-f16_q8_0.gguf                7.00|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
+#Trinity-Nano-Preview-f16_q8_0.gguf              7.20|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
+#Qwen3-Embedding-4B-f16.gguf                     7.50|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
+#Qwen3-4B-f16.gguf                               7.50|GiB FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU|V|L|Think|
+#Nemotron-Mini-4B-Instruct-f16.gguf              7.80|GiB FAST|CTX|NPG|8k|A770LE:|717.8 Pt|s 17.8 Gt|s 118w 2.4Ghz-|CPU
+#Minitron-4B-Base.FP16.gguf                      7.80|GiB FAST|CTX|NPG|4k|A770LE:|764.3 Pt|s 16.3 Gt|s 131w 2.4Ghz+|CPU|MID
+#t5-v1_1-xxl-encoder-f16.gguf                    8.90|GiB FAST|CTX|NPG|8k|A770LE:|361,8 Pt|s 6 Gt|s 101w 2.4Ghz-|CPU|NICE
 
 #16GB+ GPU A770LE + iGPU Meteor Lake
-#DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.50|GB
-#MiMo-Embodied-7B-f16_q8_0.gguf                  10.70|GB
-#MiniCPM4.1-8B-f16_q8_0.gguf                     11.00|GB FAST|CTX|NPG|8k|A770LE:|842.9 Pt|s 11.0 Gt|s 142w 2.4Ghz+|CPU|Mid|Long|Think
-#KernelLLM-f16_q8_0.gguf                         11.10|GB FAST|CTX|NPG|8k|A770LE:|688.5 Pt|s 11.2 Gt|s 137w 2.4Ghz-|CPU|MATH|KERNEL
-#Jan-v2-VL-high-f16_q8_0.gguf                    11.40|GB FAST|CTX|NPG|8k|A770LE:|639.6 Pt|s 10.2 Gt|s 135w 2.4Ghz-|CPU|Long|Think
-#Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.40|GB
-#Orchestrator-8B-f16_q8_0.gguf                   11.40|GB FAST|CTX|NPG|8k|A770LE:|640.4 Pt|s 10.2 Gt|s 134w 2.4Ghz-|CPU|Long|Think
-#MiroThinker-v1.0-8B-f16_q8_0.gguf               11.40|GB
-#Seed-Coder-8B-Reasoning-f16_q8_0.gguf           11.50|GB
-#Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf     11.70|GB
-#ggml-model-f16.gguf                             12.60|GB FAST|CTX|NPG|4k|A770LE:|1012.7 Pt|s 13.5 Gt|s 142w 2.4Ghz-|CPU|Not|Stable
-#gpt-oss-20b-F16.gguf                            12.80|GB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
-#Navid-AI.Yehia-7B-preview.f16.gguf              13.00|GB FAST|CTX|NPG|4k|A770LE:|1273.4 Pt|s 13.4 Gt|s 142w 2.4Ghz-|CPU|HQ|
-#Mistral-7B-Instruct-v0.3.fp16.gguf              13.50|GB
-#allenai.Olmo-3-7B-Think.f16.gguf                13.60|GB
-#Mamba-Codestral-7B-v0.1-F16.gguf                13.60|GB SLOW|CTX|NPG|8k|A770LE:|110.1 Pt|s 3.2  Gt|s 97w 2.4Ghz+|CPU|FULL|GOOD
-#MathTutor-7B-H_v0.0.1.f16.gguf                  14.20|GB FAST|CTX|NPG|16k|A770LE:|529.7 Pt|s 13.7 Gt|s 142w 2.4Ghz-|CPU|BESTEVER|HQ|
+#DiffuCoder-7B-cpGRPO-f16_q8_0.gguf              10.50|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
+#MiMo-Embodied-7B-f16_q8_0.gguf                  10.70|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
+#MiniCPM4.1-8B-f16_q8_0.gguf                     11.00|GiB FAST|CTX|NPG|8k|A770LE:|842.9 Pt|s 11.0 Gt|s 142w 2.4Ghz+|CPU|Mid|Long|Think
+#KernelLLM-f16_q8_0.gguf                         11.10|GiB FAST|CTX|NPG|8k|A770LE:|688.5 Pt|s 11.2 Gt|s 137w 2.4Ghz-|CPU|MATH|KERNEL
+#Jan-v2-VL-high-f16_q8_0.gguf                    11.40|GiB FAST|CTX|NPG|8k|A770LE:|639.6 Pt|s 10.2 Gt|s 135w 2.4Ghz-|CPU|Long|Think
+#Nemotron-Orchestrator-8B-f16_q8_0.gguf          11.40|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
+#Orchestrator-8B-f16_q8_0.gguf                   11.40|GiB FAST|CTX|NPG|8k|A770LE:|640.4 Pt|s 10.2 Gt|s 134w 2.4Ghz-|CPU|Long|Think
+#MiroThinker-v1.0-8B-f16_q8_0.gguf               11.40|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
+#Seed-Coder-8B-Reasoning-f16_q8_0.gguf           11.50|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
+#Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf     11.70|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
+#ggml-model-f16.gguf                             12.60|GiB FAST|CTX|NPG|4k|A770LE:|1012.7 Pt|s 13.5 Gt|s 142w 2.4Ghz-|CPU|Not|Stable
+#gpt-oss-20b-F16.gguf                            12.80|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
+#Navid-AI.Yehia-7B-preview.f16.gguf              13.00|GiB FAST|CTX|NPG|4k|A770LE:|1273.4 Pt|s 13.4 Gt|s 142w 2.4Ghz-|CPU|HQ|
+#Mistral-7B-Instruct-v0.3.fp16.gguf              13.50|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
+#allenai.Olmo-3-7B-Think.f16.gguf                13.60|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
+#Mamba-Codestral-7B-v0.1-F16.gguf                13.60|GiB SLOW|CTX|NPG|8k|A770LE:|110.1 Pt|s 3.2  Gt|s 97w 2.4Ghz+|CPU|FULL|GOOD
+#MathTutor-7B-H_v0.0.1.f16.gguf                  14.20|GiB FAST|CTX|NPG|16k|A770LE:|529.7 Pt|s 13.7 Gt|s 142w 2.4Ghz-|CPU|BEST|HQ|
 
-#END F16 MODEL LIST
+#|END|F16MODELLIST|
 
-#START Q8-Q4-IQ4-2 MODEL LIST NOT F16!
+#|START|Q8-Q4-IQ4-2|MODEL|LISTNOTF16!
 #6GB+ GPU A730m/A380/A310
-#phi-2.Q4_K_M.gguf                               1.70|GB FAST|CTX|NPG|8k|A770LE:|888.6 Pt|s 25.4 Gt|s 128w 2.4Ghz-|CPU|EXT|NICE
-#openhermes-2.5-mistral-7b.Q4_K_M.gguf           4.10|GB FAST|
-#mistral-7b-instruct-v0.2.Q4_K_M.gguf            4.10|GB SLOW|
+#phi-2.Q4_K_M.gguf                               1.70|GiB FAST|CTX|NPG|8k|A770LE:|888.6 Pt|s 25.4 Gt|s 128w 2.4Ghz-|CPU|EXT|NICE
+#openhermes-2.5-mistral-7b.Q4_K_M.gguf           4.10|GiB FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU|
+#mistral-7b-instruct-v0.2.Q4_K_M.gguf            4.10|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
 
 #8GB+ GPU A750LE
-#OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf           5.50|GB FAST|CTX|NPG|8k|A770LE:|1233.9 Pt|s 14.4 Gt|s 145w 2.4Ghz-|CPU|OLDSC
-#NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.60|GB SLOW|
-#wizardcoder-python-7b-v1.0.Q8_0.gguf            6.70|GB SLOW|
-#sauerkrautlm-7b-v1.Q8_0.gguf                    6.70|GB FAST|CTX|NPG|8k|A770LE:|1364.6 Pt|s 12.1 Gt|s 142w 2.4Ghz-|CPU|OLDSC
+#OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf           5.50|GiB FAST|CTX|NPG|8k|A770LE:|1233.9 Pt|s 14.4 Gt|s 145w 2.4Ghz-|CPU|OLDSC
+#NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf         6.60|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
+#wizardcoder-python-7b-v1.0.Q8_0.gguf            6.70|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
+#sauerkrautlm-7b-v1.Q8_0.gguf                    6.70|GiB FAST|CTX|NPG|8k|A770LE:|1364.6 Pt|s 12.1 Gt|s 142w 2.4Ghz-|CPU|OLD|
 
 #10-12GB+ iGPU Xe-LPG/A730m/A580/B570/B580/PRO60/B50
-#Qwen3-16B-A3B-IQ4_NL.gguf                       8.50|GB FAST|
-#Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.70|GB FAST|
-#solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf  10.6|GB FAST|CTX|NPG|8k|A770LE:|985.6 Pt|s 7.5 Gt|s 135w 2.4Ghz-|CPU|VIP|
-#gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3|GB SLOW|CTX|NPG|8k|A770LE:|35.4 Pt|s 8.7 Gt|s 92W 2.2Ghz+|FULL|CPU|
-#gpt-oss-20b-mxfp4.gguf                          11.3|GB SLOW|
-#velara-11b-v2.Q8_0.gguf                         11.3|GB FAST|
+#Qwen3-16B-A3B-IQ4_NL.gguf                       8.50|GiB FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU|
+#Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   9.70|GiB FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU|
+#solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf  10.6|GiB FAST|CTX|NPG|8k|A770LE:|985.6 Pt|s 7.5 Gt|s 135w 2.4Ghz-|CPU|VIP|
+#gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf     11.3|GiB SLOW|CTX|NPG|8k|A770LE:|35.4 Pt|s 8.7 Gt|s 92W 2.2Ghz+|FULL|CPU|
+#gpt-oss-20b-mxfp4.gguf                          11.3|GiB SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
+#velara-11b-v2.Q8_0.gguf                         11.3|GiB FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU|
 #16GB+ A770LE
-#flux1-kontext-dev-Q8_0.gguf                     11.8|GB NO|SUPPORT
+#flux1-kontext-dev-Q8_0.gguf                     11.8|GiB NO|SUPPORT
 #Deepseek-Coder-V2-Lite-13B-
-#Instruct-sft-s1K.i1-Q6_K.gguf                   13.1|GB FAST|CTX|NPG|8k|A770LE:|22.7 Pt|s 7.9 Gt|s 98W 2.4Ghz-|CPU|OK|
+#Instruct-sft-s1K.i1-Q6_K.gguf                   13.1|GiB FAST|CTX|NPG|8k|A770LE:|22.7 Pt|s 7.9 Gt|s 98W 2.4Ghz-|CPU|OK|
 
 set -euo pipefail
 IFS=$'\n\t'
@@ -162,13 +161,13 @@ if timeout 5 bash -c "</dev/tcp/8.8.8.8/53" 2>/dev/null; then
 success "✅INTERNETZ|VERBINDUNG|VORHANDEN!"
 return 0
 else
-warn "⚠️KEINE|INTERNETZ|VERBINDUNG|GEFUNDEN|!|BEI|ERSTINSTALLATION|ONLINE|ABHAENGIGKEITEN|NOTWENDIG|BITTE|ANSCHLUSS|PRUEFEN"
+warn "⚠️KEINE|INTERNETZ|VERBINDUNG|GEFUNDEN|ERSTINSTALLATION|ONLINE|ABHAENGIGKEITEN|NOTWENDIG|ANSCHLUSS|PRUEFEN"
 return 1
 fi
 }
 #UMGEBUNGRUECKFALLMECHANISMENVORBEREITEN
 prepare_environment() {
-log "🔷HOLE|ONEAPI|KOPFZEILEN|XAIGPUARC|"
+log "🔷HOLE|ONEAPI|KOPFZEILEN|XAIGPUARC|DUNKLER-MATHEMATIK-LEHRER-EDITION|"
 local SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
 if [ ! -f "$SETVARS_PATH" ]; then
 error "❌ONE|API|KOEPFZEILEN|NICHT|GEFUNDEN|$SETVARS_PATH|INSTALLIERE|ERST|ONE|API|BIBLIOTHEKEN"
@@ -194,11 +193,11 @@ if [! command -v icx &>/dev/null || ! command -v icpx &>/dev/null; then
 error "❌ICX|IPCX||ONEAPI|INTEL|XAIGPUARC|BAU|UNTERMODUL|INSTALLATION|FEHL|GESCHLAGEN"
 exit 1
 fi
-log "🔷VERBINDUNG|ONEAPI|GELADEN|DPCPP_ROOT=${DPCPP_ROOT}|MKL_ROOT=${MKL_ROOT}"
+log "🔷VERBINDUNG|ONEAPI|GELADEN|DPCPP|ROOT|${DPCPP_ROOT}|MKL|ROOT|${MKL_ROOT}"
 }
 #1PROJEKTVORBAU
 setup_project() {
-log "🔷BAUE|VORBAU|XAIGPUARC|BITTE|WARTEN"
+log "🔷BAUE|VORBAU|XAIGPUARC|DUNKLER-MATHEMATIK-LEHRER-EDITION|BITTE|WARTEN"
 if [ ! -d "${LLAMA_CPP_DIR}" ]; then
 log "🔷KLONE|BAUSTEINE"
 git clone https://github.com/ggerganov/llama.cpp "${LLAMA_CPP_DIR}"
@@ -218,7 +217,7 @@ error "❌FEHLER|HAUPT|VERZEICHNIS'${LLAMA_CPP_DIR}'NICHT|GEFUNDEN|ABBRUCH"
 exit 1
 fi
 }
-#PATCH|LOGIK|1|8|a|b|c
+#PATCH|LOGIK:1-8+a+b+c|
 patch_llama_cpp() {
 log "🔷PATCH|8|GGML|SYCL|ANLEGEN|MATHEMATIK|BIBLIOTHEK|KOPFZEILENEINTRAEGE|REGESTRIERUNG"
 local DPCT_HELPER_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/dpct/helper.hpp"
@@ -265,7 +264,7 @@ add_library(ggml_flash_attention_sycl OBJECT
 target_include_directories(ggml_flash_attention_sycl PRIVATE \${GGML_SYCL_INCLUDE_DIRS})
 target_compile_options(ggml_flash_attention_sycl PUBLIC \${GGML_SYCL_COMPILE_FLAGS})
 " > "$CUSTOM_KERNEL_CMAKE"
-log "🔷PATCH 2a|8 CMAKE|TXT|LISTEN|OBJEKTE|KOPFZEILENEINTRAEGE|EINGEFUEGT"
+log "✅PATCH 2a|8 CMAKE|TXT|LISTEN|OBJEKTE|KOPFZEILENEINTRAEGE|EINGEFUEGT"
 #2b|8
 local ADD_SUBDIR_LINE="add_subdirectory(ggml_flash_attention_sycl)"
 if ! grep -Fq "${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
@@ -280,7 +279,7 @@ log "🔷PATCH 2b|8 FLASH|ATTENTION|KOPFZEILENEINTRAEGE|BEREITS|AKTIV|UEBERSPRIN
 fi
 #3|8
 if [ -f "$CMAKE_LISTS_FILE" ]; then
-log "🔷PATCH 3|8: CMAKE|TXT|LISTEN|KOPZEILEN|ICP|X|IMPLEMENTIERUNG|VORBEREITEN"
+log "🔷PATCH 3|8: CMAKE|TXT|LISTEN|KOPZEILEN|IC|P|X|IMPLEMENTIERUNG|VORBEREITEN"
 local MKL_INCLUDE_PATH="${MKL_ROOT}/include"
 local COMPILER_INCLUDE_PATH="${DPCPP_ROOT}/include"
 local DPCPP_LIB_INCLUDE_PATH="${DPCPP_ROOT}/lib/dpcpp/include"
@@ -290,7 +289,7 @@ local SEARCH_MARKER="#Add include directories for MKL headers"
 if ! grep -Fq "${COMPILER_INCLUDE_PATH}" "$CMAKE_LISTS_FILE"; then
 local SED_PATCH_LINE=$(echo "$PATCH_LINE" | sed 's| |\ |g; s|[|&]|\&|g')
 if sed -i "\|${SEARCH_MARKER}|a $SED_PATCH_LINE" "$CMAKE_LISTS_FILE"; then
-log "🔷PATCH 3|8 ERFOLGREICH|ICP|X|CMAKET|TXT|KOPFZEILENEINTRAEGE|EINGEFUEGT"
+log "✅PATCH 3|8 ERFOLGREICH|ICP|X|CMAKET|TXT|KOPFZEILENEINTRAEGE|EINGEFUEGT"
 else
 error "❌PATCH 3|8 ICPX|CMAKE|LISTS|TXT|NICHT|GEFUNDEN|ABHAENGIKEITEN|PRUEFEN"
 return 1
@@ -310,12 +309,12 @@ local FA_REGISTER_CODE=$'//REGESTRIERE ggml_flash_attention_sycl.cpp \nextern "C
 void ggml_flash_attention_sycl(ggml_flash_attention_sycl * ctx, ggml_tensor *
 dst, const ggml_tensor * Q, const ggml_tensor * K, const ggml_tensor * V);\n'
 if ! grep -Fq "ggml_flash_attention_sycl" "${GGML_SYCL_CPP}"; then
-echo "${FA_REGISTER_CODE}" > /tmp/fa_decl.patch
-awk '/extern "C" void ggml_flash_attention_sycl/ { system("cat /tmp/fa_decl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
+echo "${FA_REGISTER_CODE}" > /tmp/ggml_flash_attention_sycl.cpp
+awk '/extern "C" void ggml_flash_attention_sycl/ { system("cat /tmp/ggml_flash_attention_sycl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
 cp "$GGML_SYCL_CPP" "$GGML_SYCL_CPP.bak"
 if [ $? -eq 0 ]; then
-log "🔷PATCH 4a|8 AWK|KOPFZEILENEINTRAEGE|DEKLARATION|ERFOLGREICH|EINGEFUEGT"
+log "✅PATCH 4a|8 AWK|KOPFZEILENEINTRAEGE|DEKLARATION|ERFOLGREICH|EINGEFUEGT"
 else
 error "❌PATCH 4a|8 FEHLER|EINFUEGEN|FLASH|ATTENTION|KOPFZEILENEINTRAEGE|DEKLARATION|AWK|FEHLT"
 return 1
@@ -351,7 +350,7 @@ local VAR_SEARCH_MARKER="set(GGML_SYCL_SOURCES"
 if ! grep -Fq "FA_OBJECT_FILES" "$CMAKE_LISTS_FILE"; then
 local SED_VAR_LINE=$(echo "$VAR_LINE" | sed 's|[\|&]|\\&|g')
 if sed -i "\|${VAR_SEARCH_MARKER}|a ${SED_VAR_LINE}" "$CMAKE_LISTS_FILE"; then
-log "🔷PATCH 5a|8 FLASH|ATTENTION|OBJEKT|VARIABLE|ERFOLGREICH|DEFINIERT|WEITER"
+log "✅PATCH 5a|8 FLASH|ATTENTION|OBJEKT|VARIABLE|ERFOLGREICH|DEFINIERT|WEITER"
 else
 error "❌PATCH 5a|8 FLASH|ATTENTION|OBJEKT|VARIABLEN|BAU|FEHLGESCHLAGEN|STOPP"
 return 1
@@ -366,7 +365,7 @@ if grep -Fq "${TARGET_SEARCH_MARKER}" "$CMAKE_LISTS_FILE" && ! grep -Fq "\${FA_O
 local SED_NEW_LINE=$(echo "$NEW_TARGET_SOURCES_LINE" | sed 's/[\/&]/\\&/g')
 local SED_SEARCH_MARKER=$(echo "$TARGET_SEARCH_MARKER" | sed 's/[\/&]/\\&/g')
 if sed -i "\|${SED_SEARCH_MARKER}|${SED_NEW_LINE}|" "$CMAKE_LISTS_FILE"; then
-log "🔷PATCH 5b|8 ERFOLGREICHE|GGML|SYCL|INJEKTIONEN|WEITER|BAUVORGANG|XAIGPUARC|"
+log "🔷PATCH 5b|8 ERFOLGREICHE|GGML|SYCL|INJEKTIONEN|WEITER|BAUVORGANG|XAIGPUARC"
 else
 error "❌PATCH 5b|8 GGML|SYCL|INJEKTION|FEHLGESCHLAGEN"
 return 1
@@ -375,19 +374,19 @@ else
 log "🔷PATCH 5b|8 GGML|SYCL|AKTIV|INJECTION|UEBERSPRUNGEN"
 fi
 #6|8
-log "🔷PATCH 6|8: SSMCONVPP|WARNUNG|BEHEBEN|VORZEICHENVERGLEICH|AKW|PATCH"
+log "🔷PATCH 6|8: SSMCONV|CPP|WARNUNG|BEHEBEN|VORZEICHEN|VERGLEICH|AKW|PATCH"
 local SSM_CONV_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ssm_conv.cpp"
 local SEARCH_LINE='GGML_ASSERT(src0->nb[1] == src0->ne[0] * (size_t)<int64_t>(sizeof(double)));'
 local REPLACE_LINE='GGML_ASSERT(src0->nb[1] == (size_t)(src0->ne[0] * sizeof(double)));'
 if grep -Fq "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
 if sed -i "\|${SEARCH_LINE}|${REPLACE_LINE}|g" "$SSM_CONV_FILE"; then
-log "✅PATCH 6|8 SSMCONVCPP|ERFOLGREICH"
+log "✅PATCH 6|8 SSMCONV|CPP|DUNKLER-MATHEMATIK-LEHRER-EDITION|ERFOLGREICH"
 else
-error "❌PATCH 6|8 SSMCONVCPP|FEHLGESCHLAGEN"
+error "❌PATCH 6|8 SSMCONV|CPP|FEHLGESCHLAGEN"
 return 1
 fi
 else
-log "🔷PATCH 6|8 SSMCONVCPP|ZEILE|NICHT|GEFUNDEN|UEBERSPRINGE"
+log "🔷PATCH 6|8 SSMCONV|CPP|ZEILE|NICHT|GEFUNDEN|UEBERSPRINGE"
 fi
 #7|8
 log "🔷PATCH 7|8: MAXIMALE|BLOCK|GROESSE|1024|ARC|ALCHEMIST|"
@@ -395,16 +394,16 @@ if [ -f "$GGML_SYCL_CPP" ]; then
 if ! grep -q "GGML_SYCL_MAX_BLOCK_SIZE 1024" "$GGML_SYCL_CPP"; then
 sed -i '#define GGML_SYCL_MAX_BLOCK_SIZE 1024' "$GGML_SYCL_CPP"
 success "✅PATCH 7|8 ERZWINGE|MAXIMALE|BLOCK|GROESSE|1024|ARC|ALCHEMIST|AKTIVIERT"
-log "✅PATCH 7|8 MAXIMALE|BLOCK|GROESSE|1024|ERFOLGREICH|INJIZIERT"
+log "✅PATCH 7|8 MAXIMALE|BLOCK|GROESSE|1024|ZWANG|ERFOLGREICH|INJIZIERT"
 else
-log "🔷PATCH 7|8 MAXIMALE|BLOCK|GROESSE|1024|BEREITS|DEFINIERT"
+log "🔷PATCH 7|8 MAXIMALE|BLOCK|GROESSE|1024|ZWANG|BEREITS|DEFINIERT"
 fi
 fi
 #8|8
-log "🔷PATCH 8|8 sycl::queue|ORDNER|HOME|XAIGPUARC|OPTIMIERVORGANG|KOPFZEILENEINTRAEGE"
+log "🔷PATCH 8|8 SYCL|QUEUE|ORDNER|HOME|XAIGPUARC|OPTIMIERVORGANG|KOPFZEILENEINTRAEGE"
 local SYCL_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 if [ ! -f "$SYCL_FILE" ]; then
-error "❌PATCH 8|8 DATEI|sycl::queue"
+error "❌PATCH 8|8 DATEI|/ggml/src/ggml-sycl/ggml-sycl.cpp|BAU|xaigpuarc_sycl_sheduler.cpp|NICHT|FINDEN"
 return 1
 fi
 if grep -q "sycl::property_list" "$SYCL_FILE"; then
@@ -415,15 +414,15 @@ fi
 if grep -q "sycl::queue q{" "$SYCL_FILE"; then
 sed -i 's/sycl::queue q{.*}/sycl::queue q{dev, ctx, prop_list}/g' "$SYCL_FILE"
 if grep -q "in_order" "$SYCL_FILE"; then
-success "✅PATCH 8|8 sycl::queue|ERFOLGREICH|KOPFZEILENEINTRAEGE|OPTIMIERT"
+success "✅PATCH 8|8 SYCL|QUEUE|ERFOLGREICH|KOPFZEILENEINTRAEGE|OPTIMIERT"
 else
-error "❌PATCH 8|8 sycl::queue|AENDERUNGEN|KOPFZEILENEINTRAEGE|NICHT|FERTIG"
+error "❌PATCH 8|8 SYCL|QUEUE|AENDERUNGEN|KOPFZEILENEINTRAEGE|NICHT|FERTIG"
 return 1
 fi
 else
-warn "⚠️PATCH 8|8 sycl::queue|KOPFZEILENEINTRAEGE|NICHT|GEFUNDEN|UEBERSPRINGE"
+warn "⚠️PATCH 8|8 SYCL|QUEUE|KOPFZEILENEINTRAEGE|NICHT|GEFUNDEN|UEBERSPRINGE"
 fi
-success "✅AKTUELL|ALLE|7|VON|8|EINGLIEDERUNGEN|INTEL|ARC|XE|iGPU|dGPU|eGPU|BASIERTE|IN|XAIGPUARC|ERFOLGREICH|ANGEWANDT"
+success "🔷AKTUELL|7-8|ALLE|7|VON|8|EINGLIEDERUNGEN|INTEL|ARC|XE|iGPU|dGPU|eGPU|BASIERTE|IN|XAIGPUARC|ERFOLGREICH|ANGEWANDT"
 }
 #3XAIGPUARCBAUKONFIGURATION
 configure_build() {
@@ -431,11 +430,11 @@ log "🔷BEREITE|XAIGPUARC|KOPFZEILEN|BAUVORGANG"
 local FP_MODE="${1:-1}"
 local SYCL_FLAGS="-DGGML_SYCL_F16=${FP_MODE} -fsycl-device-code-split=per_kernel"
 if [ ! -d "${BUILD_DIR}" ]; then
-log "🔷LEGE|XAIGPUARC|ORDNER|HOME|VERZEICHNIS|COMPUTERS|${BUILD_DIR}"
+log "🔷LEGE|XAIGPUARC|IN|ORDNER|HOME|VERZEICHNIS|COMPUTER|${BUILD_DIR}"
 mkdir -p "${BUILD_DIR}" || { error "❌FEHLER|KONNTE|ORDNER|XAIGPUARC|'${BUILD_DIR}'NICHT|ANLEGEN"; return 1; }
 fi
 if pushd "${BUILD_DIR}" > /dev/null; then
-log "🔷STARTE|CMAKE|BAU|XAIGPUARC| ${FP_FLAG:-UNDEFINED})"
+log "🔷STARTE|CMAKE|BAU|XAIGPUARC|${FP_FLAG:-UNDEFINED}"
 cmake "../${LLAMA_CPP_DIR}" \
     -G "Unix Makefiles" \
     -DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}" \
@@ -453,7 +452,7 @@ if [ ${CMAKE_STATUS} -ne 0 ]; then
 error "❌CMAKE|TXT|KOPFZEILEN|SCHREIBEN|FEHLGESCHLAGEN"
 return 1
 fi
-success "✅VORBAUBAU|ABGESCHLOSSEN"
+success "✅VORBAU|ABGESCHLOSSEN"
 else
 error "❌KONNTE|NICHT|NACH|HOME|XAIGPUARC|WECHSELN|'${BUILD_DIR}'COMPUTER|NUTZER|BERECHTIGUNG|PRUEFEN"
 return 1
@@ -461,32 +460,35 @@ fi
 }
 #4KOMPILIEREN
 compile_project() {
-log "🔷BAUE|XAIGPUARC|GRUNDGERUEST|STRUKTUR"
+log "🔷BAUE|XAIGPUARC|GRUND|GERUEST|STRUKTUR"
 local LOG_FILE="build.log"
 log "🔷KOPFZEILEN|AUSGABE|UNTERORNDER|GESPEICHERT"
-log "🔷BAUVORGANG|LAEUFT|XAIGPUARC|SYCL|C++|KOPFZEILEN|SCHREIBEN|ERFOLGREICH|ABGESCHLOSSEN"
+log "🔷BAUVORGANG|LAEUFT|XAIGPUARC|SYCL|C++|LEVEL|ZERO|KOPFZEILEN|SCHREIBEN|ERFOLGREICH|ABGESCHLOSSEN"
 if pushd "${BUILD_DIR}" > /dev/null; then
-log "🔷|INSTALLATION|
-|XAIGPUARC|
-|KOMPLETTSYSTEM|
-|LOKALEM|COMPUTER|
-|HOME|VERZEICHNIS|MOEGLICH|
-|BEGINNE|KOMPLETTBAU|
-|SYCL|LEVEL|ZERO|
+log "🔷
+|🟢|XAIGPUARC-DUNKLER-MATHEMATIK-LEHRER-EDITION|SYCL|🧰MOEGLICH|
+|🔧INSTALLATION🔧
 
-|INSTALLATION|KANN|
-|JE|NACH|SYSTEM|
-|ERSTMALIG|
-|ANDAUERN|
+|🟡ACHTUNG
+|💡VIELE|🧱GIGABYTE🧱|DATENVORGAENGE💡|⚫MATHEMATIK🔧|
+|🔄SYSTEM|
+|⏭ERSTMALIG|
+|💡ANDAUERN📌|
 
-|BITTE|ETWAS|GEDULD|
-|DANKE|FUER|DIE|NUTZUNG|VON|XAIGPUARC|
+|⚙️BITTE|ETWAS|GEDULD|
 
-|EIN|ZWEITER|VORGANG|IST|WESENTLICH|SCHNELLER|
+|⚫DUNKLE-MATHEMATIK🧰🔄🎁🔄🔧🔄🎯|GLEICH|ZU|IHRER|NUTZUNG|VERFUEGBAR|
 
+|⏭VIEL|SPASS|BEIM|BERECHNEN|ZUR|WELT|ZAUBER|FORMEL|VON|42📌|DIE|ANTWORT|ALLER|FRAGEN
 
-|UNTERSCHIEDLICHE|STARTVORGAENGE|NUTZEN|SIE|EIGENE|PROMTS|MODELLE|"
+|💡NUTZEN|SIE|DEN|MATH|TUTOR|F16|FUER|ABSOLUT|⚫MATHEMATIK|
+|A770LE|16GiB|VRAM|16GB|MAXIMALZAUBERSPRUCH|
+|🔥ALCHEMISTEN🔥|CALESTIAL🔥|ZAUBER|DRUID🔥|KOEXISTENZ|KRIEGSMAGIER🔥|FORMEL🔥|
 
+|👉DANKE|FUER|DIE|NUTZUNG|VON|❌AIGPUARC❌|
+
+|🔥EIN|ZWEITER|VORGANG|IST|WESENT|LICH|SCHNELLER🎯|
+|✳️UNTERSCHIED|LICHE|START|VORGAENGE|NUTZEN|SIE|EIGENE|PROMTS|UND|MODELLE🎁|"
 cmake --build . --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama-cli llama-ls-sycl-device > "${LOG_FILE}" 2>&1
 local BUILD_STATUS=$?
 popd > /dev/null
@@ -558,7 +560,7 @@ fi
 if [ "$N_GPU_LAYERS" -lt 1 ]; then
 N_GPU_LAYERS=1
 fi
-log "🔷NGL|**${N_GPU_LAYERS}**SCHICHTEN|MODELL|PRIORITAET|iGPU|dGPU|CPU|AUTOARCHITEKT|KORREKT|AUSGERECHNET|GLEICHMAESSIG|VERTEILT"
+log "🔷NGL|**${N_GPU_LAYERS}**SCHICHTEN|MODELL|PRIORITAET|iGPU|dGPU|CPU|AUTOARCHITEKT|GLEICHMAESSIG|VERTEILT"
 fi
 }
 #6SYCLKOMPATIBLEGERAETEPRUEFEN
@@ -573,7 +575,7 @@ fi
 }
 #7MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/Lucy-1.7B-F16.gguf"}
+MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR|MODELL|NICHT|UNTER|HOME/IHRNAME/MODELS|GEFUNDEN|BITTE|DORT|HIN|KOPIEREN|**$MODEL_PATH**"
@@ -582,7 +584,7 @@ export MODEL_PATH
 }
 #8MODELLAUSFUEHREN
 run_inference() {
-local DEFAULT_MODEL_PATH="models/Lucy-1.7B-F16.gguf"
+local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
 #CHANGE|MODEL|HERE|ABOVE|TWICE|!|MODELL|HIER|DRUEBER|DOPPELT|AENDERN!
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"SYSTEM INSTRUCTION:
@@ -644,7 +646,7 @@ fi
 if [[ "$RERUN_BUILD" -eq 1 ]]; then
 log "🔷STARTE|ERSTMALIGEN|BAUVORGANG|XAIGPUARC"
 if check_internet; then
-log "🔷LADE|WERKZEUGKASTEN|BITTE|WARTEN"
+log "🔷LADE|WERKZEUG|KASTEN|BITTE|WARTEN"
 #0
 setup_project
 #1
