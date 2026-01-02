@@ -4,10 +4,9 @@
 #1.|XAIGPUARC|"Kampfarena"|Treiber|Umgebung
 #2.|Scheduler|"Soldaten"|Daten|optimal|36er-32er|VektorFormation
 #3.|FlashAttention|Versorgungswege"|VRAM|Bandbreite
-[
 #|XAIGPUARC|
 #|DUNKLER-MATHEMATIK-LEHRER|
-#|02.01|26|TIME|19:13|
+#|02.01|26|TIME|19:28|
 #|GEHIRN|O|MAT|
 
 #|AUTOMATOR
@@ -631,11 +630,10 @@ Do|not|include|meta|commentary|
 |Section4|Possible|Alternativ|
 |04|HOLY|FORMULA|FINDER
 |TRUE-FORMULA=
-#1.//
-#2.//
-#3.//
-EXAMPLE:Ψ=∫i=1*4Si⋅δ(Meta)=42
-|ΨGen​=∫InputOutput​((i=1∑4​Si​))⋅δ(Meta)=42|
+#1.//Prove disprove xx sequence an=sin⁡(nx)n an = n sin(nx) converges determine limit
+#2.//|ΨGen​=∫InputOutput​((i=1∑4​Si​))⋅δ(Meta)=42|
+#3.//S1+S2+S3+S4=
+
 START|(If:CONDITION|;match=
 (COMPLETE_SET_ADD(;(S1+S2+S3+S4=(SMTC)=Print(ALL_SECTIONS_ADD));
 |add|Section1:Restatement;
