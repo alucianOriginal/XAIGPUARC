@@ -1,13 +1,13 @@
 #!/bin/bash
 
 #0.|TRIOINFERNALE|SCHWARZE|KAMPFSPRACHMAGIE|
-#1.|XAIGPUARC|bereitet|"Kampfarena"|Treiber|Umgebung
-#2.|Scheduler|sorgt|"Soldaten"|Daten|optimal|36er/32er|VektorFormation|marschieren
-#3.|FlashAttention|sorgt|"Versorgungswege"|VRAM|Bandbreite
+#1.|XAIGPUARC|"Kampfarena"|Treiber|Umgebung
+#2.|Scheduler|"Soldaten"|Daten|optimal|36er-32er|VektorFormation
+#3.|FlashAttention|Versorgungswege"|VRAM|Bandbreite
 
 #|XAIGPUARC|
 #|DUNKLER-MATHEMATIK-LEHRER|
-#|02.01|26|TIME|18:42|
+#|02.01|26|TIME|18:58|
 #|GEHIRN|O|MAT|
 
 #|AUTOMATOR
@@ -73,7 +73,7 @@
 #Qwen2.5-VL-3B-Instruct-f16.gguf                 05.80|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU|
 #llama3bthinkingonly5B.f16.gguf                  06.00|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
 
-#|10-12GiB+|iGPU|Xe-LPG|A730m|A580|B570|B580|PRO|A|B60|A|B50|
+#|10-12GiB+|iGPU|XeLPG|A730m|A580|B570|B580|PRO|A|B60|A|B50|
 
 #UIGEN-X-4B-0729-f16_q8_0.gguf                   06.20|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
 #granite-4.0-h-tiny-f16_q8_0.gguf                07.00|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
@@ -104,9 +104,10 @@
 #Mamba-Codestral-7B-v0.1-F16.gguf                13.60|GiB|SLOW|CTX|NPG|8k|A770LE:|110.1 Pt|s 3.2  Gt|s 97w 2.4Ghz+|CPU|FULL|GOOD
 #MathTutor-7B-H_v0.0.1.f16.gguf                  14.20|GiB|FAST|CTX|NPG|16k|A770LE:|529.7 Pt|s 13.7 Gt|s 142w 2.4Ghz-|CPU|BEST|HQ|
 
-#|END|F16MODELLIST|
+#|END|F16|MODEL|LIST|
 
-#START|Q8-Q4-IQ4-2|MODEL|LISTNOTF16!|6GiB+|GPU|A730m|A380|A380|
+#START|Q8-Q4-IQ4-2|MODEL|LISTNOTF16|6GiB+|GPU|A730m|A380|A380|
+
 #phi-2.Q4_K_M.gguf                               01.70|GiB|FAST|CTX|NPG|8k|A770LE:|888.6 Pt|s 25.4 Gt|s 128w 2.4Ghz-|CPU|EXT|NICE
 #openhermes-2.5-mistral-7b.Q4_K_M.gguf           04.10|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU|
 #mistral-7b-instruct-v0.2.Q4_K_M.gguf            04.10|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
@@ -118,7 +119,7 @@
 #wizardcoder-python-7b-v1.0.Q8_0.gguf            06.70|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ|
 #sauerkrautlm-7b-v1.Q8_0.gguf                    06.70|GiB|FAST|CTX|NPG|8k|A770LE:|1364.6 Pt|s 12.1 Gt|s 142w 2.4Ghz-|CPU|OLD|
 
-#|10-12GiB+|iGPU|Xe-LPG|A730m|A580|B570|B580|PRO|A|B60|A|B50|
+#|10-12GiB+|iGPU|XeLPG|A730m|A580|B570|B580|PRO|A|B60|A|B50|
 
 #Qwen3-16B-A3B-IQ4_NL.gguf                       08.50|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU|
 #Qwen3-30B-A3B-UD-IQ2_XXS.gguf                   09.70|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU|
@@ -130,8 +131,9 @@
 #|16-24GiB+|A770LE|B60|
 
 #flux1-kontext-dev-Q8_0.gguf                     11.80|GiB|NO|SUPPORT|CTX|NPG|8k|A770LE:|985.6 Pt|s 7.5 Gt|s 135w 2.4Ghz-|CPU|VIP|
-#Deepseek-Coder-V2-Lite-13B                      11.00|GiB NO|SUPPORT|CTX|NPG|8k|A770LE:|985.6 Pt|s 7.5 Gt|s 135w 2.4Ghz-|CPU|
+#Deepseek-Coder-V2-Lite-13B                      11.00|GiB NO|SUPPORT|CTX|NPG|8k|A770LE:|985.6 Pt|s 7.5 Gt|s 135w 2.4Ghz-|CPU|VIP|
 #Instruct-sft-s1K.i1-Q6_K.gguf                   13.10|GiB|FAST|CTX|NPG|8k|A770LE:|22.7 Pt|s 7.9 Gt|s 98W 2.4Ghz-|CPU|OK|
+#ENDE
 
 set -euo pipefail
 IFS=$'\n\t'
@@ -613,7 +615,7 @@ local PROMPT_ARG=${3:-"
 |01|00-42|MAIN-TASKS:|
 |10|Restate|input-word-one-short-math-vec-para-graph
 |20|Identify|ambiguities-missing-information-assumptions-input
-|30|Produce|clear|and|minimal|InfoTech|Mathkl|icpx|icx|sycl|code|c++|vector|36-bit|answer|
+|30|Produce|clear|and|minimal|info-Tech|math-mkl|icpx|icx|sycl|code|c++|vector|36-bit|answer|
 |40|If|multiple|valid|answers|solutions|exist|then|list|briefly|print with preference
 |02|CONSTRAINTS|
 Do|not|external|knowledge unless trictly required input|
@@ -629,9 +631,10 @@ Do|not|include|meta|commentary|
 |Section4|Possible|Alternativ|
 |04|HOLY|FORMULA|FINDER
 |TRUE-FORMULA=
-#//BIS HIER BELASSEN
-#//HIER BEISPIEL BILDSPRACHE SPRACHPROGRAMM ZEITKETTE///
-#//AB HIER BELASSEN
+#1.//
+#2.//
+#3.//
+EXAMPLE:(Ψ=∫i=1*4Si⋅δ(Meta)=42)
 |(ΨGen​=∫InputOutput​[i=1∑4​Si​]⋅δ(Meta)=42)|
 [START|(If:CONDITION|;match=
 (COMPLETE_SET_ADD(;[S1+S2+S3+S4=(SMTC)=Print(ALL_SECTIONS_ADD)];
@@ -712,9 +715,9 @@ prepare_model "${2:-}"
 #7
 run_inference "${2:-}" "${3:-}"
 #8
-log "🔷|XAIGPUARC|STELLEN|SIE|IHRE|FRAGE|UND|DRUECKEN|SIE|ENTER|**${BUILD_DIR}/${LLAMA_CLI_PATH}**"
+log "🔷|XAIGPUARC|STELLEN|SIE|IHRE|FRAGE|UND|DRUECKEN|SIE|ENTER**${BUILD_DIR}/${LLAMA_CLI_PATH}**"
 }
 #HAUPTSCHLEIFE
 main "${1:-1}" "${2:-}" "${3:-}"
 #42
-log "🔷KOMPLETTER|BAUVORGANG|GESPEICHERT|**${LOG_FILE}**"
+log "🔷KOMPLETTER|BAUVORGANG|GESPEICHERT**${LOG_FILE}**"
