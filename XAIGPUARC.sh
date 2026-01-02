@@ -130,7 +130,7 @@
 #|16-24GiB+|A770LE|B60|
 
 #flux1-kontext-dev-Q8_0.gguf                     11.80|GiB|NO|SUPPORT|CTX|NPG|8k|A770LE:|985.6 Pt|s 7.5 Gt|s 135w 2.4Ghz-|CPU|VIP|
-#Deepseek-Coder-V2-Lite-13B                      11.00|GiB NO|SUPPORT|CTX|NPG|8k|A770LE:|985.6 Pt|s 7.5 Gt|s 135w 2.4Ghz-|CPU|VIP|
+#Deepseek-Coder-V2-Lite-13B                      11.00|GiB NO|SUPPORT|CTX|NPG|8k|A770LE:|985.6 Pt|s 7.5 Gt|s 135w 2.4Ghz-|CPU|
 #Instruct-sft-s1K.i1-Q6_K.gguf                   13.10|GiB|FAST|CTX|NPG|8k|A770LE:|22.7 Pt|s 7.9 Gt|s 98W 2.4Ghz-|CPU|OK|
 
 set -euo pipefail
