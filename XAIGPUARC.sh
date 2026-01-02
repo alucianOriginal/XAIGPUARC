@@ -2,7 +2,7 @@
 
 #|XAIGPUARC|
 #|DUNKLE-MATHEMATIK|
-#|02.01|26|TIME|21:32|
+#|02.01|26|TIME|21:45|
 #|GEHIRN|O|MAT|
 
 #0.|TRIOINFERNALE|SCHWARZE|KAMPFSPRACHMAGIE
@@ -209,7 +209,7 @@ export ONEAPI_ROOT
 export CPATH="${CPATH:-}:${MKL_ROOT}/include"
 local LIB_DIR="/opt/intel/oneapi/compiler/latest/lib:/opt/intel/oneapi/mkl/latest/lib"
 export LD_LIBRARY_PATH="./${BUILD_DIR}/bin:${LIB_DIR}:${LD_LIBRARY_PATH:-}"
-if [ ! command -v icx &>/dev/null [ ! command -v icpx &>/dev/null;]] then
+if ! command -v icx "&>/dev/null" ! command -v icpx "&>/dev/null"; then
 error "❌ICX IPCX ONE API |XAIGPUARC| BAU UNTERMODUL INSTALLATION FEHLGESCHLAGEN"
 exit 1
 fi
@@ -306,7 +306,7 @@ local DPCPP_LIB_INCLUDE_PATH="${DPCPP_ROOT}/lib/dpcpp/include"
 local ALL_INCLUDE_FLAGS="-I${MKL_INCLUDE_PATH} -I${COMPILER_INCLUDE_PATH} -I${DPCPP_LIB_INCLUDE_PATH}"
 local PATCH_LINE="target_compile_options (ggml-sycl PUBLIC ${ALL_INCLUDE_FLAGS})"
 local SEARCH_MARKER="#Add include directories for MKL headers"
-if [ ! grep -Fq "${COMPILER_INCLUDE_PATH}" "$CMAKE_LISTS_FILE";] then
+if ! grep -Fq "${COMPILER_INCLUDE_PATH}" "$CMAKE_LISTS_FILE"; then
 local SED_PATCH_LINE=$(echo "$PATCH_LINE" | sed 's| |\ |g; s|[|&]|\&|g')
 if sed -i "\|${SEARCH_MARKER}|a $SED_PATCH_LINE" "$CMAKE_LISTS_FILE"; then
 log "✅PATCH 3|8 ERFOLGREICH|ICP|X|CMAKET|TXT|KOPFZEILENEINTRAEGE|EINGEFUEGT"
@@ -457,7 +457,7 @@ log "🔷BEREITE|XAIGPUARC|KOPFZEILEN|BAUVORGANG"
 local FP_MODE="${1:-1}"
 local SYCL_FLAGS="-DGGML_SYCL_F16=${FP_MODE} -fsycl-device-code-split=per_kernel"
 if [ ! -d "${BUILD_DIR}" ]; then
-log "🔷LEGE|XAIGPUARC|IN|ORDNER|HOME|VERZEICHNIS|COMPUTER|${BUILD_DIR}"
+log "🔷LEGE|XAIGPUARC|IN ORDNER HOME ${BUILD_DIR}"
 mkdir -p "${BUILD_DIR}" || { error "❌FEHLER|KONNTE|ORDNER|XAIGPUARC|'${BUILD_DIR}'NICHT|ANLEGEN"; return 1; }
 fi
 if pushd "${BUILD_DIR}" > /dev/null; then
@@ -516,7 +516,7 @@ log "🔷
 |🟢|CHAT|FUNKTION: FOLGT NACH STANDART PROMT AUSWERTUNG IHRES KI MODELLS
 |👉|WARTEN SIE DIE ERSTE PROMT TEST ANTWORT DIREKT NACH DIESER >
 |🔧|INSTALLATION AB UND GEBEN SIE DANN IHRE FRAGE >
-|📌|NACH > MIT BESTAETIGUNG |ENTER| EIN 🧱 "
+|📌|NACH > MIT BESTAETIGUNG |ENTER"
 cmake --build . --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama-cli llama-ls-sycl-device > "${LOG_FILE}" 2>&1
 local BUILD_STATUS=$?
 popd > /dev/null
