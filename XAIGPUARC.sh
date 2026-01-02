@@ -1,8 +1,16 @@
 #!/bin/bash
 
+#0.TrioINFERNALE|SCHWARZE|KAMPFSPRACHMAGIE
+
+#1.XAIGPUARC|bereitet|"Kampfarena"|Treiber|Umgebung
+
+#2.Scheduler|sorgt|"Soldaten"|Daten|optimal|36er/32er|VektorFormation|marschieren
+
+#3.FlashAttention|sorgt|"Versorgungswege"|VRAM|Bandbreite|NICHT|verstopfen
+
 #|XAIGPUARC|
 #|DUNKLER-MATHEMATIK-LEHRER-EDITION|
-#|02.01|26|TIME|01:58|
+#|02.01|26|TIME|15:05|FINAL|SYCL|F16|XAIGPUARC|
 #|GEHIRN|O|MAT|
 
 #|AUTOMATOR|
@@ -376,10 +384,14 @@ fi
 #6|8
 log "🔷PATCH 6|8: SSMCONV|CPP|WARNUNG|BEHEBEN|VORZEICHEN|VERGLEICH|AKW|PATCH"
 local SSM_CONV_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ssm_conv.cpp"
-local SEARCH_LINE='GGML_ASSERT(src0->nb[1] == src0->ne[0] * (size_t)<int64_t>(sizeof(double)));'
-local REPLACE_LINE='GGML_ASSERT(src0->nb[1] == (size_t)(src0->ne[0] * sizeof(double)));'
+local SEARCH_LINE='GGML_ASSERT(src0->nb\[1\] == src0->ne[0] * static_cast<int64_t>(sizeof(float)));'
+local REPLACE_LINE='GGML_ASSERT(src0->nb\[1\] == (size_t)(src0->ne[0] * sizeof(float)));'
+if [ -f "$SSM_CONV_FILE" ]; then
+#6a
 if grep -Fq "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
-if sed -i "\|${SEARCH_LINE}|${REPLACE_LINE}|g" "$SSM_CONV_FILE"; then
+log "🔷PATCH 6a|8 SUCHE ssm_conv.cpp NATIVE ADRESSIERUNG"
+if grep -Fq "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
+if sed -i "|${SEARCH_LINE}|${REPLACE_LINE}|g" "$SSM_CONV_FILE"; then
 log "✅PATCH 6|8 SSMCONV|CPP|DUNKLER-MATHEMATIK-LEHRER-EDITION|ERFOLGREICH"
 else
 error "❌PATCH 6|8 SSMCONV|CPP|FEHLGESCHLAGEN"
@@ -388,11 +400,12 @@ fi
 else
 log "🔷PATCH 6|8 SSMCONV|CPP|ZEILE|NICHT|GEFUNDEN|UEBERSPRINGE"
 fi
+fi
 #7|8
 log "🔷PATCH 7|8: MAXIMALE|BLOCK|GROESSE|1024|ARC|ALCHEMIST|"
 if [ -f "$GGML_SYCL_CPP" ]; then
 if ! grep -q "GGML_SYCL_MAX_BLOCK_SIZE 1024" "$GGML_SYCL_CPP"; then
-sed -i '#define GGML_SYCL_MAX_BLOCK_SIZE 1024' "$GGML_SYCL_CPP"
+sed -i 's/#define GGML_SYCL_MAX_BLOCK_SIZE [0-9]*/#define GGML_SYCL_MAX_BLOCK_SIZE 1024/g' "$GGML_SYCL_CPP"
 success "✅PATCH 7|8 ERZWINGE|MAXIMALE|BLOCK|GROESSE|1024|ARC|ALCHEMIST|AKTIVIERT"
 log "✅PATCH 7|8 MAXIMALE|BLOCK|GROESSE|1024|ZWANG|ERFOLGREICH|INJIZIERT"
 else
@@ -407,12 +420,14 @@ error "❌PATCH 8|8 DATEI|/ggml/src/ggml-sycl/ggml-sycl.cpp|BAU|xaigpuarc_sycl_s
 return 1
 fi
 if grep -q "sycl::property_list" "$SYCL_FILE"; then
-sed -i 's/sycl::property_list prop_list{.*}/sycl::property_list prop_list{sycl::property::queue::in_order{}}/' "$SYCL_FILE"
+sed -i 's|sycl::property_list prop_list{[^}]*}|sycl::property_list prop_list{sycl::property::queue::in_order{}}/' "$SYCL_FILE"
 else
-sed -i '/sycl::queue q{/i \    sycl::property_list prop_list{sycl::property::queue::in_order{}};' "$SYCL_FILE"
+sed -i '/sycl::queue q{/i\    sycl::property_list prop_list{sycl::property::queue::in_order{}};' "$SYCL_FILE"
 fi
+fi
+#8a|8
 if grep -q "sycl::queue q{" "$SYCL_FILE"; then
-sed -i 's/sycl::queue q{.*}/sycl::queue q{dev, ctx, prop_list}/g' "$SYCL_FILE"
+sed -i 's|sycl::queue q{[^}]*}|sycl::queue q{dev, ctx, prop_list}|g' "$SYCL_FILE"
 if grep -q "in_order" "$SYCL_FILE"; then
 success "✅PATCH 8|8 SYCL|QUEUE|ERFOLGREICH|KOPFZEILENEINTRAEGE|OPTIMIERT"
 else
@@ -422,7 +437,7 @@ fi
 else
 warn "⚠️PATCH 8|8 SYCL|QUEUE|KOPFZEILENEINTRAEGE|NICHT|GEFUNDEN|UEBERSPRINGE"
 fi
-success "🔷AKTUELL|7-8|ALLE|7|VON|8|EINGLIEDERUNGEN|INTEL|ARC|XE|iGPU|dGPU|eGPU|BASIERTE|IN|XAIGPUARC|ERFOLGREICH|ANGEWANDT"
+success "🔷AKTUELL|5-8|ALLE|5|VON|8|EINGLIEDERUNGEN|INTEL|ARC|XE|iGPU|dGPU|eGPU|BASIERTE|IN|XAIGPUARC|ERFOLGREICH|ANGEWANDT"
 }
 #3XAIGPUARCBAUKONFIGURATION
 configure_build() {
@@ -470,25 +485,31 @@ log "🔷
 |🔧INSTALLATION🔧
 
 |🟡ACHTUNG
-|💡VIELE|🧱GIGABYTE🧱|DATENVORGAENGE💡|⚫MATHEMATIK🔧|
+|💡VIELE|GIGABYTE🧱|DATENVORGAENGE|⚫MATHEMATIK🔧|
 |🔄SYSTEM|
-|⏭ERSTMALIG|
-|💡ANDAUERN📌|
+|📌ERSTMALIG|
+|💡ANDAUERN|
 
 |⚙️BITTE|ETWAS|GEDULD|
 
 |⚫DUNKLE-MATHEMATIK🧰🔄🎁🔄🔧🔄🎯|GLEICH|ZU|IHRER|NUTZUNG|VERFUEGBAR|
 
-|⏭VIEL|SPASS|BEIM|BERECHNEN|ZUR|WELT|ZAUBER|FORMEL|VON|42📌|DIE|ANTWORT|ALLER|FRAGEN
+|📌VIEL|SPASS|BEIM|BERECHNEN|ZUR|WELT|ZAUBER|FORMEL|VON|42|DIE|ANTWORT|ALLER|FRAGEN
 
 |💡NUTZEN|SIE|DEN|MATH|TUTOR|F16|FUER|ABSOLUT|⚫MATHEMATIK|
 |A770LE|16GiB|VRAM|16GB|MAXIMALZAUBERSPRUCH|
-|🔥ALCHEMISTEN🔥|CALESTIAL🔥|ZAUBER|DRUID🔥|KOEXISTENZ|KRIEGSMAGIER🔥|FORMEL🔥|
+|🔥ALCHEMISTEN|CALESTIAL|ZAUBER|DRUID|KOEXISTENZ|KRIEGSMAGIER|FORMEL|
 
-|👉DANKE|FUER|DIE|NUTZUNG|VON|❌AIGPUARC❌|
+|👉DANKE|FUER|DIE|NUTZUNG|VON|❌AIGPUARC|
 
 |🔥EIN|ZWEITER|VORGANG|IST|WESENT|LICH|SCHNELLER🎯|
-|✳️UNTERSCHIED|LICHE|START|VORGAENGE|NUTZEN|SIE|EIGENE|PROMTS|UND|MODELLE🎁|"
+|✳️UNTERSCHIED|LICHE|START|VORGAENGE|NUTZEN|SIE|EIGENE|PROMTS|UND|MODELLE🎁|
+
+
+|CHAT|FUNKTION FOLGT NACH STANDART PROMT AUSWERTUNG IHRES KI MODELLS|
+
+|🟢 CHATTEN SIE EINFACH MIT IHRER KI|
+|INDEM SIE IHRE FRAGE IN DER CONSOLE HIER STELLEN UND ENTER DRUECKEN|"
 cmake --build . --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama-cli llama-ls-sycl-device > "${LOG_FILE}" 2>&1
 local BUILD_STATUS=$?
 popd > /dev/null
@@ -587,25 +608,28 @@ run_inference() {
 local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
 #CHANGE|MODEL|HERE|ABOVE|TWICE|!|MODELL|HIER|DRUEBER|DOPPELT|AENDERN!
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
-local PROMPT_ARG=${3:-"SYSTEM INSTRUCTION:
-You will receive an input text.
-TASKS:
-1. Restate the input in your own words in one short paragraph.
-2. Identify ambiguities, missing information, or assumptions in the input.
-3. Produce a clear and minimal answer based only on the input.
-4. If multiple valid answers or solutions exist, list them briefly without preference.
-CONSTRAINTS:
-- Do not add external knowledge unless it is strictly required by the input.
-- Do not explain your reasoning step by step.
-- Do not invent missing details.
-- Use plain, neutral language.
-- Keep the total response concise and structured.
-- Do not include meta commentary about the task.
-OUTPUT FORMAT:
-Section 1: Restatement
-Section 2: Ambiguities / Missing Information
-Section 3: Minimal Answer
-Section 4: Possible Alternatives (if any)"}
+local PROMPT_ARG=${3:-"|START|PROMT|FORMULA|0-<1-3*4<8|SYSTEM|INSTRUCTION|FORMAT|FORMEL|
+|recived|input|text|
+|01|TASKS|
+|1|Restate|input own words one short paragraph
+|2|Identify|ambiguities missing information assumptions input
+|3|Produce|clear minimal answer based only on input
+|4|If|multiple|valid|answers|solutions|exist|then|list|briefly|print with preference
+|02|CONSTRAINTS
+Do|not|external|knowledge unless trictly required input
+Do|not|explain|reasoning
+Do|not|invent|missing|details
+Use|plain|neutral|pictured language
+Keep|total|response|concise structured
+Do|not|include|meta|commentary
+|03|OUTPUT|FORMAT|
+|Section1|Restatement
+|Section2|Ambiguities|Missing|Information
+|Section3|Minimal|Answer
+|Section4|Possible|Alternativ|FORMULA|
+(|FORMULA|[START|If:|CONDITION|match:(COMPLETE_SET(Section1:Restatement and Section2:Ambiguities-Missing-Information and Section3:Minimal-Answer and Section4:Possible-Alternatives == SUPPRESS(META_COMMENTARY));|SET_ATTRIBUTE: MINIMAL_CONCISE; CONTROL|Ignoring:Everything_else_other_and { EXECUTE: PRINT(ALL_SECTIONS)};TERMINATE:FI|ENDE]))"
+}
+
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
