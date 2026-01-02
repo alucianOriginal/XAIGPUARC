@@ -4,10 +4,10 @@
 #1.|XAIGPUARC|"Kampfarena"|Treiber|Umgebung
 #2.|Scheduler|"Soldaten"|Daten|optimal|36er-32er|VektorFormation
 #3.|FlashAttention|Versorgungswege"|VRAM|Bandbreite
-
+[
 #|XAIGPUARC|
 #|DUNKLER-MATHEMATIK-LEHRER|
-#|02.01|26|TIME|18:58|
+#|02.01|26|TIME|19:13|
 #|GEHIRN|O|MAT|
 
 #|AUTOMATOR
@@ -634,10 +634,10 @@ Do|not|include|meta|commentary|
 #1.//
 #2.//
 #3.//
-EXAMPLE:(Ψ=∫i=1*4Si⋅δ(Meta)=42)
-|(ΨGen​=∫InputOutput​[i=1∑4​Si​]⋅δ(Meta)=42)|
-[START|(If:CONDITION|;match=
-(COMPLETE_SET_ADD(;[S1+S2+S3+S4=(SMTC)=Print(ALL_SECTIONS_ADD)];
+EXAMPLE:Ψ=∫i=1*4Si⋅δ(Meta)=42
+|ΨGen​=∫InputOutput​((i=1∑4​Si​))⋅δ(Meta)=42|
+START|(If:CONDITION|;match=
+(COMPLETE_SET_ADD(;(S1+S2+S3+S4=(SMTC)=Print(ALL_SECTIONS_ADD));
 |add|Section1:Restatement;
 |and|Section2:Ambiguities-Missing-Information;
 |and|Section3:Minimal-Answer;
@@ -647,7 +647,7 @@ EXAMPLE:(Ψ=∫i=1*4Si⋅δ(Meta)=42)
 |CONTROL_IGNORING:|EVERYTHING_ELSE_OTHER;
 |and;
 {EXECUTE: PRINT(ALL_SECTIONS)};
-TERMINATE:FI;|ENDE]))"
+TERMINATE:FI;|ENDE))"
 }
 
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
