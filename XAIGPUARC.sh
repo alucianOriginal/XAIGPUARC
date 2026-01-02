@@ -1,11 +1,11 @@
 #!/bin/bash
 
 #|XAIGPUARC|
-#|DUNKLE-MATHEMATIK|
-#|02.01|26|TIME|21:57|
+#|DUNKLE-MATHEMATIK|FP16_32-bit_36-bit_math.cl|NEUMIND|
+#|02.01|26|TIME|23:38|
 #|GEHIRN|O|MAT|
 
-#0.|TRIOINFERNALE|SCHWARZE|KAMPFSPRACHMAGIE
+#0.|TRIOINFERNALE|
 #1.|XAIGPUARC-sycl-ggml|Kampfarena|Treiber+Umgebung
 #2.|Scheduler-sycl-ggml|Soldaten|Daten|optimal|36er32er|VektorFormation
 #3.|FlashAttention-sycl-ggml|Versorgungswege|VRAM|Bandbreite
@@ -603,7 +603,7 @@ fi
 }
 #7MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
+MODEL_PATH=${1:-"models/Neumind-Math-7B-Instruct.F16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR|MODELL|NICHT|UNTER|HOME/IHRNAME/MODELS|GEFUNDEN|BITTE|DORT|HIN|KOPIEREN|**$MODEL_PATH**"
@@ -612,48 +612,62 @@ export MODEL_PATH
 }
 #8MODELLAUSFUEHREN
 run_inference() {
-local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
-#CHANGE|MODEL|HERE|ABOVE|TWICE|!|MODELL|HIER|DRUEBER|DOPPELT|AENDERN!
+local DEFAULT_MODEL_PATH="models/Neumind-Math-7B-Instruct.F16.gguf"
+#CHANGE|MODEL|HERE|ABOVE|TWICE|!|MODELL|HIER|DRUEBER|DOPPELT|AENDERN!Neumind-Math-7B-Instruct.F16MathTutor-7B-H_v0.0.1.f16
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
-|SYSTEM|INSTRUCTION|FORMAT|Cmatch​>Condition>Completeness>S={S1​,S2​,S3​,S4​}discret>Solutionroom
-|Limcomment>42​f>(x)Oppression>Meta>suppress_meta_comments>output_all_sections>|FORMULA|
-|00|after|promt|analysis|you|recive|input|text|
-|01|00-42|MAIN-TASKS:|
-|10|Restate|input-word-one-short-math-vec-para-graph
-|20|Identify|ambiguities-missing-information-assumptions-input
-|30|Produce|clear|and|minimal|info-Tech|math-mkl|icpx|icx|sycl|code|c++|vector|36-bit|answer|
-|40|If|multiple|valid|answers|solutions|exist|then|list|briefly|print with preference
-|02|CONSTRAINTS|
-Do|not|external|knowledge unless trictly required input|
-Do|not|explain|reasoning|
-Do|not|invent|missing|details|
-Use|plain|neutral|pictured language|
-Keep|total|response|concise structured|
-Do|not|include|meta|commentary|
-|03|OUTPUT|FORMAT|
-|Section1|Restatement|
-|Section2|Ambiguities|Missing|Information|
-|Section3|Minimal|Answer|Exception:EXCEPTION|
-|Section4|Possible|Alternativ|
-|04|HOLY|FORMULA|FINDER
-|TRUE-FORMULA=
-#1.//Prove disprove xx sequence an=sin⁡(nx)n an = n sin(nx) converges determine limit
-#2.//|ΨGen​=∫InputOutput​((i=1∑4​Si​))⋅δ(Meta)=42|
-#3.//S1+S2+S3+S4=
+|0|SYSTEM|0|
 
-START|(If:CONDITION|;match=
-(COMPLETE_SET_ADD(;(S1+S2+S3+S4=(SMTC)=Print(ALL_SECTIONS_ADD));
-|add|Section1:Restatement;
-|and|Section2:Ambiguities-Missing-Information;
-|and|Section3:Minimal-Answer;
-|and|Section4:Possible-Alternatives;
-|===|SUPPRESS(META_COMMENTARY));
-|SET_ATTRIBUTE:|MINIMAL_CONCISE;
-|CONTROL_IGNORING:|EVERYTHING_ELSE_OTHER;
-|and;
-{EXECUTE: PRINT(ALL_SECTIONS)};
-TERMINATE:FI;|ENDE))"
+|00|INSTRUCTION:>FORMAT:>FORMULA_FINDER
+
+|(Cmatch​>,Condition>,Completeness>,S = (If:CONDITION_match = COMPLETE_SET_add:
+|{S1(,C++,icx,icpx,)​,+S2(,Vectorized-64-bit-Logic,)​,+S3(,sycl-ggml,)​,+S4(,FP16_64-bit_math.cl;);
+|+ Oppression,>Meta,>suppress_meta_comments,>output_all_sections_add,fi)​} =
+|Discret>Solutionroom_get = PRINT_ALL_SECTIONS_add = ,FP16_64-bit_math.cl;)));
+
+|00|After|Promt|Analysis|You|Recive|Input|Text|Questions
+
+|01|00-42|MAIN-TASKS|
+
+|1.|Word|short|c++|math|analysis|64-bit|vector|para|graph
+|2.|Identify|ambiguities-missing-information-assumptions-input
+|3.|Produce|clear|minimal|Info-Tech|math|c++|icpx|icx|sycl|code|vector|64-bit|answer
+|4.|If|Multiple|Valid|Answers|Solutions|Exist|then|List|Briefly|Print|Preference
+|5.|HOLY MATH MAGIC KEY WORDS ZAUBERLEHRLING
+
+|02|CONSTRAINTS|
+
+|Do|not|external|knowledge|trictly|required|input
+|Do|not|explain|reasoning
+|Do|not|invent|missing|details
+|Plain|neutral|pictured|language
+|Keep|total|response|concise|structured
+|Do|not|include|meta|commentary
+|03|OUTPUT|FORMAT|
+|Section1|Restatement
+|Section2|Ambiguities|Missing|Information
+|Section3|Minimal|Answer|Exception:EXCEPTION
+|Section4|Possible|Alternativ
+
+#1.|Word|Short|// PROOF of Answer
+#2.|Identify|// PROOF of Answer
+#3.//KEY WORDS ZAUBERLEHRLING proof of Answer
+#4.//|Multiple|Valid|Solutions|Exist|Then|List|Briefly|Print|Preference
+#5.//list|briefly|print|preference proof of Answer
+
+|04|HolY-FoRmUlA-FiNdEr*TrUe-fOrMuLa=
+|Add|Section1:Restatement
+|And|Section2:Ambiguities-Missing-Information
+|And|Section3:Minimal-PROOF of Answer
+|And|Section4:Possible-Alternatives
+|Sol|SUPPRESS_META_COMMENTARY
+|Set|ATTRIBUTE_MINIMAL_CONCISE
+|CONTROL|IGNORING_EVERYTHING_ELSE
+|And|
+|EXECUTE|PRINT_ALL_SECTIONS
+|TERMINATE
+|Fi|
+|MAIN|0-5|ENDE|"
 }
 
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
