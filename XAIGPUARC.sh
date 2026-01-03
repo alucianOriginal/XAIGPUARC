@@ -1,7 +1,7 @@
 #!/bin/bash
-
-#|XAIGPUARC|PCXTCXSNXAI|(ProbabilityCalculation)X(TimeChain)X(SkyNet)X(ArtifactialInference)| 
-#|(WB[s])x(ZK[n/e])x)HN[e])x(SP)|(Wahr[S]cheinlichkeit[en]Be[R]echnung[en])X(Zeit[K]ette[n])X(HimmelsNetz[e])X(SprachModell[e])|
+#|Probabilistisch|
+#|XAIGPUARC|PCXTCXSNXAI|(Probability/Calculation)X(TimeChain)X(SkyNet)X(ArtifactialInference)| 
+#|(P/B[e])x(Z/K[n/e])x)H/N[e])x(SP)|(Probabilistisch/Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmels/[N]etz[e])X(SprachModell[e])|
 #|WAHR-SCHEINLICH-KEITEN-BERECHNUNG-ZEIT-KETTEN-HIMMEL-NETZ-SPRACH-MODELL|
 #|Deutsch Mathematik Formel Sprachprogramm|
 #|03.01.26|TIME|19:32|
