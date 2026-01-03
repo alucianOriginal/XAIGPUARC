@@ -1,9 +1,10 @@
 #!/bin/bash
 
-#|XAIGPUARC|
-#|Deutsch Mathematik Sprachprogramm|
-#|03.01.26|TIME|10:42|
-#|GEHIRN-O-MAT|
+#|XAIGPUARC|PCXTCXSNXAI|(ProbabilityCalculation)X(TimeChain)X(SkyNet)X(ArtifactialInference)////|WBxZKxHNxSP|WahrscheinlichkeitBerechnungXZeitkettenXHimmelsnetzeXSprachmodelle|///
+#|ZEITKETTEN-HIMMELSNETZ-SPRACHMODELL|
+#|Deutsch Mathematik Formel Sprachprogramm|
+#|03.01.26|TIME|19:32|
+#|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCXTCXSNXAI|
 
 #0.|TRIOINFERNAL:
 #1.|XAIGPUARC-sycl-ggml|Treiber/Umgebung
@@ -167,7 +168,7 @@ export OverrideDefaultFP64Settings=1
 export CCACHE_DIR="$HOME/.ccache"
 export COMPILER_VERSION="2025.0"
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
-export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=128
+export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=256
 export FP_FLAG=FP16
 
 #|HILFSFUNKTIONEN
@@ -473,7 +474,10 @@ cmake "../${LLAMA_CPP_DIR}" \
     -DGGML_SYCL_MKL_SYCL_BATCH_GEMM=1 \
     -DCMAKE_C_COMPILER=icx \
     -DCMAKE_CXX_COMPILER=icpx \
-    -DCMAKE_CXX_STANDARD=17
+    -DCMAKE_CXX_STANDARD=17 \
+    -DGGML_SYCL_PRIORITIZE_DMMV=ON \
+    -DGGML_SYCL_DISABLE_DNN=OFF \
+    -DGGML_SYCL_DISABLE_GRAPH=OFF
 local CMAKE_STATUS=$?
 popd > /dev/null
 if [ ${CMAKE_STATUS} -ne 0 ]; then
@@ -486,6 +490,15 @@ error "❌KONNTE NICHT NACH HOME/XAIGPUARC WECHSELN'${BUILD_DIR}'COMPUTER NUTZER
 return 1
 fi
 }
+
+#BEARBEITEN NACH LOGIK 3.3.26-19:04 UHR
+#-DCMAKE_C_FLAGS="-O3 -ffast-math" \
+#-DCMAKE_CXX_FLAGS="-fsycl -fsycl-targets=spir64_gen-Xsycl-target-backend=spir64_gen -device=* -O3 -ffast-math pthread"
+#-DCMAKE_THREAD_LIBS_INIT="-pthread"\
+#-DCMAKE_C_COMPILER_WORKS=1
+#-DCMAKE_HAVE_THREADS_LIBRARY=1
+#-DTHREADS_PREFER_PTHREAD_FLAG=ON
+
 #4KOMPILIEREN
 compile_project() {
 log "🔷BAUE XAIGPUARC GRUND GERUEST STRUKTUR"
@@ -509,10 +522,12 @@ log "🔷
 
 |⚙️|BITTE ETWAS GEDULD
 
-|⚫|DUNKLE-MATHEMATIK 🧰 🔄 🎁 🔄 🔧 🔄 🎯 DEUTSCH-SPRACHPROGRAMMGLEICH ZU IHRER NUTZUNG VERFUEGBAR
+|⚫|DUNKLE-MATHEMATIK 🧰 🔄 🎁 🔄 🔧 🔄 🎯 DEUTSCH-SPRACHPROGRAMM
+|✅|ZEITKETTEN-HIMMELSNET-SPRACHMODELL/Timechain-Skynet-LanguageModell
+|✅|SOFORT ZU IHRER NUTZUNG VERFUEGBAR
 
 |💡|NUTZEN SIE DEN MATH-TUTOR_F16 AUF 16K CTX
-|🟡|A770LE 16GiB VRAM@14.2GiB@MathTutor-f16 MAXIMAL ZAUBERSPRUCH
+|🟡|A770LE 16GiB VRAM@14.2GiB@MathTutor-f16 MAXIMAL MATHEMATIK SPRUCH
 |🔥|Alchemist-Battlemage-Calestial-Druid KOEXISTENZ ⚫ MATHEMATIK SPEZIAL PROMPT FORMEL
 
 |👉|DANKE FUER DIE NUTZUNG VON ❌AIGPUARC
@@ -522,9 +537,9 @@ log "🔷
 |🟢|CHAT|FUNKTION: FOLGT NACH STANDART PROMT AUSWERTUNG IHRES KI MODELLS
 |👉|WARTEN SIE DIE ERSTE PROMT TEST ANTWORT DIREKT NACH DIESER
 
-|🔧|INSTALLATION AB UND GEBEN SIE DANN IHRE FRAGE >
+|🔧|INSTALLATION AB UND GEBEN SIE DANN IHRE FRAGE NACH
 
-|📌|NACH > TEXT MIT BESTAETIGUNG |ENTER"
+|📌| > TEXT MIT BESTAETIGUNG |ENTER"
 cmake --build . --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama-cli llama-ls-sycl-device > "${LOG_FILE}" 2>&1
 local BUILD_STATUS=$?
 popd > /dev/null
@@ -584,7 +599,7 @@ VRAM_GIB=$((VRAM_GIB_RAW / 1024)) #MIBzuGIB
 if [ -z "${VRAM_GIB_RAW}" ]; then
 VRAM_GIB_RAW=1024
 fi
-local LAYER_SIZE_MIB=256 #MagicKey
+local LAYER_SIZE_MIB=512 #MagicKeyMagischerSchluessel
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 if [ "${VRAM_GIB}" -lt 1 ]; then
 VRAM_GIB=1
@@ -606,22 +621,22 @@ local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 if [ -f "${FULL_LS_PATH}" ]; then
 "${FULL_LS_PATH}"
 else
-warn "⚠️KEIN SYCL GERAET GEFUNDEN ${FULL_LS_PATH} VERSUCH SUCHE ZWEI:..."
+warn "⚠️AKTUELL KEIN SYCL GERAET GEFUNDEN ${FULL_LS_PATH} VERSUCH ZWEI SUCHE..."
 fi
 }
-#7MODELLPFADWAEHLENCalderaAI_Hexoteric-7B-F16.f16Yi-6B-200K-Llama-sharded.f16MathCoder2-DeepSeekMath-7B-f16Neumind-Math-7B-Instruct.F16
+#7MODELLPFADWAEHLENCalderaAI_Hexoteric-7B-F16.f16Yi-6B-200K-Llama-sharded.f16MathCoder2-DeepSeekMath-7B-f16Neumind-Math-7B-Instruct.F16Lucy-1.7B-F16
 prepare_model() {
-MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
+MODEL_PATH=${1:-"models/F16Lucy-1.7B-F16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
-warn "⚠️IHR MODELL NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN! DORT HIN**$MODEL_PATH**"
+warn "⚠️IHR MODELL NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN! BITTE DORT HIN**$MODEL_PATH**KOPIEREN"
 fi
 export MODEL_PATH
 }
-#8MODELLAUSFUEHRENCalderaAI_Hexoteric-7B-F16.f16Neumind-Math-7B-Instruct.F16
+#8MODELLAUSFUEHRENCalderaAI_Hexoteric-7B-F16.f16Neumind-Math-7B-Instruct.F16Lucy-1.7B-F16
 run_inference() {
-local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
-#CHANGE MODEL HERE ABOVE TWICE ! MODELL HIER DRUEBER DOPPELT AENDERN!MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.
+local DEFAULT_MODEL_PATH="models/F16Lucy-1.7B-F16.gguf"
+#CHANGE MODEL HERE ABOVE TWICE ! MODELL HIER DRUEBER DOPPELT AENDERN!MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.Lucy-1.7B-F16
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
 |0>SYSTEM<0|
@@ -645,7 +660,7 @@ local PROMPT_ARG=${3:-"
 |2.|Identify|ambiguities-missIng-information-assumptions-input
 |3.|Produce|clear|minImal|Info-Tech|math|c++|icpx|icx|sycl|code|vector|64-bit
 |4.|If|Multiple|Valid|Answers|Solutions|Exist|then|LiSt|Briefly|Print|Preference
-|5.|MATH GOD KEY WORDS ZAUBERLEHRLING
+|5.|ZEITKETTEN-HIMMELSNET-SPRACHMODELL|Timechain-Skynet-LanguageModell|
 
 |02|CONSTRAINTS|
 
@@ -685,10 +700,10 @@ local PROMPT_ARG=${3:-"
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
-#AENDERN WENN ABBRUCH KLEINER EINSTELLENF FUER VRAM LAYER PASSENDE
-local CONTEXT_SIZE=16384
+#KLEINER EINSTELLEN USE SMALL NUMBERS FOR BETTER AI
+local CONTEXT_SIZE=8192
 #NEUE WERTE SETZEN 512 1024 2048 Standart4096|0x1000 Empfohlen8192|0x2000 MathtTutor16384|0x4000 Kritisch24576|0x6000 32768|0x8000
-local PREDICT_TOKENS=16384
+local PREDICT_TOKENS=4096
 log "🔷STARTE KI ANTWORT MIT PARAMETER**${DEVICE}(ID: ${GPU_ID})**NGL WERT GLEICH${NGL_SET}**${FULL_LLAMA_CLI_PATH}**"
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
 error "❌FEHLER AKTUELLER UNTERBAU NEUBAU FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
