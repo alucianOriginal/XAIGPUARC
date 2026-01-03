@@ -1,11 +1,11 @@
 #!/bin/bash
 
 #|XAIGPUARC|
-#|DUNKLE-MATHEMATIK|FP16_32-bit_36-bit_math.cl|NEUMIND|
-#|02.01|26|TIME|23:38|
+#|DUNKLE-MATHEMATIK|FP16_32-bit_36-bit_math.cl|
+#|03.01|26|TIME|02:54|
 #|GEHIRN|O|MAT|
 
-#0.|TRIOINFERNALE|
+#0.|TRIOINFERNALE|CalderaAI_Hexoteric-7B-F16-GGUF
 #1.|XAIGPUARC-sycl-ggml|Kampfarena|Treiber+Umgebung
 #2.|Scheduler-sycl-ggml|Soldaten|Daten|optimal|36er32er|VektorFormation
 #3.|FlashAttention-sycl-ggml|Versorgungswege|VRAM|Bandbreite
@@ -156,7 +156,8 @@ NPROC="${NPROC:-$(nproc)}"
 LOG_FILE="${BUILD_DIR}/XAIGPUARC.log"
 LLAMA_CLI_PATH="bin/llama-cli"
 LS_SYCL_DEVICE_PATH="bin/llama-ls-sycl-device"
-ADD_SUBDIR_LINE="add_subdirectory(ggml-sycl)"
+ADD_SUBDIR_LINE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
+
 #|ONEAPIFUNKTIONEN
 export TCM_ROOT="${TCM_ROOT:-/opt/intel/oneapi/tcm/latest}"
 export SYCL_CACHE_PERSISTENT=1
@@ -449,7 +450,7 @@ fi
 else
 warn "⚠️PATCH 8|8 SYCL|QUEUE|KOPFZEILENEINTRAEGE|NICHT|GEFUNDEN|UEBERSPRINGE"
 fi
-success "🔷AKTUELL|5-8|ALLE|5|VON|8|EINGLIEDERUNGEN|INTEL|ARC|XE|iGPU|dGPU|eGPU|BASIERTE|IN|XAIGPUARC|ERFOLGREICH|ANGEWANDT"
+success "🔷AKTUELL|5-8|ALLE|5 VON 8|EINGLIEDERUNGEN|INTEL|ARC|XE|iGPU|dGPU|eGPU|BASIERTE|IN|XAIGPUARC|ERFOLGREICH|ANGEWANDT"
 }
 #3|XAIGPUARC|BAUKONFIGURATION|
 configure_build() {
@@ -493,16 +494,17 @@ log "🔷KOPFZEILEN|AUSGABE|UNTERORNDER|GESPEICHERT"
 log "🔷BAUVORGANG|LAEUFT|XAIGPUARC|SYCL|C++|LEVEL|ZERO|KOPFZEILEN|SCHREIBEN|ERFOLGREICH|ABGESCHLOSSEN"
 if pushd "${BUILD_DIR}" > /dev/null; then
 log "🔷
-|🟢|XAIGPUARC| (DUNKLER-MATHEMATIK-LEHRER) MOEGLICH
-|🔧|INSTALLATION IN.../HOME/USERNAME/XAIGPUARC/...|🔧
-|💡|min.4-8GiB-17GiB RAM/V-RAM 🧱 DATENVORGAENGE VORERRECHUNG F16 XE/ARC SPRACHPROGRAMM ASSISTENT ⚫ MATHEMATIK 🔧
+|🟢|XAIGPUARC|DUNKLE-MATHEMATIK|
+|🔧|INSTALLATION: IN 🧰 .../HOME/USERNAME/XAIGPUARC/... 🔧
+|💡|min.4-9GiB-17GiB RAM/V-RAM DATENVORGAENGE 🔄
+|🧱|VORBERRECHUNG F16 XE/ARC SPRACHPROGRAMM ASSISTENT ⚫ MATHEMATIK 🔧
 
 |🟡|ACHTUNG!
-|🔄|WIRD JE NACH SYSTEM
+|🔄|WIRD
 |📌|ERSTMALIG
 |💡|ANDAUERN
-
 |⚙️|BITTE ETWAS GEDULD
+
 |⚫|DUNKLE MATHEMATIK 🧰 🔄 🎁 🔄 🔧 🔄 🎯 GLEICH ZU IHRER NUTZUNG VERFUEGBAR
 
 |💡|NUTZEN SIE DEN MATH-TUTOR_F16 FUER ABSOLUT ⚫-MATHEMATIK!
@@ -511,9 +513,9 @@ log "🔷
 
 |👉|DANKE FUER DIE NUTZUNG VON |||❌AIGPUARC|||
 |🎯|EIN ZWEITER VORGANG IST WESENTLICH SCHNELLER
-|🎁|UNTERSCHIEDLICHE STARTVORGAENGE:NUTZEN SIE EIGENE PROMTS UND MODELLE
+|🎁|UNTERSCHIEDLICHE STARTVORGAENGE: NUTZEN SIE EIGENE PROMTS UND MODELLE
 
-|🟢|CHAT|FUNKTION: FOLGT NACH STANDART PROMT AUSWERTUNG IHRES KI MODELLS
+|🟢|CHATFUNKTION: FOLGT NACH STANDART PROMT AUSWERTUNG IHRES KI MODELLS
 |👉|WARTEN SIE DIE ERSTE PROMT TEST ANTWORT DIREKT NACH DIESER >
 |🔧|INSTALLATION AB UND GEBEN SIE DANN IHRE FRAGE >
 |📌|NACH > MIT BESTAETIGUNG |ENTER"
@@ -532,10 +534,10 @@ fi
 }
 #5AUTOMATISCHEGERAETEAUSWAHL
 auto_select_device() {
-log "🔷NACH|VERFUEGBAREN|SYCL|GERAETEN|AUF|IHREM|SYSTEM"
+log "🔷SUCH NACH|VERFUEGBAREN|SYCL GERAETEN|AUF IHREM|SYSTEM"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 if [ ! -x "${FULL_LS_PATH}" ]; then
-warn "⚠️LLAMA|UNTERBAU|NICHT|GEFUNDEN|${FULL_LS_PATH}|RUECKFALL|ARC|dGPU"
+warn "⚠️UNTERBAU|NICHT|GEFUNDEN|${FULL_LS_PATH}|RUECKFALL|ARC|dGPU"
 export ONEAPI_DEVICE_SELECTOR="level_zero:${TARGET_ID}"
 DEVICE="ARC"
 return
@@ -576,7 +578,7 @@ VRAM_GIB=$((VRAM_GIB_RAW / 1024)) #MIBzuGIB
 if [ -z "${VRAM_GIB_RAW}" ]; then
 VRAM_GIB_RAW=1024
 fi
-local LAYER_SIZE_MIB=4096 #MagicKey
+local LAYER_SIZE_MIB=256 #MagicKey
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 if [ "${VRAM_GIB}" -lt 1 ]; then
 VRAM_GIB=1
@@ -601,65 +603,69 @@ else
 warn "⚠️KEIN|SYCL|GERAET|GEFUNDEN|${FULL_LS_PATH}|VERSUCH|ZWEI"
 fi
 }
-#7MODELLPFADWAEHLEN
+#7MODELLPFADWAEHLENCalderaAI_Hexoteric-7B-F16.f16
 prepare_model() {
-MODEL_PATH=${1:-"models/Neumind-Math-7B-Instruct.F16.gguf"}
+MODEL_PATH=${1:-"models/Yi-6B-200K-Llama-sharded.f16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR|MODELL|NICHT|UNTER|HOME/IHRNAME/MODELS|GEFUNDEN|BITTE|DORT|HIN|KOPIEREN|**$MODEL_PATH**"
 fi
 export MODEL_PATH
 }
-#8MODELLAUSFUEHREN
+#8MODELLAUSFUEHRENCalderaAI_Hexoteric-7B-F16.f16
 run_inference() {
-local DEFAULT_MODEL_PATH="models/Neumind-Math-7B-Instruct.F16.gguf"
-#CHANGE|MODEL|HERE|ABOVE|TWICE|!|MODELL|HIER|DRUEBER|DOPPELT|AENDERN!Neumind-Math-7B-Instruct.F16MathTutor-7B-H_v0.0.1.f16
+local DEFAULT_MODEL_PATH="models/Yi-6B-200K-Llama-sharded.f16.gguf"
+#CHANGE|MODEL|HERE|ABOVE|TWICE|!|MODELL|HIER|DRUEBER|DOPPELT|AENDERN!MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.f16
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
-|0|SYSTEM|0|
+|0>SYSTEM<0|
 
-|00|INSTRUCTION:>FORMAT:>FORMULA_FINDER
+|00|INSTRUCTION=|
 
-|(Cmatch​>,Condition>,Completeness>,S = (If:CONDITION_match = COMPLETE_SET_add:
-|{S1(,C++,icx,icpx,)​,+S2(,Vectorized-64-bit-Logic,)​,+S3(,sycl-ggml,)​,+S4(,FP16_64-bit_math.cl;);
-|+ Oppression,>Meta,>suppress_meta_comments,>output_all_sections_add,fi)​} =
-|Discret>Solutionroom_get = PRINT_ALL_SECTIONS_add = ,FP16_64-bit_math.cl;)));
+|FORMAT=->FORMULA_FINDER|
+
+(Cmatch-​>,Condition->,Completeness->,S =
+(If = CONDITION_match = COMPLETE_SET_ad) =
+(,S1 (,C++,icx,icpx,))​,+S2 (,Vectorized-64-bit-Logic,)))​,+S3
+(,sycl-ggml,))))​,+S4 (,FP16_64-bit_math.cl;))))) =
+(Oppression,-> Meta,-> suppress_meta_comments,-> output_all_sections_add)))))) =
+(discret>Solutionroom_get = PRINT_ALL_SECTIONS_add))))))) = ,FP16_64-bit_math.cl; = Fi;))))))));
 
 |00|After|Promt|Analysis|You|Recive|Input|Text|Questions
 
 |01|00-42|MAIN-TASKS|
 
-|1.|Word|short|c++|math|analysis|64-bit|vector|para|graph
-|2.|Identify|ambiguities-missing-information-assumptions-input
-|3.|Produce|clear|minimal|Info-Tech|math|c++|icpx|icx|sycl|code|vector|64-bit|answer
-|4.|If|Multiple|Valid|Answers|Solutions|Exist|then|List|Briefly|Print|Preference
-|5.|HOLY MATH MAGIC KEY WORDS ZAUBERLEHRLING
+|1.|Word|short|c++|math|analysis|64-bIt|vector|para|graph
+|2.|Identify|ambiguities-missIng-information-assumptions-input
+|3.|Produce|clear|minImal|Info-Tech|math|c++|icpx|icx|sycl|code|vector|64-bit
+|4.|If|Multiple|Valid|Answers|Solutions|Exist|then|LiSt|Briefly|Print|Preference
+|5.|MATH KEY WORDS ZAUBERLEHRLING
 
 |02|CONSTRAINTS|
 
-|Do|not|external|knowledge|trictly|required|input
+|Do|not|external|knowledge|trictly|reQuired|input
 |Do|not|explain|reasoning
 |Do|not|invent|missing|details
-|Plain|neutral|pictured|language
-|Keep|total|response|concise|structured
+|Plain|neutral|piCtured|language
+|Keep|total|response|conciSe|structured
 |Do|not|include|meta|commentary
 |03|OUTPUT|FORMAT|
 |Section1|Restatement
 |Section2|Ambiguities|Missing|Information
-|Section3|Minimal|Answer|Exception:EXCEPTION
+|Section3|Minimal|ANswer|Exception:EXCEPTION
 |Section4|Possible|Alternativ
 
-#1.|Word|Short|// PROOF of Answer
-#2.|Identify|// PROOF of Answer
-#3.//KEY WORDS ZAUBERLEHRLING proof of Answer
-#4.//|Multiple|Valid|Solutions|Exist|Then|List|Briefly|Print|Preference
-#5.//list|briefly|print|preference proof of Answer
+#1.|Word|Short|// PROoF of AnsWer
+#2.|IdEnTiFy|// PRoOF of AnsweR
+#3.|//KEY WORDS ZAUBERLEHRLING proof of Answer
+#4.|//|Multiple|Valid|Solutions|Exist|Then|List|Briefly|Print|Preference
+#5.|//list|briefly|print|preference proof of AnSwer
 
 |04|HolY-FoRmUlA-FiNdEr*TrUe-fOrMuLa=
 |Add|Section1:Restatement
-|And|Section2:Ambiguities-Missing-Information
-|And|Section3:Minimal-PROOF of Answer
-|And|Section4:Possible-Alternatives
+|And|Section2:Ambiguities-Missing-Info
+|And|Section3:Minimal-PROOF of AnSwer
+|And|Section4:Possible-AlternatiVe
 |Sol|SUPPRESS_META_COMMENTARY
 |Set|ATTRIBUTE_MINIMAL_CONCISE
 |CONTROL|IGNORING_EVERYTHING_ELSE
@@ -676,7 +682,7 @@ local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 #AENDERN WENN ABBRUCH KLEINER EINSTELLENF FUER VRAM LAYER PASSENDE
 local CONTEXT_SIZE=16384
 #NEUE WERTE SETZEN 512 1024 2048 4096 8192 16384 32768
-local PREDICT_TOKENS=16384
+local PREDICT_TOKENS=4096
 #VERRINGERN UM SCHNELLERE ANTWORTEN ZU ERHALTEN
 log "🔷STARTE|KI|ANTWORT|iGPU|dGPU|CPU|MIT|PARAMETER**${DEVICE}|(ID: ${GPU_ID})**|NGL|WERT|GLEICH|${NGL_SET}|**${FULL_LLAMA_CLI_PATH}**"
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
@@ -690,7 +696,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -n ${PREDICT_TOKENS} \
     -c ${CONTEXT_SIZE} \
     -ngl ${N_GPU_LAYERS} \
-    --split-mode none \
+    --split-mode layer \
     --main-gpu ${GPU_ID}
 echo "✅KI|CHAT|FUNKTION|JETZT|AKTIV"
 }
