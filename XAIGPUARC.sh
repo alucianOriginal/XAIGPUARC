@@ -1,10 +1,11 @@
 #!/bin/bash
 
 #|XAIGPUARC|
-#|03.01|26|TIME|10:27|
+#|Deutsch Mathematik Sprachprogramm|
+#|03.01|26|TIME|10:40|
 #|GEHIRN-O-MAT|
 
-#0.|TRIOINFERNALE|
+#0.|TRIOINFERNAL:
 #1.|XAIGPUARC-sycl-ggml|Treiber/Umgebung
 #2.|Scheduler-sycl-ggml|Daten|32-bit/VektorFormation
 #3.|FlashAttention-sycl-ggml|VRAM/Bandbreite/Zwischenspeicher/Cache
@@ -494,7 +495,7 @@ log "🔷BAUVORGANG LAEUFT XAIGPUARC SYCL C++ LEVEL ZERO KOPFZEILEN SCHREIBEN AB
 if pushd "${BUILD_DIR}" > /dev/null; then
 log "🔷
 
-|🟢|XAIGPUARC 🟢
+|🟢|XAIGPUARC
 
 |🔧|INSTALLATION: in 🧰 .../HOME/USERNAME/XAIGPUARC/... 🔧
 
@@ -508,7 +509,7 @@ log "🔷
 
 |⚙️|BITTE ETWAS GEDULD
 
-|⚫|DUNKLE MATHEMATIK 🧰 🔄 🎁 🔄 🔧 🔄 🎯 GLEICH ZU IHRER NUTZUNG VERFUEGBAR
+|⚫|DUNKLE-MATHEMATIK 🧰 🔄 🎁 🔄 🔧 🔄 🎯 DEUTSCH-SPRACHPROGRAMMGLEICH ZU IHRER NUTZUNG VERFUEGBAR
 
 |💡|NUTZEN SIE DEN MATH-TUTOR_F16 AUF 16K CTX
 |🟡|A770LE 16GiB VRAM@14.2GiB@MathTutor-f16 MAXIMAL ZAUBERSPRUCH
