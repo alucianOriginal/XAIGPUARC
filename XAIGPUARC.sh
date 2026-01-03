@@ -2,12 +2,12 @@
 
 #|XAIGPUARC|
 #|(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmels[N]etz[e])X(SprachModell[e])|
-#|PCXTCXSNXAI|(ProbabilityCalculation)X(TimeChain)X(SkyNet)X(ArtifactialInference)|
-#|(WB[s])x(ZK[n/e])x)HN[e])x(SP)|
-#|✅||(Wahr[S]cheinlichkeit[s]Berechnung[en])X(Zeit[K]ette[n]))X(Himmel[s]Netz[e])))X(SprachModell[e]))))|
+#|PCXTCXSNXAI|(Probability_Calculation)X(Time_Chain)X(Sky_Net)X(Artifactial_Inference)|
+#|(W[s]_B[en])x(Z_K[n/e])x)H_N[e])x(SP)|
+#|✅|(Wahr[S]cheinlichkeit[s]Berechnung[en])X(Zeit[K]ette[n]))X(Himmel[s]Netz[e])))X(SprachModell[e]))))|
 #|(WAHR-SCHEINLICHKEITEN-BERECHNUNGS-ZEITKETTEN-HIMMELNETZ-SPRACHMODELL)|
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|03.01.26|TIME|21:03|
+#|03.01.26|TIME|22:42|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCXTCXSNXAI|
 
 #0.|TRIOINFERNAL:
@@ -630,7 +630,7 @@ fi
 }
 #7MODELLPFADWAEHLENCalderaAI_Hexoteric-7B-F16.f16Yi-6B-200K-Llama-sharded.f16MathCoder2-DeepSeekMath-7B-f16Neumind-Math-7B-Instruct.F16Lucy-1.7B-F16
 prepare_model() {
-MODEL_PATH=${1:-"models/F16Lucy-1.7B-F16.gguf"}
+MODEL_PATH=${1:-"models/Lucy-1.7B-F16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR MODELL NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN! BITTE DORT HIN**$MODEL_PATH**KOPIEREN"
@@ -639,7 +639,7 @@ export MODEL_PATH
 }
 #8MODELLAUSFUEHRENCalderaAI_Hexoteric-7B-F16.f16Neumind-Math-7B-Instruct.F16Lucy-1.7B-F16
 run_inference() {
-local DEFAULT_MODEL_PATH="models/F16Lucy-1.7B-F16.gguf"
+local DEFAULT_MODEL_PATH="models/Lucy-1.7B-F16.gguf"
 #CHANGE MODEL HERE ABOVE TWICE ! MODELL HIER DRUEBER DOPPELT AENDERN!MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.Lucy-1.7B-F16
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
