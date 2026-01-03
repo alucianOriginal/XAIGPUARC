@@ -1,10 +1,13 @@
 #!/bin/bash
-#|Probabilistisch|
-#|XAIGPUARC|PCXTCXSNXAI|(Probability/Calculation)X(TimeChain)X(SkyNet)X(ArtifactialInference)| 
-#|(P/B[e])x(Z/K[n/e])x)H/N[e])x(SP)|(Probabilistisch[e]/Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmels/[N]etz[e])X(SprachModell[e])|
-#|WAHR-SCHEINLICH-KEITEN-BERECHNUNG-ZEIT-KETTEN-HIMMEL-NETZ-SPRACH-MODELL|
+
+#|XAIGPUARC|
+#|(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmels[N]etz[e])X(SprachModell[e])|
+#|PCXTCXSNXAI|(ProbabilityCalculation)X(TimeChain)X(SkyNet)X(ArtifactialInference)|
+#|(WB[s])x(ZK[n/e])x)HN[e])x(SP)|
+#|✅||(Wahr[S]cheinlichkeit[s]Berechnung[en])X(Zeit[K]ette[n]))X(Himmel[s]Netz[e])))X(SprachModell[e]))))|
+#|(WAHR-SCHEINLICHKEITEN-BERECHNUNGS-ZEITKETTEN-HIMMELNETZ-SPRACHMODELL)|
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|03.01.26|TIME|19:32|
+#|03.01.26|TIME|21:03|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCXTCXSNXAI|
 
 #0.|TRIOINFERNAL:
@@ -524,8 +527,8 @@ log "🔷
 |⚙️|BITTE ETWAS GEDULD
 
 |⚫|DUNKLE-MATHEMATIK 🧰 🔄 🎁 🔄 🔧 🔄 🎯 DEUTSCH-SPRACHPROGRAMM
-|✅|ZEITKETTEN-HIMMELSNET-SPRACHMODELL/Timechain-Skynet-LanguageModell
-|✅|SOFORT ZU IHRER NUTZUNG VERFUEGBAR
+
+|✅||(Wahr[S]cheinlichkeit[s]Berechnung[en])X(Zeit[K]ette[n]))X(Himmel[s]Netz[e])))X(SprachModell[e]))))|
 
 |💡|NUTZEN SIE DEN MATH-TUTOR_F16 AUF 16K CTX
 |🟡|A770LE 16GiB VRAM@14.2GiB@MathTutor-f16 MAXIMAL MATHEMATIK SPRUCH
@@ -641,6 +644,7 @@ local DEFAULT_MODEL_PATH="models/F16Lucy-1.7B-F16.gguf"
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
 |0>SYSTEM<0|
+|(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmels[N]etz[e])X(SprachModell[e])|
 
 |00|INSTRUCTION=|
 
@@ -657,9 +661,9 @@ local PROMPT_ARG=${3:-"
 
 |01|00-42|MAIN-TASKS|
 
-|1.|Word|short|c++|math|analysis|64-bIt|vector|para|graph
+|1.|Word|short|c++|math|analysis|32/64-bit|vector|para|graph
 |2.|Identify|ambiguities-missIng-information-assumptions-input
-|3.|Produce|clear|minImal|Info-Tech|math|c++|icpx|icx|sycl|code|vector|64-bit
+|3.|Produce|clear|minimal|Info-Tech|math|c++|icpx|icx|sycl|Code|Vector|32/64-bit
 |4.|If|Multiple|Valid|Answers|Solutions|Exist|then|LiSt|Briefly|Print|Preference
 |5.|ZEITKETTEN-HIMMELSNET-SPRACHMODELL|Timechain-Skynet-LanguageModell|
 
@@ -677,11 +681,12 @@ local PROMPT_ARG=${3:-"
 |Section3|Minimal|ANswer|Exception:EXCEPTION
 |Section4|Possible|Alternativ
 
-#1.|Word|Short|// PROoF of AnsWer
-#2.|IdEnTiFy|// PRoOF of AnsweR
-#3.|//KEY WORDS ZAUBERLEHRLING proof of Answer
-#4.|//|Multiple|Valid|Solutions|Exist|Then|List|Briefly|Print|Preference
-#5.|//list|briefly|print|preference proof of AnSwer
+#1.|Word|Short| PROOF OF ANSWER
+#2.|IdEnTiFy|#|(WB[s])x(ZK[n/e])x)HN[e])x(SP)))|
+#2.|(Wahr[S]cheinlichkeit[s]Berechnung[en])X(Zeit[K]ette[n])X(Himmel[s]Netz[e])X(SprachModell[e])|
+#3.|KEY WORDS:|PCXTCXSNXAI|(ProbabilityCalculation)X(TimeChain)X(SkyNet)X(ArtifactialInference)|
+#4.|If>Multiple>Valid>Solutions>Exist>>Then>List>Print>>>Preference
+#5.|List|briefly|print|preference
 
 |04|HolY-FoRmUlA-FiNdEr*TrUe-fOrMuLa=
 |Add|Section1:Restatement
