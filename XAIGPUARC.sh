@@ -5,7 +5,7 @@
 #|PCXTCXSNXAI|(Probability_Calculation)X(Time_Chain)X(Sky_Net)X(Artifactial_Inference)|
 #|(W[s]_B[en])x(Z_K[n/e])x)H_N[e])x(SP)|
 #|✅|(Wahr[S]cheinlichkeit[s]Berechnung[en])X(Zeit[K]ette[n]))X(Himmel[s]Netz[e])))X(SprachModell[e]))))|
-#|(WAHR-SCHEINLICHKEITEN-BERECHNUNGS-ZEITKETTEN-HIMMELNETZ-SPRACHMODELL)|
+#|(WAHRSCHEINLICHKEITEN-BERECHNUNGS-ZEITKETTEN-HIMMELNETZ-SPRACHMODELL)|
 #|Deutsch Mathematik Formel Sprachprogramm|
 #|03.01.26|TIME|22:42|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCXTCXSNXAI|
