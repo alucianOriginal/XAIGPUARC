@@ -1,14 +1,13 @@
 #!/bin/bash
 
 #|XAIGPUARC|
-#|(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmels[N]etz[e])X(SprachModell[e])|
-#|PCXTCXSNXAI|(Probability_Calculation)X(Time_Chain)X(Sky_Net)X(Artifactial_Inference)|
-#|(W[s]_B[en])x(Z_K[n/e])x)H_N[e])x(SP)|
-#|✅|(Wahr[S]cheinlichkeit[s]Berechnung[en])X(Zeit[K]ette[n]))X(Himmel[s]Netz[e])))X(SprachModell[e]))))|
-#|(WAHR-SCHEINLICHKEITEN-BERECHNUNGS-ZEITKETTEN-HIMMELNETZ-SPRACHMODELL)|
+
+#|#PCxTCxSWxAI|#(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)|
+#|✅|#PBxZKxHWxSM|#(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|
+
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|03.01.26|TIME|22:42|
-#|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCXTCXSNXAI|
+#|04.01.26|TIME|20:42|
+#|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCxTCxSWxAI|
 
 #0.|TRIOINFERNAL:
 #1.|XAIGPUARC-sycl-ggml|Treiber/Umgebung
@@ -516,7 +515,7 @@ log "🔷
 
 |🔧|INSTALLATION: in 🧰 .../HOME/USERNAME/XAIGPUARC/... 🔧
 
-|💡|min.9GiB-17GiB RAM/V-RAM DATENVORGAENGE 🔄
+|💡|min. 9GiB - 17GiB RAM DATENVORGAENGE 🔄
 |🧱|VORBERRECHUNG SPRACHPROGRAMM ASSISTENT FUER ⚫ MATHEMATIK 🔧
 
 |🟡|ACHTUNG
@@ -630,7 +629,7 @@ fi
 }
 #7MODELLPFADWAEHLENCalderaAI_Hexoteric-7B-F16.f16Yi-6B-200K-Llama-sharded.f16MathCoder2-DeepSeekMath-7B-f16Neumind-Math-7B-Instruct.F16Lucy-1.7B-F16
 prepare_model() {
-MODEL_PATH=${1:-"models/Lucy-1.7B-F16.gguf"}
+MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR MODELL NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN! BITTE DORT HIN**$MODEL_PATH**KOPIEREN"
@@ -639,12 +638,15 @@ export MODEL_PATH
 }
 #8MODELLAUSFUEHRENCalderaAI_Hexoteric-7B-F16.f16Neumind-Math-7B-Instruct.F16Lucy-1.7B-F16
 run_inference() {
-local DEFAULT_MODEL_PATH="models/Lucy-1.7B-F16.gguf"
+local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
 #CHANGE MODEL HERE ABOVE TWICE ! MODELL HIER DRUEBER DOPPELT AENDERN!MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.Lucy-1.7B-F16
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
 |0>SYSTEM<0|
-|(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmels[N]etz[e])X(SprachModell[e])|
+
+#|#PCxTCxSWxAI|#(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)#|
+
+#|#PBxZKxHWxSM|#(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])#|
 
 |00|INSTRUCTION=|
 
@@ -664,8 +666,8 @@ local PROMPT_ARG=${3:-"
 |1.|Word|short|c++|math|analysis|32/64-bit|vector|para|graph
 |2.|Identify|ambiguities-missIng-information-assumptions-input
 |3.|Produce|clear|minimal|Info-Tech|math|c++|icpx|icx|sycl|Code|Vector|32/64-bit
-|4.|If|Multiple|Valid|Answers|Solutions|Exist|then|LiSt|Briefly|Print|Preference
-|5.|ZEITKETTEN-HIMMELSNET-SPRACHMODELL|Timechain-Skynet-LanguageModell|
+|4.|If|Multiple-Valid-Answers|Solutions-Exist|then-LiSt|Briefly|Print-Preference
+|5.|ZEITKETTEN-HIMMELSNETZWERK-SPRACHMODELL|Timechain-Skynetwork-LanguageModell|
 
 |02|CONSTRAINTS|
 
@@ -681,17 +683,16 @@ local PROMPT_ARG=${3:-"
 |Section3|Minimal|ANswer|Exception:EXCEPTION
 |Section4|Possible|Alternativ
 
-#1.|Word|Short| PROOF OF ANSWER
-#2.|IdEnTiFy|#|(WB[s])x(ZK[n/e])x)HN[e])x(SP)))|
-#2.|(Wahr[S]cheinlichkeit[s]Berechnung[en])X(Zeit[K]ette[n])X(Himmel[s]Netz[e])X(SprachModell[e])|
-#3.|KEY WORDS:|PCXTCXSNXAI|(ProbabilityCalculation)X(TimeChain)X(SkyNet)X(ArtifactialInference)|
+#1.|Word|Short|PROOF-OF-ANSWER
+#2.|IdEnTiFy|
+#3.|KEY WORDS:|#|#PCxTCxSWxAI|#(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)#|
 #4.|If>Multiple>Valid>Solutions>Exist>>Then>List>Print>>>Preference
 #5.|List|briefly|print|preference
 
-|04|HolY-FoRmUlA-FiNdEr*TrUe-fOrMuLa=
+|04|Beginn|Processing|
 |Add|Section1:Restatement
 |And|Section2:Ambiguities-Missing-Info
-|And|Section3:Minimal-PROOF of AnSwer
+|And|Section3:Minimal PROOF-of-AnSwer
 |And|Section4:Possible-AlternatiVe
 |Sol|SUPPRESS_META_COMMENTARY
 |Set|ATTRIBUTE_MINIMAL_CONCISE
@@ -707,9 +708,9 @@ local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 #KLEINER EINSTELLEN USE SMALL NUMBERS FOR BETTER AI
-local CONTEXT_SIZE=8192
+local CONTEXT_SIZE=16384
 #NEUE WERTE SETZEN 512 1024 2048 Standart4096|0x1000 Empfohlen8192|0x2000 MathtTutor16384|0x4000 Kritisch24576|0x6000 32768|0x8000
-local PREDICT_TOKENS=4096
+local PREDICT_TOKENS=16384
 log "🔷STARTE KI ANTWORT MIT PARAMETER**${DEVICE}(ID: ${GPU_ID})**NGL WERT GLEICH${NGL_SET}**${FULL_LLAMA_CLI_PATH}**"
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
 error "❌FEHLER AKTUELLER UNTERBAU NEUBAU FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
