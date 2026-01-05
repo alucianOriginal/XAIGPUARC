@@ -6,7 +6,7 @@
 #|#01PBxZKxHWxSM|#(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
 
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|05.01.26|TIME|10:53|
+#|05.01.26|TIME|18:33|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCxTCxSWxAI|
 
 #0.|TRIOINFERNAL:
@@ -527,7 +527,7 @@ log "🔷
 
 |⚫|DUNKLE-MATHEMATIK 🧰 🔄 🎁 🔄 🔧 🔄 🎯 DEUTSCH-SPRACHPROGRAMM
 
-|✅||(Wahr[S]cheinlichkeit[s]Berechnung[en])X(Zeit[K]ette[n]))X(Himmel[s]Netz[e])))X(SprachModell[e]))))|
+|✅||#PBxZKxHWxSM|#(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|
 
 |💡|NUTZEN SIE DEN MATH-TUTOR_F16 AUF 16K CTX
 |🟡|A770LE 16GiB VRAM@14.2GiB@MathTutor-f16 MAXIMAL MATHEMATIK SPRUCH
