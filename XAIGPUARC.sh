@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#|XAIGPUARC|cij​=k=1∑n​aik​⋅bkj​|
+#|XAIGPUARC|cij​=k=1∑n​aik​⋅bkj​|f(xi​)=∑exj​exi
 
 #|#00PCxTCxSWxAI|#(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)|✅|
 #|#01PBxZKxHWxSM|#(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
 
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|07.01.2026|TIME|18:48|
+#|07.01.2026|TIME|19:35|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCxTCxSWxAI|
 
 #0.|TRIOINFERNAL:
@@ -648,17 +648,19 @@ local PROMPT_ARG=${3:-"
 \
 Pause
 |TEST000|START//|
+/Language 1 ENG /
 #|#PCxTCxSWxAI|#(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)#|
 /Language 2 GER //
 #|#PBxZKxHWxSM|#(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])#|
+/Language 3 LAT ///
+#|#???|
 |TEST|000|END\\\|
 
 /
 |00|INSTRUCTION=|
 \
 
-|FORMAT=->FORMULA_FINDER+SYCL_KERNEL_GEN/|
-
+|FORMAT=->FORMULA_FINDER+SYCL_KERNEL_GEN / Mode Matrix /
 /
 
 (Cmatch-​>,Condition->,Completeness->,S =
@@ -704,7 +706,7 @@ Pause
 #2.|IdEnTiFy|cij​=k=1∑n​aik​⋅bkj​|
 #3.|KEY WORDS:|#|SYCL_COMPILER_HINT|icpx -fsycl -O3
 #4.|If>Multiple>Valid>Solutions>Exist>>Then>List>Print>>>Preference
-#5.|List|briefly|print|Precision-FP16|Aligment-Zero-Copy-Focus
+#5.|List|briefly|print|Precision-FP16@32-bit|Aligment-Zero-Copy-Focus
 \
 
 |04|Beginn|Processing/|
