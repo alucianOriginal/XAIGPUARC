@@ -1,12 +1,21 @@
 #!/bin/bash
 
 #|XAIGPUARC|cij​=k=1∑n​aik​⋅bkj​|f(xi​)=∑exj​exi|MathTutor-7B-H_v0.0.1.f16|✅|
+#No Cherry Picking MathTutor-7B-F17.gguf Demo with XAIGPUARC on A770LE16GiB:
+
+#... (truncated)
+
+#cij = ∑k=1n aik ⋅ bkj; optimize with SYCL kernel, use FP16 32-bit precision for alignment and zero-copy focus.
+
+#[ Prompt: 1080,3 t/s | Generation: 13,2 t/s ]
+
+#> >>> CHAT HERE! ENTER ANSWER > CHAT ENTER ANSWER > CHAT
 
 #|#00PCxTCxSWxAI|(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)|✅|
 #|#01PBxZKxHWxSM|(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
 
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|07.01.2026|TIME|00:40|
+#|07.01.2026|TIME|00:52|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCxTCxSWxAI|
 
 #0.|TRIOINFERNAL:
@@ -102,7 +111,7 @@
 #Mistral-7B-Instruct-v0.3.fp16.gguf            |13.50|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
 #allenai.Olmo-3-7B-Think.f16.gguf              |13.60|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
 #Mamba-Codestral-7B-v0.1-F16.gguf              |13.60|GiB|SLOW|CTX|NPG|8k|A770LE:|110.1 Pt|s 3.2  Gt|s 97w 2.4Ghz+|CPU|FULL|GOOD
-#MathTutor-7B-H_v0.0.1.f16.gguf                |14.20|GiB|FAST|CTX|16k|NPG|512k|A770LE:|529.7 Pt|s 13.7 Gt|s 142w 2.4Ghz-|CPU|BEST|HQ
+#MathTutor-7B-H_v0.0.1.f16.gguf                |14.20|GiB|FAST|CTX|16k|NPG|512k|A770LE:|467.7 Pt|s 10.7 Gt|s 142w 2.4Ghz|BEST|HQ
 
 #|END|F16|MODEL|LIST
 
