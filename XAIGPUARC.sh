@@ -2,11 +2,11 @@
 
 #|XAIGPUARC|cij​=k=1∑n​aik​⋅bkj​|f(xi​)=∑exj​exi
 
-#|#00PCxTCxSWxAI|#(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)|✅|
-#|#01PBxZKxHWxSM|#(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
+#|#00PCxTCxSWxAI|(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)|✅|
+#|#01PBxZKxHWxSM|(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
 
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|07.01.2026|TIME|22:45|
+#|07.01.2026|TIME|22:49|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCxTCxSWxAI|
 
 #0.|TRIOINFERNAL:
