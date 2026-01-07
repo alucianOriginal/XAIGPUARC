@@ -6,7 +6,7 @@
 #|#01PBxZKxHWxSM|#(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
 
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|07.01.2026|TIME|19:35|
+#|07.01.2026|TIME|19:44|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCxTCxSWxAI|
 
 #0.|TRIOINFERNAL:
@@ -704,7 +704,7 @@ Pause
 --------
 #1.|Word|Short|PROOF-OF-ANSWER/
 #2.|IdEnTiFy|cij​=k=1∑n​aik​⋅bkj​|
-#3.|KEY WORDS:|#|SYCL_COMPILER_HINT|icpx -fsycl -O3
+#3.|KEY WORDS:|#|SYCL_COMPILER_HINT|icpx -fsycl -O3 Float TARGET=SYCL|VECTOR|32BIT|NO_STD_CONTAINERS
 #4.|If>Multiple>Valid>Solutions>Exist>>Then>List>Print>>>Preference
 #5.|List|briefly|print|Precision-FP16@32-bit|Aligment-Zero-Copy-Focus
 \
