@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#|XAIGPUARC|
+#|XAIGPUARC|cij​=k=1∑n​aik​⋅bkj​|
 
 #|#00PCxTCxSWxAI|#(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)|✅|
 #|#01PBxZKxHWxSM|#(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
@@ -655,8 +655,8 @@ local PROMPT_ARG=${3:-"
 
 (Cmatch-​>,Condition->,Completeness->,S =
 (If = CONDITION_match = COMPLETE_SET_ad) =
-(,S1 (,C++,icx,icpx,))​,+S2 (,Vectorized-64-bit-Logic,)))​,+S3
-(,sycl-ggml,))))​,+S4 (,FP16_64-bit_math.cl;))))) =
+(,S1 (,C++,icx,icpx,))​,+S2 (,Vectorized-32-bit-Logic,)))​,+S3
+(,sycl-ggml,))))​,+S4 (,FP16_32-bit_math.cl;))))) =
 (Oppression,-> Meta,-> suppress_meta_comments,-> output_all_sections_add)))))) =
 (discret>Solutionroom_get = PRINT_ALL_SECTIONS_add))))))) = ,FP16_64-bit_math.cl; = Fi;))))))));
 
@@ -664,9 +664,9 @@ local PROMPT_ARG=${3:-"
 
 |01|00-42|MAIN-TASKS|
 
-|1.|Word|short|c++|math|analysis|32/64-bit|vector|para|graph
+|1.|Word|short|Basic-C++|math-analysis-code|32-bit|vector|para|graph
 |2.|Identify|ambiguities-missIng-information-assumptions-input
-|3.|Produce|clear|minimal|Info-Tech|math|c++|icpx|icx|sycl|Code|Vector|32/64-bit
+|3.|Produce|clear|minimal|Info-Tech|math|c++|icpx|icx|sycl|Code|Vector|32-bit
 |4.|If|Multiple-Valid-Answers|Solutions-Exist|then-LiSt|Briefly|Print-Preference
 |5.|ZEITKETTEN-HIMMELSNETZWERK-SPRACHMODELL|Timechain-Skynetwork-LanguageModell|
 
@@ -685,7 +685,7 @@ local PROMPT_ARG=${3:-"
 |Section4|Possible|Alternativ
 
 #1.|Word|Short|PROOF-OF-ANSWER
-#2.|IdEnTiFy|
+#2.|IdEnTiFy|cij​=k=1∑n​aik​⋅bkj​|
 #3.|KEY WORDS:|#|#PCxTCxSWxAI|#(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)#|
 #4.|If>Multiple>Valid>Solutions>Exist>>Then>List>Print>>>Preference
 #5.|List|briefly|print|preference
