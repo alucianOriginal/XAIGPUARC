@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#|XAIGPUARC|cij​=k=1∑n​aik​⋅bkj​|f(xi​)=∑exj​exi
+#|XAIGPUARC|cij​=k=1∑n​aik​⋅bkj​|f(xi​)=∑exj​exi|MathTutor-7B-H_v0.0.1.f16|✅|
 
 #|#00PCxTCxSWxAI|(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)|✅|
 #|#01PBxZKxHWxSM|(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
 
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|07.01.2026|TIME|00:14|
+#|07.01.2026|TIME|00:40|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCxTCxSWxAI|
 
 #0.|TRIOINFERNAL:
@@ -160,7 +160,7 @@ export OverrideDefaultFP64Settings=1
 export CCACHE_DIR="$HOME/.ccache"
 export COMPILER_VERSION="2025.0"
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
-export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=256
+export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=1024
 export FP_FLAG=FP16
 
 #|HILFSFUNKTIONEN
@@ -473,6 +473,7 @@ cmake "../${LLAMA_CPP_DIR}" \
     -DTHREADS_PREFER_PTHREAD_FLAG=ON \
     -DCMAKE_C_FLAGS="-O3 -ffast-math" \
     -DGGML_SYCL_DISABLE_GRAPH=OFF \
+    -DCMAKE_THREAD_LIBS_INIT="-pthread"\
     -DCMAKE_C_COMPILER_WORKS=1
 local CMAKE_STATUS=$?
 popd > /dev/null
@@ -488,12 +489,9 @@ fi
 }
 
 #BEARBEITEN NACH LOGIK 3.1.26-19:04 UHR
-#-DCMAKE_C_FLAGS="-O3 -ffast-math" \
 #-DCMAKE_CXX_FLAGS="-fsycl -fsycl-targets=spir64_gen-Xsycl-target-backend=spir64_gen -device=* -O3 -ffast-math pthread"
-#-DCMAKE_THREAD_LIBS_INIT="-pthread"\
-#-DCMAKE_C_COMPILER_WORKS=1
-#-DCMAKE_HAVE_THREADS_LIBRARY=1
-#-DTHREADS_PREFER_PTHREAD_FLAG=ON
+#-DCMAKE_CXX_FLAGS="-fsycl -fsycl-targets=spir64_gen-Xsycl-target-backend=spir64_gen -device=* -O3 -ffast-math pthread"
+
 
 #4KOMPILIEREN
 compile_project() {
@@ -511,12 +509,15 @@ log "🔷
 |💡|min. 9GiB - 17GiB RAM DATENVORGAENGE 🔄
 |🧱|VORBERRECHUNG SPRACHPROGRAMM ASSISTENT FUER ⚫ MATHEMATIK 🔧
 
-|🟡|ACHTUNG
-|🔄|WIRD
-|📌|ERSTMALIG
-|💡|ANDAUERN
+|🟡|ACHTUNG! Wenn Sie das hier Lesen koennen! :-)
+|🔄|WIRD-es
+|📌|ERSTMALIG Mindestens-
 
-|⚙️|BITTE ETWAS GEDULD
+|💡|3 bis 7 Minuten-
+
+|💡|ANDAUERN!!!
+
+|⚙️|BITTE ETWAS GEDULD Dannach beim zweiten Start dauert es nur wenige Sekunden bis die KI startet!
 
 |⚫|DUNKLE-MATHEMATIK 🧰 🔄 🎁 🔄 🔧 🔄 🎯 DEUTSCH-SPRACHPROGRAMM
 
@@ -622,7 +623,7 @@ fi
 }
 #7MODELLPFADWAEHLENCalderaAI_Hexoteric-7B-F16.f16Yi-6B-200K-Llama-sharded.f16MathCoder2-DeepSeekMath-7B-f16Neumind-Math-7B-Instruct.F16Lucy-1.7B-F16
 prepare_model() {
-MODEL_PATH=${1:-"models/sauerkrautlm-7b-v1.Q8_0.gguf"}
+MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR MODELL NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN! BITTE DORT HIN**$MODEL_PATH**KOPIEREN"
@@ -631,7 +632,7 @@ export MODEL_PATH
 }
 #8MODELLAUSFUEHRENCalderaAI_Hexoteric-7B-F16.f16Neumind-Math-7B-Instruct.Lucy-1.7B-F16sauerkrautlm-7b-v1.Q8_0
 run_inference() {
-local DEFAULT_MODEL_PATH="models/sauerkrautlm-7b-v1.Q8_0.gguf"
+local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
 #CHANGE MODEL HERE ABOVE TWICE ! MODELL HIER DRUEBER DOPPELT AENDERN!MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.Lucy-1.7B-F16
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
@@ -731,7 +732,7 @@ local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 #KLEINER EINSTELLEN USE SMALL NUMBERS FOR BETTER AI
-local CONTEXT_SIZE=8192
+local CONTEXT_SIZE=16384
 #NEUE WERTE SETZEN 512 1024 2048 Standart4096|0x1000 Empfohlen8192|0x2000 MathtTutor16384|0x4000
 #Kritisch24576|0x6000 32768|0x8000|65536|131072|262144|524288|
 local PREDICT_TOKENS=524288
