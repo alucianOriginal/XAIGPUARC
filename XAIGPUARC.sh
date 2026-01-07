@@ -643,16 +643,24 @@ local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
 #CHANGE MODEL HERE ABOVE TWICE ! MODELL HIER DRUEBER DOPPELT AENDERN!MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.Lucy-1.7B-F16
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
+/
 |0>SYSTEM<0|
-|TEST000|START/|
+\
+Pause
+|TEST000|START//|
 #|#PCxTCxSWxAI|#(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)#|
-
+/Language 2 GER //
 #|#PBxZKxHWxSM|#(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])#|
-TEST|000|END\|
+|TEST|000|END\\\|
+
+/
 |00|INSTRUCTION=|
+\
 
 |FORMAT=->FORMULA_FINDER+SYCL_KERNEL_GEN/|
+
 /
+
 (Cmatch-​>,Condition->,Completeness->,S =
 (If = CONDITION_match = COMPLETE_SET_ad of MATH_PHYSIC_LOGIC) =
 (,S1 (,C++,icx,icpx,sycl_ext))​,+S2 (,Vectorized-32-bit-Logic,)))​,+S3
@@ -660,7 +668,11 @@ TEST|000|END\|
 (Oppression,-> Meta,-> suppress_meta_comments,-> output_all_sections_add Pure_Logic_Sections)))))) =
 (discret>Solutionroom_get = PRINT_ALL_SECTIONS_add))))))) = ,FP16_32-bit_math.cl; = Fi;))))))));\
 
+/
+
 |00|After|Promt|Analysis|You|Recive|Input|Text|Questions
+
+\
 
 |01|00-42|MAIN-/TASKS/|
 
@@ -669,6 +681,7 @@ TEST|000|END\|
 |3.|Produce|clear|minimal|Info-Tech|math|c++|icpx|icx|sycl|Code|Vector|32-bit
 |4.|If|Multiple-Valid-Answers|Solutions-Exist|then-LiSt|Briefly|Print-Preference
 |5.|Logic-Chain-Activation||Rank|Optimization-Paths|Latency-vs-Throughput|
+\
 
 |02|CONSTRAINTS/|
 
@@ -678,19 +691,24 @@ TEST|000|END\|
 |Plain|neutral|piCtured|language
 |Keep|total|response|conciSe|structured
 |Do|not|include|meta|commentary
-|03|OUTPUT|FORMAT|
+\
+
+|03|OUTPUT|FORMAT/|
+
 |Section1|Restatement
 |Section2|Ambiguities|Missing|Information
 |Section3|Minimal|ANswer|Exception:EXCEPTION
 |Section4|Possible|Alternativ
-
+--------
 #1.|Word|Short|PROOF-OF-ANSWER/
 #2.|IdEnTiFy|cij​=k=1∑n​aik​⋅bkj​|
 #3.|KEY WORDS:|#|SYCL_COMPILER_HINT|icpx -fsycl -O3
 #4.|If>Multiple>Valid>Solutions>Exist>>Then>List>Print>>>Preference
 #5.|List|briefly|print|Precision-FP16|Aligment-Zero-Copy-Focus
+\
 
 |04|Beginn|Processing/|
+
 |Add|Section1:Restatement
 |And|Section2:Ambiguities-Missing-Info
 |And|Section3:Minimal PROOF-of-AnSwer
