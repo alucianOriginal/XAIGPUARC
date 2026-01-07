@@ -6,7 +6,7 @@
 #|#01PBxZKxHWxSM|(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
 
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|07.01.2026|TIME|23:21|
+#|07.01.2026|TIME|00:14|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCxTCxSWxAI|
 
 #0.|TRIOINFERNAL:
@@ -55,15 +55,15 @@
 #Neumind-Math-7B-Instruct.F16 14.2 GIB
 #EVA-GPT-Germa-v7B-Q6_K.gguf 05.50|GiB
 #OpenMath-Mistral-7B-v0.1-hf_Q6_K
-#kani-tts-400m-en-f16_q8_0.gguf                |00.53|GiB|FAST|CTX|NPG|8K|A770LE:|588.6 Pt|s 62.4 Gt|s 100w 2.4Ghz-|CPU|FIRESTARTER
-#baidu.ERNIE-4.5-0.3B-Base-PT.f16.gguf         |00.69|GiB|FAST|CTX|NPG|8K|A770LE:|469.7 Pt|s 52.5 Gt|s 97w 2.4Ghz+|CPU|Mid|Low|Chat
-#MedScholar-1.5B-f16_q8_0.gguf                 |02.10|GiB|FAST|CTX|NPG|8k|A770LE:|528.2 Pt|s 25.2 Gt|s 109w 2.4Ghz-|CPU|Good
+#kani-tts-400m-en-f16_q8_0.gguf           |00.53|GiB|FAST|CTX|NPG|8K|A770LE:|588.6 Pt|s 62.4 Gt|s 100w 2.4Ghz|FIRESTARTER|ViP
+#baidu.ERNIE-4.5-0.3B-Base-PT.f16.gguf         |00.69|GiB|FAST|CTX|NPG|8K|A770LE:|469.7 Pt|s 52.5 Gt|s 97w 2.4Ghz+|CPU|Mid|
+#MedScholar-1.5B-f16_q8_0.gguf                 |02.10|GiB|FAST|CTX|NPG|8k|A770LE:|528.2 Pt|s 25.2 Gt|s 109w 2.4Ghz-|CPU|HiQ
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf          |02.10|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU
-#yasserrmd.DentaInstruct-1.2B.f16.gguf         |02.20|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ
-#DeepCoder-1.5B-Preview-f16_q8_0.gguf          |02.20|GiB|FAST|CTX|NPG|8k|A770LE:|513.2 Pt|s 23.3 Gt|s 112w 2.3Ghz+|CPU|Mid|Think|EZ
+#yasserrmd.DentaInstruct-1.2B.f16.gguf         |02.20|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
+#DeepCoder-1.5B-Preview-f16_q8_0.gguf          |02.20|GiB|FAST|CTX|NPG|8k|A770LE:|513.2 Pt|s 23.3 Gt|s 112w 2.3Ghz+|CPU|Mid
 #ibm-granite.granite-4.0-1b.f16.gguf           |03.00|GiB|NOTS|CTX|NPG|0k|A770LE:|569.4 Pt|s 18.2 Gt|s 120w 2.3Ghz-|CPU|GPU|INF
-#Lucy-1.7B-F16.gguf                            |03.20|GiB|FAST|CTX|NPG|32k|A770LE:|572.7 Pt|s 23.2 Gt|s 108w 2.4Ghz-|CPU|EXT
-#granite-4.0-micro-f16_q8_0.gguf               |04.60|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ
+#Lucy-1.7B-F16.gguf                            |03.20|GiB|FAST|CTX|NPG|65k|A770LE:|320.7 Pt|s 22.2 Gt|s 108w 2.4Ghz-|CPU|EXT
+#granite-4.0-micro-f16_q8_0.gguf               |04.60|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
 #gemma-2-2b-it.F16.gguf                        |04.90|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU
 
 #|8GiB+|GPU|A750LE
@@ -71,38 +71,38 @@
 #Fathom-Search-4B-f16_q8_0.gguf                |05.50|GiB|FAST|CTX|NPG|8k|A770LE:|569.4 Pt|s 18.2 Gt|s 118w 2.4Ghz-|CPU|Think
 #Qwen2.5-7B-Instruct-f16-q4_k.gguf             |05.70|GiB|FAST|CTX|NPG|8k|A770LE:|511.5 Pt|s 19.7 Gt|s 142w 2.4Ghz-|CPU
 #Qwen2.5-VL-3B-Instruct-f16.gguf               |05.80|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU
-#llama3bthinkingonly5B.f16.gguf                |06.00|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ
+#llama3bthinkingonly5B.f16.gguf                |06.00|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
 
 #|10-12GiB+|iGPU|XeLPG|A730m|A580|B570|B580|PRO|A|B60|A|B50
 
-#UIGEN-X-4B-0729-f16_q8_0.gguf                 |06.20|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ
-#granite-4.0-h-tiny-f16_q8_0.gguf              |07.00|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ
-#Trinity-Nano-Preview-f16_q8_0.gguf            |07.20|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ
-#Qwen3-Embedding-4B-f16.gguf                   |07.50|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ
-#Qwen3-4B-f16.gguf                             |07.50|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU|V|L|Think
+#UIGEN-X-4B-0729-f16_q8_0.gguf                 |06.20|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
+#granite-4.0-h-tiny-f16_q8_0.gguf              |07.00|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
+#Trinity-Nano-Preview-f16_q8_0.gguf            |07.20|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
+#Qwen3-Embedding-4B-f16.gguf                   |07.50|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
+#Qwen3-4B-f16.gguf                             |07.50|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU|LThink
 #Nemotron-Mini-4B-Instruct-f16.gguf            |07.80|GiB|FAST|CTX|NPG|8k|A770LE:|717.8 Pt|s 17.8 Gt|s 118w 2.4Ghz-|CPU
 #Minitron-4B-Base.FP16.gguf                    |07.80|GiB|FAST|CTX|NPG|4k|A770LE:|764.3 Pt|s 16.3 Gt|s 131w 2.4Ghz+|CPU|MID
 #t5-v1_1-xxl-encoder-f16.gguf                  |08.90|GiB|FAST|CTX|NPG|8k|A770LE:|361,8 Pt|s 6 Gt|s 101w 2.4Ghz-|CPU|NICE
 
 #|16GiB+|GPU|A770LE|iGPU|Meteor|Lake
 
-#DiffuCoder-7B-cpGRPO-f16_q8_0.gguf            |10.50|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ
-#MiMo-Embodied-7B-f16_q8_0.gguf                |10.70|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ
-#MiniCPM4.1-8B-f16_q8_0.gguf                   |11.00|GiB|FAST|CTX|NPG|8k|A770LE:|842.9 Pt|s 11.0 Gt|s 142w 2.4Ghz+|CPU|Mid|Think
+#DiffuCoder-7B-cpGRPO-f16_q8_0.gguf            |10.50|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
+#MiMo-Embodied-7B-f16_q8_0.gguf                |10.70|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
+#MiniCPM4.1-8B-f16_q8_0.gguf                   |11.00|GiB|FAST|CTX|NPG|8k|A770LE:|842.9 Pt|s 11.0 Gt|s 142w 2.4Ghz+|CPU|MidThink
 #KernelLLM-f16_q8_0.gguf                       |11.10|GiB|FAST|CTX|NPG|8k|A770LE:|688.5 Pt|s 11.2 Gt|s 137w 2.4Ghz-|CPU|MATH|KERN
-#Jan-v2-VL-high-f16_q8_0.gguf                  |11.40|GiB|FAST|CTX|NPG|8k|A770LE:|639.6 Pt|s 10.2 Gt|s 135w 2.4Ghz-|CPU|Think
-#Nemotron-Orchestrator-8B-f16_q8_0.gguf        |11.40|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ
+#Jan-v2-VL-high-f16_q8_0.gguf                  |11.40|GiB|FAST|CTX|NPG|8k|A770LE:|639.6 Pt|s 10.2 Gt|s 135w 2.4Ghz-|CPUThink
+#Nemotron-Orchestrator-8B-f16_q8_0.gguf        |11.40|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
 #Orchestrator-8B-f16_q8_0.gguf                 |11.40|GiB|FAST|CTX|NPG|8k|A770LE:|640.4 Pt|s 10.2 Gt|s 134w 2.4Ghz-|CPU|Long|Think
-#MiroThinker-v1.0-8B-f16_q8_0.gguf             |11.40|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ
-#Seed-Coder-8B-Reasoning-f16_q8_0.gguf         |11.50|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ
-#Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf   |11.70|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ
+#MiroThinker-v1.0-8B-f16_q8_0.gguf             |11.40|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
+#Seed-Coder-8B-Reasoning-f16_q8_0.gguf         |11.50|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
+#Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf   |11.70|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
 #ggml-model-f16.gguf                           |12.60|GiB|FAST|CTX|NPG|4k|A770LE:|1012.7 Pt|s 13.5 Gt|s 142w 2.4Ghz-|CPU|Not|Stable
-#gpt-oss-20b-F16.gguf                          |12.80|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ
-#Navid-AI.Yehia-7B-preview.f16.gguf            |13.00|GiB|FAST|CTX|NPG|4k|A770LE:|1273.4 Pt|s 13.4 Gt|s 142w 2.4Ghz-|CPU|HQ
-#Mistral-7B-Instruct-v0.3.fp16.gguf            |13.50|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ
-#allenai.Olmo-3-7B-Think.f16.gguf              |13.60|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ
+#gpt-oss-20b-F16.gguf                          |12.80|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
+#Navid-AI.Yehia-7B-preview.f16.gguf            |13.00|GiB|FAST|CTX|NPG|4k|A770LE:|1273.4 Pt|s 13.4 Gt|s 142w 2.4Ghz-|CPU|HiQ
+#Mistral-7B-Instruct-v0.3.fp16.gguf            |13.50|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
+#allenai.Olmo-3-7B-Think.f16.gguf              |13.60|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
 #Mamba-Codestral-7B-v0.1-F16.gguf              |13.60|GiB|SLOW|CTX|NPG|8k|A770LE:|110.1 Pt|s 3.2  Gt|s 97w 2.4Ghz+|CPU|FULL|GOOD
-#MathTutor-7B-H_v0.0.1.f16.gguf                |14.20|GiB|FAST|CTX|NPG|16k|A770LE:|529.7 Pt|s 13.7 Gt|s 142w 2.4Ghz-|CPU|BEST|HQ
+#MathTutor-7B-H_v0.0.1.f16.gguf                |14.20|GiB|FAST|CTX|16k|NPG|512k|A770LE:|529.7 Pt|s 13.7 Gt|s 142w 2.4Ghz-|CPU|BEST|HQ
 
 #|END|F16|MODEL|LIST
 
@@ -115,9 +115,9 @@
 #|8GiB+|GPU|A750LE
 
 #OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf         |05.50|GiB|FAST|CTX|NPG|8k|A770LE:|1233.9 Pt|s 14.4 Gt|s 145w 2.4Ghz-|CPU|OLDSC
-#NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf       |06.60|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ
-#wizardcoder-python-7b-v1.0.Q8_0.gguf          |06.70|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ
-#sauerkrautlm-7b-v1.Q8_0.gguf                  |06.70|GiB|FAST|CTX|NPG|8k|A770LE:|1364.6 Pt|s 12.1 Gt|s 142w 2.4Ghz-|CPU|OLD
+#NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf       |06.60|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
+#wizardcoder-python-7b-v1.0.Q8_0.gguf          |06.70|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
+#sauerkrautlm-7b-v1.Q8_0.gguf                  |06.70|GiB|FAST|CTX|NPG|16k|512k|A770LE:|1364.6 Pt|s 12.1 Gt|s 142w 2.4Ghz-|CPU
 
 #|10-12GiB+|iGPU|XeLPG|A730m|A580|B570|B580|PRO|A|B60|A|B50
 
@@ -125,13 +125,13 @@
 #Qwen3-30B-A3B-UD-IQ2_XXS.gguf                 |09.70|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU
 #solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf|10.60|GiB|FAST|CTX|NPG|8k|A770LE:|985.6 Pt|s 7.5 Gt|s 135w 2.4Ghz-|CPU|VIP
 #gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf   |11.30|GiB|SLOW|CTX|NPG|8k|A770LE:|35.4 Pt|s 8.7 Gt|s 92W 2.2Ghz+|FULL|CPU
-#gpt-oss-20b-mxfp4.gguf                        |11.30|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HQ
+#gpt-oss-20b-mxfp4.gguf                        |11.30|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s 90W 2.3Ghz+|FULL|CPU|HiQ
 #velara-11b-v2.Q8_0.gguf                       |11.30|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w 2.4Ghz-|CPU|
 
 #|16-24GiB+|A770LE|B60
 
-#flux1-kontext-dev-Q8_0.gguf                   |11.80|GiB|NO|SUPPORT|CTX|NPG|8k|A770LE:|985.6 Pt|s 7.5 Gt|s 135w 2.4Ghz-|CPU|VIP
-#Deepseek-Coder-V2-Lite-13B                    |11.00|GiB NO|SUPPORT|CTX|NPG|8k|A770LE:|985.6 Pt|s 7.5 Gt|s 135w 2.4Ghz-|CPU|VIP
+#flux1-kontext-dev-Q8_0.gguf                   |11.80|GiB|NO|SUPPORT|CTX|NPG|8k|A770LE:|985.6 Pt|s 7.5 Gt|s 135w 2.4Ghz-|CPU|ViP
+#Deepseek-Coder-V2-Lite-13B                    |11.00|GiB NO|SUPPORT|CTX|NPG|8k|A770LE:|985.6 Pt|s 7.5 Gt|s 135w 2.4Ghz-|CPU|ViP
 #Instruct-sft-s1K.i1-Q6_K.gguf                 |13.10|GiB|FAST|CTX|NPG|8k|A770LE:|22.7 Pt|s 7.9 Gt|s 98W 2.4Ghz-|CPU|OK
 #ENDE
 
@@ -470,7 +470,10 @@ cmake "../${LLAMA_CPP_DIR}" \
     -DCMAKE_CXX_STANDARD=17 \
     -DGGML_SYCL_PRIORITIZE_DMMV=ON \
     -DGGML_SYCL_DISABLE_DNN=OFF \
-    -DGGML_SYCL_DISABLE_GRAPH=OFF
+    -DTHREADS_PREFER_PTHREAD_FLAG=ON \
+    -DCMAKE_C_FLAGS="-O3 -ffast-math" \
+    -DGGML_SYCL_DISABLE_GRAPH=OFF \
+    -DCMAKE_C_COMPILER_WORKS=1
 local CMAKE_STATUS=$?
 popd > /dev/null
 if [ ${CMAKE_STATUS} -ne 0 ]; then
@@ -619,16 +622,16 @@ fi
 }
 #7MODELLPFADWAEHLENCalderaAI_Hexoteric-7B-F16.f16Yi-6B-200K-Llama-sharded.f16MathCoder2-DeepSeekMath-7B-f16Neumind-Math-7B-Instruct.F16Lucy-1.7B-F16
 prepare_model() {
-MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
+MODEL_PATH=${1:-"models/sauerkrautlm-7b-v1.Q8_0.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR MODELL NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN! BITTE DORT HIN**$MODEL_PATH**KOPIEREN"
 fi
 export MODEL_PATH
 }
-#8MODELLAUSFUEHRENCalderaAI_Hexoteric-7B-F16.f16Neumind-Math-7B-Instruct.F16Lucy-1.7B-F16
+#8MODELLAUSFUEHRENCalderaAI_Hexoteric-7B-F16.f16Neumind-Math-7B-Instruct.Lucy-1.7B-F16sauerkrautlm-7b-v1.Q8_0
 run_inference() {
-local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
+local DEFAULT_MODEL_PATH="models/sauerkrautlm-7b-v1.Q8_0.gguf"
 #CHANGE MODEL HERE ABOVE TWICE ! MODELL HIER DRUEBER DOPPELT AENDERN!MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.Lucy-1.7B-F16
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
@@ -708,7 +711,7 @@ Example Fomula 1-10_Sentences:
 #5.|List|briefly|print|Precision-FP16@32-bit|Aligment-Zero-Copy-Focus
 \
 
-|04|Beginn|Processing/|
+|04|Beginn|Processing/|EXIT-without-REPEATING!!!
 
 |Add|Section1:Restatement
 |And|Section2:Ambiguities-Missing-Info
@@ -728,7 +731,7 @@ local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 #KLEINER EINSTELLEN USE SMALL NUMBERS FOR BETTER AI
-local CONTEXT_SIZE=16384
+local CONTEXT_SIZE=8192
 #NEUE WERTE SETZEN 512 1024 2048 Standart4096|0x1000 Empfohlen8192|0x2000 MathtTutor16384|0x4000
 #Kritisch24576|0x6000 32768|0x8000|65536|131072|262144|524288|
 local PREDICT_TOKENS=524288
