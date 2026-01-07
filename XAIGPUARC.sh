@@ -658,7 +658,7 @@ local PROMPT_ARG=${3:-"
 (,S1 (,C++,icx,icpx,))​,+S2 (,Vectorized-32-bit-Logic,)))​,+S3
 (,sycl-ggml,))))​,+S4 (,FP16_32-bit_math.cl;))))) =
 (Oppression,-> Meta,-> suppress_meta_comments,-> output_all_sections_add)))))) =
-(discret>Solutionroom_get = PRINT_ALL_SECTIONS_add))))))) = ,FP16_64-bit_math.cl; = Fi;))))))));
+(discret>Solutionroom_get = PRINT_ALL_SECTIONS_add))))))) = ,FP16_32-bit_math.cl; = Fi;))))))));
 
 |00|After|Promt|Analysis|You|Recive|Input|Text|Questions
 
