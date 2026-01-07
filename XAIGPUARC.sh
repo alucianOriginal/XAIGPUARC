@@ -6,7 +6,7 @@
 #|#01PBxZKxHWxSM|#(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
 
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|07.01.2026|TIME|19:44|
+#|07.01.2026|TIME|20:00|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCxTCxSWxAI|
 
 #0.|TRIOINFERNAL:
@@ -643,10 +643,12 @@ local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
 #CHANGE MODEL HERE ABOVE TWICE ! MODELL HIER DRUEBER DOPPELT AENDERN!MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.Lucy-1.7B-F16
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
-/
+
 |0>SYSTEM<0|
-\
+
 Pause
+
+|EXECUTE_ONLY|DISABLE_DISCOURSE_MODE|DISABLE_NATURAL_LANGUAGE_INTRO|
 |TEST000|START//|
 /Language 1 ENG /
 #|#PCxTCxSWxAI|#(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)#|
@@ -656,12 +658,12 @@ Pause
 #|#???|
 |TEST|000|END\\\|
 
-/
+
 |00|INSTRUCTION=|
 \
 
 |FORMAT=->FORMULA_FINDER+SYCL_KERNEL_GEN / Mode Matrix /
-/
+
 
 (Cmatch-​>,Condition->,Completeness->,S =
 (If = CONDITION_match = COMPLETE_SET_ad of MATH_PHYSIC_LOGIC) =
@@ -669,8 +671,6 @@ Pause
 (,sycl-ggml,OFFLOAD,))))​,+S4 (,FP16_32-bit_ALU_OP;))))) =
 (Oppression,-> Meta,-> suppress_meta_comments,-> output_all_sections_add Pure_Logic_Sections)))))) =
 (discret>Solutionroom_get = PRINT_ALL_SECTIONS_add))))))) = ,FP16_32-bit_math.cl; = Fi;))))))));\
-
-/
 
 |00|After|Promt|Analysis|You|Recive|Input|Text|Questions
 
@@ -695,7 +695,7 @@ Pause
 |Do|not|include|meta|commentary
 \
 
-|03|OUTPUT|FORMAT/|
+|03|OUTPUT|FORMAT/||MODE=EXECUTE|OUTPUT=SECTIONS|NO_PARAPHRASE|NO_EXAMPLE|/
 
 |Section1|Restatement
 |Section2|Ambiguities|Missing|Information
@@ -704,7 +704,7 @@ Pause
 --------
 #1.|Word|Short|PROOF-OF-ANSWER/
 #2.|IdEnTiFy|cij​=k=1∑n​aik​⋅bkj​|
-#3.|KEY WORDS:|#|SYCL_COMPILER_HINT|icpx -fsycl -O3 Float TARGET=SYCL|VECTOR|32BIT|NO_STD_CONTAINERS
+#3.|KEY WORDS:|#|SYCL_COMPILER_HINT|icpx -fsycl -O3 Float TARGET=SYCL|VECTOR|32BIT|
 #4.|If>Multiple>Valid>Solutions>Exist>>Then>List>Print>>>Preference
 #5.|List|briefly|print|Precision-FP16@32-bit|Aligment-Zero-Copy-Focus
 \
