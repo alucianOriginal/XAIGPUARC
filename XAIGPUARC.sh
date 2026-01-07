@@ -644,33 +644,33 @@ local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
 |0>SYSTEM<0|
-
+|TEST000|START/|
 #|#PCxTCxSWxAI|#(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)#|
 
 #|#PBxZKxHWxSM|#(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])#|
-
+TEST|000|END\|
 |00|INSTRUCTION=|
 
-|FORMAT=->FORMULA_FINDER|
-
+|FORMAT=->FORMULA_FINDER+SYCL_KERNEL_GEN/|
+/
 (Cmatch-​>,Condition->,Completeness->,S =
-(If = CONDITION_match = COMPLETE_SET_ad) =
-(,S1 (,C++,icx,icpx,))​,+S2 (,Vectorized-32-bit-Logic,)))​,+S3
-(,sycl-ggml,))))​,+S4 (,FP16_32-bit_math.cl;))))) =
-(Oppression,-> Meta,-> suppress_meta_comments,-> output_all_sections_add)))))) =
-(discret>Solutionroom_get = PRINT_ALL_SECTIONS_add))))))) = ,FP16_32-bit_math.cl; = Fi;))))))));
+(If = CONDITION_match = COMPLETE_SET_ad of MATH_PHYSIC_LOGIC) =
+(,S1 (,C++,icx,icpx,sycl_ext))​,+S2 (,Vectorized-32-bit-Logic,)))​,+S3
+(,sycl-ggml,OFFLOAD,))))​,+S4 (,FP16_32-bit_ALU_OP;))))) =
+(Oppression,-> Meta,-> suppress_meta_comments,-> output_all_sections_add Pure_Logic_Sections)))))) =
+(discret>Solutionroom_get = PRINT_ALL_SECTIONS_add))))))) = ,FP16_32-bit_math.cl; = Fi;))))))));\
 
 |00|After|Promt|Analysis|You|Recive|Input|Text|Questions
 
-|01|00-42|MAIN-TASKS|
+|01|00-42|MAIN-/TASKS/|
 
-|1.|Word|short|Basic-C++|math-analysis-code|32-bit|vector|para|graph
+|1.|Word|short|Basic-C++|math-analysis-code|32-bit|vector-intrinsics|para|graph
 |2.|Identify|ambiguities-missIng-information-assumptions-input
 |3.|Produce|clear|minimal|Info-Tech|math|c++|icpx|icx|sycl|Code|Vector|32-bit
 |4.|If|Multiple-Valid-Answers|Solutions-Exist|then-LiSt|Briefly|Print-Preference
-|5.|ZEITKETTEN-HIMMELSNETZWERK-SPRACHMODELL|Timechain-Skynetwork-LanguageModell|
+|5.|Logic-Chain-Activation||Rank|Optimization-Paths|Latency-vs-Throughput|
 
-|02|CONSTRAINTS|
+|02|CONSTRAINTS/|
 
 |Do|not|external|knowledge|trictly|reQuired|input
 |Do|not|explain|reasoning
@@ -684,13 +684,13 @@ local PROMPT_ARG=${3:-"
 |Section3|Minimal|ANswer|Exception:EXCEPTION
 |Section4|Possible|Alternativ
 
-#1.|Word|Short|PROOF-OF-ANSWER
+#1.|Word|Short|PROOF-OF-ANSWER/
 #2.|IdEnTiFy|cij​=k=1∑n​aik​⋅bkj​|
-#3.|KEY WORDS:|#|#PCxTCxSWxAI|#(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)#|
+#3.|KEY WORDS:|#|SYCL_COMPILER_HINT|icpx -fsycl -O3
 #4.|If>Multiple>Valid>Solutions>Exist>>Then>List>Print>>>Preference
-#5.|List|briefly|print|preference
+#5.|List|briefly|print|Precision-FP16|Aligment-Zero-Copy-Focus
 
-|04|Beginn|Processing|
+|04|Beginn|Processing/|
 |Add|Section1:Restatement
 |And|Section2:Ambiguities-Missing-Info
 |And|Section3:Minimal PROOF-of-AnSwer
@@ -701,8 +701,8 @@ local PROMPT_ARG=${3:-"
 |And|
 |EXECUTE|PRINT_ALL_SECTIONS
 |TERMINATE
-|Fi|
-|MAIN|0-5|ENDE|"
+|Fi\|
+|MAIN|0-5|ENDE\|"
 }
 
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
