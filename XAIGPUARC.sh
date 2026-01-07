@@ -6,7 +6,7 @@
 #|#01PBxZKxHWxSM|#(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
 
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|07.01.2026|TIME|20:00|
+#|07.01.2026|TIME|21:13|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCxTCxSWxAI|
 
 #0.|TRIOINFERNAL:
@@ -466,7 +466,7 @@ log "🔷LEGE XAIGPUARC IN ORDNER HOME ${BUILD_DIR}"
 mkdir -p "${BUILD_DIR}" || { error "❌KONNTE ORDNER XAIGPUARC'${BUILD_DIR}'NICHT ANLEGEN"; return 1; }
 fi
 if pushd "${BUILD_DIR}" > /dev/null; then
-log "🔷STARTE CMAKE TXT KOPFZEILENBAU XAIGPUARC ${FP_FLAG:-UNDEFINED}"
+log "🔷STARTE CMAKE TXT KOPFZEILENBAU XAIGPUARC ${FP_FLAG:-FP16}"
 cmake "../${LLAMA_CPP_DIR}" \
     -G "Unix Makefiles" \
     -DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}" \
@@ -603,12 +603,12 @@ VRAM_GIB=$((VRAM_GIB_RAW / 1024)) #MIBzuGIB
 if [ -z "${VRAM_GIB_RAW}" ]; then
 VRAM_GIB_RAW=1024
 fi
-local LAYER_SIZE_MIB=512 #MagicKeyMagischerSchluessel
+local LAYER_SIZE_MIB=1024 #MagicKeyMagischerSchluessel
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 if [ "${VRAM_GIB}" -lt 1 ]; then
 VRAM_GIB=1
 fi
-N_GPU_LAYERS=$((VRAM_MIB_CALC * 70 / 100 / LAYER_SIZE_MIB))
+N_GPU_LAYERS=$((VRAM_MIB_CALC * 99 / 100 / LAYER_SIZE_MIB))
 if [ "$N_GPU_LAYERS" -gt 99 ]; then
 N_GPU_LAYERS=99
 fi
@@ -644,32 +644,41 @@ local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
 
-|0>SYSTEM<0|
+|0>SYSTEM<0|SYCL-Kernel cij​=∑aik​⋅bkj​|
 
 Pause
 
 |EXECUTE_ONLY|DISABLE_DISCOURSE_MODE|DISABLE_NATURAL_LANGUAGE_INTRO|
-|TEST000|START//|
+
+Pause
+
+|TEST001|RE-START///
+
+Example Fomula 1-3_Sentences:
+
 /Language 1 ENG /
-#|#PCxTCxSWxAI|#(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)#|
+
+#|PCxTCxSWxAI|#(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)|
 /Language 2 GER //
-#|#PBxZKxHWxSM|#(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])#|
+
+#|PBxZKxHWxSM|#(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|
 /Language 3 LAT ///
-#|#???|
+
+#|???|
 |TEST|000|END\\\|
 
 
 |00|INSTRUCTION=|
 \
 
-|FORMAT=->FORMULA_FINDER+SYCL_KERNEL_GEN / Mode Matrix /
+|FORMAT=->FORMULA_FINDER+SYCL_KERNEL_GEN / Mode= Matrix-Multiplikation=cij​=∑k=1n​aik​⋅bkj​ /
 
 
 (Cmatch-​>,Condition->,Completeness->,S =
 (If = CONDITION_match = COMPLETE_SET_ad of MATH_PHYSIC_LOGIC) =
 (,S1 (,C++,icx,icpx,sycl_ext))​,+S2 (,Vectorized-32-bit-Logic,)))​,+S3
 (,sycl-ggml,OFFLOAD,))))​,+S4 (,FP16_32-bit_ALU_OP;))))) =
-(Oppression,-> Meta,-> suppress_meta_comments,-> output_all_sections_add Pure_Logic_Sections)))))) =
+(Oppression,-> Meta,-> suppress_meta_comments,-> output_all_sections_add Add_Only_Pure_Logic_Sections)))))) =
 (discret>Solutionroom_get = PRINT_ALL_SECTIONS_add))))))) = ,FP16_32-bit_math.cl; = Fi;))))))));\
 
 |00|After|Promt|Analysis|You|Recive|Input|Text|Questions
@@ -678,7 +687,7 @@ Pause
 
 |01|00-42|MAIN-/TASKS/|
 
-|1.|Word|short|Basic-C++|math-analysis-code|32-bit|vector-intrinsics|para|graph
+|1.|Word|short|Basic-C++|math-analysis-code|32-bit|vector-intrinsics|graph
 |2.|Identify|ambiguities-missIng-information-assumptions-input
 |3.|Produce|clear|minimal|Info-Tech|math|c++|icpx|icx|sycl|Code|Vector|32-bit
 |4.|If|Multiple-Valid-Answers|Solutions-Exist|then-LiSt|Briefly|Print-Preference
@@ -687,7 +696,8 @@ Pause
 
 |02|CONSTRAINTS/|
 
-|Do|not|external|knowledge|trictly|reQuired|input
+|Do||Limit|response|to|maximum|THREE-SENTENCES!!!|Strict|one|sentence|preferred!!!|
+|Do|not|elaborate|
 |Do|not|explain|reasoning
 |Do|not|invent|missing|details
 |Plain|neutral|piCtured|language
@@ -699,13 +709,13 @@ Pause
 
 |Section1|Restatement
 |Section2|Ambiguities|Missing|Information
-|Section3|Minimal|ANswer|Exception:EXCEPTION
+|Section3|Minimal|ANswer|Exception:EXCEPTION|LIMIT=1-3_SENTENCES|
 |Section4|Possible|Alternativ
 --------
-#1.|Word|Short|PROOF-OF-ANSWER/
-#2.|IdEnTiFy|cij​=k=1∑n​aik​⋅bkj​|
+#1.|Word|Short|PROOF-OF-ANSWER/LIMIT=1-3_SENTENCES
+#2.|IdEnTiFy|cij​ = ∑k=1n​aik​⋅bkj​; SYCL kernel optimization; FP16 32-bit precision.
 #3.|KEY WORDS:|#|SYCL_COMPILER_HINT|icpx -fsycl -O3 Float TARGET=SYCL|VECTOR|32BIT|
-#4.|If>Multiple>Valid>Solutions>Exist>>Then>List>Print>>>Preference
+#4.|If>Multiple>Valid>Solutions>MAX THREE_Exist>>Then>List>Print>>>Preference
 #5.|List|briefly|print|Precision-FP16@32-bit|Aligment-Zero-Copy-Focus
 \
 
@@ -719,7 +729,7 @@ Pause
 |Set|ATTRIBUTE_MINIMAL_CONCISE
 |CONTROL|IGNORING_EVERYTHING_ELSE
 |And|
-|EXECUTE|PRINT_ALL_SECTIONS
+|EXECUTE|PRINT_ALL_SECTIONS|OUTPUT=SINGLE_SENTENCE|MAX-THREE-SENTENCES|
 |TERMINATE
 |Fi\|
 |MAIN|0-5|ENDE\|"
@@ -730,8 +740,9 @@ local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 #KLEINER EINSTELLEN USE SMALL NUMBERS FOR BETTER AI
 local CONTEXT_SIZE=16384
-#NEUE WERTE SETZEN 512 1024 2048 Standart4096|0x1000 Empfohlen8192|0x2000 MathtTutor16384|0x4000 Kritisch24576|0x6000 32768|0x8000
-local PREDICT_TOKENS=16384
+#NEUE WERTE SETZEN 512 1024 2048 Standart4096|0x1000 Empfohlen8192|0x2000 MathtTutor16384|0x4000
+#Kritisch24576|0x6000 32768|0x8000|65536|131072|262144|524288|
+local PREDICT_TOKENS=524288
 log "🔷STARTE KI ANTWORT MIT PARAMETER**${DEVICE}(ID: ${GPU_ID})**NGL WERT GLEICH${NGL_SET}**${FULL_LLAMA_CLI_PATH}**"
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
 error "❌FEHLER AKTUELLER UNTERBAU NEUBAU FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
@@ -745,7 +756,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -c ${CONTEXT_SIZE} \
     -ngl ${N_GPU_LAYERS} \
     --split-mode layer \
-    #--tensor-split \
+    --tensor-split 99 \
     --main-gpu ${GPU_ID}
 echo "✅SPRACHMODELL INTERAKTIONS FUNKTION JETZT AKTIV"
 }
