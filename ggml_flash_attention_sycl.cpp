@@ -6,14 +6,14 @@
 #include "ggml-impl.h"
 
 using namespace sycl;
-sycl::range
-constexpr int BLOCK_M = 64;
+
+constexpr int BLOCK_M = 16;
 //Queries|Block
 constexpr int BLOCK_N = 128;
 //Schluessel||Block|TilingGroesse|
 constexpr int D_MAX = 128;
 //Maximale|KOPFZEILENDIMENSION|
-constexpr int VEC_SIZE = 32;
+constexpr int VEC_SIZE = 16;
 //VektorGroesse|32|SIMD|ZwischenSpeicherVerwaltung|
 //Ein 32-Elemente-Vektor von half (FP16) entspricht exakt 512 Bit
 
@@ -243,14 +243,21 @@ sycl::half* K_data = reinterpret_cast<sycl::half*>(K->data);
 sycl::half* V_data = reinterpret_cast<sycl::half*>(V->data);
 sycl::half* Out_data = reinterpret_cast<sycl::half*>(dst->data);
 // Globaler Arbeitsbereich
-sycl::range<1> global_size(num_q); sycl::range<1> local_size(1);
+sycl::range<1> global_size(num_q);
+sycl::range<1> local_size(1);
 sycl::nd_range<1> ndRange(global_size, local_size);
 // Kernel ausführen
-q.submit([&](sycl::handler& h)
-{ h.parallel_for<class flash_attention_kernel>( ndRange,
-[=](sycl::nd_item<1> item)
-{ flash_attention_kernel_impl<sycl::half>( Q_data, K_data, V_data, Out_data, num_q, num_k, d_k, d_v, q_stride, k_stride, v_stride, out_stride, item );
-            );
-        });
-    }).wait();
-}
+q.submit([&](sycl::handler& h) {
+
+h.parallel_for<class flash_attention_kernel>(
+ndRange,
+[=](sycl::nd_item<1> item) {
+flash_attention_kernel_impl<sycl::half>(
+Q_data, K_data, V_data, Out_data,
+num_q, num_k, d_k, d_v,
+q_stride, k_stride, v_stride, out_stride,
+item );
+);
+};
+);
+}).wait();
