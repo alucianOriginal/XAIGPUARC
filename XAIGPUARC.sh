@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #https://youtu.be/MBptqDzm8Hs
-#|XAIGPUARC|cij​=k=1∑n​aik​⋅bkj​|f(xi​)=∑exj​exi|MathTutor-7B-H_v0.0.1.f16|✅|
+#|XAIGPUARC|cij​=k=1∑n​aik​⋅bkj​|f(xi​)=∑exj​exi|ExtremeLucyF16-1.7B.gguf65kCTX512KBatchsizeNpredigt|✅|
 #No Cherry Picking MathTutor-7B-F17.gguf Demo with XAIGPUARC on A770LE16GiB:
 #First:
 #... (truncated)
@@ -48,7 +48,7 @@
 #|01PBxZKxHWxSM|(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
 
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|08.01.2026|TIME|10:57|
+#|08.01.2026|TIME|17:42|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCxTCxSWxAI|
 
 #0.|TRIOINFERNAL:
@@ -200,9 +200,8 @@ export OCL_ICD_FILENAMES=""
 export ZES_ENABLE_SYSMAN=1
 export OverrideDefaultFP64Settings=1
 export CCACHE_DIR="$HOME/.ccache"
-export COMPILER_VERSION="2025.0.4"
-export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
-export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=65536
+export COMPILER_VERSION="2025.0.46
+
 export FP_FLAG=FP16
 
 #|HILFSFUNKTIONEN
@@ -232,7 +231,7 @@ fi
 log "🔷SETVARS SETZEN + SUCHEN SS+S"
 source "$SETVARS_PATH" --force 2>/dev/null
 local ONEAPI_ROOT_FALLBACK="/opt/intel/oneapi"
-local COMPILER_VERSION_FALLBACK="${COMPILER_VERSION:-2025.0.4}"
+local COMPILER_VERSION_FALLBACK="${COMPILER_VERSION:-2025.0.46}"
 DPCPP_ROOT="${DPCPP_ROOT:-${ONEAPI_ROOT_FALLBACK}/compiler/${COMPILER_VERSION_FALLBACK}}"
 MKL_ROOT="${MKL_ROOT:-${ONEAPI_ROOT_FALLBACK}/mkl/${COMPILER_VERSION_FALLBACK}}"
 ONEAPI_ROOT="${ONEAPI_ROOT:-${ONEAPI_ROOT_FALLBACK}}"
@@ -648,7 +647,7 @@ VRAM_GIB=$((VRAM_GIB_RAW / 1024)) #MIBzuGIB
 if [ -z "${VRAM_GIB_RAW}" ]; then
 VRAM_GIB_RAW=1024
 fi
-local LAYER_SIZE_MIB=4096 #MagicKeyMagischerSchluessel
+local LAYER_SIZE_MIB=1024 #MagicKeyMagischerSchluessel
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 if [ "${VRAM_GIB}" -lt 1 ]; then
 VRAM_GIB=1
@@ -673,9 +672,9 @@ else
 warn "⚠️AKTUELL KEIN SYCL GERAET GEFUNDEN ${FULL_LS_PATH} VERSUCH ZWEI SUCHE..."
 fi
 }
-#7MODELLPFADWAEHLENCalderaAI_Hexoteric-7B-F16.f16Yi-6B-200K-Llama-sharded.f16MathCoder2-DeepSeekMath-7B-f16Neumind-Math-7B-Instruct.F16Lucy-1.7B-F16
+#7MODELLPFADWAEHLENCalderaAI_Hexoteric-7B-F16.f16Yi-6B-200K-Llama-sharded.f16MathCoder2-DeepSeekMath-7B-f16Neumind-Math-7B-Instruct.F16Lucy-1.7B-F16PULI-LlumiX-32K-instruct-f16.f16
 prepare_model() {
-MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
+MODEL_PATH=${1:-"models/Lucy-1.7B-F16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR MODELL NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN! BITTE DORT HIN**$MODEL_PATH**KOPIEREN"
@@ -684,7 +683,7 @@ export MODEL_PATH
 }
 #8MODELLAUSFUEHRENCalderaAI_Hexoteric-7B-F16.f16Neumind-Math-7B-Instruct.Lucy-1.7B-F16sauerkrautlm-7b-v1.Q8_0
 run_inference() {
-local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
+local DEFAULT_MODEL_PATH="models/Lucy-1.7B-F16.gguf"
 #CHANGE MODEL HERE ABOVE TWICE ! MODELL HIER DRUEBER DOPPELT AENDERN!MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.Lucy-1.7B-F16
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
@@ -784,7 +783,7 @@ local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 #KLEINER EINSTELLEN USE SMALL NUMBERS FOR BETTER AI
-local CONTEXT_SIZE=16384
+local CONTEXT_SIZE=65536
 #NEUE WERTE SETZEN 512 1024 2048 Standart4096|0x1000 Empfohlen:8192|0x2000 MathtTutor:16384|0x4000
 #Kritisch:24576|0x6000 32768|0x8000|65536|131072|262144|524288|
 local PREDICT_TOKENS=524288
