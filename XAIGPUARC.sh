@@ -22,7 +22,7 @@
 #|#01PBxZKxHWxSM|(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
 
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|08.01.2026|TIME|01:35|
+#|08.01.2026|TIME|02:45|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCxTCxSWxAI|
 
 #0.|TRIOINFERNAL:
@@ -379,7 +379,7 @@ local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
 local VAR_LINE="set(FA_OBJECT_FILES \"\$<TARGET_OBJECTS:ggml_flash_attention_sycl>\")"
 local VAR_SEARCH_MARKER="set(GGML_SYCL_SOURCES"
 if ! grep -Fq "FA_OBJECT_FILES" "$CMAKE_LISTS_FILE"; then
-local SED_VAR_LINE=$(echo "$VAR_LINE" | sed 's|[\|&]|\\&|g')
+local SED_VAR_LINE=$(echo "$VAR_LINE" | sed 's/[\/&]/\\&/g')
 if sed -i "\|${VAR_SEARCH_MARKER}|a ${SED_VAR_LINE}" "$CMAKE_LISTS_FILE"; then
 log "✅PATCH 5a|8 FLASH ATTENTION OBJEKT VARIABLE ERFOLGREICH DEFINIERT WEITER"
 else
