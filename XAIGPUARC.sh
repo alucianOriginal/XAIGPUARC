@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#https://youtu.be/MBptqDzm8Hs
 #|XAIGPUARC|cij​=k=1∑n​aik​⋅bkj​|f(xi​)=∑exj​exi|MathTutor-7B-H_v0.0.1.f16|✅|
 #No Cherry Picking MathTutor-7B-F17.gguf Demo with XAIGPUARC on A770LE16GiB:
 #First:
