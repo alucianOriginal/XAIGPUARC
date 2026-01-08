@@ -22,7 +22,7 @@
 #|#01PBxZKxHWxSM|(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
 
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|08.01.2026|TIME|02:45|
+#|08.01.2026|TIME|02:58|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCxTCxSWxAI|
 
 #0.|TRIOINFERNAL:
@@ -407,8 +407,8 @@ fi
 #6|8
 log "🔷PATCH 6|8: SSMCONV CPP WARNUNG BEHEBEN VORZEICHEN VERGLEICH AKW PATCH"
 local SSM_CONV_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ssm_conv.cpp"
-local SEARCH_LINE='GGML_ASSERT(src0->nb\[1\] == src0->ne[0] * static_cast<int64_t>(sizeof(float)));'
-local REPLACE_LINE='GGML_ASSERT(src0->nb\[1\] == (size_t)(src0->ne[0] * sizeof(float)));'
+local SEARCH_LINE='GGML_ASSERT(src0->nb\[1\] == src0->ne\[0\] * static_cast<int64_t>(sizeof(float)));'
+local REPLACE_LINE='GGML_ASSERT(src0->nb\[1\] == (size_t)(src0->ne\[0\] * sizeof(float)));'
 if [ -f "$SSM_CONV_FILE" ]; then
 #6a
 if grep -Fq "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
@@ -439,7 +439,7 @@ fi
 log "🔷PATCH 8|8 SYCL QUEUE ORDNER: HOME/XAIGPUARC OPTIMIERVORGANG KOPFZEILENEINTRAEGE"
 local SYCL_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 if [ ! -f "$SYCL_FILE" ]; then
-error "❌PATCH 8|8 DATEI /ggml/src/ggml-sycl/ggml-sycl.cpp BAU xaigpuarc_sycl_sheduler.cpp NICHT FINDEN"
+error "❌PATCH 8|8 DATEI /ggml/src/ggml-sycl/ggml-sycl.cpp NICHT FINDEN"
 return 1
 fi
 if grep -q "sycl::property_list" "$SYCL_FILE"; then
@@ -520,15 +520,15 @@ log "🔷
 |💡|min. 9GiB - 17GiB RAM DATENVORGAENGE 🔄
 |🧱|VORBERRECHUNG SPRACHPROGRAMM ASSISTENT FUER ⚫ MATHEMATIK 🔧
 
-|🟡|ACHTUNG! Wenn Sie das hier Lesen koennen! :-)
-|🔄|WIRD-es
-|📌|ERSTMALIG Mindestens-
+|🟡|ACHTUNG! Wenn Sie DAS Hier Lesen Koennen...! :-)
+|🔄|WIRD-es..
+|📌|ERSTMALIG Mindestens-...
 
-|💡|3 bis 7 Minuten-
+|💡|3 bis 7 Minuten-...
 
-|💡|ANDAUERN!!!
+|💡|ANDAUERN!!!...
 
-|⚙️|BITTE ETWAS GEDULD Dannach beim zweiten Start dauert es nur wenige Sekunden bis die KI startet!
+|⚙️|BITTE ETWAS GEDULD... Dannach beim zweiten Start dauert es nur wenige Sekunden bis die KI startet!
 
 |⚫|DUNKLE-MATHEMATIK 🧰 🔄 🎁 🔄 🔧 🔄 🎯 DEUTSCH-SPRACHPROGRAMM
 
