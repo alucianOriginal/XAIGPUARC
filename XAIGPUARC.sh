@@ -200,7 +200,7 @@ export OCL_ICD_FILENAMES=""
 export ZES_ENABLE_SYSMAN=1
 export OverrideDefaultFP64Settings=1
 export CCACHE_DIR="$HOME/.ccache"
-export COMPILER_VERSION="2025.0.46
+export COMPILER_VERSION="2025.0.46"
 
 export FP_FLAG=FP16
 
