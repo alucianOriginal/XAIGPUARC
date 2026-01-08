@@ -17,12 +17,37 @@
 #[ Prompt: 1202,1 t/s | Generation: 13,6 t/s ]
 
 #> CHAT HERE! ENTER ANSWER > CHAT ENTER ANSWER > CHAT
+#Third:
+#|? ... (truncated)
+
+#cij = ∑k=1n aik ⋅ bkj; optimize with SYCL; use FP16 32-bit precision; focus on zero-copy alignment.
+
+#[ Prompt: 1163,3 t/s | Generation: 13,6 t/s ]
+#> >>> CHAT HERE! ENTER ANSWER > CHAT ENTER ANSWER > CHAT
+#Four:
+
+#|? ... (truncated)
+
+#cij​ = ∑k=1n​aik​⋅bkj​; SYCL kernel for optimization; use FP16 32-bit precision; focus on zero-copy alignment.
+
+#[ Prompt: 1183,8 t/s | Generation: 13,5 t/s ]
+
+#> #> CHAT HERE! ENTER ANSWER > CHAT ENTER ANSWER > CHAT
+
+#Five:
+#|? ... (truncated)
+
+#cij​ = ∑k=1n​aik​⋅bkj​; optimize with SYCL for FP16 32-bit precision, use icpx -fsycl -O3 Float@TARGET=SYCL, vector intrinsics for alignment-zero-copy focus.
+
+#[ Prompt: 1176,3 t/s | Generation: 13,5 t/s ]
+
+#>
 
 #|#00PCxTCxSWxAI|(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)|✅|
 #|#01PBxZKxHWxSM|(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
 
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|08.01.2026|TIME|04:20|
+#|08.01.2026|TIME|05:12|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCxTCxSWxAI|
 
 #0.|TRIOINFERNAL:
@@ -174,9 +199,9 @@ export OCL_ICD_FILENAMES=""
 export ZES_ENABLE_SYSMAN=1
 export OverrideDefaultFP64Settings=1
 export CCACHE_DIR="$HOME/.ccache"
-export COMPILER_VERSION="2025.0.1"
+export COMPILER_VERSION="2025.0.4"
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
-export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=16384
+export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=65536
 export FP_FLAG=FP16
 
 #|HILFSFUNKTIONEN
@@ -206,7 +231,7 @@ fi
 log "🔷SETVARS SETZEN + SUCHEN SS+S"
 source "$SETVARS_PATH" --force 2>/dev/null
 local ONEAPI_ROOT_FALLBACK="/opt/intel/oneapi"
-local COMPILER_VERSION_FALLBACK="${COMPILER_VERSION:-2025.0.1}"
+local COMPILER_VERSION_FALLBACK="${COMPILER_VERSION:-2025.0.4}"
 DPCPP_ROOT="${DPCPP_ROOT:-${ONEAPI_ROOT_FALLBACK}/compiler/${COMPILER_VERSION_FALLBACK}}"
 MKL_ROOT="${MKL_ROOT:-${ONEAPI_ROOT_FALLBACK}/mkl/${COMPILER_VERSION_FALLBACK}}"
 ONEAPI_ROOT="${ONEAPI_ROOT:-${ONEAPI_ROOT_FALLBACK}}"
@@ -270,7 +295,7 @@ error "❌PATCH 1|8 DOCTPHELPER BIBLIOTHEK KOPFZEILENEINTRAEGE EINLADEN FEHLGESC
 return 1
 fi
 else
-warn "⚠️ATCH 1|8 DOCTPHELPER BIBLIOTHEK NICHT GEFUNDEN ABHAENIGKEITEN PRUEFEN"
+warn "⚠️PATCH 1|8 DOCTPHELPER BIBLIOTHEK NICHT GEFUNDEN ABHAENIGKEITEN PRUEFEN"
 return 1
 fi
 #2|8
@@ -425,14 +450,14 @@ warn "⚠️PATCH 6|8 SSMCONV CPP ZEILE NICHT GEFUNDEN UEBERSPRINGE"
 fi
 fi
 #7|8
-log "🔷PATCH 7|8: ERZWINGE MAXIMALE BLOCK GROESSE 16384 FUER ARC ALCHEMIST"
+log "🔷PATCH 7|8: ERZWINGE MAXIMALE BLOCK GROESSE 32768 FUER ARC ALCHEMIST"
 if [ -f "$GGML_SYCL_CPP" ]; then
-if ! grep -q "GGML_SYCL_MAX_BLOCK_SIZE 16384" "$GGML_SYCL_CPP"; then
-sed -i 's/#define GGML_SYCL_MAX_BLOCK_SIZE [0-9]*/#define GGML_SYCL_MAX_BLOCK_SIZE 16384/g' "$GGML_SYCL_CPP"
-success "✅PATCH 7|8 ERZWINGE MAXIMALE BLOCK GROESSE 16384 FUER ARC ALCHEMIST AKTIVIERT"
-log "✅PATCH 7|8 MAXIMALE BLOCK GROESSE 16384 ZWANG ERFOLGREICH INJIZIERT"
+if ! grep -q "GGML_SYCL_MAX_BLOCK_SIZE 32768" "$GGML_SYCL_CPP"; then
+sed -i 's/#define GGML_SYCL_MAX_BLOCK_SIZE [0-9]*/#define GGML_SYCL_MAX_BLOCK_SIZE 32768/g' "$GGML_SYCL_CPP"
+success "✅PATCH 7|8 ERZWINGE MAXIMALE BLOCK GROESSE 32768 FUER ARC ALCHEMIST AKTIVIERT"
+log "✅PATCH 7|8 MAXIMALE BLOCK GROESSE 32768 ZWANG ERFOLGREICH INJIZIERT"
 else
-log "🔷PATCH 7|8 MAXIMALE BLOCK GROESSE 16384 ZWANG FUER ARC BEREITS DEFINIERT"
+log "🔷PATCH 7|8 MAXIMALE BLOCK GROESSE 32768 ZWANG FUER ARC BEREITS DEFINIERT"
 fi
 fi
 #8|8
@@ -505,6 +530,16 @@ error "❌KONNTE NICHT NACH HOME/XAIGPUARC WECHSELN'${BUILD_DIR}'COMPUTER NUTZER
 return 1
 fi
 }
+#MKL_VERSION: 2025.0.1
+#MKL_ROOT: /opt/intel/oneapi/mkl/2025.0
+#MKL_ARCH: intel64
+#MKL_SYCL_LINK: None, set to ` dynamic` by default
+#MKL_LINK: None, set to ` dynamic` by default
+#MKL_SYCL_INTERFACE_FULL: None, set to ` intel_ilp64` by default
+#MKL_INTERFACE_FULL: None, set to ` intel_ilp64` by default
+#MKL_SYCL_THREADING: None, set to ` tbb_thread` by default
+#MKL_THREADING: None, set to ` intel_thread` by default
+#MKL_MPI: None, set to ` intelmpi` by default
 
 #4KOMPILIEREN
 compile_project() {
