@@ -2,7 +2,7 @@
 
 #|XAIGPUARC|cij​=k=1∑n​aik​⋅bkj​|f(xi​)=∑exj​exi|MathTutor-7B-H_v0.0.1.f16|✅|
 #No Cherry Picking MathTutor-7B-F17.gguf Demo with XAIGPUARC on A770LE16GiB:
-
+#First:
 #... (truncated)
 
 #cij = ∑k=1n aik ⋅ bkj; optimize with SYCL kernel, use FP16 32-bit precision for alignment and zero-copy focus.
@@ -10,12 +10,19 @@
 #[ Prompt: 1080,3 t/s | Generation: 13,2 t/s ]
 
 #> >>> CHAT HERE! ENTER ANSWER > CHAT ENTER ANSWER > CHAT
+#Second:
+#... (truncated)
+#cij = ∑k=1n aik ⋅ bkj; optimize with SYCL, use FP16 32-bit precision, focus on zero-copy alignment.
+
+#[ Prompt: 1202,1 t/s | Generation: 13,6 t/s ]
+
+#> CHAT HERE! ENTER ANSWER > CHAT ENTER ANSWER > CHAT
 
 #|#00PCxTCxSWxAI|(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)|✅|
 #|#01PBxZKxHWxSM|(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
 
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|07.01.2026|TIME|00:52|
+#|08.01.2026|TIME|01:31|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCxTCxSWxAI|
 
 #0.|TRIOINFERNAL:
@@ -496,11 +503,6 @@ error "❌KONNTE NICHT NACH HOME/XAIGPUARC WECHSELN'${BUILD_DIR}'COMPUTER NUTZER
 return 1
 fi
 }
-
-#BEARBEITEN NACH LOGIK 3.1.26-19:04 UHR
-#-DCMAKE_CXX_FLAGS="-fsycl -fsycl-targets=spir64_gen-Xsycl-target-backend=spir64_gen -device=* -O3 -ffast-math pthread"
-#-DCMAKE_CXX_FLAGS="-fsycl -fsycl-targets=spir64_gen-Xsycl-target-backend=spir64_gen -device=* -O3 -ffast-math pthread"
-
 
 #4KOMPILIEREN
 compile_project() {
