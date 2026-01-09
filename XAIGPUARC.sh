@@ -3,8 +3,11 @@
 #Demos on my YT-Channel Sascha Rene´Puerner
 #https://youtu.be/MBptqDzm8Hs
 
-#|XAIGPUARC|MATHTUTOR 7B Full on F16 ON LIMIT EDITION AND LIMIT IN THIS EDITION 16GB-VRAM|20k-CTX-Size|✅|
+#|XAIGPUARC|cij​=k=1∑n​aik​⋅bkj​|f(xi​)=∑exj​exi|ExtremeLucyF16-1.7B65kCTX512KBatchsizeNpredigt|✅|
 #No Cherry Picking MathTutor-7B-F17.gguf Demo with XAIGPUARC on A770LE16GiB:
+
+#TESTPROMPTS:
+
 #First:
 #... (truncated)
 
@@ -46,7 +49,8 @@
 
 #>
 
-#Six at another day with more doings beetween let us see the suprise i think we got slower avg.
+#Six:
+#At another day with more doings beetween let us see the suprise i think we got slower avg.
 
 
 #|? ... (truncated)
@@ -57,11 +61,30 @@
 
 #> Ok Not realy :-) Happy AI!
 
+#Seven:
+#Direct after six:
+
+#|? ... (truncated)
+
+#cij​ = ∑k=1n​aik​⋅bkj​; SYCL kernel for FP16 32-bit precision; Use icpx -fsycl -O3 Float@TARGET=SYCL for optimization; Zero-copy alignment preferred.
+
+#[ Prompt: 1179,5 t/s | Generation: 13,6 t/s ]
+
+#>
+#Eight:
+#|? ... (truncated)
+
+#cij = ∑<sub>k=1</sub><sup>n</sup> a<sub>ik</sub> ⋅ b<sub>kj</sub>; SYCL kernel optimization; FP16 32-bit precision; alignment-zero-copy-focus.
+
+#[ Prompt: 1182,2 t/s | Generation: 13,7 t/s ]
+
+#>
+
 #|00PCxTCxSWxAI|(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)|✅|
 #|01PBxZKxHWxSM|(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
 
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|09.01.2026|TIME|07:11|
+#|09.01.2026|TIME|08:08|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCxTCxSWxAI|
 
 #0.|TRIOINFERNAL:
@@ -157,7 +180,7 @@
 #Mistral-7B-Instruct-v0.3.fp16.gguf            |13.50|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
 #allenai.Olmo-3-7B-Think.f16.gguf              |13.60|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
 #Mamba-Codestral-7B-v0.1-F16.gguf              |13.60|GiB|SLOW|CTX|NPG|8k|A770LE:|110.1 Pt|s 3.2 Gt|s97w2.4Ghz+|FULL|GOOD
-#MathTutor-7B-H_v0.0.1.f16.gguf                |14.20|GiB|FAST|CTX|16k|NPG|512k|A770LE:|467.7Pt|s10.7Gt|s142w2.4Ghz|BEST|HiQ!
+#MathTutor-7B-H_v0.0.1.f16.gguf                |14.20|GiB|FAST|CTX|20k!|NPG|512k|A770LE:|467.7|12t|s142w2.4Ghz|BEST|HiQ!
 
 #|END|F16|MODEL|LIST
 
@@ -217,7 +240,7 @@ export COMPILER_VERSION="2025.0.4"
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
 export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=16384
 export FP_FLAG=FP16
-#export SYCL_MKL_ROOT="${SYCL_MKL_ROOT}"
+#export MKL_ROOT="${MKL_ROOT}/opt/intel/oneapi/mkl/latest/lib/intel64/libmkl_sycl.so"
 #export MKL_THREADING_FULL=intel_thread
 
 #|HILFSFUNKTIONEN
@@ -258,7 +281,7 @@ export DPCPP_ROOT
 export MKL_ROOT
 export ONEAPI_ROOT
 export CPATH="${CPATH:-}:${MKL_ROOT}/include"
-local LIB_DIR="/opt/intel/oneapi/compiler/latest/lib:/opt/intel/oneapi/mkl/latest/lib"
+local LIB_DIR="/opt/intel/oneapi/mkl/latest/lib/intel64/"
 export LD_LIBRARY_PATH="./${BUILD_DIR}/bin:${LIB_DIR}:${LD_LIBRARY_PATH:-}"
 if ! command -v icx "&>/dev/null" ! command -v icpx "&>/dev/null"; then
 error "❌ICX IPCX ONE API XAIGPUARC UNTERMODUL INSTALLATION FEHLGESCHLAGEN"
@@ -478,9 +501,9 @@ fi
 fi
 #8|8
 log "🔷PATCH 8|8 SYCL QUEUE ORDNER: HOME/XAIGPUARC OPTIMIERVORGANG KOPFZEILENEINTRAEGE"
-local SYCL_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
+local SYCL_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeFiles/ggml-sycl.dir/"
 if [ ! -f "$SYCL_FILE" ]; then
-error "❌PATCH 8|8 KONNTE DIE DATEI /ggml/src/ggml-sycl/ggml-sycl.cpp NICHT FINDEN"
+error "❌PATCH 8|8 KONNTE DIE DATEI /ggml/src/ggml-sycl/CMakeFiles/ggml-sycl.dir/ NICHT FINDEN"
 return 1
 fi
 if grep -q "sycl::property_list" "$SYCL_FILE"; then
