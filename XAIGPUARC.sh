@@ -1,13 +1,36 @@
 #!/bin/bash
 
-#Demos on my YT-Channel Sascha Rene´Puerner
+#####################################################
+##--##INSTALL INTEL-ONE-API-BASEKIT-2.4GiB+!!!##--##
+#####################################################
+
+#VectorAdd
+#2 x 42
+#Workgroups max. x2 VectorAdd
+#42
+#Workitems
+#21504
+#Workgroupsize
+#512
+#SIMD
+#32 
+#16 threads per workgroup
+#672 threads freds -896
+
+
+
+
+#Free Demo on my YT-Channel: Sascha Rene Puerner
 #https://youtu.be/MBptqDzm8Hs
 
-#|XAIGPUARC|cij​=k=1∑n​aik​⋅bkj​|f(xi​)=∑exj​exi|ExtremeLucyF16-1.7B65kCTX512KBatchsizeNpredigt|✅|
-#No Cherry Picking MathTutor-7B-F17.gguf Demo with XAIGPUARC on A770LE16GiB:
+#Free Open Source Download of XAIGPUARC:
+#https://github.com/alucianOriginal/XAIGPUARC/blob/main/XAIGPUARC.sh
 
-#TESTPROMPTS:
+#|XAIGPUARC|✅|
 
+#No Cherry Picking 14.2GiB Layer with MathTutor-7B-F17.gguf Demo with XAIGPUARC on A770LE16GiB:
+
+#TESTPROMPTS everytime the same big Testprompt
 #First:
 #... (truncated)
 
@@ -47,7 +70,7 @@
 
 #[ Prompt: 1176,3 t/s | Generation: 13,5 t/s ]
 
-#>
+#> Here can stand your TEXT!!!
 
 #Six:
 #At another day with more doings beetween let us see the suprise i think we got slower avg.
@@ -70,7 +93,8 @@
 
 #[ Prompt: 1179,5 t/s | Generation: 13,6 t/s ]
 
-#>
+#> THIS IS THE CHATLINE! USE UIT (INFORMATION-TECHNOLOGY)
+
 #Eight:
 #|? ... (truncated)
 
@@ -78,13 +102,13 @@
 
 #[ Prompt: 1182,2 t/s | Generation: 13,7 t/s ]
 
-#>
+#> EIGHT TIMES SIMILIAR :-) All the other devices scale well known values without any worth to talk about
 
 #|00PCxTCxSWxAI|(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)|✅|
 #|01PBxZKxHWxSM|(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
 
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|09.01.2026|TIME|08:08|
+#|09.01.2026|TIME|21:23|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCxTCxSWxAI|
 
 #0.|TRIOINFERNAL:
@@ -138,9 +162,9 @@
 #MedScholar-1.5B-f16_q8_0.gguf                 |02.10|GiB|FAST|CTX|NPG|8k|A770LE:|528.2 Pt|s 25.2 Gt|s109w2.4Ghz-|HiQ
 #Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf          |02.10|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s120w2.4Ghz-|CPU
 #yasserrmd.DentaInstruct-1.2B.f16.gguf         |02.20|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULLHiQ
-#DeepCoder-1.5B-Preview-f16_q8_0.gguf          |02.20|GiB|FAST|CTX|NPG|8k|A770LE:|513.2 Pt|s 23.3 Gt|s112w2.3Ghz+|Mid
-#ibm-granite.granite-4.0-1b.f16.ggufNO-FUnCTioN|03.00|GiB|NOTS|CTX|NPG|0k|A770LE:|569.4 Pt|s 18.2 Gt|s120w2.3Ghz-|GPU-INF
-#Lucy-1.7B-F16.gguf                            |03.20|GiB|FAST|CTX|NPG|65k|A770LE:|320.7 Pt|s 22.2 Gt|s108w2.4Ghz-|EXT
+#DeepCoder-1.5B-Preview-f16_q8_0.ggufUSE BETTER|02.20|GiB|FAST|CTX|NPG|8k|A770LE:|513.2 Pt|s 23.3 Gt|s112w2.3Ghz+|Mid
+#ibm-granite.granite-4.0-1b.f16.ggufNO-FUNKTION|03.00|GiB|NOTS|CTX|NPG|0k|A770LE:|569.4 Pt|s 18.2 Gt|s120w2.3Ghz-|GPU-INF
+#Lucy-1.7B-F16.gguf LOVE  TWO AFTER MATHTUTOR7B|03.20|GiB|FAST|CTX|NPG|65k|A770LE:|320.7 Pt|s 22.2 Gt|s108w2.4Ghz-|EXT
 #granite-4.0-micro-f16_q8_0.gguf               |04.60|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
 #gemma-2-2b-it.F16.gguf                        |04.90|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s120w2.4Ghz-|CPU
 
@@ -164,7 +188,7 @@
 
 #|16GiB+|GPU|A770LE|iGPU|Meteor|Lake
 
-#DiffuCoder-7B-cpGRPO-f16_q8_0.gguf            |10.50|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
+#DiffuCoder-7B-cpGRPO-f16_q8_0.gguf  NOT GOOD  |10.50|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
 #MiMo-Embodied-7B-f16_q8_0.gguf                |10.70|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
 #MiniCPM4.1-8B-f16_q8_0.gguf                   |11.00|GiB|FAST|CTX|NPG|8k|A770LE:|842.9 Pt|s 11.0 Gt|s142w2.4Ghz+|MidThink
 #KernelLLM-f16_q8_0.gguf                       |11.10|GiB|FAST|CTX|NPG|8k|A770LE:|688.5 Pt|s 11.2 Gt|s137w2.4Ghz-|MATHKERN
@@ -221,10 +245,10 @@ LLAMA_CPP_DIR="llama.cpp"
 BUILD_DIR="${BUILD_DIR:-XAIGPUARC}"
 BUILD_DIR="${BUILD_DIR%/}"
 #|XAIGPUARC|
-GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
+GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp}"
 CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"
 NPROC="${NPROC:-$(nproc)}"
-LOG_FILE="${BUILD_DIR}/XAIGPUARC.log"
+LOG_FILE="${BUILD_DIR}/XAIGPUARC.log}"
 LLAMA_CLI_PATH="bin/llama-cli"
 LS_SYCL_DEVICE_PATH="bin/llama-ls-sycl-device"
 ADD_SUBDIR_LINE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
@@ -236,10 +260,11 @@ export OCL_ICD_FILENAMES=""
 export ZES_ENABLE_SYSMAN=1
 export OverrideDefaultFP64Settings=1
 export CCACHE_DIR="$HOME/.ccache"
-export COMPILER_VERSION="2025.0.4"
+export COMPILER_VERSION="2025.%"
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
-export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=16384
+export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=4096
 export FP_FLAG=FP16
+
 #export MKL_ROOT="${MKL_ROOT}/opt/intel/oneapi/mkl/latest/lib/intel64/libmkl_sycl.so"
 #export MKL_THREADING_FULL=intel_thread
 
@@ -281,7 +306,7 @@ export DPCPP_ROOT
 export MKL_ROOT
 export ONEAPI_ROOT
 export CPATH="${CPATH:-}:${MKL_ROOT}/include"
-local LIB_DIR="/opt/intel/oneapi/mkl/latest/lib/intel64/"
+local LIB_DIR="/opt/intel/oneapi/mkl/latest/lib/intel64/libmkl_sycl.so"
 export LD_LIBRARY_PATH="./${BUILD_DIR}/bin:${LIB_DIR}:${LD_LIBRARY_PATH:-}"
 if ! command -v icx "&>/dev/null" ! command -v icpx "&>/dev/null"; then
 error "❌ICX IPCX ONE API XAIGPUARC UNTERMODUL INSTALLATION FEHLGESCHLAGEN"
@@ -489,21 +514,21 @@ warn "⚠️PATCH 6|8 SSMCONV CPP ZEILE NICHT GEFUNDEN UEBERSPRINGE"
 fi
 fi
 #7|8
-log "🔷PATCH 7|8: ERZWINGE MAXIMALE BLOCK GROESSE 32768 FUER ARC ALCHEMIST"
+log "🔷PATCH 7|8: ERZWINGE MAXIMALE BLOCK GROESSE 256 FUER ARC ALCHEMIST"
 if [ -f "$GGML_SYCL_CPP" ]; then
-if ! grep -q "GGML_SYCL_MAX_BLOCK_SIZE 32768" "$GGML_SYCL_CPP"; then
-sed -i 's/#define GGML_SYCL_MAX_BLOCK_SIZE [0-9]*/#define GGML_SYCL_MAX_BLOCK_SIZE 32768/g' "$GGML_SYCL_CPP"
-success "✅PATCH 7|8 ERZWINGE MAXIMALE BLOCK GROESSE 32768 FUER ARC ALCHEMIST AKTIVIERT"
-log "✅PATCH 7|8 MAXIMALE BLOCK GROESSE 32768 ZWANG ERFOLGREICH INJIZIERT"
+if ! grep -q "GGML_SYCL_MAX_BLOCK_SIZE 256" "$GGML_SYCL_CPP"; then
+sed -i 's/#define GGML_SYCL_MAX_BLOCK_SIZE [0-9]*/#define GGML_SYCL_MAX_BLOCK_SIZE 256/g' "$GGML_SYCL_CPP"
+success "✅PATCH 7|8 ERZWINGE MAXIMALE BLOCK GROESSE 256 FUER ARC ALCHEMIST AKTIVIERT"
+log "✅PATCH 7|8 MAXIMALE BLOCK GROESSE 256 ZWANG ERFOLGREICH INJIZIERT"
 else
-log "🔷PATCH 7|8 MAXIMALE BLOCK GROESSE 32768 ZWANG FUER ARC BEREITS DEFINIERT"
+log "🔷PATCH 7|8 MAXIMALE BLOCK GROESSE 256 ZWANG FUER ARC BEREITS DEFINIERT"
 fi
 fi
 #8|8
 log "🔷PATCH 8|8 SYCL QUEUE ORDNER: HOME/XAIGPUARC OPTIMIERVORGANG KOPFZEILENEINTRAEGE"
-local SYCL_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeFiles/ggml-sycl.dir/"
+local SYCL_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 if [ ! -f "$SYCL_FILE" ]; then
-error "❌PATCH 8|8 KONNTE DIE DATEI /ggml/src/ggml-sycl/CMakeFiles/ggml-sycl.dir/ NICHT FINDEN"
+error "❌PATCH 8|8 KONNTE DIE DATEI ${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp NICHT FINDEN"
 return 1
 fi
 if grep -q "sycl::property_list" "$SYCL_FILE"; then
@@ -536,7 +561,7 @@ log "🔷LEGE XAIGPUARC IN ORDNER HOME ${BUILD_DIR}"
 mkdir -p "${BUILD_DIR}" || { error "❌KONNTE ORDNER XAIGPUARC'${BUILD_DIR}'NICHT ANLEGEN"; return 1; }
 fi
 if pushd "${BUILD_DIR}" > /dev/null; then
-log "🔷STARTE CMAKE TXT KOPFZEILENBAU XAIGPUARC ${FP_FLAG:-FP_MODE}"
+log "🔷STARTE CMAKE TXT KOPFZEILENBAU XAIGPUARC ${FP_MODE:-FP_FLAG}"
 cmake "../${LLAMA_CPP_DIR}" \
     -G "Unix Makefiles" \
     -DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}" \
@@ -547,6 +572,7 @@ cmake "../${LLAMA_CPP_DIR}" \
     -DGGML_SYCL_MKL_SYCL_BATCH_GEMM=1 \
     -DCMAKE_C_COMPILER=icx \
     -DCMAKE_CXX_COMPILER=icpx \
+    -DCMAKE_CXX_COMPILER_FLAGS="-fsycl -fsycl-targets=spir64_gen -Xsycl-target-backend" \
     -DCMAKE_CXX_STANDARD=23 \
     -DCMAKE_CXX_STANDARD_REQUIRED=ON \
     -DCMAKE_CXX_EXTENSIONS=ON \
@@ -570,6 +596,7 @@ return 1
 fi
 }
 
+#""-device ${ID}"" app.cpp
 #MKL_VERSION: 2025.0.1
 #MKL_ROOT: /opt/intel/oneapi/mkl/2025.0
 #MKL_ARCH: intel64
@@ -592,39 +619,56 @@ log "🔷
 
 |🟢|XAIGPUARC
 
-|🔧|INSTALLATION: in 🧰 .../HOME/USERNAME/XAIGPUARC/... 🔧
+|🔧|INSTALLATION auf ihrem Endgeraet in 🧰 .../HOME/USERNAME/XAIGPUARC/...|✅|
+
+|📌|Zur DEInstallation einfach entsprechende ORDNER LOESCHEN!
 
 |💡|min. 9GiB - 17GiB RAM DATENVORGAENGE 🔄
 |🧱|VORBERRECHUNG SPRACHPROGRAMM ASSISTENT FUER ⚫ MATHEMATIK 🔧
 
+
 |🟡|ACHTUNG! Wenn Sie DAS Hier Lesen Koennen...! :-)
 |🔄|WIRD-es..
 |📌|ERSTMALIG Mindestens-...
-
 |💡|3 bis 7 Minuten-...
-
 |💡|ANDAUERN!!!...
 
-|⚙️|BITTE ETWAS GEDULD... Dannach beim zweiten Start dauert es nur wenige Sekunden bis die KI startet!
 
+|⚙️|BITTE ETWAS GEDULD...
+
+|✅||Beim zweitem Start mit demselbem Vorgang wie diesem, dauert es nur wenige Sekunden bis die KI startet!
 |⚫|DUNKLE-MATHEMATIK 🧰 🔄 🎁 🔄 🔧 🔄 🎯 DEUTSCH-SPRACHPROGRAMM
 
-|✅||#PBxZKxHWxSM|#(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|
-
-|💡|NUTZEN SIE DEN MATH-TUTOR_F16 AUF 16K CTX
+|💡|NUTZEN SIE DEN MATH-TUTOR_F16 AUF 20
 |🟡|A770LE 16GiB VRAM@14.2GiB@MathTutor-f16 MAXIMAL MATHEMATIK SPRUCH
-|🔥|Alchemist-Battlemage-Calestial-Druid KOEXISTENZ ⚫ MATHEMATIK SPEZIAL PROMPT FORMEL
+
 
 |👉|DANKE FUER DIE NUTZUNG VON ❌AIGPUARC
+
 |🎯|EIN ZWEITER VORGANG IST WESENTLICH SCHNELLER
 |🎁|UNTERSCHIEDLICHE STARTVORGAENGE: NUTZEN SIE EIGENE PROMTS UND MODELLE
 
-|🟢|CHAT|FUNKTION: FOLGT NACH STANDART PROMT AUSWERTUNG IHRES KI MODELLS
+|🟢|CHATFUNKTION FOLGT:
 |👉|WARTEN SIE DIE ERSTE PROMT TEST ANTWORT DIREKT NACH DIESER
-
 |🔧|INSTALLATION AB UND GEBEN SIE DANN IHRE FRAGE NACH
+|📌| > TEXT MIT BESTAETIGUNG |ENTER EIN.
 
-|📌| > TEXT MIT BESTAETIGUNG |ENTER"
+|⚙️|Lokale Benutzung ohne weiteres mal Internet nach diesem Bau Moeglich!
+|⚙️|Teilen Sie uns mit, wenn Sie Probleme mit der Nutzung von XAIGPUARC haben oder Unzufrieden sind!
+|⚙️|Wir freuen uns ihnen vielleicht Weiterhelfen zu koennen.
+
+|👉|GLEICH: WIRD IHRE SELBSTWAEHLBARE KI DAS ANTWORTEN BEGINNEN
+
+|🔥|TIPP EINS: STELLEN SIE MOEGLICHST KOMPLEXE FRAGEN OHNE FUELLWOERTER IN KURZEN SAETZEN
+
+|💡|TIPP ZWEI: Ein Smiley Hilft im Zweifel weiter! :-)!
+
+|💡|TIPP DREI: Verlieren Sie sich nicht in der Zeit und ihrem Ziel bei der SPRACHMODELL Nutzung!
+
+|💡|GEHEIMTIPP: # Triggern Sie=das Sprachmodell mit abstrakten-AnBauweIseN ihrer/Antworten\
+|👉|Stellen Sie NICHT die falschen Fragen, sondern moeglichst komplizierte Maschienenwege sie zu Loesen!
+|👉|aBstRaKTen Loasungswege fuer uns Menschen also! 8-)"
+
 cmake --build . --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama-cli llama-ls-sycl-device > "${LOG_FILE}" 2>&1
 local BUILD_STATUS=$?
 popd > /dev/null
@@ -685,7 +729,7 @@ VRAM_GIB=$((VRAM_GIB_RAW / 1024)) #MIBzuGIB
 if [ -z "${VRAM_GIB_RAW}" ]; then
 VRAM_GIB_RAW=1024
 fi
-local LAYER_SIZE_MIB=4096 #MagicKeyMagischerSchluessel
+local LAYER_SIZE_MIB=1024 #MagicKeyMagischerSchluessel
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 if [ "${VRAM_GIB}" -lt 1 ]; then
 VRAM_GIB=1
@@ -824,8 +868,8 @@ local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 #KLEINER EINSTELLEN USE SMALL NUMBERS FOR BETTER AI
 local CONTEXT_SIZE=20480
-#NEUE WERTE SETZEN 512 1024 2048 Standart4096|0x1000 Empfohlen:8192|0x2000 MathtTutor:16384|0x4000|20480x5000
-#Kritisch:24576|0x6000 32768|0x8000|65536|131072|262144|524288|
+#NEUE WERTE SETZEN 512 1024 2048 Standart:4096,0x1000 Empfohlen:8192,0x2000 MathtTutor:16384,0x4000|20480,0x5000|
+#Kritisch:24576|0x6000 32768|0x8000|65536|131072|20480|262144|524288|
 local PREDICT_TOKENS=524288
 local layer=${N_GPU_LAYERS:-99}
 local TENSOR_SPLIT=99
@@ -838,6 +882,7 @@ fi
 ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -no-cnv \
     -m "${MODEL_PATH_ARG}" \
+    -b "4096" \
     -p "${PROMPT_ARG}" \
     -n "${PREDICT_TOKENS}" \
     -c "${CONTEXT_SIZE}" \
@@ -846,9 +891,11 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
 echo "✅SPRACHMODELL INTERAKTIONS FUNKTION JETZT AKTIV"
 }
 
+#Erkleahrungen fuer buchstaben hinzuefuegen
 ##--split-mode "${layer}" \
 #--tensor-split "${row}" \
 ##"${env: LLAMA_ARG_SPLIT_MODE}" \
+
 #DEFINITIONHAUPTFUNKTION
 main() {
 local FP_MODE="${1:-1}"
