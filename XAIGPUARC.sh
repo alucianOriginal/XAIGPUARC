@@ -3,7 +3,7 @@
 #Demos on my YT-Channel Sascha Rene´Puerner
 #https://youtu.be/MBptqDzm8Hs
 
-#|XAIGPUARC|cij​=k=1∑n​aik​⋅bkj​|f(xi​)=∑exj​exi|ExtremeLucyF16-1.7B65kCTX512KBatchsizeNpredigt|✅|
+#|XAIGPUARC|MATHTUTOR 7B Full on F16 ON LIMIT EDITION AND LIMIT IN THIS EDITION 16GB-VRAM|20k-CTX-Size|✅|
 #No Cherry Picking MathTutor-7B-F17.gguf Demo with XAIGPUARC on A770LE16GiB:
 #First:
 #... (truncated)
@@ -46,11 +46,22 @@
 
 #>
 
+#Six at another day with more doings beetween let us see the suprise i think we got slower avg.
+
+
+#|? ... (truncated)
+
+#cij = ∑k=1n aik ⋅ bkj; SYCL kernel for optimization; prefer FP16 32-bit precision, zero-copy alignment.
+
+#[ Prompt: 1200,3 t/s | Generation: 13,6 t/s ]
+
+#> Ok Not realy :-) Happy AI!
+
 #|00PCxTCxSWxAI|(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)|✅|
 #|01PBxZKxHWxSM|(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
 
 #|Deutsch Mathematik Formel Sprachprogramm|
-#|09.01.2026|TIME|06:46|
+#|09.01.2026|TIME|07:11|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = PCxTCxSWxAI|
 
 #0.|TRIOINFERNAL:
@@ -255,7 +266,7 @@ exit 1
 fi
 log "🔷VERBINDUNG ONEAPI GELADEN DPCPP${DPCPP_ROOT}MKL${MKL_ROOT}"
 }
-#if [ $? -ne 0 ]; then
+
 #1|PROJEKT|VORBAU
 setup_project() {
 log "🔷BAUE VORBAU XAIGPUARC BITTE WARTEN"
@@ -293,8 +304,7 @@ if [ -f "$DPCT_HELPER_FILE" ]; then
 log "🔷PATCH 1|8 DOCTPHELPER BIBLIOTHEK KOPFZEILENEINTRAEGE LADEN"
 if sed -i 's|#include <sycl/ext/oneapi/math.hpp>|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
 log "🔷PATCH 1|8 SCHREIBE DOCTPHELPER BIBLIOTHEK KOPFZEILENEINTRAEGE IN XAIGPUARC"
-elif sed -i '#if !defined(DPCT_USM_LEVEL_NONE)
-&& defined(DPCT_ENABLE_MKL_MATH).#endif|#include <sycl|ext|intel|math.hpp>|g' "$DPCT_HELPER_FILE"; then
+elif sed -i '#if !defined(DPCT_USM_LEVEL_NONE) && defined(DPCT_ENABLE_MKL_MATH).#endif|#include <sycl|ext|intel|math.hpp>|g' "$DPCT_HELPER_FILE"; then
 log "✅PATCH 1|8 DOCTPHELPER BIBLIOTHEK KOPFZEILENEINTRAEGE ERFOLGREICH... SPEICHERE"
 else
 error "❌PATCH 1|8 DOCTPHELPER BIBLIOTHEK KOPFZEILENEINTRAEGE EINLADEN FEHLGESCHLAGEN"
@@ -474,7 +484,7 @@ error "❌PATCH 8|8 KONNTE DIE DATEI /ggml/src/ggml-sycl/ggml-sycl.cpp NICHT FIN
 return 1
 fi
 if grep -q "sycl::property_list" "$SYCL_FILE"; then
-sed -i 's|sycl::property_list prop_list{[^}]*}|sycl::property_list prop_list{sycl::property::queue::in_order{}}/' "$SYCL_FILE"
+sed -i 's|sycl::property_list prop_list{[^}]*}|sycl::property_list prop_list{sycl::property::queue::in_order{}}|' "$SYCL_FILE"
 else
 sed -i '/sycl::queue q{/i\    sycl::property_list prop_list{sycl::property::queue::in_order{}};' "$SYCL_FILE"
 fi
@@ -503,7 +513,7 @@ log "🔷LEGE XAIGPUARC IN ORDNER HOME ${BUILD_DIR}"
 mkdir -p "${BUILD_DIR}" || { error "❌KONNTE ORDNER XAIGPUARC'${BUILD_DIR}'NICHT ANLEGEN"; return 1; }
 fi
 if pushd "${BUILD_DIR}" > /dev/null; then
-log "🔷STARTE CMAKE TXT KOPFZEILENBAU XAIGPUARC ${FP_FLAG:-FP16}"
+log "🔷STARTE CMAKE TXT KOPFZEILENBAU XAIGPUARC ${FP_FLAG:-FP_MODE}"
 cmake "../${LLAMA_CPP_DIR}" \
     -G "Unix Makefiles" \
     -DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}" \
