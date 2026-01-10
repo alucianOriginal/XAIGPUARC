@@ -5,7 +5,7 @@
 #####################################################
 
 #VectorAdd
-max. x2 or x3
+#max. x2 or x3
 #Workgroups  for Consumer 
 #42 (2x42 or 3x42)
 #Work_Items
