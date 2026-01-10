@@ -14,8 +14,10 @@
 #512
 #SIMD
 #32 
-#16 threads per workgroup
-#672 threads freds -896
+#hreads per workgroup
+#16
+#threads
+#672
 
 
 
