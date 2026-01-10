@@ -5,16 +5,36 @@
 #include "ggml-sycl.h"
 #include "ggml-impl.h"
 
-using namespace sycl;
+//Richtdaten A770LE Refferenz Gesetze:
+//ARC A770 Limited Edition 16 GiB Speicher:
+//OpenCl 3.0 NEO; wersa opencl c 1.2; 512-Compute-Units, ala
+//32-XE-Einheiten,-ergo=4096 Shader Alu`s!
+//512-4x4-XMX-Einheiten;
+//FP16 Grundlage Optimal zwischen Qualitaet und Leistung
+//16MiB-L2-Cache, 6MiB-L1-Cache-at-64KiB.
+//256Bit-Speicherbus,x16PCI-x8x8,70CGradMax24/7,
+//Thermal Modded from LongThermExperiented Home Miner.
+//Thermal Putty al LOT and all as a Sandwich-
+//Like all the other x8 Cards left here ARC Intel Alechmist 7xx.;
+//160 Watt @2;4Ghz in allen Modellen hoechstens.
+//130-140 Watt Ausreichend um 2,4Ghz zu halten,
+//"Vollauslastung" Vector bisle anders angesprochen als bei nvidia und amd.
+//Float 32-Bit! FP-16 Optimiert!!!
+//PRIO GESETZE HIER ALLES: Arbeitsgruppengroesse: 1024Byte!!!,
+//Lokaler Arbeisspeicher L1 Groesse pro Peackchen 64KiByte!!!
+//Beachten bitte alle Werte in SYCL hier zuorden.
+//Danke dir sehr!
 
-constexpr int BLOCK_M = 16;
-//Queries|Block
-constexpr int BLOCK_N = 128;
-//Schluessel||Block|TilingGroesse|
-constexpr int D_MAX = 128;
-//Maximale|KOPFZEILENDIMENSION|
-constexpr int VEC_SIZE = 16;
-//VektorGroesse|32|SIMD|ZwischenSpeicherVerwaltung|
+using namespace sycl;
+const int
+constexpr int BLOCK_M = 32;
+//QueriesBlock
+constexpr int BLOCK_N = 512;
+//SchluesselBlockTilingGroesse
+constexpr int D_MAX = 512;
+//MaximaleKOPFZEILENDIMENSION
+constexpr int VEC_SIZE = 32;
+//VektorGroesse|32|SIMD|ZwischenSpeicherVerwaltung Cache
 //Ein 32-Elemente-Vektor von half (FP16) entspricht exakt 512 Bit
 
 /**
@@ -74,6 +94,7 @@ void flash_attention_kernel_impl(
 const scalar_t* Q_ptr,
 const scalar_t* K_ptr,
 const scalar_t* V_ptr,
+size_t o_len = O->ne[0];
 scalar_t* Out_ptr,
 int num_q,
 int num_k,
@@ -207,7 +228,10 @@ const ggml_tensor* K,
 const ggml_tensor* V
 ) {
 //FP16
-if (Q->type != GGML_TYPE_F16 || K->type != GGML_TYPE_F16 || V->type !=
+if (Q->type != GGML_TYPE_F16 || K->type != GGML_TYPE_F16 || V->type != GGML_TYPE_F16) {
+fprintf(stderr, "Error: All tensors must be of type GGML_TYPE_F16.\n");
+return -1;
+}
 GGML_TYPE_F16) { GGML_ABORT("ggml_sycl_op_flash_attn: Nur GGML_TYPE_F16 wird unterstuetzt!");
 return;
 }
@@ -222,6 +246,7 @@ const int d_k = Q->ne[0];
 //KopfDimensiond_k
 const int d_v = V->ne[0];
 //KopfDimensiond_v
+const int 0 =
 
 //Dimensionenvalidieren
 if (d_k > D_MAX || d_v > D_MAX) {
