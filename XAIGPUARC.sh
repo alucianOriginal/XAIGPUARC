@@ -5,22 +5,19 @@
 #####################################################
 
 #VectorAdd
-#2 x 42
-#Workgroups max. x2 VectorAdd
-#42
-#Workitems
+max. x2 or x3
+#Workgroups  for Consumer 
+#42 (2x42 or 3x42)
+#Work_Items
 #21504
-#Workgroupsize
+#Workgroup_Size
 #512
 #SIMD
 #32 
-#hreads per workgroup
+#Threads per Workgroup
 #16
-#threads
+#Threads:
 #672
-
-
-
 
 #Free Demo on my YT-Channel: Sascha Rene Puerner
 #https://youtu.be/MBptqDzm8Hs
@@ -264,7 +261,7 @@ export OverrideDefaultFP64Settings=1
 export CCACHE_DIR="$HOME/.ccache"
 export COMPILER_VERSION="2025.%"
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
-export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=4096
+export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=128
 export FP_FLAG=FP16
 
 #export MKL_ROOT="${MKL_ROOT}/opt/intel/oneapi/mkl/latest/lib/intel64/libmkl_sycl.so"
