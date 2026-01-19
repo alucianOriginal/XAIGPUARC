@@ -2,6 +2,7 @@
 
 ##--##--##--##--##--##--##--##--##--##--##--##--##--##
 ##--## ! INSTALL: INTEL-ONE-API-BASEKIT ! 2.4GB ##--##
+##--##  - Use "Xe" Driver instead of "i915" -   ##--##
 ##--##--##--##--##--##--##--##--##--##--##--##--##--##
 
 #| XAIGPUARC |✅|
@@ -10,7 +11,7 @@
 
 
 #|Deutsch-Mathematik-Formel-Sprachprogramm|
-#|10.01.2026|TIME|16:35|
+#|15.01.2026|TIME|11:16|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = Sprachprogramm|
 
 #9.)How START your XAIGPUARC
@@ -44,13 +45,13 @@ ADD_SUBDIR_LINE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 #|ONEAPIFUNKTIONEN
 export LIBVA_DRIVER_NAME=iHD
 export ONEAPI_DEVICE_SELECTOR=level_zero:*
-export TCM_ROOT="${TCM_ROOT:-"/opt/intel/oneapi/tcm/latest/lib/libtcm.so"}"
+export TCM_ROOT="${TCM_ROOT:-"/opt/intel/oneapi/tcm/latest/"}"
 export SYCL_CACHE_PERSISTENT=1
 export OCL_ICD_FILENAMES=""
 export ZES_ENABLE_SYSMAN=1
 export OverrideDefaultFP64Settings=1
 export CCACHE_DIR="$HOME/.ccache"
-export COMPILER_VERSION="2025.%"
+export COMPILER_VERSION="2025.3"
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
 export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=128
 export FP_FLAG=FP16
@@ -85,7 +86,7 @@ fi
 log "🔷SETVARS SETZEN + SUCHEN SS+S"
 source "$SETVARS_PATH" --force 2>/dev/null
 local ONEAPI_ROOT_FALLBACK="/opt/intel/oneapi"
-local COMPILER_VERSION_FALLBACK="${COMPILER_VERSION:-2025.%}"
+local COMPILER_VERSION_FALLBACK="${COMPILER_VERSION:-2025.3}"
 DPCPP_ROOT="${DPCPP_ROOT:-${ONEAPI_ROOT_FALLBACK}/compiler/${COMPILER_VERSION_FALLBACK}}"
 MKL_ROOT="${MKL_ROOT:-${ONEAPI_ROOT_FALLBACK}/mkl/${COMPILER_VERSION_FALLBACK}}"
 ONEAPI_ROOT="${ONEAPI_ROOT:-${ONEAPI_ROOT_FALLBACK}}"
@@ -441,13 +442,13 @@ log "🔷
 
 |🔥|TIPP EINS: STELLEN SIE MOEGLICHST KOMPLEXE FRAGEN OHNE FUELLWOERTER IN KURZEN SAETZEN
 
-|💡|TIPP ZWEI: Ein Smiley Hilft im Zweifel weiter! :-)!
+|💡|TIPP ZWEI: Ein Smiley Hilft im Zweifel weiter! :-)!!
 
 |💡|TIPP DREI: Verlieren Sie sich nicht in der Zeit und ihrem Ziel bei der SPRACHMODELL Nutzung!
 
-|💡|GEHEIMTIPP: # Triggern Sie=das Sprachmodell mit abstrakten-AnBauweIseN ihrer/Antworten\
+|💡|GEHEIMTIPP: # Triggern Sie das = Sprachmodell mit abstrakten-AnBauweIseN ihrer/Antworten\
 |👉|Stellen Sie NICHT die falschen Fragen, sondern moeglichst komplizierte Maschienenwege sie zu Loesen!
-|👉|aBstRaKTen Loasungswege fuer uns Menschen also! 8-)"
+|👉|aBstRaKTen Loesungswege fuer uns Menschen also! 8-)"
 
 cmake --build . --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama-cli llama-ls-sycl-device > "${LOG_FILE}" 2>&1
 local BUILD_STATUS=$?
@@ -551,8 +552,9 @@ local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
 #MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.Lucy-1.7B-F16MiniCPM4.1-8B-f16_q8_0
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
+Pause
 
-|0>SYSTEM<0|DEVELOPE JUST FULL SYCL-Kernel cij​=∑aik​⋅bkj​|
+|0>SYSTEM<0|DEVELOPE JUST FULL -SYCL-Kernel cij​=∑aik​⋅bkj-​|
 
 Pause
 
@@ -562,17 +564,19 @@ Pause
 
 |TEST001|RE-START///
 
-Example Fomula 1-10_Sentences:
+Example Formula 1-10_Sentences:
 
 /Language 1 ENG /
 
 #|PCxTCxSWxAI|#(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)|
+
 /Language 2 GER //
 
-#|PBxZKxHWxSM|#(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|
+#|PBxZKxHWxSM|#(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(Kuenstliche_Inferenz)|
+
 /Language 3 LAT ///
 
-#|???|
+#|CPxTCxCRCxIA|#(Computatio_probabilitatum)X(Temporis_Catena)X(Contextus_Reteque_Caeli)X(Inferentia_Artificialis)
 |TEST|000|END\\\|
 
 
@@ -647,10 +651,10 @@ local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 #KLEINER EINSTELLEN USE SMALL NUMBERS FOR BETTER AI
-local CONTEXT_SIZE=20480
+local CONTEXT_SIZE=16384
 #NEUE WERTE SETZEN 512 1024 2048 Standart:4096,0x1000 Empfohlen:8192,0x2000 MathtTutor:16384,0x4000|20480,0x5000|
 #Kritisch:24576|0x6000 32768|0x8000|65536|131072|20480|262144|524288|
-local PREDICT_TOKENS=65536
+local PREDICT_TOKENS=131072
 local layer=${N_GPU_LAYERS:-99}
 local TENSOR_SPLIT=99
 local row=99
