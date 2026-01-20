@@ -7,11 +7,10 @@
 
 #| XAIGPUARC |✅|
 
-#| A LOT OF EXAMPLES AND TESTS BELOW |✅|
-
+#| This is a One-Shot Programm: A LOT OF EXAMPLES AND TESTS BELOW |✅|
 
 #|Deutsch-Mathematik-Formel-Sprachprogramm|
-#|15.01.2026|TIME|11:16|
+#|20.01.2026|TIME|11:53|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = Sprachprogramm|
 
 #9.)How START your XAIGPUARC
@@ -23,7 +22,6 @@
 #3.)Change|yourModell|Textfile|twice|below!!
 #b.)Open|Console|Type: chmod +x ./XAIGPUARC.sh Enter...
 #4.)START|with|type|Console ./XAIGPUARC.sh...
-
 
 set -euo pipefail
 IFS=$'\n\t'
@@ -53,7 +51,7 @@ export OverrideDefaultFP64Settings=1
 export CCACHE_DIR="$HOME/.ccache"
 export COMPILER_VERSION="2025.3"
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
-export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=128
+export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=256
 export FP_FLAG=FP16
 
 #export MKL_ROOT="${MKL_ROOT}/opt/intel/oneapi/mkl/latest/lib/intel64/libmkl_sycl.so"
@@ -305,6 +303,7 @@ warn "⚠️PATCH 6|8 SSMCONV CPP ZEILE NICHT GEFUNDEN UEBERSPRINGE"
 fi
 fi
 #7|8
+#Diese Großen koennen Angepasst werden!
 log "🔷PATCH 7|8: ERZWINGE MAXIMALE BLOCK GROESSE 256 FUER ARC ALCHEMIST"
 if [ -f "$GGML_SYCL_CPP" ]; then
 if ! grep -q "GGML_SYCL_MAX_BLOCK_SIZE 256" "$GGML_SYCL_CPP"; then
@@ -407,22 +406,18 @@ log "🔷
 |💡|min. 9GiB - 17GiB RAM DATENVORGAENGE 🔄
 |🧱|VORBERRECHUNG SPRACHPROGRAMM ASSISTENT FUER ⚫ MATHEMATIK 🔧
 
-
 |🟡|ACHTUNG! Wenn Sie DAS Hier Lesen Koennen...! :-)
 |🔄|WIRD-es..
 |📌|ERSTMALIG Mindestens-...
 |💡|3 bis 7 Minuten-...
 |💡|ANDAUERN!!!...
 
-
 |⚙️|BITTE ETWAS GEDULD...
 
 |✅||Beim zweitem Start mit demselbem Vorgang wie diesem, dauert es nur wenige Sekunden bis die KI startet!
 |⚫|DUNKLE-MATHEMATIK 🧰 🔄 🎁 🔄 🔧 🔄 🎯 DEUTSCH-SPRACHPROGRAMM
-
-|💡|NUTZEN SIE DEN MATH-TUTOR_F16 AUF 20
-|🟡|A770LE 16GiB VRAM@14.2GiB@MathTutor-f16 MAXIMAL MATHEMATIK SPRUCH
-
+|💡|NUTZEN SIE DEN MATH-TUTOR_F16
+|🟡|A770LE 16GiB VRAM @ 14.2GiB@MathTutor-f16 MAXIMAL MATHEMATIK SPRUCH
 
 |👉|DANKE FUER DIE NUTZUNG VON ❌AIGPUARC
 
@@ -441,13 +436,11 @@ log "🔷
 |👉|GLEICH: WIRD IHRE SELBSTWAEHLBARE KI DAS ANTWORTEN BEGINNEN
 
 |🔥|TIPP EINS: STELLEN SIE MOEGLICHST KOMPLEXE FRAGEN OHNE FUELLWOERTER IN KURZEN SAETZEN
-
-|💡|TIPP ZWEI: Ein Smiley Hilft im Zweifel weiter! :-)!!
-
-|💡|TIPP DREI: Verlieren Sie sich nicht in der Zeit und ihrem Ziel bei der SPRACHMODELL Nutzung!
+|💡|TIPP ZWEI: Ein Smiley hilft im Zweifel weiter! :-) !!
+|💡|TIPP DREI: Bitte verlieren Sie sich nicht in der Zeit und ihrem Ziel,- bei der SPRACHMODELL Nutzung!
 
 |💡|GEHEIMTIPP: # Triggern Sie das = Sprachmodell mit abstrakten-AnBauweIseN ihrer/Antworten\
-|👉|Stellen Sie NICHT die falschen Fragen, sondern moeglichst komplizierte Maschienenwege sie zu Loesen!
+|👉|Stellen Sie NICHT die falschen Fragen, sondern moeglichst komplizierte Maschinenwege sie zu Loesen!
 |👉|aBstRaKTen Loesungswege fuer uns Menschen also! 8-)"
 
 cmake --build . --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama-cli llama-ls-sycl-device > "${LOG_FILE}" 2>&1
@@ -510,7 +503,9 @@ VRAM_GIB=$((VRAM_GIB_RAW / 1024)) #MIBzuGIB
 if [ -z "${VRAM_GIB_RAW}" ]; then
 VRAM_GIB_RAW=1024
 fi
-local LAYER_SIZE_MIB=512 #MagicKeyMagischerSchluessel
+local LAYER_SIZE_MIB=256
+#MagicKeyMagischerSchluessel
+
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
 if [ "${VRAM_GIB}" -lt 1 ]; then
 VRAM_GIB=1
@@ -535,8 +530,9 @@ else
 warn "⚠️AKTUELL KEIN SYCL GERAET GEFUNDEN ${FULL_LS_PATH} VERSUCH ZWEI SUCHE..."
 fi
 }
-#7MODELLPFADWAEHLENCalderaAI_Hexoteric-7B-F16.f16Yi-6B-200K-Llama-sharded.f16
+#CalderaAI_Hexoteric-7B-F16.f16Yi-6B-200K-Llama-sharded.f16
 #MathCoder2-DeepSeekMath-7B-f16Neumind-Math-7B-Instruct.F16Lucy-1.7B-F16PULI-LlumiX-32K-instruct-f16.f16
+#7MODELLPFADWAEHLEN
 prepare_model() {
 MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
 mkdir -p models
@@ -576,15 +572,19 @@ Example Formula 1-10_Sentences:
 
 /Language 3 LAT ///
 
-#|CPxTCxCRCxIA|#(Computatio_probabilitatum)X(Temporis_Catena)X(Contextus_Reteque_Caeli)X(Inferentia_Artificialis)
+#|PCxTCxCRCxIA|#(Probabilitatum_Computatio)X(Temporis_Catena)X(Contextus_Reteque_Caeli)X(Inferentia_Artificialis)
+
+/Language 4 MAN ////
+
+#|???|
+
 |TEST|000|END\\\|
 
-
 |00|INSTRUCTION=|
+
 \
 
 |FORMAT=->FORMULA_FINDER+SYCL_KERNEL_GEN / Mode= Matrix-Multiplikation=cij​=∑k=1n​aik​⋅bkj​ /
-
 
 (Cmatch-​>,Condition->,Completeness->,S =
 (If = CONDITION_match = COMPLETE_SET_ad of MATH_PHYSIC_LOGIC) =
@@ -615,6 +615,7 @@ Example Formula 1-10_Sentences:
 |Plain|neutral|piCtured|language
 |Keep|total|response|conciSe|structured
 |Do|not|include|meta|commentary
+
 \
 
 |03|OUTPUT|FORMAT/||MODE=EXECUTE|OUTPUT=SECTIONS|NO_PARAPHRASE|NO_EXAMPLE|/
@@ -627,8 +628,9 @@ Example Formula 1-10_Sentences:
 #1.|Word|Short|PROOF-OF-ANSWER/LIMIT=1-10_SENTENCES
 #2.|IdEnTiFy|cij​ = ∑k=1n​aik​⋅bkj​; SYCL kernel optimization; FP16 32-bit precision.
 #3.|KEY WORDS:|SYCL_COMPILER_HINT|icpx -fsycl -O3 Float@TARGET=SYCL|VECTOR|32BIT|
-#4.|If>Multiple>Valid>Solutions>MAX THREE_Exist>>Then>List>Print>>>Preference
+#4.|If>Multiple>Valid>Solutions>MAX_THREE_Exist>>Then>List>Print>>>Preference
 #5.|List|briefly|print|Precision-FP16@32-bit|Aligment-Zero-Copy-Focus
+
 \
 
 |04|Beginn|Processing/|EXIT-without-REPEATING!!!
@@ -650,11 +652,16 @@ Example Formula 1-10_Sentences:
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
+
+
 #KLEINER EINSTELLEN USE SMALL NUMBERS FOR BETTER AI
 local CONTEXT_SIZE=16384
+
 #NEUE WERTE SETZEN 512 1024 2048 Standart:4096,0x1000 Empfohlen:8192,0x2000 MathtTutor:16384,0x4000|20480,0x5000|
 #Kritisch:24576|0x6000 32768|0x8000|65536|131072|20480|262144|524288|
-local PREDICT_TOKENS=131072
+
+
+local PREDICT_TOKENS=262144
 local layer=${N_GPU_LAYERS:-99}
 local TENSOR_SPLIT=99
 local row=99
@@ -727,7 +734,8 @@ main "${1:-1}" "${2:-}" "${3:-}"
 log "✅KOMPLETTER BAUVORGANG HIER GESPEICHERT**${LOG_FILE}**"
 
 ##--##--##--##--##--##--##--##--##
-###-- TEST AND EXAMPLE HEAVEN--###
+###--TEST AND EXAMPLE HEAVEN--###
+###       Xe/i915              ###
 ##--##--##--##--##--##--##--##--##
 
 #XAIGPUARC|Hardware|Build|Test
@@ -866,8 +874,7 @@ log "✅KOMPLETTER BAUVORGANG HIER GESPEICHERT**${LOG_FILE}**"
 #|AU-TO-MA-TOR-IT|GE-H-IRN-O-MAT|EI-WEISS-COM-PUTER
 #|USE WISE AND CARE FULL PLS|PROOF OF ANSWERS|MAYBE EZ WITH OTHER AI KI
 
-
-#No Cherry Picking 14.2GiB Layer with MathTutor-7B-F17.gguf Demo with XAIGPUARC on A770LE16GiB:
+#No Cherry Picking 14.2GiB Layer with MathTutor-7B-F17.gguf Demo with XAIGPUARC on A770LE16GiB i915:
 
 #TESTPROMPTS everytime the same big Testprompt
 #First:
@@ -942,7 +949,4 @@ log "✅KOMPLETTER BAUVORGANG HIER GESPEICHERT**${LOG_FILE}**"
 #[ Prompt: 1182,2 t/s | Generation: 13,7 t/s ]
 
 #> EIGHT TIMES SIMILIAR :-) All the other devices scale well known values without any worth to talk about
-
-#|00PCxTCxSWxAI|(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)|✅|
-#|01PBxZKxHWxSM|(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(SprachModell[e])|✅|
-
+#With Xe Driver you will get round about 16-17 Generated Tokens per Second. Fast enough for Work if you ask me.
