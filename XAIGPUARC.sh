@@ -356,13 +356,12 @@ cmake "../${LLAMA_CPP_DIR}" \
     -G "Unix Makefiles" \
     -DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}" \
     -DGGML_SYCL=ON \
+    -DGGML_SYCL_TARGET=INTEL \
     -DGGML_SYCL_CCACHE=ON \
     -DGGML_SYCL_F16=${FP_MODE} \
     -DGGML_SYCL_FLASH_ATTN=ON \
     -DGGML_SYCL_MKL_SYCL_BATCH_GEMM=1 \
     -DCMAKE_C_COMPILER=icx \
-    -DCMAKE_CXX_COMPILER=ifx \
-    -DCMAKE_CXX_COMPILER=mkl \
     -DCMAKE_CXX_COMPILER=icpx \
     -DCMAKE_CXX_COMPILER_FLAGS="icpx -fsycl -fsycl-targets=spir64_gen -ftarget-register-alloc-mode=pvc:small -Xsycl-target-backend" \
     -DCMAKE_CXX_STANDARD=23 \
