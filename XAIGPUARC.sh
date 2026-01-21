@@ -354,6 +354,7 @@ if pushd "${BUILD_DIR}" > /dev/null; then
 log "🔷STARTE CMAKE TXT KOPFZEILENBAU XAIGPUARC ${FP_FLAG:-FP_MODE}"
 cmake "../${LLAMA_CPP_DIR}" \
     -G "Unix Makefiles" \
+    -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
     -DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}" \
     -DGGML_SYCL=ON \
     -DGGML_SYCL_TARGET=INTEL \
@@ -363,7 +364,6 @@ cmake "../${LLAMA_CPP_DIR}" \
     -DGGML_SYCL_MKL_SYCL_BATCH_GEMM=1 \
     -DCMAKE_C_COMPILER=icx \
     -DCMAKE_CXX_COMPILER=icpx \
-    -DCMAKE_CXX_COMPILER_FLAGS="icpx -fsycl -fsycl-targets=spir64_gen -ftarget-register-alloc-mode=pvc:small -Xsycl-target-backend" \
     -DCMAKE_CXX_STANDARD=23 \
     -DCMAKE_CXX_STANDARD_REQUIRED=ON \
     -DCMAKE_CXX_EXTENSIONS=ON \
@@ -442,7 +442,7 @@ log "🔷
 |👉|Stellen Sie NICHT die falschen Fragen, sondern moeglichst komplizierte Maschinenwege sie zu Loesen!
 |👉|aBstRaKTen Loesungswege fuer uns Menschen also! 8-)"
 
-cmake --build . --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama-cli llama-ls-sycl-device > "${LOG_FILE}" 2>&1
+cmake --build . --verbose --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama-cli llama-ls-sycl-device > "${LOG_FILE}" 2>&1
 local BUILD_STATUS=$?
 popd > /dev/null
 if [ ${BUILD_STATUS} -ne 0 ]; then
