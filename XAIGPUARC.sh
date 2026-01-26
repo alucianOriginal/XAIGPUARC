@@ -10,16 +10,21 @@
 #| This is a One-Shot Programm: A LOT OF EXAMPLES AND TESTS BELOW |✅|
 
 #|Deutsch-Mathematik-Formel-Sprachprogramm|
-#|20.01.2026|TIME|11:53|
+#|26.01.2026|TIME|16:53|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = Sprachprogramm|
 
 #9.)How START your XAIGPUARC
-#0.)FIRST|||INTELONEAPIBASEKIT!!!|||PC|LAPTOP|SYSTEM!!!
+#0.)FIRST|||INTEL-ONE-API-BASEKIT!!!|||PC|LAPTOP|SYSTEM!!!
 #0.)Second Best Case is Use ARCH|Garuda|LINUX
-#1.)Kopie|XAIGPUARC.sh|your|Home/PCNAME|Folder
+
+#1.)Kopie|XAIGPUARC.sh|in your|Home/PCNAME|Folder
+
 #2.)Between install of XAIGPUARC you can Download a .gguf|F16|AI fit your
 #a.)V|RAM|/models/HereAINAME|your|Home/PCNAME/models/HereAINAME|Folder
-#3.)Change|yourModell|Textfile|twice|below!!
+
+#b.)The Standart Modell is: Lucy-1.7B-F16.gguf!!!
+
+#3.)Change|your own Modell in the Textfile|twice|below!!
 #b.)Open|Console|Type: chmod +x ./XAIGPUARC.sh Enter...
 #4.)START|with|type|Console ./XAIGPUARC.sh...
 
@@ -54,14 +59,12 @@ export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
 export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=256
 export FP_FLAG=FP16
 
-#export MKL_ROOT="${MKL_ROOT}/opt/intel/oneapi/mkl/latest/lib/intel64/libmkl_sycl.so"
-#export MKL_THREADING_FULL=intel_thread
-
 #|HILFSFUNKTIONEN
 log() { printf "🔷 %s\n" "$*"; }
 success() { printf "✅ %s\n" "$*"; }
 error() { printf "❌ %s\n\n" "$*"; }
 warn() { printf "⚠️ %s\n" "$*"; }
+
 #|INTERNETPRUEFUNG
 check_internet() {
 log "🔷PRUEFE INTERNETZ VERBINDUNG..."
@@ -73,6 +76,7 @@ warn "⚠️KEINE INTERNETZ VERBINDUNG! ERSTINSTALLATION ONLINE ABHAENGIGKEITEN!
 return 1
 fi
 }
+
 #|UMGEBUNG|RUECKFALL|MECHANISMEN|VORBEREITEN
 prepare_environment() {
 log "🔷HOLE ONEAPI KOPFZEILEN XAIGPUARC"
@@ -126,6 +130,7 @@ error "❌FEHLER HAUPTVERZEICHNIS'${LLAMA_CPP_DIR}'NICHT GEFUNDEN"
 exit 1
 fi
 }
+
 #PATCH|LOGIK:1-8+a+b+c|
 patch_llama_cpp() {
 log "🔷PATCH 1|8 GGML SYCL DOCTPHELPER BIBLIOTHEK KOPFZEILENEINTRAEGE REGESTRIERUNG"
@@ -136,6 +141,7 @@ local CUSTOM_KERNEL_SRC="${CUSTOM_KERNEL_DIR}/ggml_flash_attention_sycl.cpp"
 local CUSTOM_KERNEL_CMAKE="${CUSTOM_KERNEL_DIR}/CMakeLists.txt"
 local GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 local KERNEL_SOURCE_LOCAL="ggml_flash_attention_sycl.cpp"
+
 #1|8
 if [ -f "$DPCT_HELPER_FILE" ]; then
 log "🔷PATCH 1|8 DOCTPHELPER BIBLIOTHEK KOPFZEILENEINTRAEGE LADEN"
@@ -151,8 +157,10 @@ else
 warn "⚠️PATCH 1|8 DOCTPHELPER BIBLIOTHEK NICHT GEFUNDEN ABHAENIGKEITEN PRUEFEN"
 return 1
 fi
+
 #2|8
 log "🔷PATCH 2|8 BAUE FLASH ATTENTION KERN"
+
 #2a|8
 if [ ! -d "$CUSTOM_KERNEL_DIR" ]; then
 mkdir -p "$CUSTOM_KERNEL_DIR"
@@ -174,6 +182,7 @@ target_include_directories(ggml_flash_attention_sycl PRIVATE \${GGML_SYCL_INCLUD
 target_compile_options(ggml_flash_attention_sycl PUBLIC \${GGML_SYCL_COMPILE_FLAGS})
 " > "$CUSTOM_KERNEL_CMAKE"
 log "🔷PATCH 2a|8 CMAKE TXT LISTEN OBJEKTE KOPFZEILENEINTRAEGE EINFUEGEN"
+
 #2b|8
 local ADD_SUBDIR_LINE="add_subdirectory(ggml_flash_attention_sycl)"
 if ! grep -Fq "${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
@@ -186,6 +195,7 @@ fi
 else
 log "🔷PATCH 2b|8 FLASH ATTENTION KOPFZEILENEINTRAEGE BEREITS AKTIV UEBERSPRINGE"
 fi
+
 #3|8
 if [ -f "$CMAKE_LISTS_FILE" ]; then
 log "🔷PATCH 3|8: CMAKE TEXT LISTEN MKL KOPZEILEN IC|P|X IMPLEMENTIERUNG VORBEREITEN"
@@ -210,9 +220,11 @@ else
 error "❌PATCH 3a|8 FEHLGESCHLAGEN CMAKE LISTS TXT SYCL GGML PFADE ABHAENGIGKEITEN GARUDA LINUX ARCH"
 return 1
 fi
+
 #4|8
 log "🔷PATCH 4|8 FLASH ATTENTION HAUPTKERN KOPFZEILENEINTRAEGE INJIZIEREN"
 if [ -f "$GGML_SYCL_CPP" ]; then
+
 #4a|8
 local FA_REGISTER_CODE=$'//REGESTRIERE ggml_flash_attention_sycl.cpp \nextern "C"
 void ggml_flash_attention_sycl(ggml_flash_attention_sycl * ctx, ggml_tensor *
@@ -250,9 +262,11 @@ else
 error "❌PATCH 4b|8 FEHLGESCHLAGEN FLASH ATTENTION AWK PATCH KERN STOPP"
 return 1
 fi
+
 #5|8
 log "🔷PATCH 5/8 FLASH ATTENTION OBJEKT INJIZIERE VARIABLEN UNTERBLOCK SYCL BIBLIOTHEKEN"
 local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
+
 #5a|8
 local VAR_LINE="set(FA_OBJECT_FILES \"\$<TARGET_OBJECTS:ggml_flash_attention_sycl>\")"
 local VAR_SEARCH_MARKER="set(GGML_SYCL_SOURCES"
@@ -267,6 +281,7 @@ fi
 else
 log "🔷PATCH 5a|8 FLASH ATTENTION OBJEKT VARIABLEN VORHANDEN UEBERSPRINGE"
 fi
+
 #5b|8
 local TARGET_SEARCH_MARKER="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES})"
 local NEW_TARGET_SOURCES_LINE="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES} \${FA_OBJECT_FILES})"
@@ -282,12 +297,14 @@ fi
 else
 log "✅PATCH 5b|8 GGML SYCL AKTIV INJECTION UEBERSPRUNGEN"
 fi
+
 #6|8
 log "🔷PATCH 6|8: SSMCONV CPP WARNUNG BEHEBEN VORZEICHEN VERGLEICH AKW PATCH"
 local SSM_CONV_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ssm_conv.cpp"
 local SEARCH_LINE='GGML_ASSERT(src0->nb\[1\] == src0->ne\[0\] * static_cast<int64_t>(sizeof(float)));'
 local REPLACE_LINE='GGML_ASSERT(src0->nb\[1\] == (size_t)(src0->ne\[0\] * sizeof(float)));'
 if [ -f "$SSM_CONV_FILE" ]; then
+
 #6a
 if grep -Fq "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
 log "🔷PATCH 6a|8 SUCHE ssm_conv.cpp NATIVE ADRESSIERUNG"
@@ -302,8 +319,9 @@ else
 warn "⚠️PATCH 6|8 SSMCONV CPP ZEILE NICHT GEFUNDEN UEBERSPRINGE"
 fi
 fi
+
 #7|8
-#Diese Großen koennen Angepasst werden!
+#Diese Groessen koennen selbst angepasst werden
 log "🔷PATCH 7|8: ERZWINGE MAXIMALE BLOCK GROESSE 256 FUER ARC ALCHEMIST"
 if [ -f "$GGML_SYCL_CPP" ]; then
 if ! grep -q "GGML_SYCL_MAX_BLOCK_SIZE 256" "$GGML_SYCL_CPP"; then
@@ -314,6 +332,7 @@ else
 log "🔷PATCH 7|8 MAXIMALE BLOCK GROESSE 256 ZWANG FUER ARC BEREITS DEFINIERT"
 fi
 fi
+
 #8|8
 log "🔷PATCH 8|8 SYCL QUEUE ORDNER: HOME/XAIGPUARC OPTIMIERVORGANG KOPFZEILENEINTRAEGE"
 local SYCL_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
@@ -327,6 +346,7 @@ else
 sed -i '/sycl::queue q{/i\    sycl::property_list prop_list{sycl::property::queue::in_order{}};' "$SYCL_FILE"
 fi
 fi
+
 #8a|8
 if grep -q "sycl::queue q{" "$SYCL_FILE"; then
 sed -i 's|sycl::queue q{[^}]*}|sycl::queue q{dev, ctx, prop_list}|g' "$SYCL_FILE"
@@ -341,6 +361,7 @@ warn "⚠️PATCH 8|8 SYCL QUEUE KOPFZEILENEINTRAEGE NICHT GEFUNDEN UEBERSPRINGE
 fi
 success "🔷ALLE FUENF VON ACHT EINGLIEDERUNGEN INTEL XE/ARC/iGPU/dGPU/eGPU FUER XAIGPUARC ERFOLGREICH"
 }
+
 #3|XAIGPUARC|BAUKONFIGURATION|
 configure_build() {
 log "🔷BEREITE XAIGPUARC KOPFZEILEN BAUVORGANG VOR"
@@ -438,9 +459,9 @@ log "🔷
 |💡|TIPP ZWEI: Ein Smiley hilft im Zweifel weiter! :-) !!
 |💡|TIPP DREI: Bitte verlieren Sie sich nicht in der Zeit und ihrem Ziel,- bei der SPRACHMODELL Nutzung!
 
-|💡|GEHEIMTIPP: # Triggern Sie das = Sprachmodell mit abstrakten-AnBauweIseN ihrer/Antworten\
+|💡|GEHEIMTIPP: # Triggern Sie das = Sprachmodell mit abstrakten-AnBauweIseN ihrer/Antworten
 |👉|Stellen Sie NICHT die falschen Fragen, sondern moeglichst komplizierte Maschinenwege sie zu Loesen!
-|👉|aBstRaKTen Loesungswege fuer uns Menschen also! 8-)"
+|👉|aBstRaKTe Loesungswege fuer uns Menschen sind normale fuer Sprachmodelle! 8-)"
 
 cmake --build . --verbose --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama-cli llama-ls-sycl-device > "${LOG_FILE}" 2>&1
 local BUILD_STATUS=$?
@@ -455,6 +476,7 @@ error "❌XAIGPUARC '${BUILD_DIR}' WEGEN FEHLERHAFTEM WECHSEL KOPZEILENBAU NICHT
 return 1
 fi
 }
+
 #5AUTOMATISCHEGERAETEAUSWAHL
 auto_select_device() {
 log "🔷SUCH NACH VERFUEGBAREN SYCL GERAETEN AUF IHREM SYSTEM"
@@ -503,6 +525,7 @@ if [ -z "${VRAM_GIB_RAW}" ]; then
 VRAM_GIB_RAW=1024
 fi
 local LAYER_SIZE_MIB=256
+
 #MagicKeyMagischerSchluessel
 
 local VRAM_MIB_CALC=$((VRAM_GIB * 1024))
@@ -519,6 +542,7 @@ fi
 log "🔷NGL**${N_GPU_LAYERS}**SCHICHTEN MODELL PRIORITAET GLEICHMAESSIG VERTEILT"
 fi
 }
+
 #6SYCLKOMPATIBLEGERAETEPRUEFEN
 list_sycl_devices() {
 log "🔷SUCHE ZWEI MAL HINTEREINANDER SYCL FAEHIGES GERAET AUF SYSTEM"
@@ -529,22 +553,40 @@ else
 warn "⚠️AKTUELL KEIN SYCL GERAET GEFUNDEN ${FULL_LS_PATH} VERSUCH ZWEI SUCHE..."
 fi
 }
+
+# CHANGE MODELL HERE BELOW!!!!
+# Aendern Sie ihr Modell hier unten!!!
+#
+#
+#
+# CHANGE MODELL HERE BELOW!!!!
+#
+# Aendern Sie ihr Modell hier unten!!!
+#
+#
 #CalderaAI_Hexoteric-7B-F16.f16Yi-6B-200K-Llama-sharded.f16
 #MathCoder2-DeepSeekMath-7B-f16Neumind-Math-7B-Instruct.F16Lucy-1.7B-F16PULI-LlumiX-32K-instruct-f16.f16
 #7MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
+MODEL_PATH=${1:-"models/Lucy-1.7B-F16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR MODELL NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN! BITTE DORT HIN**$MODEL_PATH**KOPIEREN"
 fi
 export MODEL_PATH
 }
+
 #8MODELLAUSFUEHRENCalderaAI_Hexoteric-7B-F16.f16Neumind-Math-7B-Instruct.Lucy-1.7B-F16sauerkrautlm-7b-v1.Q8_0
 run_inference() {
-local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
+local DEFAULT_MODEL_PATH="models/Lucy-1.7B-F16.gguf"
 #CHANGE MODEL HERE ABOVE TWICE ! MODELL HIER DRUEBER DOPPELT AENDERN!
 #MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.Lucy-1.7B-F16MiniCPM4.1-8B-f16_q8_0
+#
+#
+#
+#
+#
+# PROMPT: Aendern Sie diesen Prompt nach ihren eigenen Wuenschen/Change the Prompt for your own wishes!
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
 Pause
@@ -653,14 +695,13 @@ local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 
 
-#KLEINER EINSTELLEN USE SMALL NUMBERS FOR BETTER AI
-local CONTEXT_SIZE=16384
-
-#NEUE WERTE SETZEN 512 1024 2048 Standart:4096,0x1000 Empfohlen:8192,0x2000 MathtTutor:16384,0x4000|20480,0x5000|
+#Aendern Sie diese Werte, wenn ihnen Speicherfehler angezeigt werden nach Unten hin ab!
+local CONTEXT_SIZE=8192
+#NEUE WERTE SETZEN: 512 1024 2048 Standart:4096,0x1000 Empfohlen:8192,0x2000 MathtTutor:16384,0x4000|20480,0x5000|
 #Kritisch:24576|0x6000 32768|0x8000|65536|131072|20480|262144|524288|
 
 
-local PREDICT_TOKENS=262144
+local PREDICT_TOKENS=8192
 local layer=${N_GPU_LAYERS:-99}
 local TENSOR_SPLIT=99
 local row=99
@@ -681,14 +722,12 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
 echo "✅SPRACHMODELL INTERAKTIONS FUNKTION JETZT AKTIV"
 }
 
-#--tensor-split "${row}" \
-##"${env: LLAMA_ARG_SPLIT_MODE}" \
-
 #DEFINITIONHAUPTFUNKTION
 main() {
 local FP_MODE="${1:-1}"
 local RERUN_BUILD=1
 prepare_environment
+
 #01
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
@@ -704,33 +743,49 @@ if [[ "$RERUN_BUILD" -eq 1 ]]; then
 log "🔷STARTE ERSTMALIGEN BAUVORGANG XAIGPUARC"
 if check_internet; then
 log "🔷LADE WERKZEUGKASTEN"
+
 #0
 setup_project
+
 #1
 patch_llama_cpp
+
 #2
 else
 warn "⚠️INTERNET NICHT VERFUEGBAR UEBERSPRINGE AUFWERTUNG WERKZEUGKASTEN LOKALE VERSION"
 fi
 fi
 configure_build "${FP_MODE}"
+
 #3
 compile_project
+
 #4
 auto_select_device
+
 #5
 list_sycl_devices
+
 #6
 prepare_model "${2:-}"
+
 #7
 run_inference "${2:-}" "${3:-}"
+
 #8
 log "✅NUTZUNG VON XAIGPUARC JETZT MOEGLICH /IHRE FRAGE NACH > ... DRUECKEN SIE |ENTER**${BUILD_DIR}/${LLAMA_CLI_PATH}**"
 }
+
 #HAUPTSCHLEIFE
 main "${1:-1}" "${2:-}" "${3:-}"
 #42
 log "✅KOMPLETTER BAUVORGANG HIER GESPEICHERT**${LOG_FILE}**"
+
+
+#
+#ENDE DES PROGRAMMS / END OF APPLICATION
+#
+
 
 ##--##--##--##--##--##--##--##--##
 ###--TEST AND EXAMPLE HEAVEN--###
