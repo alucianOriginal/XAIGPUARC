@@ -7,6 +7,9 @@
 
 #| XAIGPUARC |✅|
 
+#| This all here is yours!
+#| No need to ask for changes copie or anything else, have fun with IT. :-)
+
 #| This is a One-Shot Programm: A LOT OF EXAMPLES AND TESTS BELOW |✅|
 
 #|Deutsch-Mathematik-Formel-Sprachprogramm|
