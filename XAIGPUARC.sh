@@ -13,7 +13,7 @@
 #| This is a One-Shot Programm: A LOT OF EXAMPLES AND TESTS BELOW |✅|
 
 #|Deutsch-Mathematik-Formel-Sprachprogramm|
-#|26.01.2026|TIME|16:53|
+#|03.02.2026|TIME|06:29|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = Sprachprogramm|
 
 #9.)How START your XAIGPUARC
@@ -113,7 +113,7 @@ log "🔷VERBINDUNG ONEAPI GELADEN DPCPP${DPCPP_ROOT}MKL${MKL_ROOT}"
 
 #1|PROJEKT|VORBAU
 setup_project() {
-log "🔷BAUE VORBAU XAIGPUARC BITTE WARTEN"
+log "🔷BEREITE XAIGPUARC VORBAU BITTE WARTEN"
 if [ ! -d "${LLAMA_CPP_DIR}" ]; then
 log "🔷ZIEHE BAUSTEINE AUS INTERNETZ"
 git clone https://github.com/ggerganov/llama.cpp "${LLAMA_CPP_DIR}"
@@ -136,7 +136,7 @@ fi
 
 #PATCH|LOGIK:1-8+a+b+c|
 patch_llama_cpp() {
-log "🔷PATCH 1|8 GGML SYCL DOCTPHELPER BIBLIOTHEK KOPFZEILENEINTRAEGE REGESTRIERUNG"
+log "🔷PATCH 1|8 GGML SYCL DOCTPHELPER REGESTRIERUNG BIBLIOTHEK KOPFZEILENEINTRAEGE"
 local DPCT_HELPER_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/dpct/helper.hpp"
 local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
 local CUSTOM_KERNEL_DIR="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/custom_kernels"
@@ -147,13 +147,13 @@ local KERNEL_SOURCE_LOCAL="ggml_flash_attention_sycl.cpp"
 
 #1|8
 if [ -f "$DPCT_HELPER_FILE" ]; then
-log "🔷PATCH 1|8 DOCTPHELPER BIBLIOTHEK KOPFZEILENEINTRAEGE LADEN"
+log "🔷PATCH 1|8 DOCTPHELPER BIBLIOTHEK REGESTRIERTE KOPFZEILENEINTRAEGE LADEN"
 if sed -i 's|#include <sycl/ext/oneapi/math.hpp>|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
 log "🔷PATCH 1|8 SCHREIBE DOCTPHELPER BIBLIOTHEK KOPFZEILENEINTRAEGE IN XAIGPUARC"
 elif sed -i '#if !defined(DPCT_USM_LEVEL_NONE) && defined(DPCT_ENABLE_MKL_MATH).#endif|#include <sycl|ext|intel|math.hpp>|g' "$DPCT_HELPER_FILE"; then
-log "✅PATCH 1|8 DOCTPHELPER BIBLIOTHEK KOPFZEILENEINTRAEGE ERFOLGREICH... SPEICHERE"
+log "✅PATCH 1|8 DOCTPHELPER BIBLIOTHEK KOPFZEILENEINTRAEGE ERFOLGREICH REGESTRIERT - SPEICHERE"
 else
-error "❌PATCH 1|8 DOCTPHELPER BIBLIOTHEK KOPFZEILENEINTRAEGE EINLADEN FEHLGESCHLAGEN"
+error "❌PATCH 1|8 DOCTPHELPER BIBLIOTHEK KOPFZEILENEINTRAEGE EINLADEN DER REGESTRIERUNG FEHLGESCHLAGEN"
 return 1
 fi
 else
@@ -167,7 +167,7 @@ log "🔷PATCH 2|8 BAUE FLASH ATTENTION KERN"
 #2a|8
 if [ ! -d "$CUSTOM_KERNEL_DIR" ]; then
 mkdir -p "$CUSTOM_KERNEL_DIR"
-log "✅PATCH 2|8 ORNDER FLASH ATTENTION KERN'${CUSTOM_KERNEL_DIR}'ANGELEGT"
+log "✅PATCH 2|8 ORNDER FUER FLASH ATTENTION KERN'${CUSTOM_KERNEL_DIR}'ANGELEGT"
 fi
 if [ -f "$KERNEL_SOURCE_LOCAL" ]; then
 cp "$KERNEL_SOURCE_LOCAL" "$CUSTOM_KERNEL_SRC"
@@ -278,7 +278,7 @@ local SED_VAR_LINE=$(echo "$VAR_LINE" | sed 's/[\/&]/\\&/g')
 if sed -i "\|${VAR_SEARCH_MARKER}|a ${SED_VAR_LINE}" "$CMAKE_LISTS_FILE"; then
 log "✅PATCH 5a|8 FLASH ATTENTION OBJEKT VARIABLE ERFOLGREICH DEFINIERT WEITER"
 else
-error "❌PATCH 5a|8 FLASH ATTENTION OBJEKT VARIABLEN BAU FEHLGESCHLAGEN STOPP"
+error "❌PATCH 5a|8 FLASH ATTENTION OBJEKT REGESTRIERUNG FEHLGESCHLAGEN STOPP"
 return 1
 fi
 else
@@ -482,10 +482,10 @@ fi
 
 #5AUTOMATISCHEGERAETEAUSWAHL
 auto_select_device() {
-log "🔷SUCH NACH VERFUEGBAREN SYCL GERAETEN AUF IHREM SYSTEM"
+log "🔷SUCHE NACH VERFUEGBAREN SYCL GERAETEN AUF IHREM SYSTEM"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 if [ ! -x "${FULL_LS_PATH}" ]; then
-warn "⚠️UNTERBAU NICHT GEFUNDEN ${FULL_LS_PATH} RUECKFALL ARC dGPU"
+warn "⚠️SYCL UNTERBAU NICHT GEFUNDEN ${FULL_LS_PATH} ZWEITSUCHE ODER RUECKFALL AUF CPU"
 export ONEAPI_DEVICE_SELECTOR="level_zero:${TARGET_ID}"
 DEVICE="ARC"
 return
@@ -514,7 +514,7 @@ else
 export ONEAPI_DEVICE_SELECTOR="opencl:cpu"
 DEVICE="CPU"
 N_GPU_LAYERS=99
-error "❌KEINE GEEIGNETE GRAFIKKARTE GEFUNDEN FALLE AUF CPU ZURUECK"
+error "❌KEINE GEEIGNETE GRAFIKKARTE GEFUNDEN FALLE ENDGUELTIG AUF CPU ZURUECK"
 return
 fi
 if [ -n "$TARGET_LINE" ]; then
@@ -583,7 +583,7 @@ export MODEL_PATH
 run_inference() {
 local DEFAULT_MODEL_PATH="models/Lucy-1.7B-F16.gguf"
 #CHANGE MODEL HERE ABOVE TWICE ! MODELL HIER DRUEBER DOPPELT AENDERN!
-#MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.Lucy-1.7B-F16MiniCPM4.1-8B-f16_q8_0
+#MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.Lucy-1.7B-F16MiniCPM4.1-8B-f16_q8_0gpt-oss-20b-F16
 #
 #
 #
@@ -602,7 +602,7 @@ Pause
 
 Pause
 
-|TEST001|RE-START///
+|TEST001|RE-START////
 
 Example Formula 1-10_Sentences:
 
@@ -648,6 +648,7 @@ Example Formula 1-10_Sentences:
 |3.|Produce|clear-FULL|Info-Tech|math|c++|icpx|icx|sycl|Code|Vector|32-bit
 |4.|If|Multiple-Valid-Answers|Solutions-Exist|then-LiSt|Briefly|Print-Preference
 |5.|Logic-Chain-Activation||Rank|Optimization-Paths|Latency-vs-Throughput|
+
 \
 
 |02|CONSTRAINTS/|
@@ -699,12 +700,12 @@ local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 
 
 #Aendern Sie diese Werte, wenn ihnen Speicherfehler angezeigt werden nach Unten hin ab!
-local CONTEXT_SIZE=8192
+local CONTEXT_SIZE=16384
 #NEUE WERTE SETZEN: 512 1024 2048 Standart:4096,0x1000 Empfohlen:8192,0x2000 MathtTutor:16384,0x4000|20480,0x5000|
 #Kritisch:24576|0x6000 32768|0x8000|65536|131072|20480|262144|524288|
 
 
-local PREDICT_TOKENS=8192
+local PREDICT_TOKENS=131072
 local layer=${N_GPU_LAYERS:-99}
 local TENSOR_SPLIT=99
 local row=99
@@ -716,7 +717,7 @@ fi
 ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -no-cnv \
     -m "${MODEL_PATH_ARG}" \
-    -b "20480" \
+    -b "16384" \
     -p "${PROMPT_ARG}" \
     -n "${PREDICT_TOKENS}" \
     -c "${CONTEXT_SIZE}" \
