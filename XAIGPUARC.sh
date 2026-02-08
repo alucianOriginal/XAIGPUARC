@@ -8,12 +8,14 @@
 #| XAIGPUARC |✅|
 
 #| This all here is yours!
-#| No need to ask for changes copie or anything else, have fun with IT. :-)
+#| No need to ask for changes copie or anything else.
+#| Have fun with IT. :-)
 
-#| This is a One-Shot Programm: A LOT OF EXAMPLES AND TESTS BELOW |✅|
+#| This is a One-Shot Programm:
+#| A LOT OF EXAMPLES AND TESTS BELOW |✅|
 
 #|Deutsch-Mathematik-Formel-Sprachprogramm|
-#|03.02.2026|TIME|06:29|
+#|08.02.2026|TIME|13:56|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = Sprachprogramm|
 
 #9.)How START your XAIGPUARC
@@ -30,6 +32,8 @@
 #3.)Change|your own Modell in the Textfile|twice|below!!
 #b.)Open|Console|Type: chmod +x ./XAIGPUARC.sh Enter...
 #4.)START|with|type|Console ./XAIGPUARC.sh...
+
+#7.) IF ANYTHING STOPS WITH MEMORY ERROR CHANGE LOWER CONTEXT SIZE CTX!!! 16K Standart
 
 set -euo pipefail
 IFS=$'\n\t'
@@ -442,29 +446,7 @@ log "🔷
 |💡|NUTZEN SIE DEN MATH-TUTOR_F16
 |🟡|A770LE 16GiB VRAM @ 14.2GiB@MathTutor-f16 MAXIMAL MATHEMATIK SPRUCH
 
-|👉|DANKE FUER DIE NUTZUNG VON ❌AIGPUARC
-
-|🎯|EIN ZWEITER VORGANG IST WESENTLICH SCHNELLER
-|🎁|UNTERSCHIEDLICHE STARTVORGAENGE: NUTZEN SIE EIGENE PROMTS UND MODELLE
-
-|🟢|CHATFUNKTION FOLGT:
-|👉|WARTEN SIE DIE ERSTE PROMT TEST ANTWORT DIREKT NACH DIESER
-|🔧|INSTALLATION AB UND GEBEN SIE DANN IHRE FRAGE NACH
-|📌| > TEXT MIT BESTAETIGUNG |ENTER EIN.
-
-|⚙️|Lokale Benutzung ohne weiteres mal Internet nach diesem Bau Moeglich!
-|⚙️|Teilen Sie uns mit, wenn Sie Probleme mit der Nutzung von XAIGPUARC haben oder Unzufrieden sind!
-|⚙️|Wir freuen uns ihnen vielleicht Weiterhelfen zu koennen.
-
-|👉|GLEICH: WIRD IHRE SELBSTWAEHLBARE KI DAS ANTWORTEN BEGINNEN
-
-|🔥|TIPP EINS: STELLEN SIE MOEGLICHST KOMPLEXE FRAGEN OHNE FUELLWOERTER IN KURZEN SAETZEN
-|💡|TIPP ZWEI: Ein Smiley hilft im Zweifel weiter! :-) !!
-|💡|TIPP DREI: Bitte verlieren Sie sich nicht in der Zeit und ihrem Ziel,- bei der SPRACHMODELL Nutzung!
-
-|💡|GEHEIMTIPP: # Triggern Sie das = Sprachmodell mit abstrakten-AnBauweIseN ihrer/Antworten
-|👉|Stellen Sie NICHT die falschen Fragen, sondern moeglichst komplizierte Maschinenwege sie zu Loesen!
-|👉|aBstRaKTe Loesungswege fuer uns Menschen sind normale fuer Sprachmodelle! 8-)"
+|👉|DANKE FUER DIE NUTZUNG VON ❌AIGPUARC"
 
 cmake --build . --verbose --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama-cli llama-ls-sycl-device > "${LOG_FILE}" 2>&1
 local BUILD_STATUS=$?
@@ -571,7 +553,7 @@ fi
 #MathCoder2-DeepSeekMath-7B-f16Neumind-Math-7B-Instruct.F16Lucy-1.7B-F16PULI-LlumiX-32K-instruct-f16.f16
 #7MODELLPFADWAEHLEN
 prepare_model() {
-MODEL_PATH=${1:-"models/Lucy-1.7B-F16.gguf"}
+MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR MODELL NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN! BITTE DORT HIN**$MODEL_PATH**KOPIEREN"
@@ -581,7 +563,7 @@ export MODEL_PATH
 
 #8MODELLAUSFUEHRENCalderaAI_Hexoteric-7B-F16.f16Neumind-Math-7B-Instruct.Lucy-1.7B-F16sauerkrautlm-7b-v1.Q8_0
 run_inference() {
-local DEFAULT_MODEL_PATH="models/Lucy-1.7B-F16.gguf"
+local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
 #CHANGE MODEL HERE ABOVE TWICE ! MODELL HIER DRUEBER DOPPELT AENDERN!
 #MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.Lucy-1.7B-F16MiniCPM4.1-8B-f16_q8_0gpt-oss-20b-F16
 #
@@ -590,6 +572,7 @@ local DEFAULT_MODEL_PATH="models/Lucy-1.7B-F16.gguf"
 #
 #
 # PROMPT: Aendern Sie diesen Prompt nach ihren eigenen Wuenschen/Change the Prompt for your own wishes!
+
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
 Pause
@@ -633,7 +616,7 @@ Example Formula 1-10_Sentences:
 (Cmatch-​>,Condition->,Completeness->,S =
 (If = CONDITION_match = COMPLETE_SET_ad of MATH_PHYSIC_LOGIC) =
 (,S1 (,C++,icx,icpx,sycl_ext))​,+S2 (,Vectorized-32-bit-Logic,)))​,+S3
-(,sycl-ggml,OFFLOAD,))))​,+S4 (,FP16_32-bit_ALU_OP;))))) =
+(,sycl-ggml,OFFLOAD,))))​,+S4 (,FP16_32-bit_ALU_OP16x16;))))) =
 (Oppression,-> Meta,-> suppress_meta_comments,-> output_all_sections_add Add_Only_Pure_Logic_Sections)))))) =
 (discret>Solutionroom_get = PRINT_ALL_SECTIONS_add))))))) = ,FP16_32-bit_math.cl; = Fi;))))))));\
 
@@ -671,8 +654,8 @@ Example Formula 1-10_Sentences:
 |Section4|Possible|Alternativ
 --------
 #1.|Word|Short|PROOF-OF-ANSWER/LIMIT=1-10_SENTENCES
-#2.|IdEnTiFy|cij​ = ∑k=1n​aik​⋅bkj​; SYCL kernel optimization; FP16 32-bit precision.
-#3.|KEY WORDS:|SYCL_COMPILER_HINT|icpx -fsycl -O3 Float@TARGET=SYCL|VECTOR|32BIT|
+#2.|IdEnTiFy|cij​ = ∑k=1n​aik​⋅bkj​; SYCL 16x16 Matrix Multiplication Kernel; FP16 32-bit precision.
+#3.|KEY WORDS:|XMX SYCL_COMPILER_HINT|icpx -fsycl -O3 Float@TARGET=SYCL|VECTOR|32BIT|16X16|
 #4.|If>Multiple>Valid>Solutions>MAX_THREE_Exist>>Then>List>Print>>>Preference
 #5.|List|briefly|print|Precision-FP16@32-bit|Aligment-Zero-Copy-Focus
 
@@ -698,14 +681,16 @@ local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 
-
-#Aendern Sie diese Werte, wenn ihnen Speicherfehler angezeigt werden nach Unten hin ab!
+#Aendern Sie diese Werte, wenn ihnen
+#Speicherfehler angezeigt werden nach Unten hin ab!
 local CONTEXT_SIZE=16384
-#NEUE WERTE SETZEN: 512 1024 2048 Standart:4096,0x1000 Empfohlen:8192,0x2000 MathtTutor:16384,0x4000|20480,0x5000|
+#NEUE WERTE SETZEN: 512 1024 2048
+#Standart:4096,0x1000
+#Empfohlen:8192,0x2000 MathtTutor:16384,0x4000-20480,0x5000|
 #Kritisch:24576|0x6000 32768|0x8000|65536|131072|20480|262144|524288|
 
-
-local PREDICT_TOKENS=131072
+local PREDICT_TOKENS=16384
+#Aendern Sie den obigen Wert nach Unten hin ab
 local layer=${N_GPU_LAYERS:-99}
 local TENSOR_SPLIT=99
 local row=99
@@ -970,7 +955,8 @@ log "✅KOMPLETTER BAUVORGANG HIER GESPEICHERT**${LOG_FILE}**"
 #Five:
 #|? ... (truncated)
 
-#cij​ = ∑k=1n​aik​⋅bkj​; optimize with SYCL for FP16 32-bit precision, use icpx -fsycl -O3 Float@TARGET=SYCL, vector intrinsics for alignment-zero-copy focus.
+#cij​ = ∑k=1n​aik​⋅bkj​; optimize with SYCL for FP16 32-bit precision, use icpx -fsycl -O3
+#Float@TARGET=SYCL, vector intrinsics for alignment-zero-copy focus.
 
 #[ Prompt: 1176,3 t/s | Generation: 13,5 t/s ]
 
@@ -993,7 +979,8 @@ log "✅KOMPLETTER BAUVORGANG HIER GESPEICHERT**${LOG_FILE}**"
 
 #|? ... (truncated)
 
-#cij​ = ∑k=1n​aik​⋅bkj​; SYCL kernel for FP16 32-bit precision; Use icpx -fsycl -O3 Float@TARGET=SYCL for optimization; Zero-copy alignment preferred.
+#cij​ = ∑k=1n​aik​⋅bkj​; SYCL kernel for FP16 32-bit precision; Use icpx -fsycl -O3
+#Float@TARGET=SYCL for optimization; Zero-copy alignment preferred.
 
 #[ Prompt: 1179,5 t/s | Generation: 13,6 t/s ]
 
@@ -1002,9 +989,69 @@ log "✅KOMPLETTER BAUVORGANG HIER GESPEICHERT**${LOG_FILE}**"
 #Eight:
 #|? ... (truncated)
 
-#cij = ∑<sub>k=1</sub><sup>n</sup> a<sub>ik</sub> ⋅ b<sub>kj</sub>; SYCL kernel optimization; FP16 32-bit precision; alignment-zero-copy-focus.
+#cij = ∑<sub>k=1</sub><sup>n</sup> a<sub>ik</sub> ⋅ b<sub>kj</sub>;
+#SYCL kernel optimization; FP16 32-bit precision; alignment-zero-copy-focus.
 
 #[ Prompt: 1182,2 t/s | Generation: 13,7 t/s ]
 
 #> EIGHT TIMES SIMILIAR :-) All the other devices scale well known values without any worth to talk about
-#With Xe Driver you will get round about 16-17 Generated Tokens per Second. Fast enough for Work if you ask me.
+#With Xe Driver you will get round about 16-17 Generated Tokens per Second.
+#16k-20480 CONTEXT_SIZE 131072 PREDICT_TOKENS-///F16 Modells Recommed to use only!
+#ai,
+#local,
+#costs,
+#energy,
+#benchmark,
+#realworld,
+#computer,
+#minimum,
+#spec,
+#low,
+#vram,
+#gpu,
+#cpu,
+#igpu,
+#dgpu,
+#old,
+#fast,
+#apu,
+#arc,
+#intel,
+#alchemist,
+#a750,
+#a770,
+#a730m,
+#a580,
+#a570,
+#a50,
+#a60,
+#b580,
+#b570,
+#b50,
+#b60,
+#a380,
+#a310,
+#sycl,
+#f16,
+#high,
+#qualitiy,
+#answers,
+#gguf,
+#ggml,
+#it,
+#compute,
+#mkl,
+#itx,
+#icpx,
+#mem,
+#auto,
+#search,
+#decive,
+#oneshotapp,
+#localai,
+#lowspecai,
+#precision,
+#audit,
+#zero,
+#rounding,
+#error,
