@@ -7,15 +7,18 @@
 
 #| XAIGPUARC |✅|
 
+
 #| This all here is yours!
 #| No need to ask for changes copie or anything else.
 #| Have fun with IT. :-)
+
+#ATTENTION Marks the Change Stuff in XAIGPUARC like Modell, Prompt, CTX Size...
 
 #| This is a One-Shot Programm:
 #| A LOT OF EXAMPLES AND TESTS BELOW |✅|
 
 #|Deutsch-Mathematik-Formel-Sprachprogramm|
-#|08.02.2026|TIME|13:56|
+#|09.02.2026|TIME|08:42|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = Sprachprogramm|
 
 #9.)How START your XAIGPUARC
@@ -524,13 +527,13 @@ fi
 if [ "$N_GPU_LAYERS" -lt 1 ]; then
 N_GPU_LAYERS=1
 fi
-log "🔷NGL**${N_GPU_LAYERS}**SCHICHTEN MODELL PRIORITAET GLEICHMAESSIG VERTEILT"
+log "🔷NGL**${N_GPU_LAYERS}**SCHICHTEN MODELL PRIORITAET GLEICHMAESSIG AUF GPU/CPU VERTEILT"
 fi
 }
 
 #6SYCLKOMPATIBLEGERAETEPRUEFEN
 list_sycl_devices() {
-log "🔷SUCHE ZWEI MAL HINTEREINANDER SYCL FAEHIGES GERAET AUF SYSTEM"
+log "🔷SUCHE ZWEIMAL HINTEREINANDER SYCL FAEHIGES GERAET UM SUCHFEHLER ZU UMGEHEN"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 if [ -f "${FULL_LS_PATH}" ]; then
 "${FULL_LS_PATH}"
@@ -542,7 +545,7 @@ fi
 # CHANGE MODELL HERE BELOW!!!!
 # Aendern Sie ihr Modell hier unten!!!
 #
-#
+#ATTENTION
 #
 # CHANGE MODELL HERE BELOW!!!!
 #
@@ -552,8 +555,9 @@ fi
 #CalderaAI_Hexoteric-7B-F16.f16Yi-6B-200K-Llama-sharded.f16
 #MathCoder2-DeepSeekMath-7B-f16Neumind-Math-7B-Instruct.F16Lucy-1.7B-F16PULI-LlumiX-32K-instruct-f16.f16
 #7MODELLPFADWAEHLEN
+
 prepare_model() {
-MODEL_PATH=${1:-"models/Lucy-1.7B-F16.gguf"}
+MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR MODELL NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN! BITTE DORT HIN**$MODEL_PATH**KOPIEREN"
@@ -563,7 +567,7 @@ export MODEL_PATH
 
 #8MODELLAUSFUEHRENCalderaAI_Hexoteric-7B-F16.f16Neumind-Math-7B-Instruct.Lucy-1.7B-F16sauerkrautlm-7b-v1.Q8_0
 run_inference() {
-local DEFAULT_MODEL_PATH="models/Lucy-1.7B-F16.gguf"
+local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
 #CHANGE MODEL HERE ABOVE TWICE ! MODELL HIER DRUEBER DOPPELT AENDERN!
 #MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.Lucy-1.7B-F16MiniCPM4.1-8B-f16_q8_0gpt-oss-20b-F16
 #
@@ -577,7 +581,7 @@ local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
 Pause
 
-|0>SYSTEM<0|DEVELOPE JUST FULL -SYCL-Kernel cij​=∑aik​⋅bkj-​|
+|0>SYSTEM<0|TRY TO DEVELOPE 2D-PAPERWORK-A4-DIN-7Dimensional-SYCL-STANDALONE-Kernel-Lettersize-12- Formula= cij​=∑aik​⋅bkj-​|
 
 Pause
 
@@ -611,14 +615,18 @@ Example Formula 1-10_Sentences:
 
 \
 
-|FORMAT=->FORMULA_FINDER+SYCL_KERNEL_GEN / Mode= Matrix-Multiplikation=cij​=∑k=1n​aik​⋅bkj​ /
+|FORMAT=->FORMULA_FINDER+2D-PAPER-DIN-A4-SYCL_KERNEL_GENERATOR /
+|Mode=->Matrix-Multiplikation=cij​=∑k=1n​aik​⋅bkj​ /
 
 (Cmatch-​>,Condition->,Completeness->,S =
 (If = CONDITION_match = COMPLETE_SET_ad of MATH_PHYSIC_LOGIC) =
-(,S1 (,C++,icx,icpx,sycl_ext))​,+S2 (,Vectorized-32-bit-Logic,)))​,+S3
+(,S1 (,C++,icx,icpx,sycl_ext))​,+S2 (,16x16matrizen logic =
+(welcome but Vectorized-32-bit-Logic-Topic,)))​,+S3
 (,sycl-ggml,OFFLOAD,))))​,+S4 (,FP16_32-bit_ALU_OP16x16;))))) =
-(Oppression,-> Meta,-> suppress_meta_comments,-> output_all_sections_add Add_Only_Pure_Logic_Sections)))))) =
-(discret>Solutionroom_get = PRINT_ALL_SECTIONS_add))))))) = ,FP16_32-bit_math.cl; = Fi;))))))));\
+(Oppression,-> Meta,-> ->>suppress_meta_comments->>>>
+(output_all_sections_add Add_Only_Pure_Logic_Sections)))))) =
+(discret>Solutionroom_get = PRINT_ALL_SECTIONS_add))))))) =
+(FP16_32-bit_math.cl; = Fi;))))))));\
 
 |00|After|Promt|Analysis|You|Recive|Input|Text|Questions-Build up-on-your own-answer!
 
@@ -626,7 +634,7 @@ Example Formula 1-10_Sentences:
 
 |01|00-42|MAIN-/TASKS/|
 
-|1.|Word|short|Basic-C++|math-analysis-code|32-bit|vector-intrinsics|graph
+|1.|Word|2D-Format-A4-DIN-PROGRAMM-short|Basic-C++|math-analysis-code|32-bit|vector-intrinsics|graph
 |2.|Identify|ambiguities-missIng-information-assumptions-input
 |3.|Produce|clear-FULL|Info-Tech|math|c++|icpx|icx|sycl|Code|Vector|32-bit
 |4.|If|Multiple-Valid-Answers|Solutions-Exist|then-LiSt|Briefly|Print-Preference
@@ -646,7 +654,7 @@ Example Formula 1-10_Sentences:
 
 \
 
-|03|OUTPUT|FORMAT/||MODE=EXECUTE|OUTPUT=SECTIONS|NO_PARAPHRASE|NO_EXAMPLE|/
+|03|OUTPUT|FORMAT-2D-A4-PAPER/||MODE=EXECUTE|OUTPUT=SECTIONS|NO_PARAPHRASE|NO_EXAMPLE|/
 
 |Section1|Restatement
 |Section2|Ambiguities|Missing|Information
@@ -671,7 +679,7 @@ Example Formula 1-10_Sentences:
 |Set|ATTRIBUTE_MINIMAL_CONCISE
 |CONTROL|IGNORING_EVERYTHING_ELSE
 |And|
-|EXECUTE|PRINT_ALL_SECTIONS|OUTPUT=SINGLE_SENTENCE|MAX-TEN-SENTENCES|
+|EXECUTE|PRINT-2D-A4-DIN-PaperBLOCKStyle-_-ALL_SECTIONS|OUTPUT=SINGLE_SENTENCE|MAX-TEN-SENTENCES|
 |TERMINATE
 |Fi\|
 |MAIN|0-5|ENDE\|"
@@ -680,7 +688,10 @@ Example Formula 1-10_Sentences:
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
-
+#
+#ATTENTION
+#
+#
 #Aendern Sie diese Werte, wenn ihnen
 #Speicherfehler angezeigt werden nach Unten hin ab!
 local CONTEXT_SIZE=16384
@@ -689,7 +700,7 @@ local CONTEXT_SIZE=16384
 #Empfohlen:8192,0x2000 MathtTutor:16384,0x4000-20480,0x5000|
 #Kritisch:24576|0x6000 32768|0x8000|65536|131072|20480|262144|524288|
 
-local PREDICT_TOKENS=16384
+local PREDICT_TOKENS=32768
 #Aendern Sie den obigen Wert nach Unten hin ab
 local layer=${N_GPU_LAYERS:-99}
 local TENSOR_SPLIT=99
@@ -900,9 +911,6 @@ log "✅KOMPLETTER BAUVORGANG HIER GESPEICHERT**${LOG_FILE}**"
 #16
 #Threads
 #672
-
-#Free-Demo on my YouTube-Channel: Sascha Rene Puerner
-#https://youtu.be/MBptqDzm8Hs
 
 #Free Open Source Download of XAIGPUARC:
 #https://github.com/alucianOriginal/XAIGPUARC/blob/main/XAIGPUARC.sh
