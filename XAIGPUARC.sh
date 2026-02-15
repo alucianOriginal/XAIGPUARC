@@ -18,7 +18,7 @@
 #| A LOT OF EXAMPLES AND TESTS BELOW |✅|
 
 #|Deutsch-Mathematik-Formel-Sprachprogramm|
-#|09.02.2026|TIME|08:42|
+#|15.02.2026|TIME|09:35|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = Sprachprogramm|
 
 #9.)How START your XAIGPUARC
@@ -557,7 +557,7 @@ fi
 #7MODELLPFADWAEHLEN
 
 prepare_model() {
-MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
+MODEL_PATH=${1:-"models/Lucy-1.7B-F16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR MODELL NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN! BITTE DORT HIN**$MODEL_PATH**KOPIEREN"
@@ -567,7 +567,7 @@ export MODEL_PATH
 
 #8MODELLAUSFUEHRENCalderaAI_Hexoteric-7B-F16.f16Neumind-Math-7B-Instruct.Lucy-1.7B-F16sauerkrautlm-7b-v1.Q8_0
 run_inference() {
-local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
+local DEFAULT_MODEL_PATH="models/Lucy-1.7B-F16.gguf"
 #CHANGE MODEL HERE ABOVE TWICE ! MODELL HIER DRUEBER DOPPELT AENDERN!
 #MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.Lucy-1.7B-F16MiniCPM4.1-8B-f16_q8_0gpt-oss-20b-F16
 #
@@ -607,7 +607,7 @@ Example Formula 1-10_Sentences:
 
 /Language 4 MAN ////
 
-#|???|
+#|GLxSLxTXxRT|#(概率计算 - Gàilǜ_Lùsuàn)X(时间链 - Shíjiān Liàn)X(天网协作 - Tiānwǎng Xiézuò)X(人工推理 - Réngōng Tuīlǐ)
 
 |TEST|000|END\\\|
 
@@ -644,7 +644,7 @@ Example Formula 1-10_Sentences:
 
 |02|CONSTRAINTS/|
 
-|Do||Limit|response|to|maximum|10-SENTENCES!!!|Strict|one|sentence|preferred!!!|
+|Do||Limit|response|to|maximum|10-SENTENCES!!|Strict|one|sentence|preferred!!|
 |Do|not|elaborate|
 |Do|not|explain|reasoning
 |Do|not|invent|missing|details
@@ -694,13 +694,13 @@ local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 #
 #Aendern Sie diese Werte, wenn ihnen
 #Speicherfehler angezeigt werden nach Unten hin ab!
-local CONTEXT_SIZE=16384
+local CONTEXT_SIZE=8192
 #NEUE WERTE SETZEN: 512 1024 2048
 #Standart:4096,0x1000
 #Empfohlen:8192,0x2000 MathtTutor:16384,0x4000-20480,0x5000|
 #Kritisch:24576|0x6000 32768|0x8000|65536|131072|20480|262144|524288|
 
-local PREDICT_TOKENS=32768
+local PREDICT_TOKENS=16384
 #Aendern Sie den obigen Wert nach Unten hin ab
 local layer=${N_GPU_LAYERS:-99}
 local TENSOR_SPLIT=99
