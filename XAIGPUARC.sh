@@ -18,11 +18,11 @@
 #| A LOT OF EXAMPLES AND TESTS BELOW |✅|
 
 #|Deutsch-Mathematik-Formel-Sprachprogramm|
-#|15.02.2026|TIME|09:35|
+#|24.02.2026|TIME|22:29|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = Sprachprogramm|
 
 #9.)How START your XAIGPUARC
-#0.)FIRST|||INTEL-ONE-API-BASEKIT!!!|||PC|LAPTOP|SYSTEM!!!
+#0.)FIRST|||INTEL-ONE-API-BASEKIT!!!
 #0.)Second Best Case is Use ARCH|Garuda|LINUX
 
 #1.)Kopie|XAIGPUARC.sh|in your|Home/PCNAME|Folder
@@ -119,7 +119,14 @@ log "🔷VERBINDUNG ONEAPI GELADEN DPCPP${DPCPP_ROOT}MKL${MKL_ROOT}"
 }
 
 #1|PROJEKT|VORBAU
+
 setup_project() {
+if [[ "${1:-}" == "--clean" ]]; then
+warn "⚠️ REINIGUNGSMODUS LOESCHE ALTE BAUSTEINE"
+rm -rf "${LLAMA_CPP_DIR}"
+rm -rf "${BUILD_DIR}"
+success "✅ REINIGUNG ABGESCHLOSSEN"
+fi
 log "🔷BEREITE XAIGPUARC VORBAU BITTE WARTEN"
 if [ ! -d "${LLAMA_CPP_DIR}" ]; then
 log "🔷ZIEHE BAUSTEINE AUS INTERNETZ"
@@ -131,6 +138,7 @@ fi
 fi
 if pushd "${LLAMA_CPP_DIR}" > /dev/null; then
 log "🔷AKTUALISIERE BAUSTEINE FUER UNTERMODULE"
+git reset --hard HEAD
 git pull
 git submodule update --init --recursive
 popd > /dev/null
@@ -557,7 +565,7 @@ fi
 #7MODELLPFADWAEHLEN
 
 prepare_model() {
-MODEL_PATH=${1:-"models/Lucy-1.7B-F16.gguf"}
+MODEL_PATH=${1:-"models/Orchestrator-8B-f16_q8_0.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR MODELL NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN! BITTE DORT HIN**$MODEL_PATH**KOPIEREN"
@@ -567,10 +575,10 @@ export MODEL_PATH
 
 #8MODELLAUSFUEHRENCalderaAI_Hexoteric-7B-F16.f16Neumind-Math-7B-Instruct.Lucy-1.7B-F16sauerkrautlm-7b-v1.Q8_0
 run_inference() {
-local DEFAULT_MODEL_PATH="models/Lucy-1.7B-F16.gguf"
+local DEFAULT_MODEL_PATH="models/Orchestrator-8B-f16_q8_0.gguf"
 #CHANGE MODEL HERE ABOVE TWICE ! MODELL HIER DRUEBER DOPPELT AENDERN!
 #MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.Lucy-1.7B-F16MiniCPM4.1-8B-f16_q8_0gpt-oss-20b-F16
-#
+#kani-tts-400m-en-f16_q8_0.gguf
 #
 #
 #
@@ -682,7 +690,8 @@ Example Formula 1-10_Sentences:
 |EXECUTE|PRINT-2D-A4-DIN-PaperBLOCKStyle-_-ALL_SECTIONS|OUTPUT=SINGLE_SENTENCE|MAX-TEN-SENTENCES|
 |TERMINATE
 |Fi\|
-|MAIN|0-5|ENDE\|"
+|MAIN|0-5|ENDE\
+"
 }
 
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
@@ -694,7 +703,7 @@ local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 #
 #Aendern Sie diese Werte, wenn ihnen
 #Speicherfehler angezeigt werden nach Unten hin ab!
-local CONTEXT_SIZE=8192
+local CONTEXT_SIZE=4096
 #NEUE WERTE SETZEN: 512 1024 2048
 #Standart:4096,0x1000
 #Empfohlen:8192,0x2000 MathtTutor:16384,0x4000-20480,0x5000|
@@ -713,7 +722,6 @@ fi
 ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -no-cnv \
     -m "${MODEL_PATH_ARG}" \
-    -b "16384" \
     -p "${PROMPT_ARG}" \
     -n "${PREDICT_TOKENS}" \
     -c "${CONTEXT_SIZE}" \
