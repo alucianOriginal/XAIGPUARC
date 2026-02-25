@@ -18,7 +18,7 @@
 #| A LOT OF EXAMPLES AND TESTS BELOW |✅|
 
 #|Deutsch-Mathematik-Formel-Sprachprogramm|
-#|24.02.2026|TIME|22:29|
+#|25.02.2026|TIME|10:16|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = Sprachprogramm|
 
 #9.)How START your XAIGPUARC
@@ -30,7 +30,7 @@
 #2.)Between install of XAIGPUARC you can Download a .gguf|F16|AI fit your
 #a.)V|RAM|/models/HereAINAME|your|Home/PCNAME/models/HereAINAME|Folder
 
-#b.)The Standart Modell is: Lucy-1.7B-F16.gguf!!!
+#b.)The Standart Modell is: Orchestrator!!!
 
 #3.)Change|your own Modell in the Textfile|twice|below!!
 #b.)Open|Console|Type: chmod +x ./XAIGPUARC.sh Enter...
@@ -721,12 +721,14 @@ return 1
 fi
 ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     -no-cnv \
-    -m "${MODEL_PATH_ARG}" \
-    -p "${PROMPT_ARG}" \
-    -n "${PREDICT_TOKENS}" \
-    -c "${CONTEXT_SIZE}" \
+    --model "${MODEL_PATH_ARG}" \
+    --prompt "${PROMPT_ARG}" \
+    --n-predict "${PREDICT_TOKENS}" \
+    --ctx-size "${CONTEXT_SIZE}" \
     -ngl "${N_GPU_LAYERS}" \
-    --main-gpu ${GPU_ID}
+    --keep 512 \
+    --main-gpu ${GPU_ID} \
+    --color auto
 echo "✅SPRACHMODELL INTERAKTIONS FUNKTION JETZT AKTIV"
 }
 
