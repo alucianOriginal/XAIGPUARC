@@ -11,6 +11,7 @@ ENGLISH WELCOME / DEUTSCH WILLKOMMEN
 #9.) How to START your XAIGPUARC ONEKLICK AI-MACHINE?!
 
 #0.) FIRST INTEL_ONE_API_BASEKIT MUST BE INSTALLED ON YOUR PC/LAPTOP/SYSTEM USE ---PREXAIGPUARC--- for HELP!!!
+     Download the official Paket from Intel itself and install it manuall if you got problems above your Paketmanager Install. 
 
 #0.) Second. Use the MKL/LEVELZERO Script to proof everything goes right for your System!
 
