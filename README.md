@@ -49,6 +49,10 @@ bass source /opt/intel/oneapi/setvars.sh --force
 Funktionstest: Prüfe die GPU-Erkennung (muss jetzt ohne "Binärdatei-Fehler" laufen):
 
 sycl-ls && clinfo | grep -i "Arc A770"
+
+
+
+ sudo pacman -Rns intel-compute-runtime intel-level-zero-gpu oneapi-level-zero des zuerst, dann im pakemanager oneapi raus und toolkit version installieren dann das hier bass source /opt/intel/oneapi/setvars.sh --force sudo pacman -S intel-compute-runtime level-zero-loader intel-opencl-clang ocl-icd und dann das hier wenn der befehl stimmt sudo mv /etc/OpenCL/vendors/intel64.icd /etc/OpenCL/vendors/intel64.icd.disabled auch das habe ich gemacht export OCL_ICD_VENDORS=/etc/OpenCL/vendors/intel.icd sycl-ls && clinfo | grep -i "Arc A770"
 ---------------------------------
 HARDWARE: CPU/iGPU/dGPU from INTEL
 ---------------------------------
