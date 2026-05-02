@@ -28,6 +28,27 @@ ENGLISH WELCOME / DEUTSCH WILLKOMMEN
 #4.) START with type in Console ./XAIGPUARC.sh Enter...
 
 
+sudo pacman -Rns intel-compute-runtime intel-level-zero-gpu oneapi-level-zero
+
+Pakete installieren: Installiere die Arch-nativen Treiber, um Binär-Konflikte mit dem oneAPI-Installer zu vermeiden:
+
+sudo pacman -S intel-compute-runtime level-zero-loader intel-opencl-clang ocl-icd
+
+ICD-Konflikte lösen: Deaktiviere alte/doppelte Profile, damit clinfo nicht über intel64.icd stolpert:
+
+sudo mv /etc/OpenCL/vendors/intel64.icd /etc/OpenCL/vendors/intel64.icd.disabled
+
+Environment setzen: Zwinge das System auf das korrekte Intel-Profil (Wichtig für A770-Erkennung):
+
+export OCL_ICD_VENDORS=/etc/OpenCL/vendors/intel.icd
+
+oneAPI-Vars (falls nötig): Initialisiere die Pfade nur für den Compiler, nicht für die Runtime:
+
+bass source /opt/intel/oneapi/setvars.sh --force
+
+Funktionstest: Prüfe die GPU-Erkennung (muss jetzt ohne "Binärdatei-Fehler" laufen):
+
+sycl-ls && clinfo | grep -i "Arc A770"
 ---------------------------------
 HARDWARE: CPU/iGPU/dGPU from INTEL
 ---------------------------------
