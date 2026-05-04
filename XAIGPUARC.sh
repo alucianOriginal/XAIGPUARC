@@ -1,16 +1,11 @@
 #!/bin/bash
 
-##--##--##--##--##--##--##--##--##--##--##--##--##--##
-##--## ! INSTALL: INTEL-ONE-API-BASEKIT ! 2.4GB ##--##
-##--##  - Use "Xe" Driver instead of "i915" -   ##--##
-##--##--##--##--##--##--##--##--##--##--##--##--##--##
+if [ -n "$FISH_VERSION" ]; then
+    echo "❌ FEHLER: Bitte starte das Script mit 'bash XAIGPUARC.sh' oder installiere 'bass'."
+    exit 1
+fi
 
 #| XAIGPUARC |✅|
-
-
-#| This all here is yours!
-#| No need to ask for changes copie or anything else.
-#| Have fun with IT. :-)
 
 #ATTENTION Marks the Change Stuff in XAIGPUARC like Modell, Prompt, CTX Size...
 
@@ -18,11 +13,11 @@
 #| A LOT OF EXAMPLES AND TESTS BELOW |✅|
 
 #|Deutsch-Mathematik-Formel-Sprachprogramm|
-#|25.02.2026|TIME|10:16|
+#|04.05.2026|TIME|20:10|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = Sprachprogramm|
 
 #9.)How START your XAIGPUARC
-#0.)FIRST|||INTEL-ONE-API-BASEKIT!!!
+#0.)FIRST|||INTEL-ONE-API-BASEKIT-Toolkit!!!
 #0.)Second Best Case is Use ARCH|Garuda|LINUX
 
 #1.)Kopie|XAIGPUARC.sh|in your|Home/PCNAME|Folder
@@ -30,13 +25,30 @@
 #2.)Between install of XAIGPUARC you can Download a .gguf|F16|AI fit your
 #a.)V|RAM|/models/HereAINAME|your|Home/PCNAME/models/HereAINAME|Folder
 
-#b.)The Standart Modell is: Orchestrator!!!
+#b.)The Standart Modell is: MathTutor-7B-H_v0.0.1.f16!!!
 
 #3.)Change|your own Modell in the Textfile|twice|below!!
 #b.)Open|Console|Type: chmod +x ./XAIGPUARC.sh Enter...
 #4.)START|with|type|Console ./XAIGPUARC.sh...
 
-#7.) IF ANYTHING STOPS WITH MEMORY ERROR CHANGE LOWER CONTEXT SIZE CTX!!! 16K Standart
+#7.) IF ANYTHING STOPS WITH MEMORY ERROR CHANGE LOWER CONTEXT SIZE CTX!!! 20480 Standart
+
+#yay -S intel-oneapi-base-toolkit
+
+#sudo pacman -Rns intel-compute-runtime intel-level-zero-gpu oneapi-level-zero
+
+#pakemanager oneapi toolkit version install
+
+#bass source /opt/intel/oneapi/setvars.sh --force
+
+#sudo pacman -S intel-compute-runtime level-zero-loader intel-opencl-clang ocl-icd
+
+#sudo mv /etc/OpenCL/vendors/intel64.icd /etc/OpenCL/vendors/intel64.icd.disabled
+
+#export OCL_ICD_VENDORS=/etc/OpenCL/vendors/intel.icd
+
+#Test:
+#sycl-ls && clinfo | grep -i "Arc A770"
 
 set -euo pipefail
 IFS=$'\n\t'
@@ -57,17 +69,19 @@ ADD_SUBDIR_LINE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 
 #|ONEAPIFUNKTIONEN
 export LIBVA_DRIVER_NAME=iHD
-export ONEAPI_DEVICE_SELECTOR=level_zero:*
 export TCM_ROOT="${TCM_ROOT:-"/opt/intel/oneapi/tcm/latest/"}"
-export SYCL_CACHE_PERSISTENT=1
+export SYCL_CACHE_PERSISTENT=0
 export OCL_ICD_FILENAMES=""
-export ZES_ENABLE_SYSMAN=1
-export OverrideDefaultFP64Settings=1
+export ZES_ENABLE_SYSMAN=0
+export OverrideDefaultFP64Settings=0
 export CCACHE_DIR="$HOME/.ccache"
 export COMPILER_VERSION="2025.3"
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
 export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=256
 export FP_FLAG=FP16
+export ONEAPI_DEVICE_SELECTOR=level_zero:0
+export SYCL_DEVICE_FILTER=level_zero:gpu
+export ZE_ENABLE_PCI_ID_DEVICE_ORDER=1
 
 #|HILFSFUNKTIONEN
 log() { printf "🔷 %s\n" "$*"; }
@@ -248,6 +262,7 @@ local FA_REGISTER_CODE=$'//REGESTRIERE ggml_flash_attention_sycl.cpp \nextern "C
 void ggml_flash_attention_sycl(ggml_flash_attention_sycl * ctx, ggml_tensor *
 dst, const ggml_tensor * Q, const ggml_tensor * K, const ggml_tensor * V);\n'
 if ! grep -Fq "ggml_flash_attention_sycl" "${GGML_SYCL_CPP}"; then
+#Anmerkung keine Berechtigung!!LoesenFlashattention is meine gemeint.
 echo "${FA_REGISTER_CODE}" > /tmp/ggml_flash_attention_sycl.cpp
 awk '/extern "C" void ggml_flash_attention_sycl/ { system("cat /tmp/ggml_flash_attention_sycl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
@@ -409,7 +424,7 @@ cmake "../${LLAMA_CPP_DIR}" \
     -DGGML_SYCL_PRIORITIZE_DMMV=ON \
     -DGGML_SYCL_DISABLE_DNN=OFF \
     -DTHREADS_PREFER_PTHREAD_FLAG=ON \
-    -DCMAKE_C_FLAGS="-O3 -ffast-math" \
+    -DCMAKE_C_FLAGS="-O3 -ffast-math -fno-trapping-math" \
     -DGGML_SYCL_DISABLE_GRAPH=OFF \
     -DCMAKE_THREAD_LIBS_INIT="-pthread"\
     -DCMAKE_C_COMPILER_WORKS=1
@@ -565,7 +580,7 @@ fi
 #7MODELLPFADWAEHLEN
 
 prepare_model() {
-MODEL_PATH=${1:-"models/Orchestrator-8B-f16_q8_0.gguf"}
+MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR MODELL NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN! BITTE DORT HIN**$MODEL_PATH**KOPIEREN"
@@ -575,7 +590,7 @@ export MODEL_PATH
 
 #8MODELLAUSFUEHRENCalderaAI_Hexoteric-7B-F16.f16Neumind-Math-7B-Instruct.Lucy-1.7B-F16sauerkrautlm-7b-v1.Q8_0
 run_inference() {
-local DEFAULT_MODEL_PATH="models/Orchestrator-8B-f16_q8_0.gguf"
+local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
 #CHANGE MODEL HERE ABOVE TWICE ! MODELL HIER DRUEBER DOPPELT AENDERN!
 #MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.Lucy-1.7B-F16MiniCPM4.1-8B-f16_q8_0gpt-oss-20b-F16
 #kani-tts-400m-en-f16_q8_0.gguf
@@ -611,11 +626,7 @@ Example Formula 1-10_Sentences:
 
 /Language 3 LAT ///
 
-#|PCxTCxCRCxIA|#(Probabilitatum_Computatio)X(Temporis_Catena)X(Contextus_Reteque_Caeli)X(Inferentia_Artificialis)
-
-/Language 4 MAN ////
-
-#|GLxSLxTXxRT|#(概率计算 - Gàilǜ_Lùsuàn)X(时间链 - Shíjiān Liàn)X(天网协作 - Tiānwǎng Xiézuò)X(人工推理 - Réngōng Tuīlǐ)
+#|PCxTCxCRCxIA|#(Probabilitatum_Computatio)X(Temporis_Catena)X(Contextus_Reteque_Caeli)X(Inferentia_Artificialis)|
 
 |TEST|000|END\\\|
 
@@ -703,13 +714,13 @@ local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 #
 #Aendern Sie diese Werte, wenn ihnen
 #Speicherfehler angezeigt werden nach Unten hin ab!
-local CONTEXT_SIZE=4096
+local CONTEXT_SIZE=2080
 #NEUE WERTE SETZEN: 512 1024 2048
 #Standart:4096,0x1000
 #Empfohlen:8192,0x2000 MathtTutor:16384,0x4000-20480,0x5000|
 #Kritisch:24576|0x6000 32768|0x8000|65536|131072|20480|262144|524288|
 
-local PREDICT_TOKENS=16384
+local PREDICT_TOKENS=20480
 #Aendern Sie den obigen Wert nach Unten hin ab
 local layer=${N_GPU_LAYERS:-99}
 local TENSOR_SPLIT=99
@@ -726,7 +737,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     --n-predict "${PREDICT_TOKENS}" \
     --ctx-size "${CONTEXT_SIZE}" \
     -ngl "${N_GPU_LAYERS}" \
-    --keep 512 \
+    --keep 20480 \
     --main-gpu ${GPU_ID} \
     --color auto
 echo "✅SPRACHMODELL INTERAKTIONS FUNKTION JETZT AKTIV"
@@ -742,7 +753,7 @@ prepare_environment
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 if [[ -f "${FULL_LLAMA_CLI_PATH}" ]] && [[ -f "${FULL_LS_PATH}" ]]; then
-success "✅ XAIGPUARC WERKZEUGKASTEN VORHANDEN NEUBAU UNNOETIG**${FULL_LLAMA_CLI_PATH}** **${FULL_LS_PATH}**"
+success "✅ XAIGPUARC WERKZEUGK09ASTEN VORHANDEN NEUBAU UNNOETIG**${FULL_LLAMA_CLI_PATH}** **${FULL_LS_PATH}**"
 log "🔷UEBERSPRINGE BAUVORGANG WERKZEUGKASTEN"
 RERUN_BUILD=0
 else
