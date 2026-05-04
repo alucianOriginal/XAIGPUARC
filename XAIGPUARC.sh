@@ -714,7 +714,7 @@ local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 #
 #Aendern Sie diese Werte, wenn ihnen
 #Speicherfehler angezeigt werden nach Unten hin ab!
-local CONTEXT_SIZE=2080
+local CONTEXT_SIZE=20480
 #NEUE WERTE SETZEN: 512 1024 2048
 #Standart:4096,0x1000
 #Empfohlen:8192,0x2000 MathtTutor:16384,0x4000-20480,0x5000|
