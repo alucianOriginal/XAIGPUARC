@@ -713,7 +713,7 @@ fi
 #|7|MODELLORT BEDARF AENDERN
 #ATTENTION
 prepare_model() {
-MODEL_PATH=${1:-"models/Orchestrator-8B-f16_q8_0.gguf"}
+MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
 #DANGER
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
