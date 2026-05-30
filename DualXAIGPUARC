@@ -5,64 +5,36 @@ if [ -n "$FISH_VERSION" ]; then
     exit 1
 fi
 
-#| XAIGPUARC |✅|
+#| ✅ XAIGPUARC  ✅ VANILLA 2.0  ✅ ALUCIAN  ✅ DUAL GPU  ✅  FINAL FIRST ✅  YEAR CODE ✅ VERSION ✅
 
-#ATTENTION Markiert die Punkte zum Veraendern in XAIGPUARC wie Modelle, Prompt, CTX Size...
+#|DANGER DONT BURN DOWN YOU COMPUTER WITH THAT
 
-#| Das ist ein Ein Klick Programm:
-#| Am Ende dieses Programmes finden sie Testbeispiele|✅|
+#|70 BIS 80 GiB MAX GGUF F16
 
-#|Deutsch-Mathematik-Formel-Sprachprogramm|
-#|30.05.2026|TIME|08:12|DUALVERSOIONVANILLALAPTOPigPUARCdGPUCPUFALLBACKAUTOMATIK
-#|GEHIRN-O-MAT + EIWEISS-COMPUTER = Sprachprogramm|
+#|ATTENTION
+#|KANN ZU SCHNELL ZU GROSS ZU MAECHTIG FUER DICH SEIN
+#BENUTZEN AUF EIGENE GEFAHR UND HAFTUNG
+#|USE NORMAL VERSION LAST WARNING
 
-#9.)How START your XAIGPUARC
-#0.)FIRST|||INTEL-ONE-API-BASEKIT-Toolkit!!!
-#0.)Second Best Case is Use ARCH|Garuda|LINUX
+#|DATUM
+#|30.5.26
 
-#1.)Kopie|XAIGPUARC.sh|in your|Home/PCNAME|Folder
-
-#2.)Between install of XAIGPUARC you can Download a .gguf|F16|AI fit your
-#a.)V|RAM|/models/HereAINAME|your|Home/PCNAME/models/HereAINAME|Folder
-
-#b.)The Standart Modell is: MathTutor-7B-H_v0.0.1.f16!!!
-#7.) IF ANYTHING STOPS WITH MEMORY ERROR CHANGE LOWER CONTEXT SIZE CTX!!! 20480 Standart
-#yay -S intel-oneapi-base-toolkit
-#sudo pacman -Rns intel-compute-runtime intel-level-zero-gpu oneapi-level-zero
-#pakemanager oneapi toolkit version install
-#bass source /opt/intel/oneapi/setvars.sh --force
-#sudo pacman -S intel-compute-runtime level-zero-loader intel-opencl-clang ocl-icd
-#sudo mv /etc/OpenCL/vendors/intel64.icd /etc/OpenCL/vendors/intel64.icd.disabled
-#export OCL_ICD_VENDORS=/etc/OpenCL/vendors/intel.icd
-#Test your SYCL Device ist Working like that Example at A770LE:
-#sycl-ls && clinfo | grep -i "Arc A770"
-
-#Check and Start
-#Change|your own Modell in the Textfile|twice|below!!
-#Open your fish or bash Console|Type: chmod +x ./XAIGPUARC.sh Enter...
-#START|with|type|Console ./XAIGPUARC.sh...
+#|UHRZEIT
+#|9:52
 
 set -euo pipefail
 IFS=$'\n\t'
 PRECISION="FP16"
 DEVICE="ARC"
 
-
-#|DUAL-GPU KONFIGURATION|
-#|Laptop  32GiB DDR5: IGPU_VRAM_FALLBACK_GIB=28 IGPU_VRAM_RESERVE_GIB=4  |
-#|Desktop 64GiB DDR5: IGPU_VRAM_FALLBACK_GIB=58 IGPU_VRAM_RESERVE_GIB=6  |
-#|Werte hier anpassen falls noetig - werden in auto_select_device genutzt  |
-
 IGPU_VRAM_FALLBACK_GIB="${IGPU_VRAM_FALLBACK_GIB:-22}"
 IGPU_VRAM_RESERVE_GIB="${IGPU_VRAM_RESERVE_GIB:-8}"
-
-
 
 LLAMA_CPP_DIR="llama.cpp"
 BUILD_DIR="${BUILD_DIR:-XAIGPUARC}"
 BUILD_DIR="${BUILD_DIR%/}"
 
-#|XAIGPUARC|
+#|KONFIGURIERE UMGEBUNGSVARIABLEN VORBAU XAIGPUARC
 GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 LOG_FILE="${BUILD_DIR}/XAIGPUARC.log"
 CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"
@@ -114,7 +86,7 @@ return 1
 fi
 }
 
-#|UMGEBUNG|RUECKFALL|MECHANISMEN|VORBEREITEN
+#|UMGEBUNG|RUECKFALL MECHANISMEN VORBEREITEN
 prepare_environment() {
 log "🔷HOLE ONEAPI KOPFZEILEN XAIGPUARC"
 local SETVARS_PATH="/opt/intel/oneapi/setvars.sh"
@@ -138,7 +110,6 @@ export ONEAPI_ROOT
 export CPATH="${CPATH:-}:${MKL_ROOT}/include"
 local LIB_DIR="/opt/intel/oneapi/mkl/latest/lib/intel64/libmkl_sycl.so"
 export LD_LIBRARY_PATH="./${BUILD_DIR}/bin:${LIB_DIR}:${LD_LIBRARY_PATH:-}"
-#if ! command -v icx "&>/dev/null" ! command -v icpx "&>/dev/null"; then
 if ! command -v icx &>/dev/null || ! command -v icpx &>/dev/null; then
 error "❌ICX IPCX ONE API XAIGPUARC UNTERMODUL INSTALLATION FEHLGESCHLAGEN"
 exit 1
@@ -146,8 +117,7 @@ fi
 log "🔷VERBINDUNG ONEAPI GELADEN DPCPP${DPCPP_ROOT}MKL${MKL_ROOT}"
 }
 
-#1|PROJEKT|VORBAU
-
+#|1|PROJEKT|VORBAU
 setup_project() {
 if [[ "${1:-}" == "--clean" ]]; then
 warn "⚠️ REINIGUNGSMODUS LOESCHE ALTE BAUSTEINE"
@@ -177,7 +147,7 @@ exit 1
 fi
 }
 
-#PATCH|LOGIK:1-10+a+b+c|
+#|PATCH|LOGIK:1-10+a+b+c|
 patch_llama_cpp() {
 log "🔷PATCH 1|10 GGML SYCL DOCTPHELPER REGESTRIERUNG BIBLIOTHEK KOPFZEILENEINTRAEGE"
 local DPCT_HELPER_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/dpct/helper.hpp"
@@ -188,7 +158,7 @@ local CUSTOM_KERNEL_CMAKE="${CUSTOM_KERNEL_DIR}/CMakeLists.txt"
 local GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 local KERNEL_SOURCE_LOCAL="ggml_flash_attention_sycl.cpp"
 
-#1|10
+#|1|10
 if [ -f "$DPCT_HELPER_FILE" ]; then
 log "🔷PATCH 1|10 DOCTPHELPER BIBLIOTHEK REGESTRIERTE KOPFZEILENEINTRAEGE LADEN"
 if sed -i 's|#include <sycl/ext/oneapi/math.hpp>|#include <sycl/ext/intel/math.hpp>|g' "$DPCT_HELPER_FILE"; then
@@ -204,7 +174,7 @@ warn "⚠️PATCH 1|10 DOCTPHELPER BIBLIOTHEK NICHT GEFUNDEN ABHAENIGKEITEN PRUE
 return 1
 fi
 
-#2|10
+#|2|10
 log "🔷PATCH 2|10 BAUE FLASH ATTENTION KERN"
 
 if [ ! -d "$CUSTOM_KERNEL_DIR" ]; then
@@ -228,7 +198,7 @@ target_compile_options(ggml_flash_attention_sycl PUBLIC \${GGML_SYCL_COMPILE_FLA
 " > "$CUSTOM_KERNEL_CMAKE"
 log "🔷PATCH 2|10 CMAKE TXT LISTEN OBJEKTE KOPFZEILENEINTRAEGE EINFUEGEN"
 
-#2a|10
+#|2a|10
 local ADD_SUBDIR_LINE="add_subdirectory(ggml_flash_attention_sycl)"
 if ! grep -Fq "${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
 if sed -i "\|#add_subdirectory(dpct)|a ${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
@@ -241,7 +211,7 @@ else
 log "🔷PATCH 2a|10 FLASH ATTENTION KOPFZEILENEINTRAEGE BEREITS AKTIV UEBERSPRINGE"
 fi
 
-#3|10
+#|3|10
 if [ -f "$CMAKE_LISTS_FILE" ]; then
 log "🔷PATCH 3|10: CMAKE TEXT LISTEN MKL KOPZEILEN IC|P|X IMPLEMENTIERUNG VORBEREITEN"
 local MKL_INCLUDE_PATH="${MKL_ROOT}/include"
@@ -274,7 +244,8 @@ local FA_REGISTER_CODE=$'//REGESTRIERE ggml_flash_attention_sycl.cpp \nextern "C
 void ggml_flash_attention_sycl(ggml_flash_attention_sycl * ctx, ggml_tensor *
 dst, const ggml_tensor * Q, const ggml_tensor * K, const ggml_tensor * V);\n'
 if ! grep -Fq "ggml_flash_attention_sycl" "${GGML_SYCL_CPP}"; then
-#Anmerkung keine Berechtigung!!LoesenFlashattention is meine gemeint.
+
+#|Anmerkung keine Berechtigung!!LoesenFlashattention is meine gemeint
 echo "${FA_REGISTER_CODE}" > /tmp/ggml_flash_attention_sycl.cpp
 awk '/extern "C" void ggml_flash_attention_sycl/ { system("cat /tmp/ggml_flash_attention_sycl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
@@ -308,7 +279,7 @@ error "❌PATCH 4|10 FEHLGESCHLAGEN FLASH ATTENTION AWK PATCH KERN STOPP"
 return 1
 fi
 
-#5|10
+#|5|10
 log "🔷PATCH 5/10FLASH ATTENTION OBJEKT INJIZIERE VARIABLEN UNTERBLOCK SYCL BIBLIOTHEKEN"
 local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
 
@@ -326,7 +297,7 @@ else
 log "🔷PATCH 5|10 FLASH ATTENTION OBJEKT VARIABLEN VORHANDEN UEBERSPRINGE"
 fi
 
-#5a|10
+#|5a|10
 local TARGET_SEARCH_MARKER="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES})"
 local NEW_TARGET_SOURCES_LINE="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES} \${FA_OBJECT_FILES})"
 if grep -Fq "${TARGET_SEARCH_MARKER}" "$CMAKE_LISTS_FILE" && ! grep -Fq "\${FA_OBJECT_FILES}" "$CMAKE_LISTS_FILE"; then
@@ -342,14 +313,14 @@ else
 log "✅PATCH 5a|10 GGML SYCL AKTIV INJECTION UEBERSPRUNGEN"
 fi
 
-#6|10
+#|6|10
 log "🔷PATCH 6|10: SSMCONV CPP WARNUNG BEHEBEN VORZEICHEN VERGLEICH AKW PATCH"
 local SSM_CONV_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ssm_conv.cpp"
 local SEARCH_LINE='GGML_ASSERT(src0->nb\[1\] == src0->ne\[0\] * static_cast<int64_t>(sizeof(float)));'
 local REPLACE_LINE='GGML_ASSERT(src0->nb\[1\] == (size_t)(src0->ne\[0\] * sizeof(float)));'
 if [ -f "$SSM_CONV_FILE" ]; then
 
-#6a|10
+#|6a|10
 if grep -Fq "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
 log "🔷PATCH 6a|10 SUCHE ssm_conv.cpp NATIVE ADRESSIERUNG"
 if grep -Fq "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
@@ -364,7 +335,8 @@ warn "⚠️PATCH 6|10 SSMCONV CPP ZEILE NICHT GEFUNDEN UEBERSPRINGE"
 fi
 fi
 
-#7|10
+#ATTENTION
+#|7|10
 #Diese Groessen koennen selbst angepasst werden
 log "🔷PATCH 7|10: ERZWINGE MAXIMALE BLOCK GROESSE 256 FUER ARC ALCHEMIST"
 if [ -f "$GGML_SYCL_CPP" ]; then
@@ -377,7 +349,7 @@ log "🔷PATCH 7|10 MAXIMALE BLOCK GROESSE 256 ZWANG FUER ARC BEREITS DEFINIERT"
 fi
 fi
 
-#8|10
+#|8|10
 log "🔷PATCH 8|10 SYCL QUEUE ORDNER: HOME/XAIGPUARC OPTIMIERVORGANG KOPFZEILENEINTRAEGE"
 local SYCL_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 if [ ! -f "$SYCL_FILE" ]; then
@@ -391,7 +363,7 @@ sed -i '/sycl::queue q{/i\    sycl::property_list prop_list{sycl::property::queu
 fi
 fi
 
-#9|10
+#|9|10
 if grep -q "sycl::queue q{" "$SYCL_FILE"; then
 sed -i 's|sycl::queue q{[^}]*}|sycl::queue q{dev, ctx, prop_list}|g' "$SYCL_FILE"
 if grep -q "in_order" "$SYCL_FILE"; then
@@ -407,8 +379,8 @@ success "🔷ALLE FUENF VON ACHT EINGLIEDERUNGEN INTEL XE/ARC/iGPU/dGPU/eGPU FUE
 patch_gcc16_t5 || return 1
 }
 
-#10a|10-c
-#GCC16 T5.CPP VORWAERTSDEKLARATION VOR INSTANTIIERUNG
+#|10a|10-c
+#|GCC16 T5.CPP VORWAERTSDEKLARATION VOR INSTANTIIERUNG
 patch_gcc16_t5() {
 log "🔷PATCH 10a|10 GCC16 T5.CPP VORWAERTSDEKLARATION VOR INSTANTIIERUNG"
 local T5_FILE="${LLAMA_CPP_DIR}/src/models/t5.cpp"
@@ -428,13 +400,13 @@ error "❌PATCH 10a|10 GCC16 T5.CPP VORWAERTSDEKLARATION FEHLGESCHLAGEN"
 return 1
 fi
 
-#Weiterleitung
+#|Weiterleitung
     patch_gcc16_t5
     patch_10_xmx_dual
 }
 
-#Patch 10b|10-c:
-#GCC16 T5 Forward Declaration Fix
+#|Patch 10b|10-c:
+#|GCC16 T5 Forward Declaration Fix
 patch_gcc16_t5() {
     log "🔷 PATCH 10b/10 GCC16 T5.CPP VORWAERTSDEKLARATION"
     local T5_FILE="${LLAMA_CPP_DIR}/src/models/t5.cpp"
@@ -445,8 +417,9 @@ patch_gcc16_t5() {
     success "✅ PATCH 10b/10 GCC16 T5 TEMPLATE FORWARD FIX APPLIED"
 }
 
-#Patch 10c/10-c:
-#XMX Flash Attention plus Dual GPU Hardware Dispatcher
+#|Patch 10c/10-c:
+#|XMX FLASH ATTENTION KERN
+#|Dual GPU Dispatcher aus CPU VERWALTUNG mit GESONDERTEM SHEDULER
 patch_10_xmx_dual() {
     log "🔷 PATCH 10c/10 XMX FLASH ATTENTION HARDWARE DISPATCHING"
     local CUSTOM_KERNEL_DIR="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/custom_kernels"
@@ -468,7 +441,7 @@ target_compile_options(ggml_flash_attention_xmx PUBLIC ${GGML_SYCL_COMPILE_FLAGS
 CMEOF
         sed -i 's/set(FA_OBJECT_FILES "\$<TARGET_OBJECTS:ggml_flash_attention_sycl>")/set(FA_OBJECT_FILES "\$<TARGET_OBJECTS:ggml_flash_attention_sycl>" "\$<TARGET_OBJECTS:ggml_flash_attention_xmx>")/g' "${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
     fi
-
+ log "🔷 Patch 10c|10-c GELANDEN"
     if [ -f "$GGML_SYCL_CPP" ] && ! grep -q "ggml_sycl_op_flash_attn_xmx" "$GGML_SYCL_CPP"; then
         sed -i '/#include "ggml-sycl.h"/a extern "C" void ggml_sycl_op_flash_attn_xmx(void* ctx, ggml_tensor* dst, const ggml_tensor* Q, const ggml_tensor* K, const ggml_tensor* V);' "$GGML_SYCL_CPP"
     fi
@@ -496,7 +469,7 @@ if old:
     fi
 }
 
-#3|XAIGPUARC|BAUKONFIGURATION|
+#|3|XAIGPUARC|BAUKONFIGURATION
 configure_build() {
 log "🔷BEREITE XAIGPUARC KOPFZEILEN BAUVORGANG VOR"
 local FP_MODE="${1:-1}"
@@ -542,7 +515,7 @@ return 1
 fi
 }
 
-#4KOMPILIEREN
+#|4|KOMPILIEREN
 compile_project() {
 log "🔷BAUE XAIGPUARC GRUND GERUEST STRUKTUR"
 local LOG_FILE="build.log"
@@ -590,14 +563,7 @@ fi
 }
 
 
-#5AUTOMATISCHEGERAETEAUSWAHL
-#|XAIGPUARC DUAL-GPU MODUS: dGPU + iGPU VRAM POOL|
-#|Laptop:  A730M dGPU + Iris Xe iGPU (~30GiB DDR5)|
-#|Desktop: A770LE dGPU + iGPU  (~60GiB DDR5)|
-#|Performance spielt untergeordnete Rolle|
-#|Ziel: maximale Modellgroesse durch VRAM-Summe|
-
-
+#|5|AUTOMATISCHE GERAETEAUSWAHL
 auto_select_device() {
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 log "🔷SUCHE NACH VERFUEGBAREN SYCL GERAETEN AUF IHREM SYSTEM"
@@ -608,8 +574,9 @@ export ONEAPI_DEVICE_SELECTOR="level_zero:0"
 DEVICE="DUAL"
 return
 fi
-#DOPPELTE GERAETEABFRAGE
-log "🔷 STARTE ERSTE GERAETEABFRAGE..."
+
+#|DOPPELTE GERAETEABFRAGE
+log "🔷 STARTE ERSTE GERAETEABFRAGE"
 export ONEAPI_DEVICE_SELECTOR="level_zero:gpu"
 local DEVICES
 DEVICES=$("${FULL_LS_PATH}" 2>&1 || true)
@@ -622,26 +589,26 @@ N_GPU_LAYERS=99
 return
 fi
 
-#Erster Suchlauf nach beiden GPUs
+#|ERSTER SUCHLAUF DOPPEL GPU
 local ARC_LINE IGPU_LINE ARC_ID IGPU_ID
 ARC_LINE=$(echo "$DEVICES" | grep -i "Intel Arc.*Graphics" | head -n1)
 IGPU_LINE=$(echo "$DEVICES" | grep -i "Iris.*Xe.*Graphics" | head -n1)
 
-# Falls ein Suchfehler auftritt oder eine GPU fehlt ZWEITER DURCHLAUF
+#|SUCHFEHLER GPU ZWEITER DURCHLAUF
 if [ -z "$ARC_LINE" ] || [ -z "$IGPU_LINE" ]; then
-    warn "⚠️ SUCHFEHLER ERKANNT ODER GERAET FEHLT – STARTE ZWEITEN DURCHLAUF..."
-    sleep 1
-    export ONEAPI_DEVICE_SELECTOR="level_zero:gpu"
-    DEVICES=$("${FULL_LS_PATH}" 2>&1 || true)
-    [ -z "$ARC_LINE" ]  && ARC_LINE=$(echo "$DEVICES"  | grep -i "Intel Arc.*Graphics" | head -n1)
-    [ -z "$IGPU_LINE" ] && IGPU_LINE=$(echo "$DEVICES" | grep -i "Iris.*Xe.*Graphics"  | head -n1)
+warn "⚠️ SUCHFEHLER ERKANNT ODER GERAET FEHLT STARTE ZWEITEN DURCHLAUF"
+sleep 1
+export ONEAPI_DEVICE_SELECTOR="level_zero:gpu"
+DEVICES=$("${FULL_LS_PATH}" 2>&1 || true)
+[ -z "$ARC_LINE" ]  && ARC_LINE=$(echo "$DEVICES"  | grep -i "Intel Arc.*Graphics" | head -n1)
+[ -z "$IGPU_LINE" ] && IGPU_LINE=$(echo "$DEVICES" | grep -i "Iris.*Xe.*Graphics"  | head -n1)
 fi
-#ENDE DOPPELTE GERAETEABFRAGE
 
+#ENDE DOPPELTE GERAETEABFRAGE
 ARC_ID=$(echo "$ARC_LINE"  | sed -n 's/.*level_zero:gpu:\([0-9]\+\)].*/\1/p')
 IGPU_ID=$(echo "$IGPU_LINE" | sed -n 's/.*level_zero:gpu:\([0-9]\+\)].*/\1/p')
 
-#VRAM-Berechnung Hilfsfunktion (MiB aus sycl-ls Zeile lesen)
+#VRAM BERECHNUNG HILFSFUNKTION MiB SYCL AUS ZEILEN LESEN
 get_vram_mib_from_line() {
 local line="$1"
 local fallback_gib="$2"
@@ -658,16 +625,16 @@ fi
 if [ -n "$ARC_ID" ] && [ -n "$IGPU_ID" ]; then
 log "🔷DUAL-GPU MODUS AKTIV: dGPU(${ARC_ID}) + iGPU(${IGPU_ID}) VRAM POOL"
 
-#Numerische IDs aus level_zero:X extrahieren
+#NUMERISCHE IDs AUS LEVEL_ZERO X EXTRAHIEREN
 local ARC_NUM="$ARC_ID"
 local IGPU_NUM="$IGPU_ID"
 
-#VRAM berechnen
+#VRAM  DUAL GPU BERECHNEN
 local ARC_VRAM_MIB IGPU_VRAM_MIB
 ARC_VRAM_MIB=$(get_vram_mib_from_line "$ARC_LINE" 12)
-#iGPU teilt sich RAM mit CPU -> Fallback aus IGPU_VRAM_FALLBACK_GIB
+#iGPU TEILT SICH ARBEITSSPEICHER MIT CPU RUECKFALL IGPU_VRAM_FALLBACK_GIB
 IGPU_VRAM_MIB=$(get_vram_mib_from_line "$IGPU_LINE" "${IGPU_VRAM_FALLBACK_GIB}")
-#OS-Reserve abziehen
+#BETRIEBSSYSTEMRESERVE ABZIEHEN
 local IGPU_RESERVE_MIB=$(( IGPU_VRAM_RESERVE_GIB * 1024 ))
 IGPU_VRAM_MIB=$(( IGPU_VRAM_MIB - IGPU_RESERVE_MIB ))
 if [ "$IGPU_VRAM_MIB" -lt 1024 ]; then
@@ -677,13 +644,13 @@ fi
 local TOTAL_VRAM_MIB=$(( ARC_VRAM_MIB + IGPU_VRAM_MIB ))
 local TOTAL_VRAM_GIB=$(( TOTAL_VRAM_MIB / 1024 ))
 
-#Tensor-Split aus berechneten VRAM-Werten setzen (relative MiB-Gewichte)
+#|TENSOR SPLIT AUS BERECHNETEN GRAFIKSPEICHERWERTEN SETZEN RELATIVE MiB GEWICHTE
 TENSOR_SPLIT_DGPU="${ARC_VRAM_MIB}"
 TENSOR_SPLIT_IGPU="${IGPU_VRAM_MIB}"
 TENSOR_SPLIT="${TENSOR_SPLIT_DGPU},${TENSOR_SPLIT_IGPU}"
 export TENSOR_SPLIT
 
-#Haupt-GPU = dGPU (ARC) fuer schnelleres Prompt-Processing
+#|HAUPTGPU = dGPU (ARC) FUER SCHNELLES ANTWORT SCHREIBEN
 MAIN_GPU_ID="0"
 export MAIN_GPU_ID
 
@@ -692,7 +659,7 @@ success "✅DUAL-GPU VRAM POOL: dGPU~$((ARC_VRAM_MIB/1024))GiB + iGPU~$((IGPU_VR
 log "🔷TENSOR-SPLIT dGPU:iGPU = ${ARC_VRAM_MIB}:${IGPU_VRAM_MIB} MiB"
 log "🔷HAUPTGERAET DGPU ID:${ARC_NUM} ALLE SCHICHTEN GPU VERTEILT NGL:${N_GPU_LAYERS}"
 
-#EINZELMODUS FALLBACK: nur dGPU
+#|EINZELMODUS FALLBACK dGPU
 elif [ -n "$ARC_ID" ]; then
 local ARC_NUM
 ARC_NUM=$(echo "$ARC_ID" | grep -oP '\d+$')
@@ -707,7 +674,7 @@ N_GPU_LAYERS=$(( ARC_VRAM_MIB * 99 / 100 / 256 ))
 TENSOR_SPLIT_DGPU="" ; TENSOR_SPLIT_IGPU=""
 warn "⚠️NUR DGPU GEFUNDEN EINZELMODUS AKTIV NGL:${N_GPU_LAYERS}"
 
-#EINZELMODUS FALLBACK: nur dGPU
+#|EINZELMODUS FALLBACK NUR dGPU
 elif [ -n "$IGPU_ID" ]; then
 local IGPU_NUM
 IGPU_NUM=$(echo "$IGPU_ID" | grep -oP '\d+$')
@@ -730,7 +697,7 @@ error "❌KEINE GEEIGNETE GRAFIKKARTE GEFUNDEN FALLE ENDGUELTIG AUF CPU ZURUECK"
 fi
 }
 
-#6SYCLKOMPATIBLEGERAETEPRUEFEN
+#|6|SYCLKOMPATIBLE GERAETE PRUEFEN
 list_sycl_devices() {
 log "🔷SUCHE ZWEIMAL HINTEREINANDER SYCL FAEHIGES GERAET UM SUCHFEHLER ZU UMGEHEN"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
@@ -741,41 +708,23 @@ else
 warn "⚠️AKTUELL KEIN SYCL GERAET GEFUNDEN ${FULL_LS_PATH} VERSUCH ZWEI SUCHE..."
 fi
 }
-
-# CHANGE MODELL HERE BELOW!!!!
-# Aendern Sie ihr Modell hier unten!!!
-#
+#|RUECKFALL Orchestrator-8B-f16_q8_0
+#|STANDART MathTutor-7B-H_v0.0.1.f16.ggu
+#|7|MODELLORT BEDARF AENDERN
 #ATTENTION
-#
-# CHANGE MODELL HERE BELOW!!!!
-#
-# Aendern Sie ihr Modell hier unten!!!
-#
-#
-#CalderaAI_Hexoteric-7B-F16.f16Yi-6B-200K-Llama-sharded.f16
-#MathCoder2-DeepSeekMath-7B-f16Neumind-Math-7B-Instruct.F16Lucy-1.7B-F16PULI-LlumiX-32K-instruct-f16.f16
-#7MODELLPFADWAEHLEN
-
 prepare_model() {
-MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
+MODEL_PATH=${1:-"models/Orchestrator-8B-f16_q8_0.gguf"}
+#DANGER
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR MODELL NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN! BITTE DORT HIN**$MODEL_PATH**KOPIEREN"
 fi
 export MODEL_PATH
 }
-
-#8MODELLAUSFUEHRENCalderaAI_Hexoteric-7B-F16.f16Neumind-Math-7B-Instruct.Lucy-1.7B-F16sauerkrautlm-7b-v1.Q8_0
+#|8|MODELLAUSFUEHREN # WARNING
 run_inference() {
 local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
-#CHANGE MODEL HERE ABOVE TWICE ! MODELL HIER DRUEBER DOPPELT AENDERN!
-#MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.Lucy-1.7B-F16MiniCPM4.1-8B-f16_q8_0gpt-oss-20b-F16
-#kani-tts-400m-en-f16_q8_0.gguf
-#
-#
-#
-#
-# PROMPT: Aendern Sie diesen Prompt nach ihren eigenen Wuenschen/Change the Prompt for your own wishes!
+#ATTENTION
 
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
@@ -885,34 +834,31 @@ Example Formula 1-10_Sentences:
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
-#
-#ATTENTION
-#
-#
-#Aendern Sie diese Werte, wenn ihnen
-#Speicherfehler angezeigt werden nach Unten hin ab!
-local CONTEXT_SIZE=4096
-#NEUE WERTE SETZEN: 512 1024 2048
-#Standart:4096,0x1000
-#Empfohlen:8192,0x2000 MathtTutor:16384,0x4000-20480,0x5000|
-#Kritisch:24576|0x6000 32768|0x8000|65536|131072|20480|262144|524288|
 
-local PREDICT_TOKENS=4096
-#Aendern Sie den obigen Wert nach Unten hin ab
+#ATTENTION
+local CONTEXT_SIZE=20480
+#|4096,0x1000 8192,0x2000 MathtTutor 6384,0x4000-20480,0x5000
+#|24576|0x6000 32768|0x8000|65536|131072|20480|262144|524288
+local PREDICT_TOKENS=20480
+#|AENDERN SIE DIESE WERT DARUEBER BEI BEDARF NACH UNTEN HIN AB!!! ATTENTION
+
 log "🔷STARTE KI ANTWORT MIT PARAMETER**${DEVICE}**NGL:${NGL_SET}**${FULL_LLAMA_CLI_PATH}**"
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
 error "❌FEHLER AKTUELLER UNTERBAU NEUBAU FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
 return 1
 fi
 
-# DUAL-GPU MODUS: tensor-split + split-mode row
+#ATTENTION
+#|DUAL iGPU PLUS dGPU HOCHEFFIZIENZMODUS
+#|TENSORSPLIT SPLITMODE ROW
 if [ "${DEVICE}" = "DUAL" ] && [ -n "${TENSOR_SPLIT:-}" ]; then
 log "🔷 DUAL-GPU INFERENZ AKTIV: TENSOR-SPLIT [${TENSOR_SPLIT}]"
 local SAFE_CTX="${CONTEXT_SIZE}"
-    if [ "${CONTEXT_SIZE}" -gt 16384 ]; then
-        warn "⚠️ Kontextgröße sehr hoch für FP16 Dual-GPU. Limitiere auf 16384 zur Stabilität."
-        SAFE_CTX=16384
-    fi
+if [ "${CONTEXT_SIZE}" -gt 20480 ]; then
+warn "⚠️ Kontextgröße sehr hoch für FP16 Dual-GPU. Limitiere auf 16384 zur Stabilität."
+        SAFE_CTX=20480
+fi
+log "🔷 DUAL-GERAET INFERENZ ${DEVICE_0} ID:${GPU_ID_0} | ${DEVICE_1} ID:${GPU_ID_1}"
 success "✅DUAL-GPU MODUS AKTIV dGPU+iGPU VRAM POOL GELADEN"
 ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     --no-conversation \
@@ -931,10 +877,10 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     --split-mode row \
     --color auto
 
-# EINZELGERAET MODUS:
+#|EINZELGERAET
 else
 local GPU_ID="${MAIN_GPU_ID:-0}"
-log "🔷EINZELGERAET INFERENZ: DEVICE ${DEVICE} ID:${GPU_ID}"
+log "🔷EINZELGERAET INFERENZ ${DEVICE} ID:${GPU_ID}"
 ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     --no-conversation \
     --n-cpu-moe 30 \
@@ -952,13 +898,13 @@ fi
 echo "✅SPRACHMODELL INTERAKTIONS FUNKTION JETZT AKTIV"
 }
 
-#DEFINITIONHAUPTFUNKTION
+#|DEFINITION HAUPTFUNKTION
 main() {
 local FP_MODE="${1:-1}"
 local RERUN_BUILD=1
 prepare_environment
 
-#01
+#|01
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
 if [[ -f "${FULL_LLAMA_CLI_PATH}" ]] && [[ -f "${FULL_LS_PATH}" ]]; then
@@ -974,39 +920,39 @@ log "🔷STARTE ERSTMALIGEN BAUVORGANG XAIGPUARC"
 if check_internet; then
 log "🔷LADE WERKZEUGKASTEN"
 
-#0
+#|0
 setup_project
 
-#1
+#|1
 patch_llama_cpp
 
-#2
+#|2
 else
 warn "⚠️INTERNET NICHT VERFUEGBAR UEBERSPRINGE AUFWERTUNG WERKZEUGKASTEN LOKALE VERSION"
 fi
 fi
 configure_build "${FP_MODE}"
 
-#3
+#|3
 compile_project
 
-#4
+#|4
 auto_select_device
 
-#5
+#|5
 list_sycl_devices
 
-#6
+#|6
 prepare_model "${2:-}"
 
-#7
+#|7
 run_inference "${2:-}" "${3:-}"
 
-#8
+#|8
 log "✅NUTZUNG VON XAIGPUARC JETZT MOEGLICH /IHRE FRAGE NACH > ... DRUECKEN SIE |ENTER**${BUILD_DIR}/${LLAMA_CLI_PATH}**"
 }
 
-#HAUPTSCHLEIFE
+#|HAUPTSCHLEIFE
 main "${1:-1}" "${2:-}" "${3:-}"
-#42
+#|42
 log "✅KOMPLETTER BAUVORGANG HIER GESPEICHERT**${LOG_FILE}**"
