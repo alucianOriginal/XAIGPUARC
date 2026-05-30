@@ -10,16 +10,10 @@ fi
 #ATTENTION Markiert die Punkte zum Veraendern in XAIGPUARC wie Modelle, Prompt, CTX Size...
 
 #| Das ist ein Ein Klick Programm:
-
-
-#| DIES!!! ist die iGPU PLUS dGPU DUAL VERION! Bitte nutzen sie die normale Version wenn sie keine iGPU und dGPU haben, 
-#| um mehr Performance und Quaslitaet auf ihrem System zu gewaehrleisten!
-
-
 #| Am Ende dieses Programmes finden sie Testbeispiele|✅|
 
 #|Deutsch-Mathematik-Formel-Sprachprogramm|
-#|30.05.2026|TIME|02:54|
+#|28.05.2026|TIME|17:14|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = Sprachprogramm|
 
 #9.)How START your XAIGPUARC
@@ -32,28 +26,16 @@ fi
 #a.)V|RAM|/models/HereAINAME|your|Home/PCNAME/models/HereAINAME|Folder
 
 #b.)The Standart Modell is: MathTutor-7B-H_v0.0.1.f16!!!
-
-
 #7.) IF ANYTHING STOPS WITH MEMORY ERROR CHANGE LOWER CONTEXT SIZE CTX!!! 20480 Standart
-
 #yay -S intel-oneapi-base-toolkit
-
 #sudo pacman -Rns intel-compute-runtime intel-level-zero-gpu oneapi-level-zero
-
 #pakemanager oneapi toolkit version install
-
 #bass source /opt/intel/oneapi/setvars.sh --force
-
 #sudo pacman -S intel-compute-runtime level-zero-loader intel-opencl-clang ocl-icd
-
 #sudo mv /etc/OpenCL/vendors/intel64.icd /etc/OpenCL/vendors/intel64.icd.disabled
-
 #export OCL_ICD_VENDORS=/etc/OpenCL/vendors/intel.icd
-
 #Test your SYCL Device ist Working like that Example at A770LE:
-
 #sycl-ls && clinfo | grep -i "Arc A770"
-
 
 #Check and Start
 #Change|your own Modell in the Textfile|twice|below!!
@@ -70,6 +52,7 @@ DEVICE="ARC"
 #|Laptop  32GiB DDR5: IGPU_VRAM_FALLBACK_GIB=28 IGPU_VRAM_RESERVE_GIB=4  |
 #|Desktop 64GiB DDR5: IGPU_VRAM_FALLBACK_GIB=58 IGPU_VRAM_RESERVE_GIB=6  |
 #|Werte hier anpassen falls noetig - werden in auto_select_device genutzt  |
+
 IGPU_VRAM_FALLBACK_GIB="${IGPU_VRAM_FALLBACK_GIB:-22}"
 IGPU_VRAM_RESERVE_GIB="${IGPU_VRAM_RESERVE_GIB:-8}"
 
@@ -545,9 +528,9 @@ fi
 #5AUTOMATISCHEGERAETEAUSWAHL
 #|XAIGPUARC DUAL-GPU MODUS: dGPU + iGPU VRAM POOL|
 #|Laptop:  A730M dGPU + Iris Xe iGPU (~30GiB DDR5)|
-#|Desktop: A770LE dGPU + iGPU       (~60GiB DDR5) |
-#|Performance spielt untergeordnete Rolle          |
-#|Ziel: maximale Modellgroesse durch VRAM-Summe    |
+#|Desktop: A770LE dGPU + iGPU  (~60GiB DDR5)|
+#|Performance spielt untergeordnete Rolle|
+#|Ziel: maximale Modellgroesse durch VRAM-Summe|
 
 
 auto_select_device() {
@@ -560,7 +543,7 @@ export ONEAPI_DEVICE_SELECTOR="level_zero:0"
 DEVICE="DUAL"
 return
 fi
-# === DOPPELTE GERAETEABFRAGE (doppelteGPUAbfrageDUAL) ===
+#DOPPELTE GERAETEABFRAGE
 log "🔷 STARTE ERSTE GERAETEABFRAGE..."
 export ONEAPI_DEVICE_SELECTOR="level_zero:gpu"
 local DEVICES
@@ -574,12 +557,12 @@ N_GPU_LAYERS=99
 return
 fi
 
-# Erster Suchlauf nach beiden GPUs
+#Erster Suchlauf nach beiden GPUs
 local ARC_LINE IGPU_LINE ARC_ID IGPU_ID
 ARC_LINE=$(echo "$DEVICES" | grep -i "Intel Arc.*Graphics" | head -n1)
 IGPU_LINE=$(echo "$DEVICES" | grep -i "Iris.*Xe.*Graphics" | head -n1)
 
-# Falls ein Suchfehler auftritt oder eine GPU fehlt -> ZWEITER DURCHLAUF
+# Falls ein Suchfehler auftritt oder eine GPU fehlt ZWEITER DURCHLAUF
 if [ -z "$ARC_LINE" ] || [ -z "$IGPU_LINE" ]; then
     warn "⚠️ SUCHFEHLER ERKANNT ODER GERAET FEHLT – STARTE ZWEITEN DURCHLAUF..."
     sleep 1
@@ -588,12 +571,12 @@ if [ -z "$ARC_LINE" ] || [ -z "$IGPU_LINE" ]; then
     [ -z "$ARC_LINE" ]  && ARC_LINE=$(echo "$DEVICES"  | grep -i "Intel Arc.*Graphics" | head -n1)
     [ -z "$IGPU_LINE" ] && IGPU_LINE=$(echo "$DEVICES" | grep -i "Iris.*Xe.*Graphics"  | head -n1)
 fi
-# === ENDE DOPPELTE GERAETEABFRAGE ===
+#ENDE DOPPELTE GERAETEABFRAGE
 
 ARC_ID=$(echo "$ARC_LINE"  | sed -n 's/.*level_zero:gpu:\([0-9]\+\)].*/\1/p')
 IGPU_ID=$(echo "$IGPU_LINE" | sed -n 's/.*level_zero:gpu:\([0-9]\+\)].*/\1/p')
 
-# VRAM-Berechnung Hilfsfunktion (MiB aus sycl-ls Zeile lesen)
+#VRAM-Berechnung Hilfsfunktion (MiB aus sycl-ls Zeile lesen)
 get_vram_mib_from_line() {
 local line="$1"
 local fallback_gib="$2"
@@ -606,20 +589,20 @@ echo $(( fallback_gib * 1024 ))
 fi
 }
 
-# DUALER MODUS: dGPU + iGPU zusammen
+#DUALER MODUS: dGPU + iGPU zusammen
 if [ -n "$ARC_ID" ] && [ -n "$IGPU_ID" ]; then
 log "🔷DUAL-GPU MODUS AKTIV: dGPU(${ARC_ID}) + iGPU(${IGPU_ID}) VRAM POOL"
 
-# Numerische IDs aus level_zero:X extrahieren
+#Numerische IDs aus level_zero:X extrahieren
 local ARC_NUM="$ARC_ID"
 local IGPU_NUM="$IGPU_ID"
 
-# VRAM berechnen
+#VRAM berechnen
 local ARC_VRAM_MIB IGPU_VRAM_MIB
 ARC_VRAM_MIB=$(get_vram_mib_from_line "$ARC_LINE" 12)
-# iGPU teilt sich RAM mit CPU -> Fallback aus IGPU_VRAM_FALLBACK_GIB
+#iGPU teilt sich RAM mit CPU -> Fallback aus IGPU_VRAM_FALLBACK_GIB
 IGPU_VRAM_MIB=$(get_vram_mib_from_line "$IGPU_LINE" "${IGPU_VRAM_FALLBACK_GIB}")
-# OS-Reserve abziehen
+#OS-Reserve abziehen
 local IGPU_RESERVE_MIB=$(( IGPU_VRAM_RESERVE_GIB * 1024 ))
 IGPU_VRAM_MIB=$(( IGPU_VRAM_MIB - IGPU_RESERVE_MIB ))
 if [ "$IGPU_VRAM_MIB" -lt 1024 ]; then
@@ -629,13 +612,13 @@ fi
 local TOTAL_VRAM_MIB=$(( ARC_VRAM_MIB + IGPU_VRAM_MIB ))
 local TOTAL_VRAM_GIB=$(( TOTAL_VRAM_MIB / 1024 ))
 
-# Tensor-Split aus berechneten VRAM-Werten setzen (relative MiB-Gewichte)
+#Tensor-Split aus berechneten VRAM-Werten setzen (relative MiB-Gewichte)
 TENSOR_SPLIT_DGPU="${ARC_VRAM_MIB}"
 TENSOR_SPLIT_IGPU="${IGPU_VRAM_MIB}"
 TENSOR_SPLIT="${TENSOR_SPLIT_DGPU},${TENSOR_SPLIT_IGPU}"
 export TENSOR_SPLIT
 
-# Haupt-GPU = dGPU (ARC) fuer schnelleres Prompt-Processing
+#Haupt-GPU = dGPU (ARC) fuer schnelleres Prompt-Processing
 MAIN_GPU_ID="0"
 export MAIN_GPU_ID
 
@@ -644,7 +627,7 @@ success "✅DUAL-GPU VRAM POOL: dGPU~$((ARC_VRAM_MIB/1024))GiB + iGPU~$((IGPU_VR
 log "🔷TENSOR-SPLIT dGPU:iGPU = ${ARC_VRAM_MIB}:${IGPU_VRAM_MIB} MiB"
 log "🔷HAUPTGERAET DGPU ID:${ARC_NUM} ALLE SCHICHTEN GPU VERTEILT NGL:${N_GPU_LAYERS}"
 
-# EINZELMODUS FALLBACK: nur dGPU
+#EINZELMODUS FALLBACK: nur dGPU
 elif [ -n "$ARC_ID" ]; then
 local ARC_NUM
 ARC_NUM=$(echo "$ARC_ID" | grep -oP '\d+$')
@@ -659,7 +642,7 @@ N_GPU_LAYERS=$(( ARC_VRAM_MIB * 99 / 100 / 256 ))
 TENSOR_SPLIT_DGPU="" ; TENSOR_SPLIT_IGPU=""
 warn "⚠️NUR DGPU GEFUNDEN EINZELMODUS AKTIV NGL:${N_GPU_LAYERS}"
 
-# EINZELMODUS FALLBACK: nur dGPU
+#EINZELMODUS FALLBACK: nur dGPU
 elif [ -n "$IGPU_ID" ]; then
 local IGPU_NUM
 IGPU_NUM=$(echo "$IGPU_ID" | grep -oP '\d+$')
@@ -709,7 +692,7 @@ fi
 #7MODELLPFADWAEHLEN
 
 prepare_model() {
-MODEL_PATH=${1:-"models/Orchestrator-8B-f16_q8_0.gguf"}
+MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
 mkdir -p models
 if [ ! -f "$MODEL_PATH" ]; then
 warn "⚠️IHR MODELL NICHT UNTER HOME/IHRNAME/MODELS GEFUNDEN! BITTE DORT HIN**$MODEL_PATH**KOPIEREN"
@@ -719,7 +702,7 @@ export MODEL_PATH
 
 #8MODELLAUSFUEHRENCalderaAI_Hexoteric-7B-F16.f16Neumind-Math-7B-Instruct.Lucy-1.7B-F16sauerkrautlm-7b-v1.Q8_0
 run_inference() {
-local DEFAULT_MODEL_PATH="models/Orchestrator-8B-f16_q8_0.gguf"
+local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
 #CHANGE MODEL HERE ABOVE TWICE ! MODELL HIER DRUEBER DOPPELT AENDERN!
 #MathTutor-7B-H_v0.0.1.f16PULI-LlumiX-32K-instruct-f16.Lucy-1.7B-F16MiniCPM4.1-8B-f16_q8_0gpt-oss-20b-F16
 #kani-tts-400m-en-f16_q8_0.gguf
@@ -962,286 +945,3 @@ log "✅NUTZUNG VON XAIGPUARC JETZT MOEGLICH /IHRE FRAGE NACH > ... DRUECKEN SIE
 main "${1:-1}" "${2:-}" "${3:-}"
 #42
 log "✅KOMPLETTER BAUVORGANG HIER GESPEICHERT**${LOG_FILE}**"
-
-
-#
-#ENDE DES PROGRAMMS / END OF APPLICATION
-#
-
-
-##--##--##--##--##--##--##--##--##
-###--TEST AND EXAMPLE HEAVEN--###
-###       Xe/i915              ###
-##--##--##--##--##--##--##--##--##
-
-#XAIGPUARC|Hardware|Build|Test
-#Intel|ARC|Alchemist|Battlemage|Calestial|Druid|A770LE|16GB|750LE|8GB
-#90|142|Watt Chip Power Draw alone each Card different LLMs
-#Example|GPT-OSS-20B-F16 very nice low Wattage
-#needlonger fullworking|MathTutorF16|142 Watt
-#Use|multible Models better Workflow
-#All|Hardware Modded not Stock Compareable
-#PLS|watch Cooling Dust Free System
-#Single|Dual dGPUs AMD Ryzen 2600 2700x i7 6700K Z170 RAM 16GiB 128GiB
-#Intel|iGPU XE Alder Lake Gen 12700H 12650H A730m 12GiB 32GB DDR4|5 RAM
-#Core|Ultra|7|155H|MeteorLake|8|Core|Xe-LPG|128EU|1024Alu|ARC|11.5GiBVram
-#Quad|Channel|Bandwith|RAM|Gear2|718GB|s
-#11.5|GiBVRAMsharedDDR5xLPRAM
-#155H|i7|GPT|OSS|20B|F16.gguf|low|30|Watt|allinone|with|mod
-#BF16|Models|NOT|recommend|FOR|Alechmist
-
-#|6-16GiB+|F16|Model|START-END
-
-#|6GiB+|F16|GPU|A730m|A380|A570m
-
-#1.5B_Math_Tutor-GGUF-F16 03.09|GiB
-#math-professor-3B-GGUF-F16 06.18|GiB
-#Neumind-Math-7B-Instruct.nhbeJrd8.F16.gguf 9GIB
-#Neumind-Math-7B-Instruct.F16 14.2 GIB
-#EVA-GPT-Germa-v7B-Q6_K.gguf 05.50|GiB
-#OpenMath-Mistral-7B-v0.1-hf_Q6_K
-#kani-tts-400m-en-f16_q8_0.gguf                |00.53|GiB|FAST|CTX|NPG|8K|A770LE:|588.6 Pt|s 62.4 Gt|s100w2.4Ghz|FIRESTARTER
-#baidu.ERNIE-4.5-0.3B-Base-PT.f16.gguf         |00.69|GiB|FAST|CTX|NPG|8K|A770LE:|469.7 Pt|s 52.5 Gt|s97w2.4Ghz+|Mid
-#MedScholar-1.5B-f16_q8_0.gguf                 |02.10|GiB|FAST|CTX|NPG|8k|A770LE:|528.2 Pt|s 25.2 Gt|s109w2.4Ghz-|HiQ
-#Qwen2.5-VL-3B-Instruct-f16-q4_k.gguf          |02.10|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s120w2.4Ghz-|CPU
-#yasserrmd.DentaInstruct-1.2B.f16.gguf         |02.20|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULLHiQ
-#DeepCoder-1.5B-Preview-f16_q8_0.ggufUSE BETTER|02.20|GiB|FAST|CTX|NPG|8k|A770LE:|513.2 Pt|s 23.3 Gt|s112w2.3Ghz+|Mid
-#ibm-granite.granite-4.0-1b.f16.ggufNO-FUNKTION|03.00|GiB|NOTS|CTX|NPG|0k|A770LE:|569.4 Pt|s 18.2 Gt|s120w2.3Ghz-|GPU-INF
-#Lucy-1.7B-F16.gguf LOVE  TWO AFTER MATHTUTOR7B|03.20|GiB|FAST|CTX|NPG|65k|A770LE:|320.7 Pt|s 22.2 Gt|s108w2.4Ghz-|EXT
-#granite-4.0-micro-f16_q8_0.gguf               |04.60|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
-#gemma-2-2b-it.F16.gguf                        |04.90|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s120w2.4Ghz-|CPU
-
-#|8GiB+|GPU|A750LE
-
-#Fathom-Search-4B-f16_q8_0.gguf                |05.50|GiB|FAST|CTX|NPG|8k|A770LE:|569.4 Pt|s 18.2 Gt|s118w2.4Ghz-|Think
-#Qwen2.5-7B-Instruct-f16-q4_k.gguf             |05.70|GiB|FAST|CTX|NPG|8k|A770LE:|511.5 Pt|s 19.7 Gt|s142w2.4Ghz-|CPU
-#Qwen2.5-VL-3B-Instruct-f16.gguf               |05.80|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s120w2.4Ghz-|CPU
-#llama3bthinkingonly5B.f16.gguf                |06.00|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
-
-#|10-12GiB+|iGPU|XeLPG|A730m|A580|B570|B580|PRO|A|B60|A|B50
-
-#UIGEN-X-4B-0729-f16_q8_0.gguf                 |06.20|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
-#granite-4.0-h-tiny-f16_q8_0.gguf              |07.00|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
-#Trinity-Nano-Preview-f16_q8_0.gguf            |07.20|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
-#Qwen3-Embedding-4B-f16.gguf                   |07.50|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
-#Qwen3-4B-f16.gguf                             |07.50|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s120w2.4Ghz-|LThink
-#Nemotron-Mini-4B-Instruct-f16.gguf            |07.80|GiB|FAST|CTX|NPG|8k|A770LE:|717.8 Pt|s 17.8 Gt|s118w2.4Ghz-|
-#Minitron-4B-Base.FP16.gguf                    |07.80|GiB|FAST|CTX|NPG|4k|A770LE:|764.3 Pt|s 16.3 Gt|s131w2.4Ghz+|MID
-#t5-v1_1-xxl-encoder-f16.gguf                  |08.90|GiB|FAST|CTX|NPG|8k|A770LE:|361,8 Pt|s 6 Gt|s101w2.4Ghz-|NICE
-
-#|16GiB+|GPU|A770LE|iGPU|Meteor|Lake
-
-#DiffuCoder-7B-cpGRPO-f16_q8_0.gguf  NOT GOOD  |10.50|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
-#MiMo-Embodied-7B-f16_q8_0.gguf                |10.70|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
-#MiniCPM4.1-8B-f16_q8_0.gguf                   |11.00|GiB|FAST|CTX|NPG|8k|A770LE:|842.9 Pt|s 11.0 Gt|s142w2.4Ghz+|MidThink
-#KernelLLM-f16_q8_0.gguf                       |11.10|GiB|FAST|CTX|NPG|8k|A770LE:|688.5 Pt|s 11.2 Gt|s137w2.4Ghz-|MATHKERN
-#Jan-v2-VL-high-f16_q8_0.gguf                  |11.40|GiB|FAST|CTX|NPG|8k|A770LE:|639.6 Pt|s 10.2 Gt|s135w2.4Ghz-|Think
-#Nemotron-Orchestrator-8B-f16_q8_0.gguf        |11.40|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
-#Orchestrator-8B-f16_q8_0.gguf                 |11.40|GiB|FAST|CTX|NPG|8k|A770LE:|640.4 Pt|s 10.2 Gt|s134w2.4Ghz-|LThink
-#MiroThinker-v1.0-8B-f16_q8_0.gguf             |11.40|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
-#Seed-Coder-8B-Reasoning-f16_q8_0.gguf         |11.50|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
-#Ministral-3-8B-Reasoning-2512-f16_q8_0.gguf   |11.70|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
-#ggml-model-f16.gguf                           |12.60|GiB|FAST|CTX|NPG|4k|A770LE:|1012.7 Pt|s 13.5 Gt|s142w2.4Ghz-|NotStable
-#gpt-oss-20b-F16.gguf                          |12.80|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
-#Navid-AI.Yehia-7B-preview.f16.gguf            |13.00|GiB|FAST|CTX|NPG|4k|A770LE:|1273.4 Pt|s 13.4 Gt|s142w2.4Ghz-|HiQ
-#Mistral-7B-Instruct-v0.3.fp16.gguf            |13.50|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
-#allenai.Olmo-3-7B-Think.f16.gguf              |13.60|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
-#Mamba-Codestral-7B-v0.1-F16.gguf              |13.60|GiB|SLOW|CTX|NPG|8k|A770LE:|110.1 Pt|s 3.2 Gt|s97w2.4Ghz+|FULL|GOOD
-#MathTutor-7B-H_v0.0.1.f16.gguf                |14.20|GiB|FAST|CTX|20k!|NPG|512k|A770LE:|467.7|12t|s142w2.4Ghz|BEST|HiQ!
-
-#|END|F16|MODEL|LIST
-
-#START|Q8-Q4-IQ4-2|MODEL|LISTNOTF16|6GiB+|GPU|A730m|A380|A380
-
-#phi-2.Q4_K_M.gguf                             |01.70|GiB|FAST|CTX|NPG|8k|A770LE:|888.6 Pt|s 25.4 Gt|s128w2.4Ghz-|EXT|N1
-#openhermes-2.5-mistral-7b.Q4_K_M.gguf         |04.10|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s120w2.4Ghz-|CPU
-#mistral-7b-instruct-v0.2.Q4_K_M.gguf          |04.10|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HQ
-
-#|8GiB+|GPU|A750LE
-
-#OpenMath-Mistral-7B-v0.1-hf_Q6_K.gguf         |05.50|GiB|FAST|CTX|NPG|8k|A770LE:|1233.9 Pt|s 14.4 Gt|s145w 2.4Ghz-|OLDSC
-#NVIDIA-Nemotron-Nano-12B-v2-IQ4_NL.gguf       |06.60|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
-#wizardcoder-python-7b-v1.0.Q8_0.gguf          |06.70|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
-#sauerkrautlm-7b-v1.Q8_0.gguf                  |06.70|GiB|FAST|CTX|NPG|16k|512k|A770LE:|1364.6 Pt|s12.1 Gt|s142w2.4Ghz-|CPU
-
-#|10-12GiB+|iGPU|XeLPG|A730m|A580|B570|B580|PRO|A|B60|A|B50
-
-#Qwen3-16B-A3B-IQ4_NL.gguf                     |08.50|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s120w2.4Ghz-|CPU
-#Qwen3-30B-A3B-UD-IQ2_XXS.gguf                 |09.70|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s120w2.4Ghz-|CPU
-#solar-10.7b-instruct-v1.0-uncensored.Q8_0.gguf|10.60|GiB|FAST|CTX|NPG|8k|A770LE:|985.6 Pt|s 7.5 Gt|s135w2.4Ghz-|CPU|VIP
-#gpt-oss-20b-claude-4-distill.MXFP4_MOE.gguf   |11.30|GiB|SLOW|CTX|NPG|8k|A770LE:|35.4 Pt|s 8.7 Gt|s92W2.2Ghz+|FULL|CPU
-#gpt-oss-20b-mxfp4.gguf                        |11.30|GiB|SLOW|CTX|NPG|8k|A770LE:|35.5 Pt|s 8.8 Gt|s90W2.3Ghz+|FULL|HiQ
-#velara-11b-v2.Q8_0.gguf                       |11.30|GiB|FAST|CTX|NPG|8k|A770LE:|613.4 Pt|s 14.5 Gt|s 120w2.4Ghz-|CPU
-
-#|16-24GiB+|A770LE|B60
-
-#flux1-kontext-dev-Q8_0.gguf                   |11.80|GiB|NO|SUPPORT|CTX|NPG|8k|A770LE:|985.6 Pt|s7.5 Gt|s135w2.4Ghz-|ViP
-#Deepseek-Coder-V2-Lite-13B                    |11.00|GiB NO|SUPPORT|CTX|NPG|8k|A770LE:|985.6 Pt|s7.5 Gt|s135w2.4Ghz-|ViP
-#Instruct-sft-s1K.i1-Q6_K.gguf                 |13.10|GiB|FAST|CTX|NPG|8k|A770LE:|22.7 Pt|s7.9 Gt|s98W2.4Ghz-|OK
-#ENDE
-#VectorAdd
-#max. x2 or x3
-#Workgroups  for Consumer
-#42 (2x42 or 3x42)
-#Work_Items
-#21504
-#Workgroup_Size
-#512
-#SIMD
-#32
-#Threads per Workgroup
-#16
-#Threads
-#672
-
-#Free Open Source Download of XAIGPUARC:
-#https://github.com/alucianOriginal/XAIGPUARC/blob/main/XAIGPUARC.sh
-
-#0.|TRIOINFERNAL:
-#1.|XAIGPUARC-sycl-ggml|Treiber/Umgebung
-#2.|Scheduler-sycl-ggml|Daten|32-bit/VektorFormation
-#3.|FlashAttention-sycl-ggml|VRAM/Bandbreite/Zwischenspeicher/Cache
-
-#|AUTOMATOR|INTERPRATOR|IMPRESSOR|IMPERATOR|INTERPREDATOR
-#|IMPETRATOR|IMPRESSATOR|INTERPREDATOR|EDIT-I-ON
-#|AU-TO-MA-TOR-IT|GE-H-IRN-O-MAT|EI-WEISS-COM-PUTER
-#|USE WISE AND CARE FULL PLS|PROOF OF ANSWERS|MAYBE EZ WITH OTHER AI KI
-
-#No Cherry Picking 14.2GiB Layer with MathTutor-7B-F17.gguf Demo with XAIGPUARC on A770LE16GiB i915:
-
-#TESTPROMPTS everytime the same big Testprompt
-#First:
-#... (truncated)
-
-#cij = ∑k=1n aik ⋅ bkj; optimize with SYCL kernel, use FP16 32-bit precision for alignment and zero-copy focus.
-
-#[ Prompt: 1080,3 t/s | Generation: 13,2 t/s ]
-
-#> >>> CHAT HERE! ENTER ANSWER > CHAT ENTER ANSWER > CHAT
-#Second:
-#... (truncated)
-#cij = ∑k=1n aik ⋅ bkj; optimize with SYCL, use FP16 32-bit precision, focus on zero-copy alignment.
-
-#[ Prompt: 1202,1 t/s | Generation: 13,6 t/s ]
-
-#> CHAT HERE! ENTER ANSWER > CHAT ENTER ANSWER > CHAT
-#Third:
-#|? ... (truncated)
-
-#cij = ∑k=1n aik ⋅ bkj; optimize with SYCL; use FP16 32-bit precision; focus on zero-copy alignment.
-
-#[ Prompt: 1163,3 t/s | Generation: 13,6 t/s ]
-#> >>> CHAT HERE! ENTER ANSWER > CHAT ENTER ANSWER > CHAT
-#Four:
-
-#|? ... (truncated)
-
-#cij​ = ∑k=1n​aik​⋅bkj​; SYCL kernel for optimization; use FP16 32-bit precision; focus on zero-copy alignment.
-
-#[ Prompt: 1183,8 t/s | Generation: 13,5 t/s ]
-
-#> #> CHAT HERE! ENTER ANSWER > CHAT ENTER ANSWER > CHAT
-
-#Five:
-#|? ... (truncated)
-
-#cij​ = ∑k=1n​aik​⋅bkj​; optimize with SYCL for FP16 32-bit precision, use icpx -fsycl -O3
-#Float@TARGET=SYCL, vector intrinsics for alignment-zero-copy focus.
-
-#[ Prompt: 1176,3 t/s | Generation: 13,5 t/s ]
-
-#> Here can stand your TEXT!!!
-
-#Six:
-#At another day with more doings beetween let us see the suprise i think we got slower avg.
-
-
-#|? ... (truncated)
-
-#cij = ∑k=1n aik ⋅ bkj; SYCL kernel for optimization; prefer FP16 32-bit precision, zero-copy alignment.
-
-#[ Prompt: 1200,3 t/s | Generation: 13,6 t/s ]
-
-#> Ok Not realy :-) Happy AI!
-
-#Seven:
-#Direct after six:
-
-#|? ... (truncated)
-
-#cij​ = ∑k=1n​aik​⋅bkj​; SYCL kernel for FP16 32-bit precision; Use icpx -fsycl -O3
-#Float@TARGET=SYCL for optimization; Zero-copy alignment preferred.
-
-#[ Prompt: 1179,5 t/s | Generation: 13,6 t/s ]
-
-#> THIS IS THE CHATLINE! USE UIT (INFORMATION-TECHNOLOGY)
-
-#Eight:
-#|? ... (truncated)
-
-#cij = ∑<sub>k=1</sub><sup>n</sup> a<sub>ik</sub> ⋅ b<sub>kj</sub>;
-#SYCL kernel optimization; FP16 32-bit precision; alignment-zero-copy-focus.
-
-#[ Prompt: 1182,2 t/s | Generation: 13,7 t/s ]
-
-#> EIGHT TIMES SIMILIAR :-) All the other devices scale well known values without any worth to talk about
-#With Xe Driver you will get round about 16-17 Generated Tokens per Second.
-#16k-20480 CONTEXT_SIZE 131072 PREDICT_TOKENS-///F16 Modells Recommed to use only!
-#ai,
-#local,
-#costs,
-#energy,
-#benchmark,
-#realworld,
-#computer,
-#minimum,
-#spec,
-#low,
-#vram,
-#gpu,
-#cpu,
-#igpu,
-#dgpu,
-#old,
-#fast,
-#apu,
-#arc,
-#intel,
-#alchemist,
-#a750,
-#a770,
-#a730m,
-#a580,
-#a570,
-#a50,
-#a60,
-#b580,
-#b570,
-#b50,
-#b60,
-#a380,
-#a310,
-#sycl,
-#f16,
-#high,
-#qualitiy,
-#answers,
-#gguf,
-#ggml,
-#it,
-#compute,
-#mkl,
-#itx,
-#icpx,
-#mem,
-#auto,
-#search,
-#decive,
-#oneshotapp,
-#localai,
-#lowspecai,
-#precision,
-#audit,
-#zero,
-#rounding,
-#error,
