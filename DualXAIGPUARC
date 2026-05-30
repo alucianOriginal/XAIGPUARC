@@ -5,22 +5,13 @@ if [ -n "$FISH_VERSION" ]; then
     exit 1
 fi
 
-#| ✅ XAIGPUARC  ✅ VANILLA 2.02  ✅ ALUCIAN  ✅ DUAL GPU  ✅  FINAL FIRST ✅  YEAR CODE ✅ VERSION ✅
-
-#|DANGER DONT BURN DOWN YOU COMPUTER WITH THAT
-
-#|70 BIS 80 GiB MAX GGUF F16
-
-#|ATTENTION
-#|KANN ZU SCHNELL ZU GROSS ZU MAECHTIG FUER DICH SEIN
-#|BENUTZEN AUF EIGENE GEFAHR UND HAFTUNG
-#|USE NORMAL VERSION LAST WARNING
+#| ✅ XAIGPUARC VANILLA 2.13 ALUCIAN✅DUAL GPU
 
 #|DATUM
 #|30.5.26
 
 #|UHRZEIT
-#|13:48
+#|17:03
 
 #|BESONDERE ANMERKUNGEN DIESE VERSION IST BESONDERS ANGEMERKT
 
@@ -58,11 +49,12 @@ export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
 export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=128
 export FP_FLAG=FP16
 
-#export ONEAPI_DEVICE_SELECTOR=level_zero:0
+
 
 export SYCL_DEVICE_FILTER=level_zero:gpu
 export ZE_ENABLE_PCI_ID_DEVICE_ORDER=1
 export GGML_SYCL_SPLIT_MODE=row
+export ONEAPI_DEVICE_SELECTOR=level_zero:0
 
 #|TREIBERKOMPATIBILITAET INTEL COMPUTE RUNTIME 26 PLUS
 CR_VERSION=$(pacman -Q intel-compute-runtime 2>/dev/null | awk '{print $2}' | cut -d. -f1)
@@ -191,6 +183,7 @@ if [ -f "$KERNEL_SOURCE_LOCAL" ]; then
 cp "$KERNEL_SOURCE_LOCAL" "$CUSTOM_KERNEL_SRC"
 log "✅PATCH 2|12 ggml_flash_attention_sycl.cpp KERN'${KERNEL_SOURCE_LOCAL}' '${CUSTOM_KERNEL_SRC}'EINGEBAUT"
 fi
+
 #|2|a|12
 if [ ! -f "$CUSTOM_KERNEL_SRC" ]; then
 echo "ggml_flash_attention_sycl.cpp KERN VERZEICHNIS" > "$CUSTOM_KERNEL_SRC"
@@ -198,8 +191,7 @@ warn "⚠️PATCH 2|a|12 LADEN DER KERNELDATEI'${KERNEL_SOURCE_LOCAL} FEHLGESCHL
 fi
 echo "
 add_library(ggml_flash_attention_sycl OBJECT
-    ggml_flash_attention_sycl.cpp
-)
+    ggml_flash_attention_sycl.cpp)
 target_include_directories(ggml_flash_attention_sycl PRIVATE \${GGML_SYCL_INCLUDE_DIRS})
 target_compile_options(ggml_flash_attention_sycl PUBLIC \${GGML_SYCL_COMPILE_FLAGS})
 " > "$CUSTOM_KERNEL_CMAKE"
@@ -208,7 +200,7 @@ log "🔷PATCH 2|a|12 CMAKE TXT LISTEN OBJEKTE KOPFZEILENEINTRAEGE EINFUEGEN"
 #|2|b|12
 local ADD_SUBDIR_LINE="add_subdirectory(ggml_flash_attention_sycl)"
 if ! grep -Fq "${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
-if sed -i "\|#add_subdirectory(dpct)|b ${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
+if sed -i "\|#add_subdirectory(dpct)|a\\${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
 log "✅PATCH 2|b|12 ERFOLGREICH FLASH ATTENTION KOPFZEILENEINTRAEGE CMAKE TXT GESCHRIEBEN"
 else
 error "❌PATCH 2|b|12 FLASH ATTENTION KOPFZEILENEINTRAEGE EINGLIEDERUNG CMAKE TXT FEHLGESCHLAGEN"
