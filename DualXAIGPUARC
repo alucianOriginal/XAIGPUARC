@@ -3,11 +3,16 @@ if [ -n "$FISH_VERSION" ]; then
 echo "❌FEHLER BITTE STARTE MIT 'bash XAIGPUARC.sh' ODER INSTALLIERE DIR 'bass'"
 exit 1
 fi
-#| ✅ XAIGPUARC VANILLA 2.14 ALUCIAN✅DUAL GPU FBSAVE
-#|DATUM : KINDERGARTENVERSION ERFUNDEN WENIGER IST WENIGER MEHR MEHR.
+#| ✅ XAIGPUARC VANILLA 2.16 ALUCIAN✅DUAL GPU
+
+#|DATUM
 #|30.5.26
+
 #|UHRZEIT
-#|19:14DEBUGHOURSFBIFINITEstd
+#|20:03
+
+#|BESONDERHEITEN
+
 set -euo pipefail
 IFS=$'\n\t'
 PRECISION="FP16"
@@ -33,14 +38,15 @@ export OCL_ICD_FILENAMES=""
 export ZES_ENABLE_SYSMAN=0
 export OverrideDefaultFP64Settings=0
 export CCACHE_DIR="$HOME/.ccache"
-export COMPILER_VERSION="2025.3"
+export COMPILER_VERSION="2026.0"
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
-export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=32
+export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=128
 export FP_FLAG=FP16
 export SYCL_DEVICE_FILTER=level_zero:gpu
 export ZE_ENABLE_PCI_ID_DEVICE_ORDER=1
 export GGML_SYCL_SPLIT_MODE=row
-export ONEAPI_DEVICE_SELECTOR=level_zero:0
+export ONEAPI_DEVICE_SELECTOR="level_zero:0,1"
+
 #|TREIBERKOMPATIBILITAET INTEL COMPUTE RUNTIME 26 PLUS
 CR_VERSION=$(pacman -Q intel-compute-runtime 2>/dev/null | awk '{print $2}' | cut -d. -f1)
 if [ "${CR_VERSION:-0}" -ge 26 ]; then
@@ -123,6 +129,7 @@ error "❌FEHLER HAUPTVERZEICHNIS'${LLAMA_CPP_DIR}'NICHT GEFUNDEN"
 exit 1
 fi
 }
+
 #|AUFWERTLOGIK 0 BIS 12 +a+b+c
 patch_llama_cpp() {
 log "🔷PATCH 1|12 GGML SYCL DOCTPHELPER REGESTRIERUNG BIBLIOTHEK KOPFZEILENEINTRAEGE"
@@ -133,6 +140,7 @@ local CUSTOM_KERNEL_SRC="${CUSTOM_KERNEL_DIR}/ggml_flash_attention_sycl.cpp"
 local CUSTOM_KERNEL_CMAKE="${CUSTOM_KERNEL_DIR}/CMakeLists.txt"
 local GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 local KERNEL_SOURCE_LOCAL="ggml_flash_attention_sycl.cpp"
+
 #|1|12
 if [ -f "$DPCT_HELPER_FILE" ]; then
 log "🔷PATCH 1|12 DOCTPHELPER BIBLIOTHEK REGESTRIERTE KOPFZEILENEINTRAEGE LADEN"
@@ -140,6 +148,7 @@ if sed -i 's|#include <sycl/ext/oneapi/math.hpp>|#include <sycl/ext/intel/math.h
 log "🔷PATCH 1|12 SCHREIBE DOCTPHELPER BIBLIOTHEK KOPFZEILENEINTRAEGE IN XAIGPUARC"
 elif sed -i '#if !defined(DPCT_USM_LEVEL_NONE) && defined(DPCT_ENABLE_MKL_MATH).#endif|#include <sycl|ext|intel|math.hpp>|g' "$DPCT_HELPER_FILE"; then
 log "✅PATCH 1|12 DOCTPHELPER BIBLIOTHEK KOPFZEILENEINTRAEGE ERFOLGREICH REGESTRIERT - SPEICHERE"
+
 #|1|a|12
 else
 error "❌PATCH 1|a|12 DOCTPHELPER BIBLIOTHEK KOPFZEILENEINTRAEGE EINLADEN DER REGESTRIERUNG FEHLGESCHLAGEN"
@@ -149,6 +158,7 @@ else
 warn "⚠️PATCH 1|a|12 DOCTPHELPER BIBLIOTHEK NICHT GEFUNDEN ABHAENIGKEITEN PRUEFEN"
 return 1
 fi
+
 #|2|12
 log "🔷PATCH 2|12 BAUE FLASH ATTENTION KERN"
 if [ ! -d "$CUSTOM_KERNEL_DIR" ]; then
@@ -186,6 +196,7 @@ fi
 else
 log "🔷PATCH 2|b|12 FLASH ATTENTION KOPFZEILENEINTRAEGE BEREITS AKTIV UEBERSPRINGE"
 fi
+
 #|3|12
 if [ -f "$CMAKE_LISTS_FILE" ]; then
 log "🔷PATCH 3|12 CMAKE TEXT LISTEN MKL KOPZEILEN IC|P|X IMPLEMENTIERUNG VORBEREITEN"
@@ -219,7 +230,8 @@ void ggml_flash_attention_sycl(ggml_flash_attention_sycl * ctx, ggml_tensor *
 dst, const ggml_tensor * Q, const ggml_tensor * K, const ggml_tensor * V);\n'
 if ! grep -Fq "ggml_flash_attention_sycl" "${GGML_SYCL_CPP}"; then
 
-#|Anmerkung FlashAttention alucian einfuegen in HOME Ordner
+#|Anmerkung OPEN SOURCE ALL INLUSIVE SYCL XMX FlashAttention GGML.CPP
+#|PLUS SHEDULER alucian einfuegen in HOME Ordner
 echo "${FA_REGISTER_CODE}" > /tmp/ggml_flash_attention_sycl.cpp
 awk '/extern "C" void ggml_flash_attention_sycl/ { system("cat /tmp/ggml_flash_attention_sycl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
@@ -250,7 +262,7 @@ log "✅PATCH 4|a|12 AWK UNTERBAU FLASH ATTENTION KOPFZEILENEINTRAEGE INJEKTION 
 fi
 log "🔷PATCH 4|a|12 ERFOLGREICH FLASH ATTENTION AKW UNTERBAU GELADEN"
 else
-error "❌PATCH 4|a|12 FEHLGESCHLAGEN FLASH ATTENTION AWK PATCH KERN STOPP"
+error "❌PATCH BEI 4|a|12 FEHLGESCHLAGEN FLASH ATTENTION AWK PATCH KERN STOPP"
 return 1
 fi
 
@@ -368,7 +380,7 @@ awk '/^std::unique_ptr<llm_graph_context> llama_model_t5::build_arch_graph/ { pr
 if grep -q "XAIGPUARC_GCC16_PATCH" "$T5_FILE"; then
 success "✅PATCH 10|a|12 GCC16 T5.CPP VORWAERTSDEKLARATION ERFOLGREICH INJIZIERT"
 else
-error "❌PATCH 10|a|12 GCC16 T5.CPP VORWAERTSDEKLARATION FEHLGESCHLAGEN"
+error "❌PATCH 10|a|12 "XAIGPUARC_GCC16_PATCH" T5.CPP VORWAERTSDEKLARATION FEHLGESCHLAGEN"
 return 1
 fi
 
