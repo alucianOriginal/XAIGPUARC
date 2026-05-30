@@ -13,7 +13,7 @@ fi
 #| Am Ende dieses Programmes finden sie Testbeispiele|✅|
 
 #|Deutsch-Mathematik-Formel-Sprachprogramm|
-#|30.05.2026|TIME|04:57|
+#|30.05.2026|TIME|05:11|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = Sprachprogramm|
 
 #9.)How START your XAIGPUARC
@@ -63,10 +63,10 @@ BUILD_DIR="${BUILD_DIR:-XAIGPUARC}"
 BUILD_DIR="${BUILD_DIR%/}"
 
 #|XAIGPUARC|
-GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp}"
+GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
+LOG_FILE="${BUILD_DIR}/XAIGPUARC.log"
 CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"
 NPROC="${NPROC:-$(nproc)}"
-LOG_FILE="${BUILD_DIR}/XAIGPUARC.log}"
 LLAMA_CLI_PATH="bin/llama-cli"
 LS_SYCL_DEVICE_PATH="bin/llama-ls-sycl-device"
 ADD_SUBDIR_LINE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
@@ -138,7 +138,8 @@ export ONEAPI_ROOT
 export CPATH="${CPATH:-}:${MKL_ROOT}/include"
 local LIB_DIR="/opt/intel/oneapi/mkl/latest/lib/intel64/libmkl_sycl.so"
 export LD_LIBRARY_PATH="./${BUILD_DIR}/bin:${LIB_DIR}:${LD_LIBRARY_PATH:-}"
-if ! command -v icx "&>/dev/null" ! command -v icpx "&>/dev/null"; then
+#if ! command -v icx "&>/dev/null" ! command -v icpx "&>/dev/null"; then
+if ! command -v icx &>/dev/null || ! command -v icpx &>/dev/null; then
 error "❌ICX IPCX ONE API XAIGPUARC UNTERMODUL INSTALLATION FEHLGESCHLAGEN"
 exit 1
 fi
