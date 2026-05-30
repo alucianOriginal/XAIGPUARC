@@ -1,20 +1,19 @@
 #!/bin/bash
 if [ -n "$FISH_VERSION" ]; then
-echo "❌ FEHLER: Bitte starte das Script mit 'bash XAIGPUARC.sh' oder installiere 'bass'."
+echo "❌FEHLER BITTE STARTE MIT 'bash XAIGPUARC.sh' ODER INSTALLIERE DIR 'bass'"
 exit 1
 fi
-#| ✅ XAIGPUARC VANILLA 2.13 ALUCIAN✅DUAL GPU
-#|DATUM
+#| ✅ XAIGPUARC VANILLA 2.14 ALUCIAN✅DUAL GPU FBSAVE
+#|DATUM : KINDERGARTENVERSION ERFUNDEN WENIGER IST WENIGER MEHR MEHR.
 #|30.5.26
 #|UHRZEIT
-#|17:03
-#|BESONDERE ANMERKUNGEN DIESE VERSION IST BESONDERS ANGEMERKT
+#|19:14DEBUGHOURSFBIFINITEstd
 set -euo pipefail
 IFS=$'\n\t'
 PRECISION="FP16"
 DEVICE="ARC"
-IGPU_VRAM_FALLBACK_GIB="${IGPU_VRAM_FALLBACK_GIB:-24}"
-IGPU_VRAM_RESERVE_GIB="${IGPU_VRAM_RESERVE_GIB:-6}"
+IGPU_VRAM_FALLBACK_GIB="${IGPU_VRAM_FALLBACK_GIB:-27}"
+IGPU_VRAM_RESERVE_GIB="${IGPU_VRAM_RESERVE_GIB:-5}"
 LLAMA_CPP_DIR="llama.cpp"
 BUILD_DIR="${BUILD_DIR:-XAIGPUARC}"
 BUILD_DIR="${BUILD_DIR%/}"
@@ -36,7 +35,7 @@ export OverrideDefaultFP64Settings=0
 export CCACHE_DIR="$HOME/.ccache"
 export COMPILER_VERSION="2025.3"
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
-export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=128
+export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=32
 export FP_FLAG=FP16
 export SYCL_DEVICE_FILTER=level_zero:gpu
 export ZE_ENABLE_PCI_ID_DEVICE_ORDER=1
@@ -124,7 +123,7 @@ error "❌FEHLER HAUPTVERZEICHNIS'${LLAMA_CPP_DIR}'NICHT GEFUNDEN"
 exit 1
 fi
 }
-#|AUFWERTLOGIK 0 BIS 12+a+b+c
+#|AUFWERTLOGIK 0 BIS 12 +a+b+c
 patch_llama_cpp() {
 log "🔷PATCH 1|12 GGML SYCL DOCTPHELPER REGESTRIERUNG BIBLIOTHEK KOPFZEILENEINTRAEGE"
 local DPCT_HELPER_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/dpct/helper.hpp"
@@ -160,6 +159,7 @@ if [ -f "$KERNEL_SOURCE_LOCAL" ]; then
 cp "$KERNEL_SOURCE_LOCAL" "$CUSTOM_KERNEL_SRC"
 log "✅PATCH 2|12 ggml_flash_attention_sycl.cpp KERN'${KERNEL_SOURCE_LOCAL}' '${CUSTOM_KERNEL_SRC}'EINGEBAUT"
 fi
+
 #|2|a|12
 if [ ! -f "$CUSTOM_KERNEL_SRC" ]; then
 echo "ggml_flash_attention_sycl.cpp KERN VERZEICHNIS" > "$CUSTOM_KERNEL_SRC"
@@ -172,10 +172,12 @@ target_include_directories(ggml_flash_attention_sycl PRIVATE \${GGML_SYCL_INCLUD
 target_compile_options(ggml_flash_attention_sycl PUBLIC \${GGML_SYCL_COMPILE_FLAGS})
 " > "$CUSTOM_KERNEL_CMAKE"
 log "🔷PATCH 2|a|12 CMAKE TXT LISTEN OBJEKTE KOPFZEILENEINTRAEGE EINFUEGEN"
+
 #|2|b|12
 local ADD_SUBDIR_LINE="add_subdirectory(ggml_flash_attention_sycl)"
 if ! grep -Fq "${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
 if sed -i "\|#add_subdirectory(dpct)|a\\${ADD_SUBDIR_LINE}" "$CMAKE_LISTS_FILE"; then
+
 log "✅PATCH 2|b|12 ERFOLGREICH FLASH ATTENTION KOPFZEILENEINTRAEGE CMAKE TXT GESCHRIEBEN"
 else
 error "❌PATCH 2|b|12 FLASH ATTENTION KOPFZEILENEINTRAEGE EINGLIEDERUNG CMAKE TXT FEHLGESCHLAGEN"
@@ -208,6 +210,7 @@ else
 error "❌PATCH 3|12 FEHLGESCHLAGEN CMAKE LISTS TXT SYCL GGML PFADE ABHAENGIGKEITEN GARUDA LINUX ARCH"
 return 1
 fi
+
 #|4|12
 log "🔷PATCH 4|12 FLASH ATTENTION HAUPTKERN KOPFZEILENEINTRAEGE INJIZIEREN"
 if [ -f "$GGML_SYCL_CPP" ]; then
@@ -215,7 +218,8 @@ local FA_REGISTER_CODE=$'//REGESTRIERE ggml_flash_attention_sycl.cpp \nextern "C
 void ggml_flash_attention_sycl(ggml_flash_attention_sycl * ctx, ggml_tensor *
 dst, const ggml_tensor * Q, const ggml_tensor * K, const ggml_tensor * V);\n'
 if ! grep -Fq "ggml_flash_attention_sycl" "${GGML_SYCL_CPP}"; then
-#|Anmerkung Flashattention von alucian
+
+#|Anmerkung FlashAttention alucian einfuegen in HOME Ordner
 echo "${FA_REGISTER_CODE}" > /tmp/ggml_flash_attention_sycl.cpp
 awk '/extern "C" void ggml_flash_attention_sycl/ { system("cat /tmp/ggml_flash_attention_sycl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
@@ -249,6 +253,7 @@ else
 error "❌PATCH 4|a|12 FEHLGESCHLAGEN FLASH ATTENTION AWK PATCH KERN STOPP"
 return 1
 fi
+
 #|5|12
 log "🔷PATCH 5|12FLASH ATTENTION OBJEKT INJIZIERE VARIABLEN UNTERBLOCK SYCL BIBLIOTHEKEN"
 local CMAKE_LISTS_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/CMakeLists.txt"
@@ -265,6 +270,7 @@ fi
 else
 log "🔷PATCH 5|12 FLASH ATTENTION OBJEKT VARIABLEN VORHANDEN UEBERSPRINGE"
 fi
+
 #|5|a|12
 local TARGET_SEARCH_MARKER="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES})"
 local NEW_TARGET_SOURCES_LINE="target_sources(ggml-sycl PRIVATE \${GGML_SYCL_SOURCES} \${FA_OBJECT_FILES})"
@@ -280,12 +286,14 @@ fi
 else
 log "✅PATCH 5|a|12 GGML SYCL AKTIV INJECTION UEBERSPRUNGEN"
 fi
+
 #|6|12
 log "🔷PATCH 6|12 SSMCONV CPP WARNUNG BEHEBEN VORZEICHEN VERGLEICH AKW PATCH"
 local SSM_CONV_FILE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ssm_conv.cpp"
 local SEARCH_LINE='GGML_ASSERT(src0->nb\[1\] == src0->ne\[0\] * static_cast<int64_t>(sizeof(float)));'
 local REPLACE_LINE='GGML_ASSERT(src0->nb\[1\] == (size_t)(src0->ne\[0\] * sizeof(float)));'
 if [ -f "$SSM_CONV_FILE" ]; then
+
 #|6|a|12
 if grep -Fq "${SEARCH_LINE}" "$SSM_CONV_FILE"; then
 log "🔷PATCH 6a|12 SUCHE ssm_conv.cpp NATIVE ADRESSIERUNG"
@@ -300,9 +308,10 @@ else
 warn "⚠️PATCH 6|a|12 SSMCONV CPP ZEILE NICHT GEFUNDEN UEBERSPRINGE"
 fi
 fi
-#ATTENTION
+
+#ATTENTION 7/12
+
 #|7|12
-#|Diese Groessen koennen selbst angepasst werden
 log "🔷PATCH 7|12 ERZWINGE MAXIMALE BLOCK GROESSE 128 FUER ARC ALCHEMIST"
 if [ -f "$GGML_SYCL_CPP" ]; then
 if ! grep -q "GGML_SYCL_MAX_BLOCK_SIZE 128" "$GGML_SYCL_CPP"; then
@@ -341,6 +350,7 @@ fi
 success "🔷ALLE FUENF VON ACHT EINGLIEDERUNGEN INTEL XE/ARC/iGPU/dGPU/eGPU FUER XAIGPUARC ERFOLGREICH"
 patch_gcc16_t5 || return 1
 }
+
 #|10|a|12
 #|GCC16 T5.CPP VORWAERTSDEKLARATION VOR INSTANTIIERUNG
 patch_gcc16_t5() {
@@ -361,10 +371,12 @@ else
 error "❌PATCH 10|a|12 GCC16 T5.CPP VORWAERTSDEKLARATION FEHLGESCHLAGEN"
 return 1
 fi
+
 #|WEITERLEITUNG
 patch_gcc16_t5
 patch_10_xmx_dual
 }
+
 #|10|b|12
 #|GCC 16 AUF T5 AWK VORWAERTS DECLARATION INJEKTION
 patch_gcc16_t5() {
@@ -375,7 +387,11 @@ if grep -q "XAIGPUARC_GCC16_PATCH" "$T5_FILE"; then return 0; fi
 awk '/^std::unique_ptr<llm_graph_context> llama_model_t5::build_arch_graph/ { print ""; print "// XAIGPUARC_GCC16_PATCH: Vorwaertsdeklaration vor Instantiierung"; print "template <> llama_model_t5::graph<false>::graph(const llama_model & model, const llm_graph_params & params);"; print "template <> llama_model_t5::graph<true>::graph(const llama_model & model, const llm_graph_params & params);"; } { print }' "$T5_FILE" > /tmp/t5_patched.cpp && mv /tmp/t5_patched.cpp "$T5_FILE"
     success "✅ PATCH 10|b|12 GCC16 T5 TEMPLATE VORWAERTSDEKLARATION EINGEFUEGT"
 }
-#ATTENTION PATCHES 10C - 12 EINFUEGEN UND OPTIMIEREN BIS DIESE MELDUNG VERSCHWUNDEN
+
+#ATTENTION
+
+#|10|c|BIS 12 WIEDER EINFUEGEN
+
 #|3|BAUKONFIGURATION
 configure_build() {
 log "🔷BEREITE KOPFZEILEN BAUVORGANG VOR"
@@ -430,7 +446,7 @@ log "🔷BAUVORGANG LAEUFT XAIGPUARC SYCL C++ LEVEL ZERO KOPFZEILEN SCHREIBEN AB
 if pushd "${BUILD_DIR}" > /dev/null; then
 log "🔷VORBBAU IN HAUPTORDNER GESCHICKT STARTE INSTALLATION UND DANNACH/ODER KI-INFERENZ
 |🟢|XAIGPUARC
-|🔧INSTALLATION auf ihrem Endgeraet in 🧰 .../HOME/USERNAME/XAIGPUARC/...✅"
+|🔧INSTALLATION auf ihrem Endgeraet in 🧰 .../HOME/USERNAME/XAIGPUARC/..."
 cmake --build . --verbose --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama-cli llama-ls-sycl-device > "${LOG_FILE}" 2>&1
 local BUILD_STATUS=$?
 popd > /dev/null
@@ -611,8 +627,6 @@ export MODEL_PATH
 #|8|MODELLAUSFUEHREN WARNING
 run_inference() {
 local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
-#ATTENTION
-
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
 Pause
@@ -644,9 +658,6 @@ Example Formula 1-10_Sentences:
 |TEST|000|END\\\|
 
 |00|INSTRUCTION=|
-
-\
-
 |FORMAT=->FORMULA_FINDER+2D-PAPER-DIN-A4-SYCL_KERNEL_GENERATOR /
 |Mode=->Matrix-Multiplikation=cij​=∑k=1n​aik​⋅bkj​ /
 
@@ -661,9 +672,6 @@ Example Formula 1-10_Sentences:
 (FP16_32-bit_math.cl; = Fi;))))))));\
 
 |00|After|Promt|Analysis|You|Recive|Input|Text|Questions-Build up-on-your own-answer!
-
-\
-
 |01|00-42|MAIN-/TASKS/|
 
 |1.|Word|2D-Format-A4-DIN-PROGRAMM-short|Basic-C++|math-analysis-code|32-bit|vector-intrinsics|graph
@@ -721,21 +729,17 @@ Example Formula 1-10_Sentences:
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-97}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
-
 #ATTENTION
 local CONTEXT_SIZE=16384
 #|4096,0x1000 8192,0x2000 MathtTutor CTX 6384,0x4000 BIS 20480,0x5000 UNTER 16GiBVRAM
 #|24576|0x6000 32768|0x8000?FALSCH?! KORRIGIEREN|65536|131072|20480|262144|524288
 local PREDICT_TOKENS=16384
-
-
 log "🔷STARTE KI ANTWORT MIT PARAMETER**${DEVICE}**NGL:${NGL_SET}**${FULL_LLAMA_CLI_PATH}**"
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
 error "❌FEHLER AKTUELLER UNTERBAU NEUBAU FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
 return 1
 fi
 
-#ATTENTION
 #|DUAL iGPU PLUS dGPU HOCHEFFIZIENZMODUS
 #|TENSORSPLIT SPLITMODE ROW
 if [ "${DEVICE}" = "DUAL" ] && [ -n "${TENSOR_SPLIT:-}" ]; then
@@ -791,7 +795,6 @@ main() {
 local FP_MODE="${1:-1}"
 local RERUN_BUILD=1
 prepare_environment
-
 #|01
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 local FULL_LS_PATH="./${BUILD_DIR}/${LS_SYCL_DEVICE_PATH}"
@@ -807,40 +810,29 @@ if [[ "$RERUN_BUILD" -eq 1 ]]; then
 log "🔷STARTE ERSTMALIGEN BAUVORGANG XAIGPUARC"
 if check_internet; then
 log "🔷LADE WERKZEUGKASTEN"
-
 #|0
 setup_project
-
 #|1
 patch_llama_cpp
-
 #|2
 else
 warn "⚠️INTERNET NICHT VERFUEGBAR UEBERSPRINGE AUFWERTUNG WERKZEUGKASTEN LOKALE VERSION"
 fi
 fi
 configure_build "${FP_MODE}"
-
 #|3
 compile_project
-
 #|4
 auto_select_device
-
 #|5
 list_sycl_devices
-
 #|6
 prepare_model "${2:-}"
-
 #|7
 run_inference "${2:-}" "${3:-}"
-
 #|8
 log "✅NUTZUNG VON XAIGPUARC JETZT MOEGLICH /IHRE FRAGE NACH > ... DRUECKEN SIE |ENTER**${BUILD_DIR}/${LLAMA_CLI_PATH}**"
 }
-
 #|HAUPTSCHLEIFE
 main "${1:-1}" "${2:-}" "${3:-}"
-#|42
 log "✅KOMPLETTER BAUVORGANG HIER GESPEICHERT**${LOG_FILE}**"
