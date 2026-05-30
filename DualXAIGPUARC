@@ -430,7 +430,7 @@ log "🔷BAUVORGANG LAEUFT XAIGPUARC SYCL C++ LEVEL ZERO KOPFZEILEN SCHREIBEN AB
 if pushd "${BUILD_DIR}" > /dev/null; then
 log "🔷VORBBAU IN HAUPTORDNER GESCHICKT STARTE INSTALLATION UND DANNACH/ODER KI-INFERENZ
 |🟢|XAIGPUARC
-|🔧INSTALLATION auf ihrem Endgeraet in 🧰 .../HOME/USERNAME/XAIGPUARC/...✅
+|🔧INSTALLATION auf ihrem Endgeraet in 🧰 .../HOME/USERNAME/XAIGPUARC/...✅"
 cmake --build . --verbose --config "${CMAKE_BUILD_TYPE}" -j ${NPROC} --target llama-cli llama-ls-sycl-device > "${LOG_FILE}" 2>&1
 local BUILD_STATUS=$?
 popd > /dev/null
