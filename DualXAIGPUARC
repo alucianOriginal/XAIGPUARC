@@ -13,7 +13,7 @@ fi
 #| Am Ende dieses Programmes finden sie Testbeispiele|✅|
 
 #|Deutsch-Mathematik-Formel-Sprachprogramm|
-#|30.05.2026|TIME|05:31|
+#|30.05.2026|TIME|05:53|
 #|GEHIRN-O-MAT + EIWEISS-COMPUTER = Sprachprogramm|
 
 #9.)How START your XAIGPUARC
@@ -410,7 +410,7 @@ success "🔷ALLE FUENF VON ACHT EINGLIEDERUNGEN INTEL XE/ARC/iGPU/dGPU/eGPU FUE
 patch_gcc16_t5 || return 1
 }
 
-#10a|10
+#10a|10-c
 #GCC16 T5.CPP VORWAERTSDEKLARATION VOR INSTANTIIERUNG
 patch_gcc16_t5() {
 log "🔷PATCH 10a|10 GCC16 T5.CPP VORWAERTSDEKLARATION VOR INSTANTIIERUNG"
@@ -425,7 +425,7 @@ return 0
 fi
 awk '/^std::unique_ptr<llm_graph_context> llama_model_t5::build_arch_graph/ { print ""; print "// XAIGPUARC_GCC16_PATCH: Vorwaertsdeklaration vor Instantiierung"; print "template <> llama_model_t5::graph<false>::graph(const llama_model & model, const llm_graph_params & params);"; print "template <> llama_model_t5::graph<true>::graph(const llama_model & model, const llm_graph_params & params);"; } { print }' "$T5_FILE" > /tmp/t5_patched.cpp && mv /tmp/t5_patched.cpp "$T5_FILE"
 if grep -q "XAIGPUARC_GCC16_PATCH" "$T5_FILE"; then
-success "✅PATCH 9|10 GCC16 T5.CPP VORWAERTSDEKLARATION ERFOLGREICH INJIZIERT"
+success "✅PATCH 10a|10 GCC16 T5.CPP VORWAERTSDEKLARATION ERFOLGREICH INJIZIERT"
 else
 error "❌PATCH 10a|10 GCC16 T5.CPP VORWAERTSDEKLARATION FEHLGESCHLAGEN"
 return 1
@@ -436,7 +436,8 @@ fi
     patch_10_xmx_dual
 }
 
-#Patch 10b|10: GCC16 T5 Forward Declaration Fix
+#Patch 10b|10-c:
+#GCC16 T5 Forward Declaration Fix
 patch_gcc16_t5() {
     log "🔷 PATCH 10b/10 GCC16 T5.CPP VORWAERTSDEKLARATION"
     local T5_FILE="${LLAMA_CPP_DIR}/src/models/t5.cpp"
@@ -447,7 +448,8 @@ patch_gcc16_t5() {
     success "✅ PATCH 10b/10 GCC16 T5 TEMPLATE FORWARD FIX APPLIED"
 }
 
-#Patch 10c/10: XMX Flash Attention plus Dual GPU Hardware Dispatcher
+#Patch 10c/10-c:
+#XMX Flash Attention plus Dual GPU Hardware Dispatcher
 patch_10_xmx_dual() {
     log "🔷 PATCH 10c/10 XMX FLASH ATTENTION HARDWARE DISPATCHING"
     local CUSTOM_KERNEL_DIR="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/custom_kernels"
@@ -493,7 +495,7 @@ if old:
     txt = txt[:old.start()] + new + txt[old.end():]
     open('$GGML_SYCL_CPP','w').write(txt)
 "
-        success "✅ PATCH 10-c/10-c INTELLIGENTER DISPATCHER ERFOLGREICH INJIZIERT"
+        success "✅ PATCH 10c/10-c INTELLIGENTER DISPATCHER ERFOLGREICH INJIZIERT"
     fi
 }
 
