@@ -3,21 +3,22 @@ if [ -n "$FISH_VERSION" ]; then
 echo "❌FEHLER BITTE STARTE MIT 'bash XAIGPUARC.sh' ODER INSTALLIERE DIR 'bass'"
 exit 1
 fi
-#| ✅ XAIGPUARC VANILLA 2.2327 TEST WARNING ALUCIAN✅
+#| ✅ XAIGPUARC VANILLA 2 ALUCIAN✅DUAL GPU
+
 #|DATUM
 #|31.5.26
 
 #|UHRZEIT
-#|20:27
+#|21:48
 
-#|BESONDERHEITEN: NVME-VRAM-SWAP>iGPU+dGPU
+#|BESONDERHEITEN
 
 set -euo pipefail
 IFS=$'\n\t'
 PRECISION="FP16"
 DEVICE="ARC"
-IGPU_VRAM_FALLBACK_GIB="${IGPU_VRAM_FALLBACK_GIB:-0}"
-IGPU_VRAM_RESERVE_GIB="${IGPU_VRAM_RESERVE_GIB:-0}"
+IGPU_VRAM_FALLBACK_GIB="${IGPU_VRAM_FALLBACK_GIB:-27}"
+IGPU_VRAM_RESERVE_GIB="${IGPU_VRAM_RESERVE_GIB:-5}"
 LLAMA_CPP_DIR="llama.cpp"
 BUILD_DIR="${BUILD_DIR:-XAIGPUARC}"
 BUILD_DIR="${BUILD_DIR%/}"
@@ -39,7 +40,7 @@ export OverrideDefaultFP64Settings=0
 export CCACHE_DIR="$HOME/.ccache"
 export COMPILER_VERSION="2026.0"
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
-export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=2048
+export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=512
 export FP_FLAG=FP16
 export SYCL_DEVICE_FILTER=level_zero:gpu
 export ZE_ENABLE_PCI_ID_DEVICE_ORDER=1
@@ -80,7 +81,7 @@ fi
 log "🔷SETVARS SETZEN PLUS SUCHEN SS PLUS S"
 source "$SETVARS_PATH" --force 2>/dev/null
 local ONEAPI_ROOT_FALLBACK="/opt/intel/oneapi"
-local COMPILER_VERSION_FALLBACK="${COMPILER_VERSION:-2026.0}"
+local COMPILER_VERSION_FALLBACK="${COMPILER_VERSION:-2025.3}"
 DPCPP_ROOT="${DPCPP_ROOT:-${ONEAPI_ROOT_FALLBACK}/compiler/${COMPILER_VERSION_FALLBACK}}"
 MKL_ROOT="${MKL_ROOT:-${ONEAPI_ROOT_FALLBACK}/mkl/${COMPILER_VERSION_FALLBACK}}"
 ONEAPI_ROOT="${ONEAPI_ROOT:-${ONEAPI_ROOT_FALLBACK}}"
@@ -229,6 +230,8 @@ void ggml_flash_attention_sycl(ggml_flash_attention_sycl * ctx, ggml_tensor *
 dst, const ggml_tensor * Q, const ggml_tensor * K, const ggml_tensor * V);\n'
 if ! grep -Fq "ggml_flash_attention_sycl" "${GGML_SYCL_CPP}"; then
 
+#|Anmerkung OPEN SOURCE ALL INLUSIVE SYCL XMX FlashAttention GGML.CPP
+#|PLUS SHEDULER alucian einfuegen in HOME Ordner
 echo "${FA_REGISTER_CODE}" > /tmp/ggml_flash_attention_sycl.cpp
 awk '/extern "C" void ggml_flash_attention_sycl/ { system("cat /tmp/ggml_flash_attention_sycl.patch"); } { print }' "${GGML_SYCL_CPP}" > /tmp/ggml-sycl.cpp.new
 mv /tmp/ggml-sycl.cpp.new "${GGML_SYCL_CPP}"
@@ -361,23 +364,23 @@ patch_gcc16_t5 || return 1
 }
 
 #|10|a|12
-#|XAIGPUARC_T5_CPP VORWAERTSDEKLARATION VOR INSTANTIIERUNG
+#|GCC16 T5.CPP VORWAERTSDEKLARATION VOR INSTANTIIERUNG
 patch_gcc16_t5() {
-log "🔷PATCH 10|a|12 XAIGPUARC_T5_CPP VORWAERTSDEKLARATION VOR INSTANTIIERUNG"
-local T5_FILE="${LLAMA_CPP_DIR}/src/models/XAIGPUARC_T5_CPP"
+log "🔷PATCH 10|a|12 GCC16 T5.CPP VORWAERTSDEKLARATION VOR INSTANTIIERUNG"
+local T5_FILE="${LLAMA_CPP_DIR}/src/models/t5.cpp"
 if [ ! -f "$T5_FILE" ]; then
-warn "⚠️PATCH 10|a|12 XAIGPUARC_T5_CPP NICHT GEFUNDEN UEBERSPRINGE"
+warn "⚠️PATCH 10|a|12 T5.CPP NICHT GEFUNDEN UEBERSPRINGE"
 return 0
 fi
-if grep -q "XAIGPUARC_T5_CPP" "$T5_FILE"; then
-log "🔷PATCH 10|a|12 XAIGPUARC_T5_CPP VORWAERTSDEKLARATION BEREITS AKTIV UEBERSPRINGE"
+if grep -q "XAIGPUARC_GCC16_PATCH" "$T5_FILE"; then
+log "🔷PATCH 10|a|12 GCC16 VORWAERTSDEKLARATION BEREITS AKTIV UEBERSPRINGE"
 return 0
 fi
-awk '/^std::unique_ptr<llm_graph_context> llama_model_t5::build_arch_graph/ { print ""; print "// XAIGPUARC_T5_CPP: Vorwaertsdeklaration vor Instantiierung"; print "template <> llama_model_t5::graph<false>::graph(const llama_model & model, const llm_graph_params & params);"; print "template <> llama_model_t5::graph<true>::graph(const llama_model & model, const llm_graph_params & params);"; } { print }' "$T5_FILE" > /tmp/t5_patched.cpp && mv /tmp/t5_patched.cpp "$T5_FILE"
-if grep -q "XAIGPUARC_T5_CPP" "$T5_FILE"; then
-success "✅PATCH 10|a|12 XAIGPUARC_T5_CPP VORWAERTSDEKLARATION ERFOLGREICH INJIZIERT"
+awk '/^std::unique_ptr<llm_graph_context> llama_model_t5::build_arch_graph/ { print ""; print "// XAIGPUARC_GCC16_PATCH: Vorwaertsdeklaration vor Instantiierung"; print "template <> llama_model_t5::graph<false>::graph(const llama_model & model, const llm_graph_params & params);"; print "template <> llama_model_t5::graph<true>::graph(const llama_model & model, const llm_graph_params & params);"; } { print }' "$T5_FILE" > /tmp/t5_patched.cpp && mv /tmp/t5_patched.cpp "$T5_FILE"
+if grep -q "XAIGPUARC_GCC16_PATCH" "$T5_FILE"; then
+success "✅PATCH 10|a|12 GCC16 T5.CPP VORWAERTSDEKLARATION ERFOLGREICH INJIZIERT"
 else
-error "❌PATCH 10|a|12 "XAIGPUARC_T5_CPP"  VORWAERTSDEKLARATION FEHLGESCHLAGEN"
+error "❌PATCH 10|a|12 "XAIGPUARC_GCC16_PATCH" T5.CPP VORWAERTSDEKLARATION FEHLGESCHLAGEN"
 return 1
 fi
 
@@ -387,20 +390,19 @@ patch_10_xmx_dual
 }
 
 #|10|b|12
-#|XAIGPUARC_GCC16_CPP PLUS T5 AWK VORWAERTS DECLARATION INJEKTION
+#|GCC 16 AUF T5 AWK VORWAERTS DECLARATION INJEKTION
 patch_gcc16_t5() {
-log "🔷 PATCH 10|b|12 XAIGPUARC_GCC16_CPP AWK VORWAERTSDEKLARATION INJEKTION"
+log "🔷 PATCH 10|b|12 GCC16 T5.CPP AWK VORWAERTSDEKLARATION INJEKTION"
 local T5_FILE="${LLAMA_CPP_DIR}/src/models/t5.cpp"
 if [ ! -f "$T5_FILE" ]; then return 0; fi
-if grep -q "XAIGPUARC_GCC16_CPP" "$T5_FILE"; then return 0; fi
-awk '/^std::unique_ptr<llm_graph_context> llama_model_t5::build_arch_graph/ { print ""; print "// XAIGPUARC_GCC16_CPP Vorwaertsdeklaration vor Instantiierung"; print "template <> llama_model_t5::graph<false>::graph(const llama_model & model, const llm_graph_params & params);"; print "template <> llama_model_t5::graph<true>::graph(const llama_model & model, const llm_graph_params & params);"; } { print }' "$T5_FILE" > /tmp/t5_patched.cpp && mv /tmp/t5_patched.cpp "$T5_FILE"
-    success "✅ PATCH 10|b|12 XAIGPUARC_GCC16_CPP T5 TEMPLATE VORWAERTSDEKLARATION EINGEFUEGT"
+if grep -q "XAIGPUARC_GCC16_PATCH" "$T5_FILE"; then return 0; fi
+awk '/^std::unique_ptr<llm_graph_context> llama_model_t5::build_arch_graph/ { print ""; print "// XAIGPUARC_GCC16_PATCH: Vorwaertsdeklaration vor Instantiierung"; print "template <> llama_model_t5::graph<false>::graph(const llama_model & model, const llm_graph_params & params);"; print "template <> llama_model_t5::graph<true>::graph(const llama_model & model, const llm_graph_params & params);"; } { print }' "$T5_FILE" > /tmp/t5_patched.cpp && mv /tmp/t5_patched.cpp "$T5_FILE"
+    success "✅ PATCH 10|b|12 GCC16 T5 TEMPLATE VORWAERTSDEKLARATION EINGEFUEGT"
 }
 
 #ATTENTION
 
 #|10|c|BIS 12 WIEDER EINFUEGEN
-#XAIGPUARC_GCC16_PATCH C
 
 #|3|BAUKONFIGURATION
 configure_build() {
@@ -494,7 +496,7 @@ if [ -z "$DEVICES" ]; then
 warn "⚠️KEINE KOMPATIBLEN SYCL GERAETE GEFUNDEN! RUECKFALL AUF EINZELGERAET"
 export ONEAPI_DEVICE_SELECTOR="level_zero:0"
 DEVICE="DUAL"
-N_GPU_LAYERS=98
+N_GPU_LAYERS=97
 return
 fi
 
@@ -540,18 +542,18 @@ local IGPU_NUM="$IGPU_ID"
 
 #|VRAM  DUAL GPU BERECHNEN
 local ARC_VRAM_MIB IGPU_VRAM_MIB
-ARC_VRAM_MIB=$(get_vram_mib_from_line "$ARC_LINE" 12)
+ARC_VRAM_MIB=$(get_vram_mib_from_line "$ARC_LINE" 6)
 #|iGPU TEILT SICH ARBEITSSPEICHER MIT CPU RUECKFALL IGPU_VRAM_FALLBACK_GIB
 IGPU_VRAM_MIB=$(get_vram_mib_from_line "$IGPU_LINE" "${IGPU_VRAM_FALLBACK_GIB}")
 #|BETRIEBSSYSTEMRESERVE ABZIEHEN
-local IGPU_RESERVE_MIB=$(( IGPU_VRAM_RESERVE_GIB * 2048 ))
+local IGPU_RESERVE_MIB=$(( IGPU_VRAM_RESERVE_GIB * 512 ))
 IGPU_VRAM_MIB=$(( IGPU_VRAM_MIB - IGPU_RESERVE_MIB ))
-if [ "$IGPU_VRAM_MIB" -lt 2048 ]; then
-IGPU_VRAM_MIB=2048
+if [ "$IGPU_VRAM_MIB" -lt 512 ]; then
+IGPU_VRAM_MIB=512
 fi
 
 local TOTAL_VRAM_MIB=$(( ARC_VRAM_MIB + IGPU_VRAM_MIB ))
-local TOTAL_VRAM_GIB=$(( TOTAL_VRAM_MIB / 2048 ))
+local TOTAL_VRAM_GIB=$(( TOTAL_VRAM_MIB / 512 ))
 
 #|TENSOR SPLIT AUS BERECHNETEN GRAFIKSPEICHERWERTEN SETZEN RELATIVE MiB GEWICHTE
 TENSOR_SPLIT_DGPU="${ARC_VRAM_MIB}"
@@ -564,7 +566,7 @@ MAIN_GPU_ID="0"
 export MAIN_GPU_ID
 
 N_GPU_LAYERS=98
-success "✅DUAL-GPU VRAM POOL: dGPU~$((ARC_VRAM_MIB/2048))GiB + iGPU~$((IGPU_VRAM_MIB/2048))GiB = GESAMT~${TOTAL_VRAM_GIB}GiB"
+success "✅DUAL-GPU VRAM POOL: dGPU~$((ARC_VRAM_MIB/512))GiB + iGPU~$((IGPU_VRAM_MIB/512))GiB = GESAMT~${TOTAL_VRAM_GIB}GiB"
 log "🔷TENSOR-SPLIT dGPU:iGPU = ${ARC_VRAM_MIB}:${IGPU_VRAM_MIB} MiB"
 log "🔷HAUPTGERAET DGPU ID:${ARC_NUM} ALLE SCHICHTEN GPU VERTEILT NGL:${N_GPU_LAYERS}"
 
@@ -576,8 +578,8 @@ export ONEAPI_DEVICE_SELECTOR="level_zero:${ARC_NUM}"
 DEVICE="ARC"
 MAIN_GPU_ID="${ARC_NUM}"
 local ARC_VRAM_MIB
-ARC_VRAM_MIB=$(get_vram_mib_from_line "$ARC_LINE" 12)
-N_GPU_LAYERS=$(( ARC_VRAM_MIB * 98 / 100 / 2048 ))
+ARC_VRAM_MIB=$(get_vram_mib_from_line "$ARC_LINE" 6)
+N_GPU_LAYERS=$(( ARC_VRAM_MIB * 98 / 100 / 512 ))
 [ "$N_GPU_LAYERS" -gt 98 ] && N_GPU_LAYERS=98
 [ "$N_GPU_LAYERS" -lt 1 ] && N_GPU_LAYERS=1
 TENSOR_SPLIT_DGPU="" ; TENSOR_SPLIT_IGPU=""
@@ -590,8 +592,8 @@ IGPU_NUM=$(echo "$IGPU_ID" | grep -oP '\d+$')
 export ONEAPI_DEVICE_SELECTOR="level_zero:${IGPU_NUM}"
 DEVICE="iGPU"
 MAIN_GPU_ID="${IGPU_NUM}"
-local IGPU_VRAM_MIB=$(( IGPU_VRAM_FALLBACK_GIB * 2048 ))
-N_GPU_LAYERS=$(( IGPU_VRAM_MIB * 98 / 100 / 2048 ))
+local IGPU_VRAM_MIB=$(( IGPU_VRAM_FALLBACK_GIB * 512 ))
+N_GPU_LAYERS=$(( IGPU_VRAM_MIB * 98 / 100 / 512 ))
 [ "$N_GPU_LAYERS" -gt 98 ] && N_GPU_LAYERS=98
 [ "$N_GPU_LAYERS" -lt 1 ] && N_GPU_LAYERS=1
 TENSOR_SPLIT_DGPU="" ; TENSOR_SPLIT_IGPU=""
@@ -617,11 +619,10 @@ else
 warn "⚠️AKTUELL KEIN SYCL GERAET GEFUNDEN ${FULL_LS_PATH} VERSUCH ZWEI SUCHE"
 fi
 }
-
-#|INTELLECT-1-Instruct-f16 FUNKTIONIERT GUT 19 GiB
-#|STANDART MathTutor-7B-H_v0.0.1.f16.gguf SEHR GUT EMPFEHLUNG 14.2 GiB
-#|deepseek-coder-33b-instruct.Q8_0 BEISPIEL FUNKTIONIERT NICHTQ8FALSCH
-#|orpheus-3b-0.1-ft-F16 FUNKTIONIERT AUCH AUF KLEINEREN SYSTEMEN
+#|RUECKFALL Orchestrator-8B-f16_q8_0
+#|STANDART MathTutor-7B-H_v0.0.1.f16.gguf
+#|deepseek-coder-33b-instruct.Q8_0
+#|orpheus-3b-0.1-ft-F16
 
 #|7|MODELLORT BEDARF AUTOMATISCH AENDERN
 #ATTENTION
@@ -716,10 +717,10 @@ local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-98}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 #ATTENTION
-local CONTEXT_SIZE=65536
+local CONTEXT_SIZE=40960
 #|4096,0x1000 8192,0x2000 MathtTutor CTX 6384,0x4000 BIS 20480,0x5000 UNTER 16GiBVRAM
 #|24576|0x6000 32768|0x8000?FALSCH?! KORRIGIEREN|65536|131072|20480|262144|524288
-local PREDICT_TOKENS=65536
+local PREDICT_TOKENS=40960
 log "🔷STARTE KI ANTWORT MIT PARAMETER**${DEVICE}**NGL:${NGL_SET}**${FULL_LLAMA_CLI_PATH}**"
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
 error "❌FEHLER AKTUELLER UNTERBAU NEUBAU FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
@@ -731,9 +732,9 @@ fi
 if [ "${DEVICE}" = "DUAL" ] && [ -n "${TENSOR_SPLIT:-}" ]; then
 log "🔷STARTE DUAL GPU INFERENZ AKTIKER TENSORSPLIT [${TENSOR_SPLIT}]"
 local SAFE_CTX="${CONTEXT_SIZE}"
-if [ "${CONTEXT_SIZE}" -gt 65536 ]; then
-warn "⚠️HOHE KONTEXTGROESSE UND ALLGEMEINE SYSTEMBELASTUNG NUR F16 GGUF SPEZIALMODELLE MOEGLICH WARNUNG CTX 65536 MINIMUM"
-        SAFE_CTX=65536
+if [ "${CONTEXT_SIZE}" -gt 40960 ]; then
+warn "⚠️HOHE KONTEXTGROESSE UND ALLGEMEINE SYSTEMBELASTUNG NUR F16 GGUF SPEZIALMODELLE MOEGLICH WARNUNG CTX 40960 MINIMUM"
+        SAFE_CTX=40960
 fi
 log "🔷STARTE DUAL GPU GERAET INFERENZ ${DEVICE_0} ID:${GPU_ID_0} | ${DEVICE_1} ID:${GPU_ID_1}"
 success "✅START FUER DUAL GPU MODUS GELUNGEN✅
@@ -749,7 +750,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     --n-predict "${PREDICT_TOKENS}" \
     --ctx-size "${SAFE_CTX}" \
     -ngl "${N_GPU_LAYERS}" \
-    --keep 65536 \
+    --keep 40960 \
     --main-gpu "${MAIN_GPU_ID:-0}" \
     --tensor-split "${TENSOR_SPLIT}" \
     --split-mode row \
@@ -769,7 +770,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     --n-predict "${PREDICT_TOKENS}" \
     --ctx-size "${CONTEXT_SIZE}" \
     -ngl "${NGL_SET}" \
-    --keep 65536 \
+    --keep 40960 \
     --main-gpu "${GPU_ID}" \
     --color auto
 fi
