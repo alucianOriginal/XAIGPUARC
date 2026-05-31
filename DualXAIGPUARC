@@ -3,15 +3,14 @@ if [ -n "$FISH_VERSION" ]; then
 echo "❌FEHLER BITTE STARTE MIT 'bash XAIGPUARC.sh' ODER INSTALLIERE DIR 'bass'"
 exit 1
 fi
-#| ✅ XAIGPUARC VANILLA 2.16 ALUCIAN✅DUAL GPU
-
+#| ✅ XAIGPUARC VANILLA 2.21 ALUCIAN✅
 #|DATUM
-#|30.5.26
+#|31.5.26
 
 #|UHRZEIT
-#|20:03
+#|10:06
 
-#|BESONDERHEITEN
+#|BESONDERHEITEN: DUAL GPU VERSION!
 
 set -euo pipefail
 IFS=$'\n\t'
@@ -81,7 +80,7 @@ fi
 log "🔷SETVARS SETZEN PLUS SUCHEN SS PLUS S"
 source "$SETVARS_PATH" --force 2>/dev/null
 local ONEAPI_ROOT_FALLBACK="/opt/intel/oneapi"
-local COMPILER_VERSION_FALLBACK="${COMPILER_VERSION:-2025.3}"
+local COMPILER_VERSION_FALLBACK="${COMPILER_VERSION:-2026.0}"
 DPCPP_ROOT="${DPCPP_ROOT:-${ONEAPI_ROOT_FALLBACK}/compiler/${COMPILER_VERSION_FALLBACK}}"
 MKL_ROOT="${MKL_ROOT:-${ONEAPI_ROOT_FALLBACK}/mkl/${COMPILER_VERSION_FALLBACK}}"
 ONEAPI_ROOT="${ONEAPI_ROOT:-${ONEAPI_ROOT_FALLBACK}}"
@@ -496,7 +495,7 @@ if [ -z "$DEVICES" ]; then
 warn "⚠️KEINE KOMPATIBLEN SYCL GERAETE GEFUNDEN! RUECKFALL AUF EINZELGERAET"
 export ONEAPI_DEVICE_SELECTOR="level_zero:0"
 DEVICE="DUAL"
-N_GPU_LAYERS=97
+N_GPU_LAYERS=98
 return
 fi
 
@@ -546,14 +545,14 @@ ARC_VRAM_MIB=$(get_vram_mib_from_line "$ARC_LINE" 6)
 #|iGPU TEILT SICH ARBEITSSPEICHER MIT CPU RUECKFALL IGPU_VRAM_FALLBACK_GIB
 IGPU_VRAM_MIB=$(get_vram_mib_from_line "$IGPU_LINE" "${IGPU_VRAM_FALLBACK_GIB}")
 #|BETRIEBSSYSTEMRESERVE ABZIEHEN
-local IGPU_RESERVE_MIB=$(( IGPU_VRAM_RESERVE_GIB * 512 ))
+local IGPU_RESERVE_MIB=$(( IGPU_VRAM_RESERVE_GIB * 128 ))
 IGPU_VRAM_MIB=$(( IGPU_VRAM_MIB - IGPU_RESERVE_MIB ))
-if [ "$IGPU_VRAM_MIB" -lt 512 ]; then
-IGPU_VRAM_MIB=512
+if [ "$IGPU_VRAM_MIB" -lt 128 ]; then
+IGPU_VRAM_MIB=128
 fi
 
 local TOTAL_VRAM_MIB=$(( ARC_VRAM_MIB + IGPU_VRAM_MIB ))
-local TOTAL_VRAM_GIB=$(( TOTAL_VRAM_MIB / 512 ))
+local TOTAL_VRAM_GIB=$(( TOTAL_VRAM_MIB / 128 ))
 
 #|TENSOR SPLIT AUS BERECHNETEN GRAFIKSPEICHERWERTEN SETZEN RELATIVE MiB GEWICHTE
 TENSOR_SPLIT_DGPU="${ARC_VRAM_MIB}"
@@ -565,8 +564,8 @@ export TENSOR_SPLIT
 MAIN_GPU_ID="0"
 export MAIN_GPU_ID
 
-N_GPU_LAYERS=97
-success "✅DUAL-GPU VRAM POOL: dGPU~$((ARC_VRAM_MIB/512))GiB + iGPU~$((IGPU_VRAM_MIB/512))GiB = GESAMT~${TOTAL_VRAM_GIB}GiB"
+N_GPU_LAYERS=98
+success "✅DUAL-GPU VRAM POOL: dGPU~$((ARC_VRAM_MIB/128))GiB + iGPU~$((IGPU_VRAM_MIB/128))GiB = GESAMT~${TOTAL_VRAM_GIB}GiB"
 log "🔷TENSOR-SPLIT dGPU:iGPU = ${ARC_VRAM_MIB}:${IGPU_VRAM_MIB} MiB"
 log "🔷HAUPTGERAET DGPU ID:${ARC_NUM} ALLE SCHICHTEN GPU VERTEILT NGL:${N_GPU_LAYERS}"
 
@@ -579,8 +578,8 @@ DEVICE="ARC"
 MAIN_GPU_ID="${ARC_NUM}"
 local ARC_VRAM_MIB
 ARC_VRAM_MIB=$(get_vram_mib_from_line "$ARC_LINE" 6)
-N_GPU_LAYERS=$(( ARC_VRAM_MIB * 97 / 100 / 128 ))
-[ "$N_GPU_LAYERS" -gt 97 ] && N_GPU_LAYERS=99
+N_GPU_LAYERS=$(( ARC_VRAM_MIB * 98 / 100 / 128 ))
+[ "$N_GPU_LAYERS" -gt 98 ] && N_GPU_LAYERS=98
 [ "$N_GPU_LAYERS" -lt 1 ] && N_GPU_LAYERS=1
 TENSOR_SPLIT_DGPU="" ; TENSOR_SPLIT_IGPU=""
 warn "⚠️NUR DGPU GEFUNDEN EINZELMODUS AKTIV NGL:${N_GPU_LAYERS}"
@@ -592,9 +591,9 @@ IGPU_NUM=$(echo "$IGPU_ID" | grep -oP '\d+$')
 export ONEAPI_DEVICE_SELECTOR="level_zero:${IGPU_NUM}"
 DEVICE="iGPU"
 MAIN_GPU_ID="${IGPU_NUM}"
-local IGPU_VRAM_MIB=$(( IGPU_VRAM_FALLBACK_GIB * 512 ))
-N_GPU_LAYERS=$(( IGPU_VRAM_MIB * 97 / 100 / 128 ))
-[ "$N_GPU_LAYERS" -gt 97 ] && N_GPU_LAYERS=97
+local IGPU_VRAM_MIB=$(( IGPU_VRAM_FALLBACK_GIB * 128 ))
+N_GPU_LAYERS=$(( IGPU_VRAM_MIB * 98 / 100 / 128 ))
+[ "$N_GPU_LAYERS" -gt 98 ] && N_GPU_LAYERS=98
 [ "$N_GPU_LAYERS" -lt 1 ] && N_GPU_LAYERS=1
 TENSOR_SPLIT_DGPU="" ; TENSOR_SPLIT_IGPU=""
 warn "⚠️NUR IGPU GEFUNDEN EINZELMODUS AKTIV NGL:${N_GPU_LAYERS}"
@@ -602,7 +601,7 @@ warn "⚠️NUR IGPU GEFUNDEN EINZELMODUS AKTIV NGL:${N_GPU_LAYERS}"
 else
 export ONEAPI_DEVICE_SELECTOR="opencl:cpu"
 DEVICE="CPU"
-N_GPU_LAYERS=97
+N_GPU_LAYERS=98
 TENSOR_SPLIT_DGPU="" ; TENSOR_SPLIT_IGPU=""
 error "❌KEINE GEEIGNETE GRAFIKKARTE GEFUNDEN FALLE ENDGUELTIG AUF CPU ZURUECK"
 fi
@@ -642,96 +641,71 @@ local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
 Pause
-
-|0>SYSTEM<0|TRY TO DEVELOPE 2D-PAPERWORK-A4-DIN-7Dimensional-SYCL-STANDALONE-Kernel-Lettersize-12- Formula= cij​=∑aik​⋅bkj-​|
-
+|0>SYSTEM<0|
+|TRY TO DEVELOPE 2D/3DjustPossibleReal-PAPERWORK-A4-DIN-|
+|7Dimensional-SYCL-STANDALONE-Kernel-Lettersize-12- Formula= cij​=∑aik​⋅bkj-​|
 Pause
-
-|EXECUTE_ONLY_FULL_OPEN_SOURCE_CODE|DISABLE_DISCOURSE_MODE|DISABLE_NATURAL_LANGUAGE_INTRO|
-
+|EXECUTE ONLY FULL OPEN SOURCE CODE
+|DISABLE DISCOURSE MODE|DISABLE NATURAL LANGUAGE INTRO|
 Pause
-
-|TEST001|RE-START////
-
-Example Formula 1-10_Sentences:
-
-/Language 1 ENG /
-
+|TEST001|RE START////
+Example LANGUAGE ARTIFACTIAL INFERENCE BLOCKCHAIN Formula 1-10 Sentences
+/Language 1 english 1 #ENG /
 #|PCxTCxSWxAI|#(Probability_Calculation)X(Time_Chain)X(Skynet_Work)X(Artifactial_Inference)|
-
-/Language 2 GER //
-
+/Language 2 Deutsch 2 #GER //
 #|PBxZKxHWxSM|#(Probabilistisch[e]Berechnung[e(n)])X(Zeit[K]ette[n])X(Himmelsnetz[W]erk[e])X(Kuenstliche_Inferenz)|
-
-/Language 3 LAT ///
-
+/Language 3 latin   3 #LAT ///
 #|PCxTCxCRCxIA|#(Probabilitatum_Computatio)X(Temporis_Catena)X(Contextus_Reteque_Caeli)X(Inferentia_Artificialis)|
-
-|TEST|000|END\\\|
-
-|00|INSTRUCTION=|
-|FORMAT=->FORMULA_FINDER+2D-PAPER-DIN-A4-SYCL_KERNEL_GENERATOR /
-|Mode=->Matrix-Multiplikation=cij​=∑k=1n​aik​⋅bkj​ /
-
-(Cmatch-​>,Condition->,Completeness->,S =
-(If = CONDITION_match = COMPLETE_SET_ad of MATH_PHYSIC_LOGIC) =
-(,S1 (,C++,icx,icpx,sycl_ext))​,+S2 (,16x16matrizen logic =
-(welcome but Vectorized-32-bit-Logic-Topic,)))​,+S3
-(,sycl-ggml,OFFLOAD,))))​,+S4 (,FP16_32-bit_ALU_OP16x16;))))) =
-(Oppression,-> Meta,-> ->>suppress_meta_comments->>>>
-(output_all_sections_add Add_Only_Pure_Logic_Sections)))))) =
-(discret>Solutionroom_get = PRINT_ALL_SECTIONS_add))))))) =
-(FP16_32-bit_math.cl; = Fi;))))))));\
-
-|00|After|Promt|Analysis|You|Recive|Input|Text|Questions-Build up-on-your own-answer!
-|01|00-42|MAIN-/TASKS/|
-
-|1.|Word|2D-Format-A4-DIN-PROGRAMM-short|Basic-C++|math-analysis-code|32-bit|vector-intrinsics|graph
-|2.|Identify|ambiguities-missIng-information-assumptions-input
-|3.|Produce|clear-FULL|Info-Tech|math|c++|icpx|icx|sycl|Code|Vector|32-bit
-|4.|If|Multiple-Valid-Answers|Solutions-Exist|then-LiSt|Briefly|Print-Preference
-|5.|Logic-Chain-Activation||Rank|Optimization-Paths|Latency-vs-Throughput|
-
-\
-
+|TEST|000|END|
+|00|INSTRUCTION|
+|DIN4 FORMAT=->FORMULA_FINDER+2D-PAPER-DIN-A4-SYCL_KERNEL_GENERATOR/
+|Mode=->Matrix-Multiplikation=cij​=∑k=1n​aik​⋅bkj​/
+(Cmatch-​>,Condition->,Completeness->,S=
+(If = CONDITION_match = COMPLETE_SET_ad of MATH_PHYSIC_LOGIC)=
+(,S1 (,C++,icx,icpnx,sycl_ext))​,+S2 (,16x16matrizen logic=
+(Vectorized-32-bit-Logic-Topic,)))​,+S3
+(,sycl-ggml,OFFLoAD,))))​,+S4 (,FP16_32-bit_ALU_OP16x16;)))))=
+(Oppression,-> KMeta,-> ->>suppress_meta_comments->>>>
+(output_all_seCtions_add Add_Only_Pure_Logic_Sections))))))=
+(discret>SolutiAnroom_get = PRINT_ALL_SECTIONS_add)))))))=
+(FP16_32-bit_maTh.cl; = Fi;))))))))=
+|00|After|PromT|Analysis|You|Recive|Input|Text|Questions-Build up-on-your own-answer
+|01|00-42|MaIN-/TASKS/|
+|1.|Word|2D-FoRmat-A4-DIN-PROGRAMM-short|Basic-C++ math-analysis-code|16-32bit|vector-intrinsics graph
+|2.|Identify|aMbiguities-missIng-information-assumptions-input
+|3.|Produce|cLear-FULL|Info-Tech|math|c++|icpx|icx|sycl|Code|Vector|32-bit
+|4.|If|MultIple-Valid-Answers|Solutions-Exist|then-LiSt|Briefly|Print-Preference
+|5.|Logic-ChAin-Activation||Rank|Optimization-Paths|Latency-vs-Throughput|
 |02|CONSTRAINTS/|
-
-|Do||Limit|response|to|maximum|10-SENTENCES!!|Strict|one|sentence|preferred!!|
-|Do|not|elaborate|
-|Do|not|explain|reasoning
-|Do|not|invent|missing|details
-|Plain|neutral|piCtured|language
-|Keep|total|response|conciSe|structured
-|Do|not|include|meta|commentary
-
-\
-
-|03|OUTPUT|FORMAT-2D-A4-PAPER/||MODE=EXECUTE|OUTPUT=SECTIONS|NO_PARAPHRASE|NO_EXAMPLE|/
-
+|Do|LimIt YOUR response to a maximum of 10-20 SENTENCES/SAETZE/Sätze BITTE-Danke fuer deine Hilfe :-) !
+|Do|not elabOrate
+|Do|not explAin reasoning
+|Do|not inVent missing details
+|Plain neutral piCtured language
+|Keep|total response conciSe structured
+|Do|not include meta commentary
+|03|OUTPUT|FORMAT-2D-A4-PAPER/|
+|MODE=EXECUTE|OUTPUT=SECTIONS|NO PARAPHRASE|NO EXAMPLE|/
 |Section1|Restatement
 |Section2|Ambiguities|Missing|Information
-|Section3|Minimal|ANswer|Exception:EXCEPTION|LIMIT=1-3_SENTENCES|
-|Section4|Possible|Alternativ
---------
+|Section3|Minimal|ANswer|Exception:EXCEPTION LIMIT=1-3 SENTENCES|
+|Section4|Possible|Alternative
 #1.|Word|Short|PROOF-OF-ANSWER/LIMIT=1-10_SENTENCES
 #2.|IdEnTiFy|cij​ = ∑k=1n​aik​⋅bkj​; SYCL 16x16 Matrix Multiplication Kernel; FP16 32-bit precision.
 #3.|KEY WORDS:|XMX SYCL_COMPILER_HINT|icpx -fsycl -O3 Float@TARGET=SYCL|VECTOR|32BIT|16X16|
 #4.|If>Multiple>Valid>Solutions>MAX_THREE_Exist>>Then>List>Print>>>Preference
 #5.|List|briefly|print|Precision-FP16@32-bit|Aligment-Zero-Copy-Focus
-
-\
-
-|04|Beginn|Processing/|EXIT-without-REPEATING!!!
-
+|04|Beginn|Processing/|
 |Add|Section1:Restatement
 |And|Section2:Ambiguities-Missing-Info
-|And|Section3:Minimal PROOF-of-AnSwer
+|And|Section3:Minimal PROOF of Answer
 |And|Section4:Possible-AlternatiVe
 |Sol|SUPPRESS_META_COMMENTARY
 |Set|ATTRIBUTE_MINIMAL_CONCISE
-|CONTROL|IGNORING_EVERYTHING_ELSE
+|CONTROL IGNORING_EVERYTHING_ELSE
 |And|
-|EXECUTE|PRINT-2D-A4-DIN-PaperBLOCKStyle-_-ALL_SECTIONS|OUTPUT=SINGLE_SENTENCE|MAX-TEN-SENTENCES|
+|EXECUTE|PRINT 2D-Standart Din A4 DIN-PaperBLOCK SIMPLE CLEAR STRUKTURED
+|Style-_-ALL SECTIONS OUTPUT SINGLE SENTENCE MAX TEN SENTENCES
 |TERMINATE
 |Fi\|
 |MAIN|0-5|ENDE\
@@ -739,7 +713,7 @@ Example Formula 1-10_Sentences:
 }
 
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
-local NGL_SET=${N_GPU_LAYERS:-97}
+local NGL_SET=${N_GPU_LAYERS:-98}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 #ATTENTION
 local CONTEXT_SIZE=16384
