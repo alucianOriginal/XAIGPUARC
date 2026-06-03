@@ -1,4 +1,3 @@
-#!/bin/bash
 if [ -n "$FISH_VERSION" ]; then
 echo "❌FEHLER BITTE STARTE MIT 'bash XAIGPUARC.sh' ODER INSTALLIERE DIR 'bass'"
 exit 1
@@ -7,20 +6,22 @@ fi
 #|✅XAIGPUARC✅
 
 #|DATUM
-#|03.06.2026
+#|04.06.2026
 
-#|MathTUTORFP167BDENSELaptopARC A730m12GiBVRAM
-#+iGPU 10 GiB = 21 GiB shared VRAM ROW SPLIT MODE SYCL GGML
+#|196598k7bFP16MathTutorGGUF 70WattDualGPULaptop
+
 
 #|UHRZEIT
-#|22:37
+#|01:23
+
+
 
 set -euo pipefail
 IFS=$'\n\t'
 PRECISION="FP16"
 DEVICE="ARC"
-IGPU_VRAM_FALLBACK_GIB="${IGPU_VRAM_FALLBACK_GIB:-28}"
-IGPU_VRAM_RESERVE_GIB="${IGPU_VRAM_RESERVE_GIB:-4}"
+IGPU_VRAM_FALLBACK_GIB="${IGPU_VRAM_FALLBACK_GIB:-25}"
+IGPU_VRAM_RESERVE_GIB="${IGPU_VRAM_RESERVE_GIB:-1}"
 LLAMA_CPP_DIR="llama.cpp"
 BUILD_DIR="${BUILD_DIR:-XAIGPUARC}"
 BUILD_DIR="${BUILD_DIR%/}"
@@ -49,11 +50,13 @@ export COMPILER_VERSION="2026.0"
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
 export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=512
 export FP_FLAG=FP16
+
 export SYCL_DEVICE_FILTER=level_zero:gpu
+export GGML_SYCL_SPLIT_MODE=row
 export ZE_ENABLE_PCI_ID_DEVICE_ORDER=1
 
 export ONEAPI_DEVICE_SELECTOR="level_zero:0,1"
-export GGML_SYCL_SPLIT_MODE=row
+
 #|TREIBERKOMPATIBILITAET INTEL COMPUTE RUNTIME 26 PLUS
 CR_VERSION=$(pacman -Q intel-compute-runtime 2>/dev/null | awk '{print $2}' | cut -d. -f1)
 if [ "${CR_VERSION:-0}" -ge 26 ]; then
@@ -498,13 +501,13 @@ if [ -z "$DEVICES" ]; then
 warn "⚠️KEINE KOMPATIBLEN SYCL GERAETE GEFUNDEN! RUECKFALL AUF EINZELGERAET"
 export ONEAPI_DEVICE_SELECTOR="level_zero:0"
 DEVICE="DUAL"
-N_GPU_LAYERS=99
+N_GPU_LAYERS=98
 return
 fi
 
 #|ERSTER SUCHLAUF DOPPEL GPU
 local ARC_LINE IGPU_LINE ARC_ID IGPU_ID
-ARC_LINE=$(echo "$DEVICES" | grep -i "Intel Arc.*Graphics" | head -n1)
+ARC_LINE=$(echo "$DEVICES" | grep -i "Intel *Arc.*Graphics" | head -n1)
 IGPU_LINE=$(echo "$DEVICES" | grep -i "Iris.*Xe.*Graphics" | head -n1)
 
 #|SUCHFEHLER GPU ZWEITER DURCHLAUF
@@ -513,7 +516,7 @@ warn "⚠️ SUCHFEHLER ERKANNT ODER GERAET FEHLT STARTE ZWEITEN DURCHLAUF"
 sleep 1
 export ONEAPI_DEVICE_SELECTOR="level_zero:gpu"
 DEVICES=$("${FULL_LS_PATH}" 2>&1 || true)
-[ -z "$ARC_LINE" ]  && ARC_LINE=$(echo "$DEVICES"  | grep -i "Intel Arc.*Graphics" | head -n1)
+[ -z "$ARC_LINE" ]  && ARC_LINE=$(echo "$DEVICES"  | grep -i "Intel *Arc.*Graphics" | head -n1)
 [ -z "$IGPU_LINE" ] && IGPU_LINE=$(echo "$DEVICES" | grep -i "Iris.*Xe.*Graphics"  | head -n1)
 fi
 
@@ -530,7 +533,7 @@ raw=$(echo "$line" | awk -F'|' '{gsub(/ /,"",$8); print $8}' | grep -oP '\d+(?=M
 if [ -n "$raw" ] && [ "$raw" -gt 0 ] 2>/dev/null; then
 echo "$raw"
 else
-echo $(( fallback_gib * 512 ))
+echo $(( fallback_gib * 1024 ))
 fi
 }
 
@@ -544,7 +547,7 @@ local IGPU_NUM="$IGPU_ID"
 
 #|VRAM  DUAL GPU BERECHNEN
 local ARC_VRAM_MIB IGPU_VRAM_MIB
-ARC_VRAM_MIB=$(get_vram_mib_from_line "$ARC_LINE" 24)
+ARC_VRAM_MIB=$(get_vram_mib_from_line "$ARC_LINE" 12)
 #|iGPU TEILT SICH ARBEITSSPEICHER MIT CPU RUECKFALL IGPU_VRAM_FALLBACK_GIB
 IGPU_VRAM_MIB=$(get_vram_mib_from_line "$IGPU_LINE" "${IGPU_VRAM_FALLBACK_GIB}")
 #|BETRIEBSSYSTEMRESERVE ABZIEHEN
@@ -567,7 +570,7 @@ export TENSOR_SPLIT
 MAIN_GPU_ID=""
 export MAIN_GPU_ID
 
-N_GPU_LAYERS=99
+N_GPU_LAYERS=98
 success "✅DUAL-GPU VRAM POOL: dGPU~$((ARC_VRAM_MIB/1024))GiB + iGPU~$((IGPU_VRAM_MIB/1024))GiB = GESAMT~${TOTAL_VRAM_GIB}GiB"
 log "🔷TENSOR-SPLIT dGPU:iGPU = ${ARC_VRAM_MIB}:${IGPU_VRAM_MIB} MiB"
 log "🔷HAUPTGERAET DGPU ID:${ARC_NUM} ALLE SCHICHTEN GPU VERTEILT NGL:${N_GPU_LAYERS}"
@@ -580,9 +583,9 @@ export ONEAPI_DEVICE_SELECTOR="level_zero:${ARC_NUM}"
 DEVICE="ARC"
 MAIN_GPU_ID="${ARC_NUM}"
 local ARC_VRAM_MIB
-ARC_VRAM_MIB=$(get_vram_mib_from_line "$ARC_LINE" 24)
-N_GPU_LAYERS=$(( ARC_VRAM_MIB * 99 / 100 / 1024 ))
-[ "$N_GPU_LAYERS" -gt 99 ] && N_GPU_LAYERS=99
+ARC_VRAM_MIB=$(get_vram_mib_from_line "$ARC_LINE" 12)
+N_GPU_LAYERS=$(( ARC_VRAM_MIB * 98 / 100 / 1024 ))
+[ "$N_GPU_LAYERS" -gt 98 ] && N_GPU_LAYERS=98
 [ "$N_GPU_LAYERS" -lt 1 ] && N_GPU_LAYERS=1
 TENSOR_SPLIT_DGPU="" ; TENSOR_SPLIT_IGPU=""
 warn "⚠️NUR DGPU GEFUNDEN EINZELMODUS AKTIV NGL:${N_GPU_LAYERS}"
@@ -595,8 +598,8 @@ export ONEAPI_DEVICE_SELECTOR="level_zero:${IGPU_NUM}"
 DEVICE="iGPU"
 MAIN_GPU_ID="${IGPU_NUM}"
 local IGPU_VRAM_MIB=$(( IGPU_VRAM_FALLBACK_GIB * 1024 ))
-N_GPU_LAYERS=$(( IGPU_VRAM_MIB * 99 / 100 / 1024 ))
-[ "$N_GPU_LAYERS" -gt 99 ] && N_GPU_LAYERS=99
+N_GPU_LAYERS=$(( IGPU_VRAM_MIB * 98 / 100 / 1024 ))
+[ "$N_GPU_LAYERS" -gt 98 ] && N_GPU_LAYERS=98
 [ "$N_GPU_LAYERS" -lt 1 ] && N_GPU_LAYERS=1
 TENSOR_SPLIT_DGPU="" ; TENSOR_SPLIT_IGPU=""
 warn "⚠️NUR IGPU GEFUNDEN EINZELMODUS AKTIV NGL:${N_GPU_LAYERS}"
@@ -604,7 +607,7 @@ warn "⚠️NUR IGPU GEFUNDEN EINZELMODUS AKTIV NGL:${N_GPU_LAYERS}"
 else
 export ONEAPI_DEVICE_SELECTOR="opencl:cpu"
 DEVICE="CPU"
-N_GPU_LAYERS=99
+N_GPU_LAYERS=98
 TENSOR_SPLIT_DGPU="" ; TENSOR_SPLIT_IGPU=""
 error "❌KEINE GEEIGNETE GRAFIKKARTE GEFUNDEN FALLE ENDGUELTIG AUF CPU ZURUECK"
 fi
@@ -718,13 +721,17 @@ Example LANGUAGE ARTIFACTIAL INFERENCE BLOCKCHAIN Formula 1-10 Sentences
 }
 
 local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
-local NGL_SET=${N_GPU_LAYERS:-99}
+local NGL_SET=${N_GPU_LAYERS:-98}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 #ATTENTION
-local CONTEXT_SIZE=40960
+local CONTEXT_SIZE=196598
+#                   33768
+#                  163830
+
+
 #|4096,0x1000 8192,0x2000 MathtTutor CTX 16384,0x4000 BIS 20480,0x5000 UNTER 16GiBVRAM
-#|24576|0x6000 32768|0x8000?FALSCH?! KORRIGIEREN|65536|131072|20480|262144|524288|40960
-local PREDICT_TOKENS=40960
+#|24576|0x6000 32768|0x8000?FALSCH?! KORRIGIEREN|65536|131072|20480|262144|524288|40960|163830|196598
+local PREDICT_TOKENS=163830
 log "🔷STARTE KI ANTWORT MIT PARAMETER**${DEVICE}**NGL:${NGL_SET}**${FULL_LLAMA_CLI_PATH}**"
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
 error "❌FEHLER AKTUELLER UNTERBAU NEUBAU FEHLGESCHLAGEN${FULL_LLAMA_CLI_PATH}"
@@ -736,16 +743,16 @@ fi
 if [ "${DEVICE}" = "DUAL" ] && [ -n "${TENSOR_SPLIT:-}" ]; then
 log "🔷STARTE DUAL GPU INFERENZ AKTIVER TENSORSPLIT [${TENSOR_SPLIT}]"
 local SAFE_CTX="${CONTEXT_SIZE}"
-if [ "${CONTEXT_SIZE}" -gt 40960 ]; then
-warn "⚠️HOHE KONTEXTGROESSE UND ALLGEMEINE SYSTEMBELASTUNG NUR F16 GGUF SPEZIALMODELLE MOEGLICH WARNUNG CTX 40960 MINIMUM"
-        SAFE_CTX=40960
+if [ "${CONTEXT_SIZE}" -gt 196598 ]; then
+warn "⚠️HOHE KONTEXTGROESSE UND ALLGEMEINE SYSTEMBELASTUNG NUR F16 GGUF SPEZIALMODELLE MOEGLICH WARNUNG CTX 196598 MINIMUM"
+        SAFE_CTX=196598
 fi
 log "🔷STARTE DUAL GPU GERAET INFERENZ ${DEVICE_0} ID:${GPU_ID_0} | ${DEVICE_1} ID:${GPU_ID_1}"
 success "✅START FUER DUAL GPU MODUS GELUNGEN✅
 ✅ES ARBEITEN NUN ZWEI GRAFIKKARTEN AN EINER KI INFERENZ AUF UHREM SYSTEM✅"
 ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     --no-conversation \
-    --n-cpu-moe 20 \
+    --n-cpu-moe 28 \
     --mlock \
     --cache-type-k f16 \
     --cache-type-v f16 \
@@ -753,7 +760,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     --prompt "${PROMPT_ARG}" \
     --n-predict "${PREDICT_TOKENS}" \
     --ctx-size "${SAFE_CTX}" \
-    --keep 40960 \
+    --keep 196598 \
     -ngl "${N_GPU_LAYERS}" \
     --main-gpu "${MAIN_GPU_ID:-0}" \
     --tensor-split "${TENSOR_SPLIT}" \
@@ -766,14 +773,14 @@ local GPU_ID="${MAIN_GPU_ID:-0}"
 log "🔷EINZELGERAET INFERENZ MIT GERAET ${DEVICE} ID:${GPU_ID}"
 ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     --no-conversation \
-    --n-cpu-moe 20 \
+    --n-cpu-moe 28 \
     --cache-type-k f16 \
     --cache-type-v f16 \
     --model "${MODEL_PATH_ARG}" \
     --prompt "${PROMPT_ARG}" \
     --n-predict "${PREDICT_TOKENS}" \
     --ctx-size "${CONTEXT_SIZE}" \
-    --keep 40960 \
+    --keep 196598 \
     -ngl "${NGL_SET}" \
     --main-gpu "${GPU_ID}" \
     --color auto
