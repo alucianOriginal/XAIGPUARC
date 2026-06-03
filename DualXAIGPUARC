@@ -3,21 +3,24 @@ if [ -n "$FISH_VERSION" ]; then
 echo "❌FEHLER BITTE STARTE MIT 'bash XAIGPUARC.sh' ODER INSTALLIERE DIR 'bass'"
 exit 1
 fi
-#|✅XAIGPUARC✅
-#|DATUM
-#|01.06.2026
 
-#|Ein Jahr Programmier Edition
+#|✅XAIGPUARC✅
+
+#|DATUM
+#|03.06.2026
+
+#|MathTUTORFP167BDENSELaptopARC A730m12GiBVRAM
+#+iGPU 10 GiB = 21 GiB shared VRAM ROW SPLIT MODE SYCL GGML
 
 #|UHRZEIT
-#|00:00
+#|22:37
 
 set -euo pipefail
 IFS=$'\n\t'
 PRECISION="FP16"
 DEVICE="ARC"
 IGPU_VRAM_FALLBACK_GIB="${IGPU_VRAM_FALLBACK_GIB:-28}"
-IGPU_VRAM_RESERVE_GIB="${IGPU_VRAM_RESERVE_GIB:-1}"
+IGPU_VRAM_RESERVE_GIB="${IGPU_VRAM_RESERVE_GIB:-4}"
 LLAMA_CPP_DIR="llama.cpp"
 BUILD_DIR="${BUILD_DIR:-XAIGPUARC}"
 BUILD_DIR="${BUILD_DIR%/}"
@@ -26,6 +29,7 @@ BUILD_DIR="${BUILD_DIR%/}"
 GGML_SYCL_CPP="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 LOG_FILE="${BUILD_DIR}/XAIGPUARC.log"
 CMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE:-Release}"
+
 NPROC="${NPROC:-$(nproc)}"
 LLAMA_CLI_PATH="bin/llama-cli"
 LS_SYCL_DEVICE_PATH="bin/llama-ls-sycl-device"
@@ -34,19 +38,22 @@ ADD_SUBDIR_LINE="${LLAMA_CPP_DIR}/ggml/src/ggml-sycl/ggml-sycl.cpp"
 #|ONEAPIFUNKTIONEN
 export LIBVA_DRIVER_NAME="iHD,i915,xe"
 export TCM_ROOT="${TCM_ROOT:-"/opt/intel/oneapi/tcm/latest/"}"
+
 export SYCL_CACHE_PERSISTENT=0
 export OCL_ICD_FILENAMES=""
 export ZES_ENABLE_SYSMAN=0
 export OverrideDefaultFP64Settings=0
 export CCACHE_DIR="$HOME/.ccache"
 export COMPILER_VERSION="2026.0"
+
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
 export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=512
 export FP_FLAG=FP16
 export SYCL_DEVICE_FILTER=level_zero:gpu
 export ZE_ENABLE_PCI_ID_DEVICE_ORDER=1
-export GGML_SYCL_SPLIT_MODE=row
+
 export ONEAPI_DEVICE_SELECTOR="level_zero:0,1"
+export GGML_SYCL_SPLIT_MODE=row
 #|TREIBERKOMPATIBILITAET INTEL COMPUTE RUNTIME 26 PLUS
 CR_VERSION=$(pacman -Q intel-compute-runtime 2>/dev/null | awk '{print $2}' | cut -d. -f1)
 if [ "${CR_VERSION:-0}" -ge 26 ]; then
@@ -715,8 +722,8 @@ local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 #ATTENTION
 local CONTEXT_SIZE=40960
-#|4096,0x1000 8192,0x2000 MathtTutor CTX 6384,0x4000 BIS 20480,0x5000 UNTER 16GiBVRAM
-#|24576|0x6000 32768|0x8000?FALSCH?! KORRIGIEREN|65536|131072|20480|262144|524288
+#|4096,0x1000 8192,0x2000 MathtTutor CTX 16384,0x4000 BIS 20480,0x5000 UNTER 16GiBVRAM
+#|24576|0x6000 32768|0x8000?FALSCH?! KORRIGIEREN|65536|131072|20480|262144|524288|40960
 local PREDICT_TOKENS=40960
 log "🔷STARTE KI ANTWORT MIT PARAMETER**${DEVICE}**NGL:${NGL_SET}**${FULL_LLAMA_CLI_PATH}**"
 if [ ! -x "${FULL_LLAMA_CLI_PATH}" ]; then
@@ -738,7 +745,7 @@ success "✅START FUER DUAL GPU MODUS GELUNGEN✅
 ✅ES ARBEITEN NUN ZWEI GRAFIKKARTEN AN EINER KI INFERENZ AUF UHREM SYSTEM✅"
 ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     --no-conversation \
-    --n-cpu-moe 28 \
+    --n-cpu-moe 20 \
     --mlock \
     --cache-type-k f16 \
     --cache-type-v f16 \
@@ -759,7 +766,7 @@ local GPU_ID="${MAIN_GPU_ID:-0}"
 log "🔷EINZELGERAET INFERENZ MIT GERAET ${DEVICE} ID:${GPU_ID}"
 ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     --no-conversation \
-    --n-cpu-moe 28 \
+    --n-cpu-moe 20 \
     --cache-type-k f16 \
     --cache-type-v f16 \
     --model "${MODEL_PATH_ARG}" \
