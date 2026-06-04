@@ -11,8 +11,8 @@ fi
 
 
 
-#|UHRZEIT
-#|06:58
+#|UHRZEIT 163k 22GiB Vram 50/50
+#|14:34
 
 
 
@@ -20,7 +20,7 @@ set -euo pipefail
 IFS=$'\n\t'
 PRECISION="FP16"
 DEVICE="ARC"
-IGPU_VRAM_FALLBACK_GIB="${IGPU_VRAM_FALLBACK_GIB:-28}"
+IGPU_VRAM_FALLBACK_GIB="${IGPU_VRAM_FALLBACK_GIB:-25}"
 IGPU_VRAM_RESERVE_GIB="${IGPU_VRAM_RESERVE_GIB:-1}"
 LLAMA_CPP_DIR="llama.cpp"
 BUILD_DIR="${BUILD_DIR:-XAIGPUARC}"
@@ -48,7 +48,7 @@ export CCACHE_DIR="$HOME/.ccache"
 export COMPILER_VERSION="2026.0"
 
 export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
-export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=512
+export SYCL_PI_LEVEL_ZERO_BATCH_SIZE=1024
 export FP_FLAG=FP16
 
 export SYCL_DEVICE_FILTER=level_zero:gpu
@@ -547,7 +547,7 @@ local IGPU_NUM="$IGPU_ID"
 
 #|VRAM  DUAL GPU BERECHNEN
 local ARC_VRAM_MIB IGPU_VRAM_MIB
-ARC_VRAM_MIB=$(get_vram_mib_from_line "$ARC_LINE" 12)
+ARC_VRAM_MIB=$(get_vram_mib_from_line "$ARC_LINE" 11)
 #|iGPU TEILT SICH ARBEITSSPEICHER MIT CPU RUECKFALL IGPU_VRAM_FALLBACK_GIB
 IGPU_VRAM_MIB=$(get_vram_mib_from_line "$IGPU_LINE" "${IGPU_VRAM_FALLBACK_GIB}")
 #|BETRIEBSSYSTEMRESERVE ABZIEHEN
@@ -583,7 +583,7 @@ export ONEAPI_DEVICE_SELECTOR="level_zero:${ARC_NUM}"
 DEVICE="ARC"
 MAIN_GPU_ID="${ARC_NUM}"
 local ARC_VRAM_MIB
-ARC_VRAM_MIB=$(get_vram_mib_from_line "$ARC_LINE" 12)
+ARC_VRAM_MIB=$(get_vram_mib_from_line "$ARC_LINE" 11)
 N_GPU_LAYERS=$(( ARC_VRAM_MIB * 99 / 100 / 1024 ))
 [ "$N_GPU_LAYERS" -gt 99 ] && N_GPU_LAYERS=99
 [ "$N_GPU_LAYERS" -lt 1 ] && N_GPU_LAYERS=1
@@ -624,13 +624,16 @@ else
 warn "⚠️AKTUELL KEIN SYCL GERAET GEFUNDEN ${FULL_LS_PATH} VERSUCH ZWEI SUCHE"
 fi
 }
+
+
 #|MN-Funhouse-12B.fp16INTELLECT-1-Instruct-f16
 #|RUECKFALL Orchestrator-8B-f16_q8_0
-#|STANDART MathTutor-7B-H_v0.0.1.f16.gguf 128k ctx
+#|STANDART MathTutor-7B-H_v0.0.1.f16.gguf 128k ctx81920
 #|deepseek-coder-33b-instruct.Q8_0
 #|orpheus-3b-0.1-ft-F16
 
 #|7|MODELLORT BEDARF AUTOMATISCH AENDERN
+
 #ATTENTION
 prepare_model() {
 MODEL_PATH=${1:-"models/MathTutor-7B-H_v0.0.1.f16.gguf"}
@@ -645,6 +648,8 @@ export MODEL_PATH
 #|8|MODELLAUSFUEHREN WARNING
 run_inference() {
 local DEFAULT_MODEL_PATH="models/MathTutor-7B-H_v0.0.1.f16.gguf"
+
+
 local MODEL_PATH_ARG=${2:-$DEFAULT_MODEL_PATH}
 local PROMPT_ARG=${3:-"
 Pause
@@ -666,16 +671,6 @@ Example LANGUAGE ARTIFACTIAL INFERENCE BLOCKCHAIN Formula 1-10 Sentences
 |TEST|000|END|
 |00|INSTRUCTION|
 |DIN4 FORMAT=->FORMULA_FINDER+2D-PAPER-DIN-A4-SYCL_KERNEL_GENERATOR/
-|Mode=->Matrix-Multiplikation=cij​=∑k=1n​aik​⋅bkj​/
-(Cmatch-​>,Condition->,Completeness->,S=
-(If = CONDITION_match = COMPLETE_SET_ad of MATH_PHYSIC_LOGIC)=
-(,S1 (,C++,icx,icpnx,sycl_ext))​,+S2 (,16x16matrizen logic=
-(Vectorized-32-bit-Logic-Topic,)))​,+S3
-(,sycl-ggml,OFFLoAD,))))​,+S4 (,FP16_32-bit_ALU_OP16x16;)))))=
-(Oppression,-> KMeta,-> ->>suppress_meta_comments->>>>
-(output_all_seCtions_add Add_Only_Pure_Logic_Sections))))))=
-(discret>SolutiAnroom_get = PRINT_ALL_SECTIONS_add)))))))=
-(FP16_32-bit_maTh.cl; = Fi;))))))))=
 |00|After|PromT|Analysis|You|Recive|Input|Text|Questions-Build up-on-your own-answer
 |01|00-42|MaIN-/TASKS/|
 |1.|Word|2D-FoRmat-A4-DIN-PROGRAMM-short|Basic-C++ math-analysis-code|16-32bit|vector-intrinsics graph
@@ -724,11 +719,10 @@ local GPU_ID=$(echo "$ONEAPI_DEVICE_SELECTOR" | awk -F':' '{print $2}')
 local NGL_SET=${N_GPU_LAYERS:-99}
 local FULL_LLAMA_CLI_PATH="./${BUILD_DIR}/${LLAMA_CLI_PATH}"
 #ATTENTION
-local CONTEXT_SIZE=131072
-
-#|4096,0x1000 8192,0x2000 MathtTutor CTX 16384,0x4000 BIS 20480,0x5000 UNTER 16GiBVRAM
-#|24576|0x6000 32768|0x8000?FALSCH?! KORRIGIEREN|65536|131072|20480|262144|524288|40960|163830|196598
-local PREDICT_TOKENS=131072
+local CONTEXT_SIZE=61440
+#|4096,0x1000 8192,0x2000 MathtTutor CTX 16384,0x4000 BIS 20480,0x5000 UNTER 16GiBV|20480|RAM81920:4=?61440
+#|24576|0x6000 32768|0x8000?FALSCH?40960|!KORRIGIEREN|65536|131072|524288|163830|196598|262144|
+local PREDICT_TOKENS=61440
 
 
 log "🔷STARTE KI ANTWORT MIT PARAMETER**${DEVICE}**NGL:${NGL_SET}**${FULL_LLAMA_CLI_PATH}**"
@@ -742,16 +736,16 @@ fi
 if [ "${DEVICE}" = "DUAL" ] && [ -n "${TENSOR_SPLIT:-}" ]; then
 log "🔷STARTE DUAL GPU INFERENZ AKTIVER TENSORSPLIT [${TENSOR_SPLIT}]"
 local SAFE_CTX="${CONTEXT_SIZE}"
-if [ "${CONTEXT_SIZE}" -gt 131072 ]; then
-warn "⚠️HOHE KONTEXTGROESSE UND ALLGEMEINE SYSTEMBELASTUNG NUR F16 GGUF SPEZIALMODELLE MOEGLICH WARNUNG CTX 131072 MINIMUM"
-        SAFE_CTX=131072
+if [ "${CONTEXT_SIZE}" -gt 61440 ]; then
+warn "⚠️HOHE KONTEXTGROESSE UND ALLGEMEINE SYSTEMBELASTUNG NUR F16 GGUF SPEZIALMODELLE MOEGLICH WARNUNG CTX 61440 MINIMUM"
+        SAFE_CTX=61440
 fi
 log "🔷STARTE DUAL GPU GERAET INFERENZ ${DEVICE_0} ID:${GPU_ID_0} | ${DEVICE_1} ID:${GPU_ID_1}"
 success "✅START FUER DUAL GPU MODUS GELUNGEN✅
 ✅ES ARBEITEN NUN ZWEI GRAFIKKARTEN AN EINER KI INFERENZ AUF UHREM SYSTEM✅"
 ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     --no-conversation \
-    --n-cpu-moe 28 \
+    --n-cpu-moe 6 \
     --mlock \
     --cache-type-k f16 \
     --cache-type-v f16 \
@@ -759,7 +753,7 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     --prompt "${PROMPT_ARG}" \
     --n-predict "${PREDICT_TOKENS}" \
     --ctx-size "${SAFE_CTX}" \
-    --keep 131072 \
+    --keep 61440 \
     -ngl "${N_GPU_LAYERS}" \
     --main-gpu "${MAIN_GPU_ID:-0}" \
     --tensor-split "${TENSOR_SPLIT}" \
@@ -768,18 +762,18 @@ ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
 
 #|EINZELGERAET
 else
-local GPU_ID="${MAIN_GPU_ID:-0}"
+local GPU_ID="${MAIN_GPU_ID:-1}"
 log "🔷EINZELGERAET INFERENZ MIT GERAET ${DEVICE} ID:${GPU_ID}"
 ZES_ENABLE_SYSMAN=1 "${FULL_LLAMA_CLI_PATH}" \
     --no-conversation \
-    --n-cpu-moe 28 \
+    --n-cpu-moe 6 \
     --cache-type-k f16 \
     --cache-type-v f16 \
     --model "${MODEL_PATH_ARG}" \
     --prompt "${PROMPT_ARG}" \
     --n-predict "${PREDICT_TOKENS}" \
     --ctx-size "${CONTEXT_SIZE}" \
-    --keep 131072 \
+    --keep 61440 \
     -ngl "${NGL_SET}" \
     --main-gpu "${GPU_ID}" \
     --color auto
